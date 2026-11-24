@@ -1,0 +1,5 @@
+RUN_R800_train.log
+RUN_cmd.txt
+RUN_train.log
+RUN_train_seg1.log
+bi_summary.tsv

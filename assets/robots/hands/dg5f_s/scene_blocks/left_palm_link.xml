@@ -1,0 +1,199 @@
+<!-- uni_layout template side=left root=left_link_mount hand_asset_sha256_xml3=ea6063a9b9633931d46224fefbf3c42dbb814afad4b7fb41723bbb1f5d5c46c8 source=data/taco/base/dg5f_s/bimanual/brush_brush_cup__20231026_012/scene.xml(md5 89f3b1f2) -->
+<uni_block>
+<meshes>
+    <mesh name="left_link_mount" file="robots/dg5f_s/assets/left/link_mount.STL"/>
+    <mesh name="left_link_base" file="robots/dg5f_s/assets/left/link_base.STL"/>
+    <mesh name="left_link_1_1" file="robots/dg5f_s/assets/left/link_1_1.STL"/>
+    <mesh name="left_link_1_2" file="robots/dg5f_s/assets/left/link_1_2.STL"/>
+    <mesh name="left_link_1_3" file="robots/dg5f_s/assets/left/link_1_3.STL"/>
+    <mesh name="left_link_1_4" file="robots/dg5f_s/assets/left/link_1_4.STL"/>
+    <mesh name="left_link_1_tip" file="robots/dg5f_s/assets/left/link_1_tip.STL"/>
+    <mesh name="left_link_2_1" file="robots/dg5f_s/assets/left/link_2_1.STL"/>
+    <mesh name="left_link_2_2" file="robots/dg5f_s/assets/left/link_2_2.STL"/>
+    <mesh name="left_link_2_3" file="robots/dg5f_s/assets/left/link_2_3.STL"/>
+    <mesh name="left_link_2_4" file="robots/dg5f_s/assets/left/link_2_4.STL"/>
+    <mesh name="left_link_2_tip" file="robots/dg5f_s/assets/left/link_2_tip.STL"/>
+    <mesh name="left_link_3_1" file="robots/dg5f_s/assets/left/link_3_1.STL"/>
+    <mesh name="left_link_3_2" file="robots/dg5f_s/assets/left/link_3_2.STL"/>
+    <mesh name="left_link_3_3" file="robots/dg5f_s/assets/left/link_3_3.STL"/>
+    <mesh name="left_link_3_4" file="robots/dg5f_s/assets/left/link_3_4.STL"/>
+    <mesh name="left_link_3_tip" file="robots/dg5f_s/assets/left/link_3_tip.STL"/>
+    <mesh name="left_link_4_1" file="robots/dg5f_s/assets/left/link_4_1.STL"/>
+    <mesh name="left_link_4_2" file="robots/dg5f_s/assets/left/link_4_2.STL"/>
+    <mesh name="left_link_4_3" file="robots/dg5f_s/assets/left/link_4_3.STL"/>
+    <mesh name="left_link_4_4" file="robots/dg5f_s/assets/left/link_4_4.STL"/>
+    <mesh name="left_link_4_tip" file="robots/dg5f_s/assets/left/link_4_tip.STL"/>
+    <mesh name="left_link_5_1" file="robots/dg5f_s/assets/left/link_5_1.STL"/>
+    <mesh name="left_link_5_2" file="robots/dg5f_s/assets/left/link_5_2.STL"/>
+    <mesh name="left_link_5_3" file="robots/dg5f_s/assets/left/link_5_3.STL"/>
+    <mesh name="left_link_5_4" file="robots/dg5f_s/assets/left/link_5_4.STL"/>
+    <mesh name="left_link_5_tip" file="robots/dg5f_s/assets/left/link_5_tip.STL"/>
+</meshes>
+<body_block>
+    <body name="left_link_mount" quat="0 0 -0.707107 0.707107" gravcomp="1">
+      <joint name="left_pos_x" pos="0 0 0" axis="-1 0 0" type="slide" range="-1 1"/>
+      <joint name="left_pos_y" pos="0 0 0" axis="0 0 -1" type="slide" range="-1 1"/>
+      <joint name="left_pos_z" pos="0 0 0" axis="0 -1 0" type="slide" range="-1 1"/>
+      <joint name="left_rot_x" pos="0 0 0" axis="-1 0 0" range="-6.28 6.28"/>
+      <joint name="left_rot_y" pos="0 0 0" axis="0 0 -1" range="-6.28 6.28"/>
+      <joint name="left_rot_z" pos="0 0 0" axis="0 -1 0" range="-6.28 6.28"/>
+      <geom type="mesh" group="1" density="0" mesh="left_link_mount"/>
+      <geom type="mesh" mesh="left_link_mount"/>
+      <geom pos="0 0 0.015" type="mesh" group="1" density="0" mesh="left_link_base"/>
+      <geom pos="0 0 0.015" type="mesh" mesh="left_link_base"/>
+      <geom name="collision_hand_left_palm_0" size="0.02 0.03 0.05" pos="0.0086 -0.0046 0.0084" type="box" group="3" density="0" rgba="0 1 0 1"/>
+      <site name="left_palm" pos="0.0086 -0.0046 0.0084" size="0.02 0.03 0.04" type="box"/>
+      <camera name="left_track" pos="0 0.4 -0.2" quat="0.525731 0.850651 0 0"/>
+      <body name="left_link_1_1" pos="0.0017 -0.018 0.0448" quat="0.499998 -0.5 0.500002 -0.5">
+        <inertial pos="-2.03296e-09 0.00601222 0.00795349" quat="0.979032 0.203705 0 0" mass="0.0198064" diaginertia="3.17093e-06 2.68441e-06 1.18745e-06"/>
+        <joint name="left_joint_1_1" pos="0 0 0" axis="0 0 1" range="-1.5708 1.5708" actuatorfrcrange="-7.5 7.5"/>
+        <geom type="mesh" group="1" density="0" mesh="left_link_1_1"/>
+        <geom type="mesh" mesh="left_link_1_1"/>
+        <body name="left_link_1_2" pos="0 0 0.0262" quat="0.707105 0.707108 0 0">
+          <inertial pos="0.01642 0.000294038 0.000325609" quat="-0.0500863 0.721925 -0.00783256 0.690112" mass="0.0280996" diaginertia="4.2812e-06 4.2228e-06 1.40325e-06"/>
+          <joint name="left_joint_1_2" pos="0 0 0" axis="0 0 1" range="0 2.67035" actuatorfrcrange="-7.5 7.5"/>
+          <geom type="mesh" group="1" density="0" mesh="left_link_1_2"/>
+          <geom type="mesh" mesh="left_link_1_2"/>
+          <body name="left_link_1_3" pos="0.0381 0 0" quat="0.707105 -0.707108 0 0">
+            <inertial pos="0.0138279 6.37508e-09 -3.77861e-05" quat="0.534377 0.463077 0.463071 0.534384" mass="0.023482" diaginertia="3.13583e-06 2.92228e-06 1.11694e-06"/>
+            <joint name="left_joint_1_3" pos="0 0 0" axis="0 0 1" range="-1.5708 1.5708" actuatorfrcrange="-7.5 7.5"/>
+            <geom type="mesh" group="1" density="0" mesh="left_link_1_3"/>
+            <geom type="mesh" mesh="left_link_1_3"/>
+            <body name="left_link_1_4" pos="0.0334 0 0">
+              <inertial pos="0.0165709 -0.00230563 -0.000312447" quat="0.125245 0.674304 -0.157428 0.710524" mass="0.0292713" diaginertia="5.03046e-06 4.49747e-06 2.05544e-06"/>
+              <joint name="left_joint_1_4" pos="0 0 0" axis="0 0 1" range="-1.5708 1.5708" actuatorfrcrange="-7.5 7.5"/>
+              <geom type="mesh" group="1" density="0" mesh="left_link_1_4"/>
+              <geom type="mesh" mesh="left_link_1_4"/>
+              <geom pos="0.0289 0 0" quat="1 0 0 0" type="mesh" group="1" density="0" mesh="left_link_1_tip"/>
+              <geom pos="0.0289 0 0" quat="1 0 0 0" type="mesh" mesh="left_link_1_tip"/>
+              <geom name="collision_hand_left_thumb_0" size="0.008 0.0226867" pos="0.02265 0.00129 1e-05" quat="0.706951 0.040216 -0.706118 0" type="capsule" group="3" density="0" rgba="0 1 0 1"/>
+              <site name="left_thumb_tip" pos="0.0453 0.00258 2e-05"/>
+              <site name="track_hand_left_thumb_tip" pos="0.0453 0.00258 2e-05"/>
+              <site name="trace_hand_left_thumb_tip" pos="0.0453 0.00258 2e-05"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="left_link_2_1" pos="0.0017 -0.028 0.09865" quat="-2.59734e-06 0.707105 2.59735e-06 0.707108">
+        <inertial pos="0.0198782 0.000277092 0.000891767" quat="0.686188 -0.134177 -0.177008 0.692684" mass="0.0330237" diaginertia="4.58833e-06 3.29048e-06 2.90003e-06"/>
+        <joint name="left_joint_2_1" pos="0 0 0" axis="0 0 1" range="-0.261799 0.837758" actuatorfrcrange="-7.5 7.5"/>
+        <geom type="mesh" group="1" density="0" mesh="left_link_2_1"/>
+        <geom type="mesh" mesh="left_link_2_1"/>
+        <body name="left_link_2_2" pos="0.02415 0 0.0126" quat="0.707105 0.707108 0 0">
+          <inertial pos="0.0195721 -6.37508e-09 -3.77861e-05" quat="0.463077 0.534377 0.534384 0.463071" mass="0.023482" diaginertia="3.13583e-06 2.92228e-06 1.11694e-06"/>
+          <joint name="left_joint_2_2" pos="0 0 0" axis="0 0 1" range="0 2.19911" actuatorfrcrange="-7.5 7.5"/>
+          <geom type="mesh" group="1" density="0" mesh="left_link_2_2"/>
+          <geom type="mesh" mesh="left_link_2_2"/>
+          <body name="left_link_2_3" pos="0.0334 0 0">
+            <inertial pos="0.0195721 -6.37508e-09 -3.77861e-05" quat="0.463077 0.534377 0.534384 0.463071" mass="0.023482" diaginertia="3.13583e-06 2.92228e-06 1.11694e-06"/>
+            <joint name="left_joint_2_3" pos="0 0 0" axis="0 0 1" range="-1.5708 1.5708" actuatorfrcrange="-7.5 7.5"/>
+            <geom type="mesh" group="1" density="0" mesh="left_link_2_3"/>
+            <geom type="mesh" mesh="left_link_2_3"/>
+            <body name="left_link_2_4" pos="0.0334 0 0">
+              <inertial pos="0.0139053 -0.00262851 0.000524531" quat="0.512949 0.740916 0.215188 0.376326" mass="0.0157537" diaginertia="1.56834e-06 1.41319e-06 8.99058e-07"/>
+              <joint name="left_joint_2_4" pos="0 0 0" axis="0 0 1" range="-1.5708 1.5708" actuatorfrcrange="-7.5 7.5"/>
+              <geom type="mesh" group="1" density="0" mesh="left_link_2_4"/>
+              <geom type="mesh" mesh="left_link_2_4"/>
+              <geom pos="0.018 0 0" quat="1 0 0 0" type="mesh" group="1" density="0" mesh="left_link_2_tip"/>
+              <geom pos="0.018 0 0" quat="1 0 0 0" type="mesh" mesh="left_link_2_tip"/>
+              <geom name="collision_hand_left_index_0" size="0.008 0.0172483" pos="0.0172 -0.00129 -1e-05" quat="0.707312 -0.0528691 -0.704922 0" type="capsule" group="3" density="0" rgba="0 1 0 1"/>
+              <site name="left_index_tip" pos="0.0344 -0.00258 -2e-05"/>
+              <site name="track_hand_left_index_tip" pos="0.0344 -0.00258 -2e-05"/>
+              <site name="trace_hand_left_index_tip" pos="0.0344 -0.00258 -2e-05"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="left_link_3_1" pos="0.0017 -0.005 0.10365" quat="-2.59734e-06 0.707105 2.59735e-06 0.707108">
+        <inertial pos="0.0198782 0.000277092 0.000891767" quat="0.7069 0.133852 0.171495 0.673027" mass="0.0330237" diaginertia="4.58935e-06 3.28605e-06 2.90344e-06"/>
+        <joint name="left_joint_3_1" pos="0 0 0" axis="0 0 1" range="-0.733038 0.575959" actuatorfrcrange="-7.5 7.5"/>
+        <geom type="mesh" group="1" density="0" mesh="left_link_3_1"/>
+        <geom type="mesh" mesh="left_link_3_1"/>
+        <body name="left_link_3_2" pos="0.02415 0 0.0126" quat="0.707105 0.707108 0 0">
+          <inertial pos="0.0195721 6.37508e-09 3.77861e-05" quat="0.463071 0.534384 0.534378 0.463076" mass="0.023482" diaginertia="3.13583e-06 2.92228e-06 1.11694e-06"/>
+          <joint name="left_joint_3_2" pos="0 0 0" axis="0 0 1" range="0 2.26893" actuatorfrcrange="-7.5 7.5"/>
+          <geom type="mesh" group="1" density="0" mesh="left_link_3_2"/>
+          <geom type="mesh" mesh="left_link_3_2"/>
+          <body name="left_link_3_3" pos="0.0334 0 0">
+            <inertial pos="0.0195721 -6.37508e-09 -3.77861e-05" quat="0.463077 0.534377 0.534384 0.463071" mass="0.023482" diaginertia="3.13583e-06 2.92228e-06 1.11694e-06"/>
+            <joint name="left_joint_3_3" pos="0 0 0" axis="0 0 1" range="-1.5708 1.5708" actuatorfrcrange="-7.5 7.5"/>
+            <geom type="mesh" group="1" density="0" mesh="left_link_3_3"/>
+            <geom type="mesh" mesh="left_link_3_3"/>
+            <body name="left_link_3_4" pos="0.0334 0 0">
+              <inertial pos="0.0139053 -0.00262851 0.000524531" quat="0.512949 0.740916 0.215188 0.376326" mass="0.0157537" diaginertia="1.56834e-06 1.41319e-06 8.99058e-07"/>
+              <joint name="left_joint_3_4" pos="0 0 0" axis="0 0 1" range="-1.5708 1.5708" actuatorfrcrange="-7.5 7.5"/>
+              <geom type="mesh" group="1" density="0" mesh="left_link_3_4"/>
+              <geom type="mesh" mesh="left_link_3_4"/>
+              <geom pos="0.018 0 0" quat="1 0 0 0" type="mesh" group="1" density="0" mesh="left_link_3_tip"/>
+              <geom pos="0.018 0 0" quat="1 0 0 0" type="mesh" mesh="left_link_3_tip"/>
+              <geom name="collision_hand_left_middle_0" size="0.008 0.0172483" pos="0.0172 -0.00129 -1e-05" quat="0.707312 -0.0528691 -0.704922 0" type="capsule" group="3" density="0" rgba="0 1 0 1"/>
+              <site name="left_middle_tip" pos="0.0344 -0.00258 -2e-05"/>
+              <site name="track_hand_left_middle_tip" pos="0.0344 -0.00258 -2e-05"/>
+              <site name="trace_hand_left_middle_tip" pos="0.0344 -0.00258 -2e-05"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="left_link_4_1" pos="0.0017 0.018 0.09565" quat="-2.59734e-06 0.707105 2.59735e-06 0.707108">
+        <inertial pos="0.0198782 0.000277092 0.000891767" quat="0.686188 -0.134177 -0.177008 0.692684" mass="0.0330237" diaginertia="4.58833e-06 3.29048e-06 2.90003e-06"/>
+        <joint name="left_joint_4_1" pos="0 0 0" axis="0 0 1" range="-0.837758 0.20944" actuatorfrcrange="-7.5 7.5"/>
+        <geom type="mesh" group="1" density="0" mesh="left_link_4_1"/>
+        <geom type="mesh" mesh="left_link_4_1"/>
+        <body name="left_link_4_2" pos="0.02415 0 0.0126" quat="0.707105 0.707108 0 0">
+          <inertial pos="0.0195721 -6.37508e-09 -3.77861e-05" quat="0.463077 0.534377 0.534384 0.463071" mass="0.023482" diaginertia="3.13583e-06 2.92228e-06 1.11694e-06"/>
+          <joint name="left_joint_4_2" pos="0 0 0" axis="0 0 1" range="0 2.21657" actuatorfrcrange="-7.5 7.5"/>
+          <geom type="mesh" group="1" density="0" mesh="left_link_4_2"/>
+          <geom type="mesh" mesh="left_link_4_2"/>
+          <body name="left_link_4_3" pos="0.0334 0 0">
+            <inertial pos="0.0195721 -6.37508e-09 -3.77861e-05" quat="0.463077 0.534377 0.534384 0.463071" mass="0.023482" diaginertia="3.13583e-06 2.92228e-06 1.11694e-06"/>
+            <joint name="left_joint_4_3" pos="0 0 0" axis="0 0 1" range="-1.5708 1.5708" actuatorfrcrange="-7.5 7.5"/>
+            <geom type="mesh" group="1" density="0" mesh="left_link_4_3"/>
+            <geom type="mesh" mesh="left_link_4_3"/>
+            <body name="left_link_4_4" pos="0.0334 0 0">
+              <inertial pos="0.0139053 -0.00262851 0.000524531" quat="0.512949 0.740916 0.215188 0.376326" mass="0.0157537" diaginertia="1.56834e-06 1.41319e-06 8.99058e-07"/>
+              <joint name="left_joint_4_4" pos="0 0 0" axis="0 0 1" range="-1.5708 1.5708" actuatorfrcrange="-7.5 7.5"/>
+              <geom type="mesh" group="1" density="0" mesh="left_link_4_4"/>
+              <geom type="mesh" mesh="left_link_4_4"/>
+              <geom pos="0.018 0 0" quat="1 0 0 0" type="mesh" group="1" density="0" mesh="left_link_4_tip"/>
+              <geom pos="0.018 0 0" quat="1 0 0 0" type="mesh" mesh="left_link_4_tip"/>
+              <geom name="collision_hand_left_ring_0" size="0.008 0.0172483" pos="0.0172 -0.00129 -1e-05" quat="0.707312 -0.0528691 -0.704922 0" type="capsule" group="3" density="0" rgba="0 1 0 1"/>
+              <site name="left_ring_tip" pos="0.0344 -0.00258 -2e-05"/>
+              <site name="track_hand_left_ring_tip" pos="0.0344 -0.00258 -2e-05"/>
+              <site name="trace_hand_left_ring_tip" pos="0.0344 -0.00258 -2e-05"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="left_link_5_1" pos="0.013 0.01805 0.0514" quat="0.707105 0 0 0.707108">
+        <inertial pos="0.0214521 0.00322289 0.010525" quat="0.990385 -0.0583821 0.0768983 0.099074" mass="0.0714341" diaginertia="1.8457e-05 1.67553e-05 8.35395e-06"/>
+        <joint name="left_joint_5_1" pos="0 0 0" axis="0 0 1" range="-1.0472 0" actuatorfrcrange="-7.5 7.5"/>
+        <geom type="mesh" group="1" density="0" mesh="left_link_5_1"/>
+        <geom type="mesh" mesh="left_link_5_1"/>
+        <body name="left_link_5_2" pos="0.02445 0 0.0307" quat="0.707105 0.707108 0 0">
+          <inertial pos="-0.000569847 0.0136 0.000569857" quat="0.688702 0.600308 -0.160268 0.373677" mass="0.0144988" diaginertia="1.30428e-06 1.26247e-06 8.11064e-07"/>
+          <joint name="left_joint_5_2" pos="0 0 0" axis="0 0 1" range="-1.5708 0.645772" actuatorfrcrange="-7.5 7.5"/>
+          <geom type="mesh" group="1" density="0" mesh="left_link_5_2"/>
+          <geom type="mesh" mesh="left_link_5_2"/>
+          <body name="left_link_5_3" pos="0 0.0272 0" quat="0.499998 0.5 0.500002 0.5">
+            <inertial pos="0.0138279 -6.37508e-09 3.77861e-05" quat="0.534384 0.463071 0.463076 0.534378" mass="0.023482" diaginertia="3.13583e-06 2.92228e-06 1.11694e-06"/>
+            <joint name="left_joint_5_3" pos="0 0 0" axis="0 0 1" range="-1.5708 1.5708" actuatorfrcrange="-7.5 7.5"/>
+            <geom type="mesh" group="1" density="0" mesh="left_link_5_3"/>
+            <geom type="mesh" mesh="left_link_5_3"/>
+            <body name="left_link_5_4" pos="0.0334 0 0">
+              <inertial pos="0.0165709 -0.00230563 -0.000312447" quat="0.125245 0.674304 -0.157428 0.710524" mass="0.0292713" diaginertia="5.03046e-06 4.49747e-06 2.05544e-06"/>
+              <joint name="left_joint_5_4" pos="0 0 0" axis="0 0 1" range="-1.5708 1.5708" actuatorfrcrange="-7.5 7.5"/>
+              <geom type="mesh" group="1" density="0" mesh="left_link_5_4"/>
+              <geom type="mesh" mesh="left_link_5_4"/>
+              <geom pos="0.0289 0 0" quat="1 0 0 0" type="mesh" group="1" density="0" mesh="left_link_5_tip"/>
+              <geom pos="0.0289 0 0" quat="1 0 0 0" type="mesh" mesh="left_link_5_tip"/>
+              <geom name="collision_hand_left_pinky_0" size="0.008 0.0226867" pos="0.02265 -0.00129 -1e-05" quat="0.707263 -0.0401983 -0.705807 0" type="capsule" group="3" density="0" rgba="0 1 0 1"/>
+              <site name="left_pinky_tip" pos="0.0453 -0.00258 -2e-05"/>
+              <site name="track_hand_left_pinky_tip" pos="0.0453 -0.00258 -2e-05"/>
+              <site name="trace_hand_left_pinky_tip" pos="0.0453 -0.00258 -2e-05"/>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+</body_block>
+</uni_block>

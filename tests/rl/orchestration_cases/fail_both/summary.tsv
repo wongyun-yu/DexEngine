@@ -1,0 +1,2 @@
+run	seq	ne	mi	joint_rate	<host>
+RUN	dir:bi2	4096	1600	TRAIN_FAIL	<host>

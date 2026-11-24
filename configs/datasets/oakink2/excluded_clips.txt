@@ -1,0 +1,10 @@
+# oakink2 clips **excluded** by human decision (source-defect ledger, repository statement).
+#
+# Form: <clip><TAB><reason>[<TAB><hand scope>]
+# Empty lines and '#' lines are ignored. Parser: dexengine/core/rules/ledger.py (excluded_from_file). The reader
+# (retarget_excluded) takes these human decisions from here and the pipeline's generator lines from the data root's
+# precompute/oakink2/diag/excluded_clips.txt; a human line there that this file lacks dies.
+#
+oakink2_place_inside__scene_02_fb9699b5af2e_s006	defect — the supporting object is articulated (raw_o02_0019_00001) but the judge measures rigid supports only	*
+oakink2_take_outside__scene_02_ad1415514c0a_s003	defect — the supporting object is articulated (raw_o02_0019_00001) but the judge measures rigid supports only	*
+oakink2_scoop__scene_01_19c9ac415d6e_s000_seg01_t2	MEM_SOLO — a one-clip bundle peaks at 132 GB with 4096 envs, above 80 GB (measured with xhand_pro)	xhand_pro

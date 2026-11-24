@@ -1,0 +1,13 @@
+hand	dataset	clip	object	part	shift_cm	rot_deg	source
+xhand_pro	oakink2	oakink2_place_inside__scene_01_e76b290b0440_s009	left_object	O02@0039@00004	1.02	2.20	sandbox_xhand
+xhand_pro	oakink2	oakink2_take_outside__scene_01_31218648456a_s013	supp_object_5	O02@0039@00004	1.68	3.57	sandbox_xhand
+xhand_pro	oakink2	oakink2_take_outside__scene_01_e76b290b0440_s013	left_object	O02@0039@00004	2.60	4.47	sandbox_xhand
+sharpa_wave	oakink2	oakink2_place_inside__scene_01_e76b290b0440_s009	left_object	O02@0039@00004	1.02	2.20	sandbox_xhand
+sharpa_wave	oakink2	oakink2_take_outside__scene_01_31218648456a_s013	supp_object_5	O02@0039@00004	1.68	3.57	sandbox_xhand
+sharpa_wave	oakink2	oakink2_take_outside__scene_01_e76b290b0440_s013	left_object	O02@0039@00004	2.60	4.47	sandbox_xhand
+dg5f_s	oakink2	oakink2_place_inside__scene_01_e76b290b0440_s009	left_object	O02@0039@00004	1.02	2.20	sandbox_xhand
+dg5f_s	oakink2	oakink2_take_outside__scene_01_31218648456a_s013	supp_object_5	O02@0039@00004	1.68	3.57	sandbox_xhand
+dg5f_s	oakink2	oakink2_take_outside__scene_01_e76b290b0440_s013	left_object	O02@0039@00004	2.60	4.47	sandbox_xhand
+wuji	oakink2	oakink2_place_inside__scene_01_e76b290b0440_s009	left_object	O02@0039@00004	1.02	2.20	sandbox_xhand
+wuji	oakink2	oakink2_take_outside__scene_01_31218648456a_s013	supp_object_5	O02@0039@00004	1.68	3.57	sandbox_xhand
+wuji	oakink2	oakink2_take_outside__scene_01_e76b290b0440_s013	left_object	O02@0039@00004	2.60	4.47	sandbox_xhand

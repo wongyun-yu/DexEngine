@@ -1,0 +1,170 @@
+# wuji2 — hand spec (dexengine.core.embodiment; every HandSpec field is stated).
+#
+# Wuji Hand 2 beta2 (20 DoF).
+# Wuji Hand 2 (beta2, as mounted on RB-Y1) — 20 DoF, fully actuated (5 fingers × 4 joints, no mimic joints).
+# Joint names are anatomical (`right_thumb_cmc_flex` …); the hand root is `<side>_wrist` (no palm_link — the adapter
+# plate and flange are part of that link's mesh); the fingertip frame is the distal link's −z; every distal link
+# carries a tactile pad link (`*_tip_sensor_frame`, welded at the distal origin). All hardware facts come from the
+# hand URDFs as mounted on RB-Y1 (`data/_stage/wuji2/wujihand2_beta2_{side}.urdf`, shipped under
+# assets/robots/vendor/wuji2/; hand meshes, joints, masses from wuji-technology/wuji-description hand2/hand2_beta2);
+# the retargeting qpos order is that URDF's finger-major order.
+
+name: wuji2
+# Thumb cmc_flex·cmc_abd·mcp·ip → index·middle·ring·pinky, each mcp_flex·mcp_abd·pip·dip (vendor URDF order).
+finger_joint_names_right:
+- right_thumb_cmc_flex
+- right_thumb_cmc_abd
+- right_thumb_mcp
+- right_thumb_ip
+- right_index_finger_mcp_flex
+- right_index_finger_mcp_abd
+- right_index_finger_pip
+- right_index_finger_dip
+- right_middle_finger_mcp_flex
+- right_middle_finger_mcp_abd
+- right_middle_finger_pip
+- right_middle_finger_dip
+- right_ring_finger_mcp_flex
+- right_ring_finger_mcp_abd
+- right_ring_finger_pip
+- right_ring_finger_dip
+- right_pinky_mcp_flex
+- right_pinky_mcp_abd
+- right_pinky_pip
+- right_pinky_dip
+coupled_joint_names_right: []
+coupling_ratios: []
+coupling_source_idx: []
+# 26 — 6 virtual wrist + 20
+hand_qpos_dim: 26
+tip_body_names_right:
+- right_thumb_distal
+- right_index_finger_distal
+- right_middle_finger_distal
+- right_ring_finger_distal
+- right_pinky_distal
+palm_fk_body_right: right_wrist
+# RB-Y1 arm links are link_right_arm_*, so they do not start with right_ — only hand bodies match (wrist_frame is a
+# massless frame under the arm).
+contact_body_regex_right: right_(wrist|thumb|index_finger|middle_finger|ring_finger|pinky)_?.*
+# Root link the full-robot merge cuts the hand subtree at.
+urdf_subtree_root: '{side}_wrist'
+# Mounting face → urdf_subtree_root along the root's +z (the hand's part of the mount stack).
+mount_face_to_root: 0.0
+urdf_palm_frame_right: right_wrist
+palm_frame_offset_pos: [0.0, 0.0, 0.0]
+palm_site_offset: [0.0, 0.0, 0.0]
+# The vendor root `<side>_wrist` has fingers along −z and the thumb along +x — 180° off the rig convention
+# (left as is, retargeting gives a claw). The site pose is the MANO wrist frame `<side>_wrist_frame` of the
+# hardware setup, a fixed child of link_<side>_arm_6 like the hand root (wrist_frames.urdf holds the two joints).
+palm_site_mano_frame:
+- data/_stage/wuji2/wrist_frames.urdf
+- right_wrist_frame
+joint_pos_defaults: {}
+vendor_link_prefix: '{side}_'
+display_name: Wuji Hand 2
+# Build source = one single-hand document per side, the `<side>_wrist` subtree of the hand as mounted on RB-Y1
+# (data/_stage/wuji2/wujihand2_beta2_{side}.urdf, placed by `python -m dexengine.robots.vendor fetch`). One hand per
+# document: the rig builder (hand_rig.py) compiles the whole document to MuJoCo and uses it as the hand rig, so it
+# cannot take a two-hand + arm document (it dies on the arm meshes). The document keeps the tactile pads
+# (`*_tip_sensor_frame`), adapter and flange geometry, so the rig, the merged URDF and the USD all use the same
+# geometry (the same beta2 as the real hand).
+# The mount joint (`<side>_wrist_fixed`) is owned by MountSpec.
+vendor_urdf: data/_stage/wuji2/wujihand2_beta2_{side}.urdf
+# Meshes for both sides in one directory (the side is the file-name prefix r_/l_).
+vendor_meshes: data/_stage/wuji2/parts/hands/wujihand2_beta2/meshes
+# Side → the merge document when it is not vendor_urdf.
+merge_source: {}
+# The retargeting rig is built from vendor_urdf (no vendor MJCF route).
+vendor_mjcf: ''
+rig_palm_site: []
+rig_capsule_distal_start: 0.0
+rig_capsule_middle: false
+retarget_dirname: wuji2
+abduction_joint_regex: .*_(index_finger|middle_finger|ring_finger|pinky)_mcp_abd$
+# Kp = finger_effort / 0.2 rad, Kd = 0.25 Kp (hands.spec.finger_gains_from_cap).
+# All 20 joint ranges contain 0 (thumb cmc_abd [−1.484, 0.698]) → no joint_pos_defaults needed.
+finger_gains: from_effort_cap
+finger_armature: null
+# The vendor URDF `<limit effort>` per joint, as is (thumb cmc 0.6 · thumb mcp/ip 0.3 · finger mcp_flex 2.0 ·
+# mcp_abd 0.2 · pip/dip 0.3 N·m). These round values trip the registry's placeholder test; they are used as stated
+# by the URDF and flagged in the report.
+finger_effort:
+  right_thumb_cmc_flex$: 0.6
+  right_thumb_cmc_abd$: 0.6
+  right_thumb_mcp$: 0.3
+  right_thumb_ip$: 0.3
+  right_index_finger_mcp_flex$: 2.0
+  right_index_finger_mcp_abd$: 0.2
+  right_index_finger_pip$: 0.3
+  right_index_finger_dip$: 0.3
+  right_middle_finger_mcp_flex$: 2.0
+  right_middle_finger_mcp_abd$: 0.2
+  right_middle_finger_pip$: 0.3
+  right_middle_finger_dip$: 0.3
+  right_ring_finger_mcp_flex$: 2.0
+  right_ring_finger_mcp_abd$: 0.2
+  right_ring_finger_pip$: 0.3
+  right_ring_finger_dip$: 0.3
+  right_pinky_mcp_flex$: 2.0
+  right_pinky_mcp_abd$: 0.2
+  right_pinky_pip$: 0.3
+  right_pinky_dip$: 0.3
+# Finger joint speeds (rad/s) — per joint from the vendor URDF wuji-description hand2/hand2_2 (2.2 Beta), same on
+# both sides.
+# Velocity: the build source has `<limit velocity>` 1e9 on every joint — a **placeholder**.
+# The vendor's own URDF (wuji-technology/wuji-description hand2/hand2_2/body/urdf/{right,left}.urdf = Wuji Hand 2.2
+# Beta, commit 829c9aa2) has the same limits and effort as the build source and states per-joint velocities — those
+# are used (the vendor document beats the placeholder; the
+# exception is owned by vendor_urdf_limit_placeholder, as for DG-5F-S).
+finger_velocity:
+  right_thumb_cmc_flex$: 8.587
+  right_thumb_cmc_abd$: 11.1
+  right_thumb_mcp$: 12.86
+  right_thumb_ip$: 13.5
+  right_index_finger_mcp_flex$: 8.203
+  right_index_finger_mcp_abd$: 8.11
+  right_index_finger_pip$: 12.86
+  right_index_finger_dip$: 13.5
+  right_middle_finger_mcp_flex$: 8.203
+  right_middle_finger_mcp_abd$: 8.11
+  right_middle_finger_pip$: 12.86
+  right_middle_finger_dip$: 13.5
+  right_ring_finger_mcp_flex$: 8.203
+  right_ring_finger_mcp_abd$: 8.11
+  right_ring_finger_pip$: 12.86
+  right_ring_finger_dip$: 13.5
+  right_pinky_mcp_flex$: 8.203
+  right_pinky_mcp_abd$: 8.11
+  right_pinky_pip$: 12.86
+  right_pinky_dip$: 13.5
+# Gains follow the cap rule on the URDF (rated) effort · applied cap = finger_effort × scale (hardware peak).
+finger_effort_peak_scale: 2.14
+# Vendor nominal fingertip force (wuji.tech/en/hand2: 'Fingertip Peak Force ≥ 12 N', noted there as a Beta1 value
+# that may change; resellers' ≥ 15 N is not used). With the URDF effort the rig's index distal pad reaches at most
+# 5.6 N (fingertip-force oracle) → scale = 12 / 5.6. The fingertip-force oracle owns the measurement and dies when
+# the scale cannot reproduce the nominal force or exceeds it.
+vendor_fingertip_force_n: 12.0
+finger_velocity_peak_scale: 1.0
+vendor_close_repetition_hz: null
+finger_velocity_peak_scale_overrides: {}
+vendor_urdf_limit_placeholder:
+  finger_velocity: 1000000000.0
+# Fingertip pad = origin of the URDF `<side>_<finger>_tip_fixed` (distal-link local −z).
+fingertip_site_offsets:
+  right_thumb_distal: [0.0, 0.0, -0.02978]
+  right_index_finger_distal: [0.0, 0.0, -0.02475]
+  right_middle_finger_distal: [0.0, 0.0, -0.02475]
+  right_ring_finger_distal: [0.0, 0.0, -0.02475]
+  right_pinky_distal: [0.0, 0.0, -0.02475]
+# Measured on the cut document: lateral max 3.91 mm (index–pinky on both sides · thumb 3.42–3.53) → 3.91 + 1,
+# rounded up to 0.5 mm → 5.0 mm. Check only.
+fingertip_pad_lateral_max_m: 0.005
+# Hyperextension lower limits are cut — the vendor lower limit is −60° (mcp·pip·dip).
+sim_finger_limits: truncated
+# Sim body hyperextension allowance (deg, past neutral on the side opposite to flexion; cut = max(vendor lower,
+# −allowance)). A human finger bends back 20–30°: the sim MCPs (thumb MCP included, five per hand) go from [0°, hi] to
+# [−20°, hi]; PIP · DIP stay cut at 0°. The retargeting IK and the reference finger range keep 0°.
+sim_finger_hyperext_allow_deg: {mcp: 20.0, pip: 0.0, dip: 0.0}
+# RL training recipe (hands.spec.HandRLRecipe; null = none). Wuji Hand 2: no recipe.
+rl_recipe: null

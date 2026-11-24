@@ -1,0 +1,27 @@
+<link name="camera">
+    <!-- Stereolabs ZED Mini, the head camera of the real robot. Mesh: Stereolabs zed-ros2-description meshes/zedm.stl
+         (metres, fetched by `python -m dexengine.robots.vendor fetch`). Mass and the box the inertia is taken from:
+         Stereolabs ZED Mini datasheet (62.9 g; 124.5 x 30.5 x 26.5 mm), solid box about its centre, long side along x.
+         Placement: the mesh at the physical robot's calibrated mount (dexengine/robots/usd/head_camera.py ZEDM_MOUNT,
+         link_head_2 -> ego_zed_m_camera, mesh origin 0 and scale 1 at that frame), written in this link's frame (joint
+         rby1_head_camera_mount, configs/robots/arms/rby1.yaml); the same pose as the render body's ZED Mini.
+         tests/robots/test_head_camera_rule.py composes the two and checks they agree. Inertia: the datasheet box in
+         the mesh frame (x 30.5 depth, y 124.5 width, z 26.5 height) about the mesh's bounding-box centre. -->
+    <inertial>
+      <origin rpy="0.022737104 0.001245189 1.553053357" xyz="0.028354316 0.000330264 0.01240924" />
+      <mass value="0.0629" />
+      <inertia ixx="8.49281e-05" ixy="0" ixz="0" iyy="8.55702e-06" iyz="0" izz="8.61232e-05" />
+    </inertial>
+    <visual>
+      <origin rpy="0.022737104 0.001245189 1.553053357" xyz="0.035997064 -0.006863277 0.012262455" />
+      <geometry>
+        <mesh filename="{mesh}" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0.022737104 0.001245189 1.553053357" xyz="0.035997064 -0.006863277 0.012262455" />
+      <geometry>
+        <mesh filename="{mesh}" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>

@@ -1,0 +1,91 @@
+seed: 42
+
+
+# Residual tracking policy: separate policy and value networks.
+#   - separate: True (no gradient interference between policy and value)
+#   - initial_log_std: -1.0 (sigma=0.37: little exploration, the base policy provides the mean)
+#   - learning_rate: 5.0e-4, static
+# The training recipe (configs/rl/recipe.yaml) sets the run length (MI, PPO iterations), the mini-batches (MB) and the
+# KL threshold per mode; the values below are the defaults it starts from.
+#
+# Near-zero output initialization is applied by the trainer (dexengine/rl/train) after Runner creation.
+models:
+  separate: True
+  policy:  # see gaussian_model parameters
+    class: GaussianMixin
+    clip_actions: False
+    clip_log_std: True
+    min_log_std: -20.0
+    # A wide bound (as in ManipTrans) so loaded checkpoints are not clipped at eval; log_std stays stable through
+    # the small entropy_loss_scale below and the fixed iteration budget.
+    max_log_std: 2.0
+    initial_log_std: -1.0  # sigma=0.37
+    network:
+      - name: net
+        input: OBSERVATIONS
+        layers: [512, 256, 128]
+        activations: elu
+    output: ACTIONS
+  value:  # see deterministic_model parameters
+    class: DeterministicMixin
+    clip_actions: False
+    network:
+      - name: net
+        input: OBSERVATIONS
+        layers: [512, 256, 128]
+        activations: elu
+    output: ONE
+
+
+# Rollout memory
+# https://skrl.readthedocs.io/en/latest/api/memories/random.html
+memory:
+  class: RandomMemory
+  memory_size: -1  # automatically determined (same as agent:rollouts)
+
+
+# PPO agent configuration (field names are from PPO_DEFAULT_CONFIG)
+# https://skrl.readthedocs.io/en/latest/api/agents/ppo.html
+agent:
+  class: PPO
+  rollouts: 32
+  learning_epochs: 5
+  # default mini-batches; the recipe sets MB per mode (16 for both hands)
+  mini_batches: 8
+  discount_factor: 0.99
+  lambda: 0.95
+  learning_rate: 5.0e-04  # static (the ManipTrans value)
+  # No scheduler: KLAdaptiveLR lowered the rate too far for residual fine-tuning.
+  state_preprocessor: RunningStandardScaler
+  state_preprocessor_kwargs: null
+  value_preprocessor: RunningStandardScaler
+  value_preprocessor_kwargs: null
+  random_timesteps: 0
+  learning_starts: 0
+  grad_norm_clip: 1.0
+  ratio_clip: 0.2
+  value_clip: 0.2
+  clip_predicted_values: True
+  # A small entropy bonus: a larger one inflated the finger log_std up to max_log_std; kept low so the value
+  # gradient dominates.
+  entropy_loss_scale: 0.001
+  value_loss_scale: 1.0
+  # KL early stop: an epoch aborts when the KL exceeds this (the recipe sets it per mode). Without it a sudden
+  # change in the training conditions ran full epochs on stale data and broke the policy.
+  kl_threshold: 0.02
+  rewards_shaper_scale: 1.0
+  time_limit_bootstrap: True
+  # logging and checkpoint
+  experiment:
+    directory: "dexengine"   # training sets it from dexengine.core.layout.runs.RUN_CKPT_ROOT (logs/skrl/<this>)
+    experiment_name: ""
+    write_interval: auto
+    checkpoint_interval: auto
+
+
+# Sequential trainer
+# https://skrl.readthedocs.io/en/latest/api/trainers/sequential.html
+trainer:
+  class: SequentialTrainer
+  timesteps: 96000  # default; the recipe's MI sets the run length
+  environment_info: log

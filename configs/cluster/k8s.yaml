@@ -1,0 +1,10 @@
+# Kubernetes backend settings (dexengine.cluster.k8s.K8sConfig). Override with --config FILE or --set key=value.
+image: ""               # container image with Isaac Lab and this repository installed (required)
+namespace: default
+name_prefix: dexengine
+service_account: ""
+image_pull_secret: ""
+node_selector: {}
+volumes: {}             # {name: {pvc: claim, mount: /path}} or {name: {host: /path, mount: /path}}
+backoff_limit: 0
+ttl_seconds_after_finished: 86400

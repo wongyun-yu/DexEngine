@@ -1,0 +1,70 @@
+From 31d3c9bcfe4d4a09ba18ae4568daf73718d326ad Mon Sep 17 00:00:00 2001
+From: DexEngine authors <authors@example.invalid>
+Date: Mon, 26 Oct 2026 00:42:34 +0900
+Subject: [PATCH] E1-E3: optional same-entity link-pair collision exclusion
+ (RigidOptions.excluded_self_link_pairs)
+
+DexMachina's runtime group filter was commented out in 266b607 ("small fix", 2025-03-24): link_group_mapping only
+sizes the pair buffer since then. This adds an explicit pair exclusion (like MJCF <exclude>) checked in
+_func_check_collision_valid. Default None -> ti.static(False): kernels and results unchanged.
+
+---
+ .../engine/solvers/rigid/collider_decomp.py   | 21 +++++++++++++++++++
+ genesis/options/solvers.py                    |  2 ++
+ 2 files changed, 23 insertions(+)
+
+diff --git a/genesis/engine/solvers/rigid/collider_decomp.py b/genesis/engine/solvers/rigid/collider_decomp.py
+index 5bb3ce3..0181c63 100644
+--- a/genesis/engine/solvers/rigid/collider_decomp.py
++++ b/genesis/engine/solvers/rigid/collider_decomp.py
+@@ -133,6 +133,23 @@ class Collider:
+ 
+                 n_possible_pairs += 1
+ 
++        # [E123-NOBJ] explicit same-entity pair exclusion (like MJCF <exclude>); off unless the option is set
++        excl = self._solver._options.excluded_self_link_pairs
++        self._has_excluded_pairs = bool(excl)
++        if self._has_excluded_pairs:
++            loc = self._solver.geoms_info.link_idx_local.to_numpy()
++            excl_set = {frozenset((int(a), int(b))) for a, b in excl}
++            ex = np.zeros((self._solver.n_geoms, self._solver.n_geoms), dtype=np.int32)
++            n_ex = 0
++            for i in range(self._solver.n_geoms):
++                for j in range(i + 1, self._solver.n_geoms):
++                    la, lb = geoms_link_idx[i], geoms_link_idx[j]
++                    if links_root_idx[la] == links_root_idx[lb] and frozenset((int(loc[i]), int(loc[j]))) in excl_set:
++                        ex[i, j] = ex[j, i] = 1
++                        n_ex += 1
++            self._geom_pair_excluded = ti.field(gs.ti_int, shape=(self._solver.n_geoms, self._solver.n_geoms))
++            self._geom_pair_excluded.from_numpy(ex)
++            gs.logger.info(f"[E123-NOBJ] excluded self geom pairs: {n_ex}")
+         self._n_contacts_per_pair = 5
+         self._max_collision_pairs = min(n_possible_pairs, self._solver._max_collision_pairs)
+         self._max_contact_pairs = self._max_collision_pairs * self._n_contacts_per_pair
+@@ -645,6 +662,10 @@ class Collider:
+         #     if self._link_group_field[I_la] == self._link_group_field[I_lb]:
+                 # is_valid = False
+ 
++        if ti.static(self._has_excluded_pairs):  # [E123-NOBJ]
++            if is_valid and self._geom_pair_excluded[i_ga, i_gb] == 1:
++                is_valid = False
++
+         # adjacent links
+         if is_valid and self._solver.links_info[I_la].parent_idx == i_lb or self._solver.links_info[I_lb].parent_idx == i_la:
+             is_valid = False
+diff --git a/genesis/options/solvers.py b/genesis/options/solvers.py
+index b1f0810..c7b3a20 100644
+--- a/genesis/options/solvers.py
++++ b/genesis/options/solvers.py
+@@ -210,6 +210,8 @@ class RigidOptions(Options):
+     # mapping from link ids to group (finger, palm, etc.) ids
+     link_group_mapping: Optional[dict] = None
+     self_collision_group_filter: bool = False
++    # [E123-NOBJ] same-entity link pairs (entity-local link idx) that never collide; None = off (default path unchanged)
++    excluded_self_link_pairs: Optional[list] = None
+ 
+     def __init__(self, **data):
+         super().__init__(**data)
+-- 
+2.43.0
+

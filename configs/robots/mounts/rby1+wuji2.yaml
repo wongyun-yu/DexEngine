@@ -1,0 +1,18 @@
+# rby1 + wuji2 — mount spec (dexengine.core.embodiment). Wuji Hand 2 beta2.
+# The vendor URDF `<side>_wrist_fixed` (link_<side>_arm_6 -> <side>_wrist) values as is: rotation = rpy -> wxyz (a
+# flange face tilted 1.88 deg · yaw ±90 deg); translation y flips sign per side (zero-pose FK: both hands on the centre
+# line · 3.03 mm toward the thumb — mirror-symmetric). A measured transform, not a flange stack. The adapter and flange
+# geometry are in the `<side>_wrist` mesh, so there is no render part.
+arm: rby1
+hand: wuji2
+translation:
+  measured:
+    right: [-0.00022364, 0.00302921, -0.1546]
+    left: [-0.00022364, -0.00302921, -0.1546]
+rotation:
+  right: [0.707011583, 0.011778093, -0.011424493, 0.707011583]
+  left: [0.707011583, -0.011778093, -0.011424493, -0.707011583]
+provisional: false
+provenance: 'hardware setup: right/left_wrist_fixed of assets/robots/vendor/wuji2/wrist_frames.urdf (values as is)'
+assumptions: []
+render_visual_parts: []

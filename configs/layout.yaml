@@ -1,0 +1,26 @@
+# Data layout configuration (dexengine.core.layout.LayoutConfig).
+#
+# data_root: the folder that holds data/, precompute/, overfit/ and logs/.
+#   "" = the code checkout. Overridden by the environment variable DEXENGINE_MAIN_ROOT, which every CLI sets
+#   from --data-root so child processes inherit it.
+data_root: ""
+
+# Record storage roots ("" = inside the data root). A site whose disks split the record data names its own roots in
+# a separate layout file and exports DEXENGINE_LAYOUT_CONFIG=<that file> (it replaces this file for every process).
+# collect_aug_root: final datasets of the augmented round ("" = the data root's collect layer)
+collect_aug_root: ""
+# collect_traj_archive: trajectory archive, stage1/ and jobs/ ("" = <data root>/archive/collect_traj)
+collect_traj_archive: ""
+# collect_archive_old_aug: older read-only places of the augmented piece archive (searched after the archive)
+collect_archive_old_aug: []
+
+# Site part (a site states its own values in its layout file).
+# owner_root: root of the per-hand RL clip-owner ledgers <root>/records/hands/<hand>/tables/rl_clip_owner.tsv
+#   ("" = the data root)
+owner_root: ""
+# hosts: RL campaign hosts {label: hostname}; a campaign launches only on the host its GPU specs (<label>:<gpus>)
+#   name. {} = this machine alone, label "local".
+hosts: {}
+# host_gpu_count_cmd: {label: shell command, run from the code tree, printing that host's GPU count} for hosts other
+#   than the one a process runs on ({} = only this machine's GPUs are measured).
+host_gpu_count_cmd: {}

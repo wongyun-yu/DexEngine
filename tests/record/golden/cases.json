@@ -1,0 +1,872 @@
+{
+ "canon.switches": {
+  "aug_placement": true,
+  "explicit": {
+   "DEXENGINE_COLLECT_AUG": "1"
+  },
+  "extras_overhang": true,
+  "force_partner": true,
+  "head_view": true,
+  "render_tag": "+head_view"
+ },
+ "depth.CODEC": {
+  "compression": "zstd -12",
+  "container": "npy",
+  "dtype": "uint16",
+  "invalid": 0,
+  "lossless": true,
+  "owner": "scripts/collect/collect_depth.py",
+  "unit": "mm"
+ },
+ "force.RULE": [
+  {
+   "f_spike_n": 170.0,
+   "fill": "fill only flag runs shorter than jam_seconds — linear interpolation in time between the normal samples (outside the flag · after the hold) just before and just after, same key and same column · keep the one value when only one side exists · raw value when neither exists or the run is jam_seconds or longer",
+   "jam_peak_n": 1000.0,
+   "jam_seconds": 0.5,
+   "owner": "scripts/collect/collect_force.py",
+   "pad_samples": 1,
+   "wedge_cos": -0.8,
+   "wedge_n": 100.0
+  },
+  {
+   "<stem>.force_n_clean": "cleaned force — same shape as the raw <stem>.force_n · only filled samples are filled by the fill rule · the rest = raw values",
+   "quality.filled": "flagged samples filled in the cleaned channel (fill rule)",
+   "quality.flag": "spike flag — after the hold, (spike ± pad_samples samples) ∪ wedge",
+   "quality.pinned": "hold-window samples (policy step ≤ spawn_hold_steps — right after reset + the window that rewrites the object to its reference pose)",
+   "quality.spike": "samples where any link has |F| > f_spike_n (hold window included)",
+   "quality.wedge": "wedge samples — two links of one hand (one total-force sensor) push in opposite directions (cos ≤ wedge_cos), each ≥ wedge_n (hold window included)"
+  }
+ ],
+ "form.fingerprint": {
+  "features": [
+   [
+    "observation.state",
+    "float32",
+    [
+     3
+    ],
+    [
+     "a",
+     "b",
+     "c"
+    ]
+   ],
+   [
+    "action",
+    "float32",
+    [
+     2
+    ],
+    [
+     "x",
+     "y"
+    ]
+   ],
+   [
+    "observation.images.ego_left",
+    "video",
+    [
+     4,
+     6,
+     3
+    ],
+    [
+     "h",
+     "w",
+     "c"
+    ]
+   ],
+   [
+    "observation.images.exo",
+    "video",
+    [
+     4,
+     6,
+     3
+    ],
+    [
+     "h",
+     "w",
+     "c"
+    ]
+   ],
+   [
+    "timestamp",
+    "float32",
+    [
+     1
+    ],
+    null
+   ],
+   [
+    "frame_index",
+    "int64",
+    [
+     1
+    ],
+    null
+   ],
+   [
+    "episode_index",
+    "int64",
+    [
+     1
+    ],
+    null
+   ],
+   [
+    "index",
+    "int64",
+    [
+     1
+    ],
+    null
+   ],
+   [
+    "task_index",
+    "int64",
+    [
+     1
+    ],
+    null
+   ]
+  ],
+  "form": {},
+  "form_version": null,
+  "units": {
+   "fps": 30,
+   "video_fps": null
+  }
+ },
+ "form.form_diff.same": [],
+ "form.rules": [
+  "in a one-hand episode the resting arm's action columns = hold command = residual 0 (wrist Δ 0 · finger residual 0) — the recorded action is the ResidualArmIKAction residual (reference-based · trajectory-based), so finger target = lo + ½(clamp(base(reference) + residual·rs) + 1)·range · wrist target = reference wrist ⊕ residual Δ. When the resting arm's base is the rest pose (hand_surface.rest_finger_q · arm default pose — the base the bimanual resting hand idle_side uses), residual 0 yields that pose as it is. The record statement (action column term_modes) must name that term with both bases on, else it dies · the line action_fill names the source per side (recorded | hold_residual0)",
+  "one hand × dataset = one form (collect_form) · missing columns = NaN · line absent_features (whole) · stats (stats_skip): a wholly absent column is left out of that episode's stats (LeRobot aggregate_stats gathers only the episodes that have the column) · actions are always filled (resting arm = hold command) → action stats = every episode"
+ ],
+ "form.stats_skip": [],
+ "headview.rule": [
+  "hand link origins projected into collect_ego_left · in image = z > 0 ∧ inside the cropped image (collect_frame.inside) · in_view = in-image fraction ≥ 0.5 · occlusion ignored",
+  {
+   "head_view_path": "head_view/chunk-{episode_chunk:03d}/episode_{episode_index:06d}.npz",
+   "head_view_rule": "hand link origins projected into collect_ego_left · in image = z > 0 ∧ inside the cropped image (collect_frame.inside) · in_view = in-image fraction ≥ 0.5 · occlusion ignored"
+  },
+  {}
+ ],
+ "lerobot.parquet_columns": [
+  "observation.state",
+  "action",
+  "timestamp",
+  "frame_index",
+  "episode_index",
+  "index",
+  "task_index"
+ ],
+ "lerobot.sample_indices": [
+  [
+   0
+  ],
+  [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36
+  ],
+  [
+   0,
+   2,
+   4,
+   6,
+   8,
+   10,
+   12,
+   14,
+   16,
+   18,
+   20,
+   22,
+   24,
+   26,
+   28,
+   30,
+   32,
+   34,
+   36,
+   38,
+   40,
+   42,
+   44,
+   46,
+   48,
+   50,
+   52,
+   54,
+   56,
+   58,
+   60,
+   62,
+   64,
+   66,
+   68,
+   70,
+   72,
+   74,
+   76,
+   78,
+   80,
+   82,
+   84,
+   86,
+   88,
+   90,
+   92,
+   94,
+   96,
+   98,
+   101,
+   103,
+   105,
+   107,
+   109,
+   111,
+   113,
+   115,
+   117,
+   119,
+   121,
+   123,
+   125,
+   127,
+   129,
+   131,
+   133,
+   135,
+   137,
+   139,
+   141,
+   143,
+   145,
+   147,
+   149,
+   151,
+   153,
+   155,
+   157,
+   159,
+   161,
+   163,
+   165,
+   167,
+   169,
+   171,
+   173,
+   175,
+   177,
+   179,
+   181,
+   183,
+   185,
+   187,
+   189,
+   191,
+   193,
+   195,
+   197,
+   199
+  ],
+  [
+   0,
+   6,
+   11,
+   17,
+   23,
+   28,
+   34,
+   40,
+   45,
+   51,
+   57,
+   62,
+   68,
+   74,
+   79,
+   85,
+   91,
+   96,
+   102,
+   108,
+   114,
+   119,
+   125,
+   131,
+   136,
+   142,
+   148,
+   153,
+   159,
+   165,
+   170,
+   176,
+   182,
+   187,
+   193,
+   199,
+   204,
+   210,
+   216,
+   221,
+   227,
+   233,
+   238,
+   244,
+   250,
+   255,
+   261,
+   267,
+   272,
+   278,
+   284,
+   289,
+   295,
+   301,
+   307,
+   312,
+   318,
+   324,
+   329,
+   335,
+   341,
+   346,
+   352,
+   358,
+   363,
+   369,
+   375,
+   380,
+   386,
+   392,
+   397,
+   403,
+   409,
+   414,
+   420,
+   426,
+   431,
+   437,
+   443,
+   448,
+   454,
+   460,
+   465,
+   471,
+   477,
+   482,
+   488,
+   494,
+   500,
+   505,
+   511,
+   517,
+   522,
+   528,
+   534,
+   539,
+   545,
+   551,
+   556,
+   562,
+   568,
+   573,
+   579,
+   585,
+   590,
+   596,
+   602,
+   607,
+   613,
+   619,
+   624,
+   630,
+   636,
+   641,
+   647,
+   653,
+   658,
+   664,
+   670,
+   675,
+   681,
+   687,
+   692,
+   698,
+   704,
+   710,
+   715,
+   721,
+   727,
+   732,
+   738,
+   744,
+   749,
+   755,
+   761,
+   766,
+   772,
+   778,
+   783,
+   789,
+   795,
+   800,
+   806,
+   812,
+   817,
+   823,
+   829,
+   834,
+   840,
+   846,
+   851,
+   857,
+   863,
+   868,
+   874,
+   880,
+   885,
+   891,
+   897,
+   903,
+   908,
+   914,
+   920,
+   925,
+   931,
+   937,
+   942,
+   948,
+   954,
+   959,
+   965,
+   971,
+   976,
+   982,
+   988,
+   993,
+   999
+  ]
+ ],
+ "lerobot.totals": {
+  "splits": {
+   "train": "0:10"
+  },
+  "total_chunks": 1,
+  "total_episodes": 10,
+  "total_frames": 1234,
+  "total_tasks": 3,
+  "total_videos": 30
+ },
+ "lerobot.union_order": [
+  "a",
+  "b",
+  "e",
+  "c",
+  "d"
+ ],
+ "look.meta": {
+  "canon_lights_zeroed": [
+   "/World/light",
+   "/World/keyLight"
+  ],
+  "light_variation": null,
+  "look_rev": {
+   "ceiling": 190.0,
+   "clip_hi_max": 0.001,
+   "clip_hi_y": 250,
+   "d_ev": 1.0,
+   "d_ev_max": 2.0,
+   "d_ev_step": 0.25,
+   "d_gate": "post",
+   "ev_gain": 1.275,
+   "floor": 85.0,
+   "metal0_props": [
+    "SM_Cupboard.usd"
+   ],
+   "name": "D4-20261021",
+   "no_grasp_probe": "mid",
+   "probe_after_grasp_s": 0.6,
+   "probe_cam": "egoL",
+   "random_tries": 8
+  },
+  "materials": {
+   "ceiling": "Ceiling_Tiles.mdl",
+   "desk": "Birch.mdl",
+   "floor": "Concrete_Polished.mdl",
+   "wall": "Plaster.mdl"
+  },
+  "mirror": "data/assets/scene_canon/collect_look_d",
+  "panels": {
+   "intensity": 12.7324,
+   "kelvin": 4000.0,
+   "n": 9,
+   "normalize": true,
+   "size_m": [
+    1.2,
+    0.6
+   ],
+   "watts": 40.0,
+   "xy": [
+    [
+     -2.1,
+     -1.5
+    ],
+    [
+     -2.1,
+     0.0
+    ],
+    [
+     -2.1,
+     1.5
+    ],
+    [
+     -0.6,
+     -1.5
+    ],
+    [
+     -0.6,
+     0.0
+    ],
+    [
+     -0.6,
+     1.5
+    ],
+    [
+     0.9,
+     -1.5
+    ],
+    [
+     0.9,
+     0.0
+    ],
+    [
+     0.9,
+     1.5
+    ]
+   ]
+  },
+  "props": [
+   "SM_Rack.usd",
+   "SM_FileCabinet_01.usd",
+   "SM_Plant01.usd",
+   "SM_Cupboard.usd",
+   "SM_ChairOffice.usd",
+   "SM_BoxBig.usd"
+  ],
+  "render_preset": "D",
+  "rtx": {
+   "/rtx/ambientOcclusion/enabled": false,
+   "/rtx/indirectDiffuse/enabled": false,
+   "/rtx/reflections/enabled": false,
+   "/rtx/sceneDb/ambientLightIntensity": 0.0
+  },
+  "support_material": "Birch.mdl",
+  "tonemap": {
+   "/rtx/post/tonemap/exposureTime": 0.1109,
+   "/rtx/post/tonemap/fNumber": 2.8,
+   "/rtx/post/tonemap/filmIso": 1600.0,
+   "/rtx/post/tonemap/irayReinhard/burnHighlights": 0.0,
+   "/rtx/post/tonemap/irayReinhard/crushBlacks": 0.0,
+   "/rtx/post/tonemap/irayReinhard/saturation": 0.7,
+   "/rtx/post/tonemap/op": 7
+  },
+  "whitepoint": [
+   1.0,
+   0.653,
+   0.377
+  ]
+ },
+ "merge_check.aug_row0_plan": [],
+ "merge_check.card": [
+  [
+   "c1",
+   "D"
+  ],
+  [
+   "c1_pl_v1",
+   "D"
+  ],
+  [
+   "c2",
+   "D"
+  ]
+ ],
+ "merge_check.fallback_row0": [
+  false,
+  false,
+  true,
+  false,
+  true
+ ],
+ "merge_check.families": {
+  "data": [
+   "data/chunk-{episode_chunk:03d}/episode_{episode_index:06d}.parquet",
+   {}
+  ],
+  "depth_path": [
+   "depth/chunk-{episode_chunk:03d}/episode_{episode_index:06d}.npy.zst",
+   {}
+  ],
+  "v:observation.images.ego_left": [
+   "videos/chunk-{episode_chunk:03d}/{video_key}/episode_{episode_index:06d}.mp4",
+   {
+    "video_key": "observation.images.ego_left"
+   }
+  ],
+  "v:observation.images.exo": [
+   "videos/chunk-{episode_chunk:03d}/{video_key}/episode_{episode_index:06d}.mp4",
+   {
+    "video_key": "observation.images.exo"
+   }
+  ]
+ },
+ "merge_check.old_tree_aug": [
+  9
+ ],
+ "merge_check.piece_meta_sha": "0b254edda901a8c15c2093b26b16ecbc6fddf22e8894761abf74ab7ad80606dc",
+ "merge_check.row0_clips": [
+  "c1",
+  "c2"
+ ],
+ "merge_check.row0_source": [
+  "c1",
+  "c1",
+  null
+ ],
+ "merge_check.shape_diff.same": [],
+ "merge_check.shape_diff.videos": [
+  "features",
+  "features(order)",
+  "collect.form.form_version missing (piece stored before form versions; store it again)",
+  "collect.video_keys"
+ ],
+ "merge_check.supersede_plan": [
+  {
+   "by_piece": "p2",
+   "clip": "c1",
+   "episode_index": 0,
+   "rule": "orig_fov_rows0_3",
+   "src_clip": "c1"
+  }
+ ],
+ "merge_check.tail_sha": [
+  "1f825aa2f0020ef7cf91dfa30da4668d791c5d4824fc8e41354b89ec05795ab3",
+  "a8af099bf2e878609558dbf69d8f88f4a31040a8cf84b549a0cfa912f12ffc3f",
+  "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2"
+ ],
+ "merge_check.variant_row0_clips": [
+  "c1"
+ ],
+ "meta.loader": [
+  {
+   "note": "LeRobotDataset(repo_id, root=<final dataset>, tolerance_s=0.016667) — video 30 fps · low-dimensional table = info fps (episode video_frame_index = the nearest video frame)",
+   "rule": "tolerance_s = 1/(2 × video_fps)",
+   "tolerance_s": 0.016666666666666666,
+   "video_fps": 30
+  },
+  "render scene env origin — position m · rotation = camera → world (wxyz) · the render scene puts the robot body on the floor (collect_body — episode body.world_shift_m)",
+  {
+   "quat_opengl_wxyz": "optical axis −z · image right +x · image up +y",
+   "quat_ros_wxyz": "optical axis +z · image right +x · image down +y"
+  }
+ ],
+ "rev.d_post": {
+  "exposure": {
+   "capped": false,
+   "clip_hi": 0.0,
+   "ev": 1.0,
+   "exposure_s": 0.2218,
+   "luma": 121.59,
+   "mode": "post",
+   "rerender": null,
+   "steps": 0,
+   "stop": "post measurement · at or above the floor",
+   "trail": [
+    [
+     1.0,
+     121.59,
+     0.0
+    ]
+   ]
+  },
+  "floor_redraws": 0,
+  "measured": {
+   "ceiling": 190.0,
+   "clip_hi": 0.0,
+   "floor": 85.0,
+   "luma_mean": 121.59,
+   "probe": "egoL · probe",
+   "rev": "D4-20261021",
+   "unit": "BT.601 Y 8 bit"
+  }
+ },
+ "rev.d_post.dark": {
+  "exposure": {
+   "capped": true,
+   "clip_hi": 0.0,
+   "ev": 1.5,
+   "exposure_s": 0.313673,
+   "luma": 29.99,
+   "mode": "post",
+   "rerender": {
+    "next_ev": 2.0,
+    "why": "luma 30.0 < 85.0"
+   },
+   "steps": 2,
+   "stop": "post measurement · below the floor → re-render list (next +2.0 stops)",
+   "trail": [
+    [
+     1.5,
+     29.99,
+     0.0
+    ]
+   ]
+  },
+  "floor_redraws": 0,
+  "measured": {
+   "ceiling": 190.0,
+   "clip_hi": 0.0,
+   "floor": 85.0,
+   "luma_mean": 29.99,
+   "probe": "egoL · probe",
+   "rev": "D4-20261021",
+   "unit": "BT.601 Y 8 bit"
+  }
+ },
+ "rev.probe_frame": [
+  [
+   54,
+   "grasp 1.20 s + 0.6 s"
+  ],
+  [
+   50,
+   "no grasp → middle"
+  ],
+  [
+   99,
+   "grasp 9.00 s + 0.6 s"
+  ]
+ ],
+ "rev.probe_luma": [
+  121.5892105102539,
+  0.0
+ ],
+ "rev.r_post": {
+  "floor_redraws": 0,
+  "measured": {
+   "ceiling": 190.0,
+   "clip_hi": 0.0,
+   "floor": 85.0,
+   "luma_mean": 121.59,
+   "probe": "egoL · probe",
+   "rev": "D4-20261021",
+   "unit": "BT.601 Y 8 bit"
+  },
+  "rerender": null
+ },
+ "rev.r_post.dark": {
+  "floor_redraws": 0,
+  "measured": {
+   "ceiling": 190.0,
+   "clip_hi": 0.0,
+   "floor": 85.0,
+   "luma_mean": 29.99,
+   "probe": "egoL · probe",
+   "rev": "D4-20261021",
+   "unit": "BT.601 Y 8 bit"
+  },
+  "rerender": {
+   "next_spare": 0,
+   "why": "luma 30.0 ∉ [85.0, 190.0]"
+  }
+ },
+ "rtx.blackbody_rgb": [
+  [
+   1.0,
+   0.2074,
+   -0.007
+  ],
+  [
+   1.0,
+   0.3098,
+   0.031
+  ],
+  [
+   1.0,
+   0.4786,
+   0.1543
+  ],
+  [
+   1.0,
+   0.653,
+   0.377
+  ],
+  [
+   1.0,
+   0.6533,
+   0.3775
+  ],
+  [
+   1.0,
+   0.7926,
+   0.6293
+  ],
+  [
+   1.0,
+   0.9436,
+   0.9926
+  ],
+  [
+   0.674,
+   0.7402,
+   1.0
+  ]
+ ]
+}

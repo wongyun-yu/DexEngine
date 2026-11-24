@@ -1,0 +1,36 @@
+# TACO clips **excluded** from training and data generation (source-defect ledger).
+#
+# Form: <clip><TAB><reason>[<TAB><hand scope>]
+# Empty lines and '#' lines are ignored. Parser: dexengine/core/rules/ledger.py (excluded_from_file).
+#
+# The list is **independent of the combo**: the defects are in the official TACO source, so every hand / combo gives
+# the same result. This file is the repository's statement of these decisions; the reader
+# (dexengine/core/rules/ledger.py retarget_excluded) takes its union with the data-root ledger
+# precompute/taco/diag/excluded_clips.txt, so a data root built from the raw datasets applies them too.
+#
+# Reason of the first three rows (the same kind of defect):
+#   the official TACO `Object_Poses` track is one constant 4x4 over all frames (1 unique row), so
+#   **there is no object pose**. A scan of all 4,634 official tracks finds 3 fully degenerate tracks and
+#   0 near-degenerate ones (ptp<1e-5) — there is no middle ground, so the same 3 come out whatever the threshold.
+#   Put into the scene as is, the object stays at the world origin (about 0.57 m below that session's desk)
+#   and the hand grasps air → contact labels 0 · object-tracking reward meaningless · risk of physics penetration.
+#
+#   Note: in TACO **both hands manipulate an object in every sequence**; only which hand holds the tool
+#     differs (measured: 1,879 of the 2,317 sequences = 81.1% move both objects by more than 1 cm).
+#     So a defect in the tool or in the target is **the same kind** of loss — when the defective object
+#     moves more, the lost signal is only larger
+#     (measured on the 11 `(cut, spatula, pan)` sequences: tool ptp p50 0.2209 · target p50 0.0596).
+#
+#   A reconstruction was tried and dropped for lack of support: deriving the pose by rigid attachment to the hand
+#   gives a reconstruction error of 5.45 cm even on the clip itself and 7.42 cm when transferred — 5-7x the 1.0 cm
+#   contact threshold.
+
+cut_spatula_pan__20230930_004	official Object_Poses tool_090(spatula) track fully degenerate (1 unique row) — no object pose
+cut_spoon_plate__20231027_089	official Object_Poses target_005(plate) track fully degenerate (1 unique row) — no object pose
+cut_spoon_plate__20231027_090	official Object_Poses target_005(plate) track fully degenerate (1 unique row) — no object pose
+brush_brush_bowl__20231005_188	retarget IK failure — the source object quaternion is not unit (qpos_obj_right |norm-1|=0.123 > atol 0.05). Same failure on wuji and DG-5F-S = hand-independent source defect
+hit_hammer_box__20231002_057	no_contact — the raw MANO hand stays 0.5–0.8 m from the moving tool (hand surface–tool surface minimum ≥ 0.5 m · the tool moves 0.3–0.4 m) · with no object manipulation there is no learnable task (measured by taco_side_assign)
+hit_hammer_box__20231002_058	no_contact — the raw MANO hand stays 0.5–0.8 m from the moving tool (hand surface–tool surface minimum ≥ 0.5 m · the tool moves 0.3–0.4 m) · with no object manipulation there is no learnable task (measured by taco_side_assign)
+hit_hammer_helmet__20231002_062	no_contact — the raw MANO hand stays 0.5–0.8 m from the moving tool (hand surface–tool surface minimum ≥ 0.5 m · the tool moves 0.3–0.4 m) · with no object manipulation there is no learnable task (measured by taco_side_assign)
+hit_hammer_helmet__20231002_063	no_contact — the raw MANO hand stays 0.5–0.8 m from the moving tool (hand surface–tool surface minimum ≥ 0.5 m · the tool moves 0.3–0.4 m) · with no object manipulation there is no learnable task (measured by taco_side_assign)
+stir_spatula_plate__20231002_055	no_contact — the raw MANO hand stays 0.5–0.8 m from the moving tool (hand surface–tool surface minimum ≥ 0.5 m · the tool moves 0.3–0.4 m) · with no object manipulation there is no learnable task (measured by taco_side_assign)

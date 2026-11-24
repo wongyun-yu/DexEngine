@@ -1,0 +1,10 @@
+DexEngine
+Copyright 2026 The DexEngine Authors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+Third-party code and assets included in this repository keep their own terms; see THIRD_PARTY.md.
+
+This product includes Wuji Hand 2 hand data (kinematics, inertia, meshes) derived from wuji-description,
+Copyright (c) 2025 Wuji Technology, under the MIT License (assets/robots/vendor/wuji2/LICENSE).
+This product includes a function ported from MV-Adapter (https://github.com/huanngzh/MV-Adapter), under the
+Apache License 2.0 (dexengine/robots/textures/raw_color.py, uv_parameterize_uvatlas).

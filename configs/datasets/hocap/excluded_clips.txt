@@ -1,0 +1,8 @@
+# hocap clips **excluded** by human decision (source-defect ledger, repository statement).
+#
+# Form: <clip><TAB><reason>[<TAB><hand scope>]
+# Empty lines and '#' lines are ignored. Parser: dexengine/core/rules/ledger.py (excluded_from_file). The reader
+# (retarget_excluded) takes these human decisions from here and the pipeline's generator lines from the data root's
+# precompute/hocap/diag/excluded_clips.txt; a human line there that this file lacks dies.
+#
+subject_8-20231024_180651__0_seg02_t1	scene audit defect — dg5f_s SPAWN_LOSS dynamic object G06_3 contact 0.071 s · sharpa_wave SPAWN_LOSS dynamic object G06_3 contact 0.071 s · wuji SPAWN_LOSS dynamic object G06_3 contact 0.071 s · xhand_pro SPAWN_LOSS dynamic object G06_3 contact 0.071 s	*

@@ -1,0 +1,5 @@
+set	dataset	axis	emb	clip	prod_status	tag	prod_wall_s	prod_anchor	prod_dx	prod_dy	prod_yaw	prod_zoff	rules
+ecells	hot3d	hot3d	bimanual	p0018_15ad9743__s01831_e01994	ADOPTED	G1wbq_hot3d_36	84.2	0	-0.0333	-0.6931	-20.0	-0.1225	rules=j:3e56708f168b,b:10f93b1e9c7b,g:0492a7f4b581
+ecells	oakink2	oakink2	bimanual	oakink2_shake_lab_container__scene_03_5fde15c20c15_s003	ADOPTED	G1wbs_oakink2_28	29.6	0	0.035	-0.175	-82.5	-0.1925	rules=j:d7e2093d5e6e,b:10f93b1e9c7b,g:0492a7f4b581
+ecells	oakink2	oakink2	bimanual	oakink2_hold_test_tube__scene_03_824966397a38_s003	UNPROVEN	G1wbs_oakink2_07	110.2						rules=j:d7e2093d5e6e,b:10f93b1e9c7b,g:0492a7f4b581
+ecells	taco	taco	bimanual	dust_roller_pan__20231013_213	UNPROVEN	G1wbo_taco_87	38.6						rules=j:5b06836e2da2,b:03989dd63f1c,g:6beff5073b61

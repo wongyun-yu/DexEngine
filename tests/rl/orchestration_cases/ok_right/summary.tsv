@@ -1,0 +1,2 @@
+run	seq	side	ne	mi	rate	<host>
+RUN	dir:right2	right	4096	1600	SIDECAR	<host>	JUDGE=sidecar

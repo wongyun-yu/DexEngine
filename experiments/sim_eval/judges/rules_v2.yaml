@@ -1,0 +1,73 @@
+# Judge rules v2 of the E5 evaluation (the rules the paper's numbers were judged with) + Pour (a)
+# {'hold_cap_s': 0.2, 'hold_min_s': 0.2, 'eps_rot_deg': 45}; `status` is copied into each judge result.
+status: v2-20261029(checked by a ground-truth replay)+pour_a
+common:
+  cap_mult: 1.5
+  post_success_s: 1.0
+  grasp_N: 1.0
+  release_N: 0.1
+  d_contact_m: 0.01
+  blowup_mps: 5.0
+  jump_m: 0.02
+  jump_s: 0.1
+  off_desk_below_m: 0.05
+  judgeable_requires_ref_pass: true
+  judgeable_requires_frame0_fail: true
+  ref_contact: assume
+  frame_fit_tol_m: 0.001
+lift:
+  v2: {gt: data, rise_frac_gt: 0.5, liftoff_m: 0.01, force_floor_N: 703.6, force_k_gt: 5}   # v2 all_zm_k5 — relative to the data episode: rise · success-window height (common.off_desk_below_m) · median grasp force
+  h_cap_m:
+    one_hand: 0.04
+    two_hand_shared: 0.1
+  h_frac: 0.5
+  hold_min_s: 0.3
+  hold_cap_s: 0.5
+  hold_frac: 0.8
+  require_grasp: true
+  multi: all
+  min_ref_rise_m: 0.02
+put:
+  eps_cap_m: 0.05
+  eps_frac: 0.5
+  static_lin_mps: 0.01
+  static_ang_rps: 0.5
+  hold_s: 0.5
+  require_release: auto
+  min_ref_disp_m: 0.02
+pour:
+  variant: A
+  A:
+    eps_pos_m: 0.05
+    eps_rot_deg: 45
+    hold_min_s: 0.2
+    hold_cap_s: 0.2
+    hold_frac: 0.8
+    key:
+      tilt:
+      - pour
+      - empty
+      - pour_in_lab
+      - pour-in-some
+      nearest:
+      - put-in
+      - put-out
+      - scoop
+  B:
+    tilt_cap_deg: 45
+    tilt_frac: 0.5
+    footprint_margin_m: 0.04
+    hold_s: 0.3
+    ref_radius_delta_m: null
+  target_tip_deg: 45
+sweep:
+  travel: tracked     # v2 — follow the same tool point
+  hold_tool: both     # v2 S1 — only while the hand holds the tool (hand link force > common.grasp_N) · both = sum of both hands | right = right hand only
+  ref: data          # v2 — reference length L_ref = the data episode's (physics) path · same tracked rule
+  L_cap_m: 0.1
+  L_frac: 0.5
+  min_ref_L_m: 0.02
+  coverage_alt:
+    spacing_m: 0.01
+    radius_m: 0.02
+    frac: 0.5

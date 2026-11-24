@@ -1,0 +1,71 @@
+# Code of the Tab. 2 baselines: one block per method.
+#   dir       checkout under $DEXENGINE_E123_ROOT/code (venvs live inside the checkout)
+#   upstream  the authors' repository and the commit our changes start from
+#   used      the local commit(s) the table rows ran
+#   changes   what the local commits change (paths in the checkout)
+# Only the DexMachina and Genesis local commits are exported as patches in this repository (dexmachina/patches/,
+# `git am` onto the upstream commit); the other local commits are not distributed.
+
+SPIDER                       table row: SPIDER@mass_0p2+match (common/mkcmds.py spider_a_nocheck_m0p2 inputs, the matched runner)
+  dir       code/spider
+  upstream  https://github.com/facebookresearch/spider  4471700 (44717007de41cbef7565dff7ff9f4453557a2d3d, main)
+  used      fd77f95 .. db22ab8
+  changes   fd77f95  uv.lock + examples/config/override/taco_sharpa_origin.yaml (the SharpA TACO override the command lines use)
+            ac35bba  MATCH_PHYS switch, default off (spider/match_phys_hook.py, spider/simulators/mjwp.py, mjwp_eq.py) +
+                     the matched SharpA hand shared with EgoEngine (match_phys/sharpa_wave_matched) + its runner
+                     match_phys/run_clips.sh (SPIDER and EgoEngine rows; calls prep_mass_0p2.py --check and score.py)
+            c37c2a0 .. db22ab8  runner staging and card loops only (match_phys/*.sh)
+
+EgoEngine                    table row: EgoEngine@mass_0p2+match (mean of 3 runs)
+  dir       code/egoengine
+  upstream  https://github.com/GaTech-RL2/EgoEngine-CoRL2026  b1363c2 (b1363c2a7c30251e38bf30d3c161b1c9b78938c9, main)
+  used      92c0f39
+  changes   92c0f39  MATCH_PHYS switch, default off (physics-matched EgoEngine; run by SPIDER's match_phys/run_clips.sh)
+  venv      .venv-action as in egoengine/venv_freeze.txt. mujoco-warp = the PyPI release instead of the authors' git pin
+            5d5a645: the pin's sparse path reads MjData.ten_J_rownnz (moved to MjModel in mujoco 3.6) and calls
+            wp.math.sqrt, absent in their pinned warp-lang 1.12.1 — hit when nv > 60 (SharpA bimanual nv = 68).
+            + tensorboard (rsl_rl's default writer, missing from their lock).
+
+FlashCHORD (CHORD)           table row: CHORD
+  dir       code/chord_v2d (FlashCHORD = robotic_grounding/flash_chord)
+  upstream  https://github.com/nvidia-isaac/video_to_data  d7b3bf5 (d7b3bf56eaa3a8137d3b130de8886ddee7a47004, main)
+  used      d7b3bf5, no local change
+  venvs     robotic_grounding/flash_chord/.venv (training, evaluation, and the scorer for every method) · .venv-prep
+            (reconstruct_support_surfaces.py, pxr)
+
+ManipTrans                   table row: ManipTrans@mass_0p2
+  dir       code/maniptrans (+ Isaac Gym Preview 4 in code/isaacgym_pv4, installed into the conda env .conda38)
+  upstream  https://github.com/ManipTrans/ManipTrans  a3d08cf (a3d08cfe3c3a5868a7f057533bcaf759c5af4705, main)
+  used      9ffe82d
+  changes   3d03654  SharpA Wave hand (maniptrans_envs/assets/sharpa_wave, maniptrans_envs/lib/envs/dexhands/sharpa_wave.py
+                     with relative_rotation read from data/maniptrans/maniptrans_calib.json, maniptrans/calib_from_chord.py)
+                     + the TACO/CHORD dataset (main/dataset/taco_chord_dataset_dexhand.py, factory.py; e123_inputs.py owns
+                     the calibration and support-top input paths) + retarget guards; mano2dexhand.py headless ->
+                     create_sim(graphics_device_id=-1)
+            9ffe82d  fixed object mass switch E123_OBJ_MASS_KG (unset = the authors' rule): mass M, inertia of the same
+                     hulls scaled by M / m_shape, logged as [MT_MASS]
+  build     maniptrans/build_torch_sm120.sh (torch 2.3.1 for sm_120 cards); gymtorch is rebuilt inside the job image
+
+DexMachina                   table row: DexMachina@mass_0p2+match
+  dir       code/dexmachina (forks/Genesis, forks/rl_games inside)
+  upstream  https://github.com/MandiZhao/dexmachina  adae5bf (adae5bf620c57723d185b2757ee3ce9656927c20, main)
+  used      m0p2 and original rows: 2ec954f (= dexmachina/patches/0001-0004)
+            m0p2match (the table row): f04de20
+  changes   abd8e24  N rigid objects (multi-object TACO clips) + SharpA Wave hand config            patches/0001
+            f1da2ee  palm<->thumb_MC self-collision exclusion for SharpA (needs the Genesis change)  patches/0002
+            64db242  compute_add multi-object path drops their eval's display dummy env              patches/0003
+            2ec954f  eval object specs as plain strings                                              patches/0004
+            fbf81ad  DEXM_MATCH switch, default off (envs/dexm_match.py: controller decay under the RL cap, hand
+                     friction R/L, mass check)                                                     not exported
+            f04de20  DEXM_MATCH scores the final checkpoint (last weights at the cap)               not exported
+  Genesis   https://github.com/MandiZhao/Genesis  e9df2d8 (branch older) + local 31d3c9b
+            (RigidOptions.excluded_self_link_pairs = patches/genesis_older_0001_excluded_self_link_pairs.patch)
+  rl_games  https://github.com/MandiZhao/rl_games  2c1a771 (master), no local change
+
+FlashDexRetarget             table row: FlashDexRetarget@mass_0p2 (variant fdr/variants/disks_mass_0p2.txt)
+  dir       code/flashdexretarget (conda prefix env .conda311, fdr/setup.sh)
+  upstream  https://github.com/Holiday-Robot/FlashDexRetarget  6f95e13 (6f95e133aa4b7ca6a784eac93725df3de4d41509, main)
+  used      ee8d5be
+  changes   ee8d5be  commands.object.mass_kg (default null = the asset's own mass) + applied markers [FDR_DISKS] and
+                     [FDR_MASS] (config/envs/commands/motion_tracking.yaml, motion_tracking_cfg.py,
+                     src/simulator/isaacsim/scene.py)                                              not exported

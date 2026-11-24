@@ -1,0 +1,47 @@
+# hot3d clips **excluded** by human decision (source-defect ledger, repository statement).
+#
+# Form: <clip><TAB><reason>[<TAB><hand scope>]
+# Empty lines and '#' lines are ignored. Parser: dexengine/core/rules/ledger.py (excluded_from_file). The reader
+# (retarget_excluded) takes these human decisions from here and the pipeline's generator lines from the data root's
+# precompute/hot3d/diag/excluded_clips.txt; a human line there that this file lacks dies.
+#
+p0003_46b683a2__s00044_e00186	scene audit defect — RECV_LOSS tree geometry object coffee_pot: contact 0.0 s · moved 0.0005 m · receiver geom:cellphone (hot3d_xhand_pro/objects_xhand_pro.tsv:9)	xhand_pro
+p0003_47c5f35c__s01164_e01262	scene audit defect — RECV_LOSS tree geometry object spatula_red: contact 0.0 s · moved 0.0001 m · receiver geom:mug_patterned (hot3d_xhand_pro/objects_xhand_pro.tsv:19)	xhand_pro
+p0003_c5515328__s02305_e02392	scene audit defect — SPAWN_LOSS carried object dino_toy: contact 0.0 s · moved 0.0277 m (hot3d_xhand_pro/objects_xhand_pro.tsv:21)	xhand_pro
+p0009_247b5403__s03480_e03596	scene audit defect — SPAWN_LOSS dynamic object can_soup: contact 0.068 s · moved 0.0033 m (hot3d_xhand_pro/objects_xhand_pro.tsv:28)	xhand_pro
+p0009_e71e2f24__s00207_e00266	scene audit defect — RECV_LOSS tree geometry object bowl: contact 0.0 s · moved 0.0002 m · receiver geom:food_vegetables (hot3d_xhand_pro/objects_xhand_pro.tsv:33)	xhand_pro
+p0009_e71e2f24__s01390_e01479	scene audit defect — SPAWN_LOSS touched object bowl: contact 0.1 s · moved 0.0001 m · receiver geom:food_vegetables (hot3d_xhand_pro/objects_xhand_pro.tsv:39)	xhand_pro
+p0009_e71e2f24__s01604_e01681	scene audit defect — RECV_LOSS tree geometry object bowl: contact 0.0 s · moved 0.0001 m · receiver geom:food_vegetables (hot3d_xhand_pro/objects_xhand_pro.tsv:45)	xhand_pro
+p0011_76ea6d47__s00338_e00661	scene audit defect — SPAWN_LOSS carried object potato_masher: contact 0.0 s · moved 0.0219 m (hot3d_xhand_pro/objects_xhand_pro.tsv:55)	xhand_pro
+p0012_44c5f677__s03179_e03330	scene audit defect — SPAWN_LOSS carried object potato_masher: contact 0.0 s · moved 0.0219 m (hot3d_xhand_pro/objects_xhand_pro.tsv:61)	xhand_pro
+p0018_66239f6d__s01591_e01719	scene audit defect — RECV_LOSS tree geometry object keyboard: contact 0.0 s · moved 0.0003 m · receiver geom:aria_small (hot3d_xhand_pro/objects_xhand_pro.tsv:64)	xhand_pro
+p0018_897ba7de__s01816_e01892	scene audit defect — RECV_LOSS tree geometry object dino_toy: contact 0.0 s · moved 0.0002 m · receiver geom:carton_milk (hot3d_xhand_pro/objects_xhand_pro.tsv:69)	xhand_pro
+p0021_a47a9fda__s01314_e02026_seg02_t2	scene audit defect — NO_TREE	xhand_pro
+p0021_47369140__s01239_e01663	defect — HOT3D initial set-up audit a_moving (support rule ES-2026-10-13-recv-touched, old 0 → 1) · stage-1 entry rc 9 for three hands	*
+p0002_59a84a3a__s00359_e00553	defect (excluded, not trained) — the support stand blocks the recorded path (XHand)	xhand_pro
+p0002_5a9cfa51__s03531_e03587	defect (excluded, not trained) — the support stand blocks the recorded path (XHand)	xhand_pro
+p0003_5766eae8__s01168_e01367	defect (excluded, not trained) — the support stand blocks the recorded path (XHand)	xhand_pro
+p0003_5766eae8__s03034_e03111	defect (excluded, not trained) — the support stand blocks the recorded path (XHand)	xhand_pro
+p0003_5766eae8__s03108_e03205	defect (excluded, not trained) — the support stand blocks the recorded path (XHand)	xhand_pro
+p0003_613ab44f__s00162_e00360	defect (excluded, not trained) — the support stand blocks the recorded path (XHand)	xhand_pro
+p0003_b233d76d__s02556_e02679	defect (excluded, not trained) — the support stand blocks the recorded path (XHand)	xhand_pro
+p0009_9e03121a__s00916_e01136	defect (excluded, not trained) — the support stand blocks the recorded path (XHand)	xhand_pro
+p0010_086ff32a__s02615_e02696	defect (excluded, not trained) — the support stand blocks the recorded path (XHand)	xhand_pro
+p0010_21887126__s01920_e02102	defect (excluded, not trained) — the support stand blocks the recorded path (XHand)	xhand_pro
+p0010_21887126__s02377_e02679	defect (excluded, not trained) — the support stand blocks the recorded path (XHand)	xhand_pro
+p0012_b8fc4c1b__s03315_e03419	defect (excluded, not trained) — the support stand blocks the recorded path (XHand)	xhand_pro
+p0013_51741362__s02266_e02366	defect (excluded, not trained) — the support stand blocks the recorded path (XHand)	xhand_pro
+p0002_75103f48__s02513_e02644_t0	defect (rule: no defective clip) — scene audit SUPPORT_MOVED core=1 (all four hands, scene_audit_hot3d.tsv)	*
+p0003_743d3087__s01082_e02058_seg03_t1	scene audit SPAWN_LOSS core=1 (sharpa, scene_audit_hot3d.tsv, oracle d3fdbc2123a977cf) — the mouse the human right hand touched (1.8 % of frames, fingertip 0.6 mm, moved 4.9 mm) falls off_desk under the sharpa placement (desk disc y −0.525); the same clip spawns fine for wuji · excluded, the rule unchanged	sharpa_wave
+p0003_46b683a2__s00044_e00186	scene audit RECV_LOSS(dg5f_s · hot3d.idleR.h31015a.05 · scene_hold 037220d2609e) · RECV_LOSS(sharpa_wave · hot3d.idleR.h31015a.05 · scene_hold a48fe64caf43) · RECV_LOSS(wuji · hot3d.idleR.h31015a.02 · scene_hold cab1f53948af) — owner rule: exclude only with a measured reason · no re-bake while the data is frozen	dg5f_s,sharpa_wave,wuji
+p0003_715615c4__s01716_e01759	scene audit SPAWN_LOSS(dg5f_s · hot3d.idleR.h31015a.06 · scene_hold 037220d2609e) · SPAWN_LOSS(sharpa_wave · hot3d.idleR.h31015a.06 · scene_hold a48fe64caf43) · SPAWN_LOSS(wuji · hot3d.idleR.h31015a.04 · scene_hold cab1f53948af) — owner rule: exclude only with a measured reason · no re-bake while the data is frozen	dg5f_s,sharpa_wave,wuji
+p0003_743d3087__s03227_e03754_seg01_t2	scene audit SPAWN_LOSS(dg5f_s · hot3d.both.h31015a.01 · scene_hold 037220d2609e) — owner rule: exclude only with a measured reason · no re-bake while the data is frozen	dg5f_s
+p0003_c5515328__s02305_e02392	scene audit SPAWN_LOSS(dg5f_s · hot3d.idleR.h31015a.05 · scene_hold 037220d2609e) · SPAWN_LOSS(sharpa_wave · hot3d.idleR.h31015a.02 · scene_hold a48fe64caf43) · SPAWN_LOSS(wuji · hot3d.idleR.h31015a.06 · scene_hold cab1f53948af) — owner rule: exclude only with a measured reason · no re-bake while the data is frozen	dg5f_s,sharpa_wave,wuji
+p0003_c5515328__s03455_e03534	scene audit SPAWN_LOSS(dg5f_s · hot3d.idleR.h31015a.03 · scene_hold 037220d2609e) · SPAWN_LOSS(sharpa_wave · hot3d.idleR.h31015a.03 · scene_hold a48fe64caf43) · SPAWN_LOSS(wuji · hot3d.idleR.h31015a.03 · scene_hold cab1f53948af) — owner rule: exclude only with a measured reason · no re-bake while the data is frozen	dg5f_s,sharpa_wave,wuji
+p0009_911a4ba5__s03278_e03408_t0	scene audit SPAWN_LOSS(sharpa_wave · hot3d.both-sh.h31015a.05 · scene_hold a48fe64caf43) — owner rule: exclude only with a measured reason · no re-bake while the data is frozen	sharpa_wave
+p0009_e71e2f24__s00207_e00266	scene audit RECV_LOSS(dg5f_s · hot3d.idleL.h31015a.08 · scene_hold 037220d2609e) · RECV_LOSS(sharpa_wave · hot3d.idleL.h31015a.08 · scene_hold a48fe64caf43) · RECV_LOSS(wuji · hot3d.idleL.h31015a.08 · scene_hold cab1f53948af) — owner rule: exclude only with a measured reason · no re-bake while the data is frozen	dg5f_s,sharpa_wave,wuji
+p0011_76ea6d47__s00338_e00661	scene audit SPAWN_LOSS(dg5f_s · hot3d.both-sh.h31015a.05 · scene_hold 037220d2609e) — owner rule: exclude only with a measured reason · no re-bake while the data is frozen	dg5f_s
+p0012_44c5f677__s03179_e03330	scene audit SPAWN_LOSS(dg5f_s · hot3d.idleL.h31015a.04 · scene_hold 037220d2609e) · SPAWN_LOSS(sharpa_wave · hot3d.idleL.h31015a.04 · scene_hold a48fe64caf43) · SPAWN_LOSS(wuji · hot3d.idleL.h31015a.04 · scene_hold cab1f53948af) — owner rule: exclude only with a measured reason · no re-bake while the data is frozen	dg5f_s,sharpa_wave,wuji
+p0012_b8fc4c1b__s03237_e03313	scene audit RECV_LOSS(dg5f_s · hot3d.both-sh.h31015a.04 · scene_hold 037220d2609e) · RECV_LOSS(sharpa_wave · hot3d.both-sh.h31015a.09 · scene_hold a48fe64caf43) · RECV_LOSS(wuji · hot3d.both-sh.h31015a.04 · scene_hold cab1f53948af) — owner rule: exclude only with a measured reason · no re-bake while the data is frozen	dg5f_s,sharpa_wave,wuji
+p0018_66239f6d__s01591_e01719	scene audit RECV_LOSS(dg5f_s · hot3d.idleL.h31015a.09 · scene_hold 037220d2609e) · RECV_LOSS(sharpa_wave · hot3d.idleL.h31015a.06 · scene_hold a48fe64caf43) · RECV_LOSS(wuji · hot3d.idleL.h31015a.02 · scene_hold cab1f53948af) — owner rule: exclude only with a measured reason · no re-bake while the data is frozen	dg5f_s,sharpa_wave,wuji
+p0018_897ba7de__s01816_e01892	scene audit RECV_LOSS(dg5f_s · hot3d.idleR.h31015a.06 · scene_hold 037220d2609e) · RECV_LOSS(sharpa_wave · hot3d.idleR.h31015a.03 · scene_hold a48fe64caf43) · RECV_LOSS(wuji · hot3d.idleR.h31015a.01 · scene_hold cab1f53948af) — owner rule: exclude only with a measured reason · no re-bake while the data is frozen	dg5f_s,sharpa_wave,wuji

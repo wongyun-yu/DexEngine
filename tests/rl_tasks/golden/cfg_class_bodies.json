@@ -1,0 +1,5322 @@
+{
+ "terminations bimanual=False": [
+  {
+   "name": "_residual_terminations_cfg.<locals>.ArmResidualTerminationsCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [],
+   "fields": [
+    [
+     "fingertip_exceeded",
+     {
+      "call": "isaaclab.managers.TerminationTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.FingertipTrackingExceeded"
+        }
+       ],
+       [
+        "time_out",
+        "False"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "thresholds_start",
+           {
+            "dict": [
+             [
+              "thumb",
+              "0.08"
+             ],
+             [
+              "index",
+              "0.06"
+             ],
+             [
+              "middle",
+              "0.06"
+             ],
+             [
+              "ring",
+              "0.06"
+             ],
+             [
+              "pinky",
+              "0.06"
+             ]
+            ]
+           }
+          ],
+          [
+           "thresholds_end",
+           {
+            "dict": [
+             [
+              "thumb",
+              "0.04"
+             ],
+             [
+              "index",
+              "0.04"
+             ],
+             [
+              "middle",
+              "0.04"
+             ],
+             [
+              "ring",
+              "0.04"
+             ],
+             [
+              "pinky",
+              "0.04"
+             ]
+            ]
+           }
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "object_tracking",
+     {
+      "call": "isaaclab.managers.TerminationTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.ObjectTrackingExceeded"
+        }
+       ],
+       [
+        "time_out",
+        "False"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "pos_start",
+           "0.05"
+          ],
+          [
+           "pos_end",
+           "0.03"
+          ],
+          [
+           "rot_start_deg",
+           "120.0"
+          ],
+          [
+           "rot_end_deg",
+           "90.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ],
+          [
+           "grace_period",
+           "20"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": false
+  },
+  false,
+  "MASS"
+ ],
+ "terminations bimanual=True": [
+  {
+   "name": "_residual_terminations_cfg.<locals>.ArmResidualTerminationsCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [],
+   "fields": [
+    [
+     "fingertip_exceeded",
+     {
+      "call": "isaaclab.managers.TerminationTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.FingertipTrackingExceeded"
+        }
+       ],
+       [
+        "time_out",
+        "False"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "thresholds_start",
+           {
+            "dict": [
+             [
+              "thumb",
+              "0.08"
+             ],
+             [
+              "index",
+              "0.06"
+             ],
+             [
+              "middle",
+              "0.06"
+             ],
+             [
+              "ring",
+              "0.06"
+             ],
+             [
+              "pinky",
+              "0.06"
+             ]
+            ]
+           }
+          ],
+          [
+           "thresholds_end",
+           {
+            "dict": [
+             [
+              "thumb",
+              "0.04"
+             ],
+             [
+              "index",
+              "0.04"
+             ],
+             [
+              "middle",
+              "0.04"
+             ],
+             [
+              "ring",
+              "0.04"
+             ],
+             [
+              "pinky",
+              "0.04"
+             ]
+            ]
+           }
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "object_tracking",
+     {
+      "call": "isaaclab.managers.TerminationTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.ObjectTrackingExceeded"
+        }
+       ],
+       [
+        "time_out",
+        "False"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "pos_start",
+           "0.05"
+          ],
+          [
+           "pos_end",
+           "0.03"
+          ],
+          [
+           "rot_start_deg",
+           "120.0"
+          ],
+          [
+           "rot_end_deg",
+           "90.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ],
+          [
+           "grace_period",
+           "20"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "object_tracking_left",
+     {
+      "call": "isaaclab.managers.TerminationTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.ObjectTrackingExceeded"
+        }
+       ],
+       [
+        "time_out",
+        "False"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "pos_start",
+           "0.05"
+          ],
+          [
+           "pos_end",
+           "0.03"
+          ],
+          [
+           "rot_start_deg",
+           "120.0"
+          ],
+          [
+           "rot_end_deg",
+           "90.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ],
+          [
+           "object_key",
+           "'object_left'"
+          ],
+          [
+           "grace_period",
+           "20"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "fingertip_exceeded_left",
+     {
+      "call": "isaaclab.managers.TerminationTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.FingertipTrackingExceeded"
+        }
+       ],
+       [
+        "time_out",
+        "False"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "thresholds_start",
+           {
+            "dict": [
+             [
+              "thumb",
+              "0.08"
+             ],
+             [
+              "index",
+              "0.06"
+             ],
+             [
+              "middle",
+              "0.06"
+             ],
+             [
+              "ring",
+              "0.06"
+             ],
+             [
+              "pinky",
+              "0.06"
+             ]
+            ]
+           }
+          ],
+          [
+           "thresholds_end",
+           {
+            "dict": [
+             [
+              "thumb",
+              "0.04"
+             ],
+             [
+              "index",
+              "0.04"
+             ],
+             [
+              "middle",
+              "0.04"
+             ],
+             [
+              "ring",
+              "0.04"
+             ],
+             [
+              "pinky",
+              "0.04"
+             ]
+            ]
+           }
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": false
+  },
+  true,
+  "MASS"
+ ],
+ "scene left_present=False left_uni=False": [
+  {
+   "name": "_build_arm_residual_scene_cfg.<locals>.ArmResidualSceneCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [
+    [
+     "object_right",
+     "RigidObjectCfg"
+    ],
+    [
+     "right_hand_contact",
+     "ContactSensorCfg"
+    ],
+    [
+     "right_thumb_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "right_index_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "right_middle_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "right_ring_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "right_little_obj_s",
+     "ContactSensorCfg"
+    ]
+   ],
+   "fields": [
+    [
+     "desk_leg_0",
+     "None"
+    ],
+    [
+     "desk_leg_1",
+     "None"
+    ],
+    [
+     "desk_leg_2",
+     "None"
+    ],
+    [
+     "desk_leg_3",
+     "None"
+    ],
+    [
+     "ground",
+     {
+      "call": "isaaclab.assets.AssetBaseCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'/World/GroundPlane'"
+       ],
+       [
+        "spawn",
+        {
+         "call": "isaaclab.sim.GroundPlaneCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "physics_material",
+           {
+            "call": "isaaclab.sim.RigidBodyMaterialCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "static_friction",
+              "0.7"
+             ],
+             [
+              "dynamic_friction",
+              "0.7"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "object_right",
+     {
+      "call": "isaaclab.assets.RigidObjectCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/ObjectRight'"
+       ],
+       [
+        "spawn",
+        {
+         "call": "isaaclab.sim.CuboidCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "size",
+           {
+            "tuple": [
+             "0.03",
+             "0.03",
+             "0.03"
+            ]
+           }
+          ],
+          [
+           "visual_material",
+           {
+            "call": "isaaclab.sim.PreviewSurfaceCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "diffuse_color",
+              {
+               "tuple": [
+                "0.8",
+                "0.2",
+                "0.2"
+               ]
+              }
+             ]
+            ]
+           }
+          ],
+          [
+           "rigid_props",
+           {
+            "call": "isaaclab.sim.RigidBodyPropertiesCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "kinematic_enabled",
+              "False"
+             ],
+             [
+              "disable_gravity",
+              "True"
+             ],
+             [
+              "max_linear_velocity",
+              "50.0"
+             ],
+             [
+              "max_angular_velocity",
+              "100.0"
+             ],
+             [
+              "max_depenetration_velocity",
+              "3.0"
+             ]
+            ]
+           }
+          ],
+          [
+           "mass_props",
+           "'MASS'"
+          ],
+          [
+           "collision_props",
+           {
+            "call": "isaaclab.sim.CollisionPropertiesCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "contact_offset",
+              "0.005"
+             ],
+             [
+              "rest_offset",
+              "0.0"
+             ],
+             [
+              "torsional_patch_radius",
+              "0.005"
+             ],
+             [
+              "min_torsional_patch_radius",
+              "0.001"
+             ]
+            ]
+           }
+          ],
+          [
+           "physics_material",
+           {
+            "call": "isaaclab.sim.RigidBodyMaterialCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "static_friction",
+              "2.0"
+             ],
+             [
+              "dynamic_friction",
+              "2.0"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ],
+       [
+        "init_state",
+        {
+         "call": "isaaclab.assets.RigidObjectCfg.InitialStateCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "pos",
+           {
+            "tuple": [
+             "0.0",
+             "0.0",
+             "0.768"
+            ]
+           }
+          ],
+          [
+           "rot",
+           {
+            "tuple": [
+             "1.0",
+             "0.0",
+             "0.0",
+             "0.0"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "right_hand_contact",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/right_hand/(right_palm|right_thumb_tip).*'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ]
+      ]
+     }
+    ],
+    [
+     "right_thumb_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/right_thumb_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectRight/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "right_index_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/right_index_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectRight/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "right_middle_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/right_middle_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectRight/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "right_ring_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/right_ring_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectRight/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "right_little_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/right_little'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectRight/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": false
+  },
+  "arm_x",
+  "left_a"
+ ],
+ "scene left_present=True left_uni=False": [
+  {
+   "name": "_build_arm_residual_scene_cfg.<locals>.ArmResidualSceneCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [
+    [
+     "object_right",
+     "RigidObjectCfg"
+    ],
+    [
+     "right_hand_contact",
+     "ContactSensorCfg"
+    ],
+    [
+     "right_thumb_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "right_index_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "right_middle_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "right_ring_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "right_little_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "object_left",
+     "RigidObjectCfg"
+    ],
+    [
+     "left_hand_contact",
+     "ContactSensorCfg"
+    ],
+    [
+     "left_thumb_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "left_index_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "left_middle_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "left_ring_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "left_little_obj_s",
+     "ContactSensorCfg"
+    ]
+   ],
+   "fields": [
+    [
+     "desk_leg_0",
+     "None"
+    ],
+    [
+     "desk_leg_1",
+     "None"
+    ],
+    [
+     "desk_leg_2",
+     "None"
+    ],
+    [
+     "desk_leg_3",
+     "None"
+    ],
+    [
+     "ground",
+     {
+      "call": "isaaclab.assets.AssetBaseCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'/World/GroundPlane'"
+       ],
+       [
+        "spawn",
+        {
+         "call": "isaaclab.sim.GroundPlaneCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "physics_material",
+           {
+            "call": "isaaclab.sim.RigidBodyMaterialCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "static_friction",
+              "0.7"
+             ],
+             [
+              "dynamic_friction",
+              "0.7"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "object_right",
+     {
+      "call": "isaaclab.assets.RigidObjectCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/ObjectRight'"
+       ],
+       [
+        "spawn",
+        {
+         "call": "isaaclab.sim.CuboidCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "size",
+           {
+            "tuple": [
+             "0.03",
+             "0.03",
+             "0.03"
+            ]
+           }
+          ],
+          [
+           "visual_material",
+           {
+            "call": "isaaclab.sim.PreviewSurfaceCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "diffuse_color",
+              {
+               "tuple": [
+                "0.8",
+                "0.2",
+                "0.2"
+               ]
+              }
+             ]
+            ]
+           }
+          ],
+          [
+           "rigid_props",
+           {
+            "call": "isaaclab.sim.RigidBodyPropertiesCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "kinematic_enabled",
+              "False"
+             ],
+             [
+              "disable_gravity",
+              "True"
+             ],
+             [
+              "max_linear_velocity",
+              "50.0"
+             ],
+             [
+              "max_angular_velocity",
+              "100.0"
+             ],
+             [
+              "max_depenetration_velocity",
+              "3.0"
+             ]
+            ]
+           }
+          ],
+          [
+           "mass_props",
+           "'MASS'"
+          ],
+          [
+           "collision_props",
+           {
+            "call": "isaaclab.sim.CollisionPropertiesCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "contact_offset",
+              "0.005"
+             ],
+             [
+              "rest_offset",
+              "0.0"
+             ],
+             [
+              "torsional_patch_radius",
+              "0.005"
+             ],
+             [
+              "min_torsional_patch_radius",
+              "0.001"
+             ]
+            ]
+           }
+          ],
+          [
+           "physics_material",
+           {
+            "call": "isaaclab.sim.RigidBodyMaterialCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "static_friction",
+              "2.0"
+             ],
+             [
+              "dynamic_friction",
+              "2.0"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ],
+       [
+        "init_state",
+        {
+         "call": "isaaclab.assets.RigidObjectCfg.InitialStateCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "pos",
+           {
+            "tuple": [
+             "0.0",
+             "0.0",
+             "0.768"
+            ]
+           }
+          ],
+          [
+           "rot",
+           {
+            "tuple": [
+             "1.0",
+             "0.0",
+             "0.0",
+             "0.0"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "right_hand_contact",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/right_hand/(right_palm|right_thumb_tip).*'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ]
+      ]
+     }
+    ],
+    [
+     "right_thumb_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/right_thumb_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectRight/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "right_index_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/right_index_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectRight/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "right_middle_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/right_middle_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectRight/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "right_ring_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/right_ring_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectRight/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "right_little_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/right_little'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectRight/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "object_left",
+     {
+      "call": "isaaclab.assets.RigidObjectCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/ObjectLeft'"
+       ],
+       [
+        "spawn",
+        {
+         "call": "isaaclab.sim.CuboidCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "size",
+           {
+            "tuple": [
+             "0.03",
+             "0.03",
+             "0.03"
+            ]
+           }
+          ],
+          [
+           "visual_material",
+           {
+            "call": "isaaclab.sim.PreviewSurfaceCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "diffuse_color",
+              {
+               "tuple": [
+                "0.2",
+                "0.2",
+                "0.8"
+               ]
+              }
+             ]
+            ]
+           }
+          ],
+          [
+           "rigid_props",
+           {
+            "call": "isaaclab.sim.RigidBodyPropertiesCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "kinematic_enabled",
+              "False"
+             ],
+             [
+              "disable_gravity",
+              "True"
+             ],
+             [
+              "max_linear_velocity",
+              "50.0"
+             ],
+             [
+              "max_angular_velocity",
+              "100.0"
+             ],
+             [
+              "max_depenetration_velocity",
+              "3.0"
+             ]
+            ]
+           }
+          ],
+          [
+           "mass_props",
+           "'MASS'"
+          ],
+          [
+           "collision_props",
+           {
+            "call": "isaaclab.sim.CollisionPropertiesCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "contact_offset",
+              "0.005"
+             ],
+             [
+              "rest_offset",
+              "0.0"
+             ],
+             [
+              "torsional_patch_radius",
+              "0.005"
+             ],
+             [
+              "min_torsional_patch_radius",
+              "0.001"
+             ]
+            ]
+           }
+          ],
+          [
+           "physics_material",
+           {
+            "call": "isaaclab.sim.RigidBodyMaterialCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "static_friction",
+              "2.0"
+             ],
+             [
+              "dynamic_friction",
+              "2.0"
+             ]
+            ]
+           }
+          ],
+          [
+           "activate_contact_sensors",
+           "True"
+          ]
+         ]
+        }
+       ],
+       [
+        "init_state",
+        {
+         "call": "isaaclab.assets.RigidObjectCfg.InitialStateCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "pos",
+           {
+            "tuple": [
+             "0.0",
+             "0.0",
+             "0.768"
+            ]
+           }
+          ],
+          [
+           "rot",
+           {
+            "tuple": [
+             "1.0",
+             "0.0",
+             "0.0",
+             "0.0"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "left_hand_contact",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/left_hand/(right_palm|right_thumb_tip).*'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ]
+      ]
+     }
+    ],
+    [
+     "left_thumb_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/left_thumb_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectLeft/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "left_index_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/left_index_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectLeft/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "left_middle_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/left_middle_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectLeft/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "left_ring_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/left_ring_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectLeft/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "left_little_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/left_little'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectLeft/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": false
+  },
+  "arm_x",
+  "left_a"
+ ],
+ "scene left_present=False left_uni=True": [
+  {
+   "name": "_build_arm_residual_scene_cfg.<locals>.ArmResidualSceneCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [
+    [
+     "object_right",
+     "RigidObjectCfg | None"
+    ],
+    [
+     "left_hand_contact",
+     "ContactSensorCfg"
+    ],
+    [
+     "left_thumb_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "left_index_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "left_middle_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "left_ring_obj_s",
+     "ContactSensorCfg"
+    ],
+    [
+     "left_little_obj_s",
+     "ContactSensorCfg"
+    ]
+   ],
+   "fields": [
+    [
+     "desk_leg_0",
+     "None"
+    ],
+    [
+     "desk_leg_1",
+     "None"
+    ],
+    [
+     "desk_leg_2",
+     "None"
+    ],
+    [
+     "desk_leg_3",
+     "None"
+    ],
+    [
+     "ground",
+     {
+      "call": "isaaclab.assets.AssetBaseCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'/World/GroundPlane'"
+       ],
+       [
+        "spawn",
+        {
+         "call": "isaaclab.sim.GroundPlaneCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "physics_material",
+           {
+            "call": "isaaclab.sim.RigidBodyMaterialCfg",
+            "args": [],
+            "kwargs": [
+             [
+              "static_friction",
+              "0.7"
+             ],
+             [
+              "dynamic_friction",
+              "0.7"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "object_right",
+     "None"
+    ],
+    [
+     "left_hand_contact",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/left_hand/(right_palm|right_thumb_tip).*'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ]
+      ]
+     }
+    ],
+    [
+     "left_thumb_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/left_thumb_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectLeft/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "left_index_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/left_index_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectLeft/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "left_middle_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/left_middle_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectLeft/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "left_ring_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/left_ring_tip'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectLeft/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "left_little_obj_s",
+     {
+      "call": "isaaclab.sensors.ContactSensorCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "prim_path",
+        "'{ENV_REGEX_NS}/Robot/left_little'"
+       ],
+       [
+        "update_period",
+        "0.0"
+       ],
+       [
+        "history_length",
+        "0"
+       ],
+       [
+        "filter_prim_paths_expr",
+        {
+         "list": [
+          "'{ENV_REGEX_NS}/ObjectLeft/base_link'"
+         ]
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": false
+  },
+  "arm_x",
+  "left_a"
+ ],
+ "task bimanual=False left_uni=False": {
+  "RightHandTaskObservationsCfg": {
+   "name": "_build_task_observations_cfg.<locals>.RightHandTaskObservationsCfg",
+   "bases": [
+    "object"
+   ],
+   "annotations": [
+    [
+     "policy",
+     "PolicyCfg"
+    ]
+   ],
+   "fields": [
+    [
+     "PolicyCfg",
+     {
+      "name": "_build_task_observations_cfg.<locals>.RightHandTaskObservationsCfg.PolicyCfg",
+      "bases": [
+       "isaaclab.managers.ObservationGroupCfg"
+      ],
+      "annotations": [],
+      "fields": [
+       [
+        "right_hand",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "isaaclab.managers.ManagerTermBase"
+           }
+          ],
+          [
+           "params",
+           {
+            "dict": [
+             [
+              "hand_name",
+              "'right_hand'"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ],
+       [
+        "last_base_action",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "mdp.ReferenceBaseAction"
+           }
+          ],
+          [
+           "params",
+           {
+            "dict": [
+             [
+              "action_key",
+              "'right_hand_joint_pos'"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ],
+       [
+        "actions",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "mdp.last_action"
+           }
+          ]
+         ]
+        }
+       ],
+       [
+        "object_state",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "isaaclab.managers.ManagerTermBase"
+           }
+          ],
+          [
+           "params",
+           {
+            "dict": [
+             [
+              "side",
+              "'right'"
+             ],
+             [
+              "object_key",
+              "'object_right'"
+             ],
+             [
+              "mesh_dir",
+              "''"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ],
+      "post_init": true
+     }
+    ],
+    [
+     "policy",
+     {
+      "call": "isaaclab.managers.ObservationGroupCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ]
+   ],
+   "post_init": false
+  },
+  "RightHandTaskRewardsCfg": {
+   "name": "_build_task_rewards_cfg.<locals>.RightHandTaskRewardsCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [],
+   "fields": [
+    [
+     "action_rate",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardActionRate"
+        }
+       ],
+       [
+        "weight",
+        "0.1"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "1.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_pos",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjPos"
+        }
+       ],
+       [
+        "weight",
+        "2.5"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "80.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_rot",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjRot"
+        }
+       ],
+       [
+        "weight",
+        "2.0"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "3.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_vel",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjVel"
+        }
+       ],
+       [
+        "weight",
+        "0.1"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "1.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_ang_vel",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjAngVel"
+        }
+       ],
+       [
+        "weight",
+        "0.1"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "1.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": false
+  },
+  "RightHandTaskTerminationsCfg": {
+   "name": "_build_task_terminations_cfg.<locals>.RightHandTaskTerminationsCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [],
+   "fields": [
+    [
+     "object_tracking",
+     {
+      "call": "isaaclab.managers.TerminationTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.ObjectTrackingExceeded"
+        }
+       ],
+       [
+        "time_out",
+        "False"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "pos_start",
+           "0.05"
+          ],
+          [
+           "pos_end",
+           "0.03"
+          ],
+          [
+           "rot_start_deg",
+           "120.0"
+          ],
+          [
+           "rot_end_deg",
+           "90.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "object_velocity",
+     "None"
+    ]
+   ],
+   "post_init": false
+  },
+  "RightHandTaskEventCfg": {
+   "name": "_build_task_event_cfg.<locals>.RightHandTaskEventCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [],
+   "fields": [
+    [
+     "randomize_pose",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_initial_pose"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "randomize_fraction",
+           "0.0"
+          ],
+          [
+           "finger_open_deg",
+           "0.0"
+          ],
+          [
+           "wrist_z_max_cm",
+           "0.0"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "gravity_ramp",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.ramp_object_gravity"
+        }
+       ],
+       [
+        "mode",
+        "'interval'"
+       ],
+       [
+        "interval_range_s",
+        {
+         "tuple": [
+          "0.0",
+          "0.0"
+         ]
+        }
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "ramp_steps",
+           "12800"
+          ],
+          [
+           "gravity_magnitude",
+           "9.81"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "friction_decay",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_friction"
+        }
+       ],
+       [
+        "mode",
+        "'interval'"
+       ],
+       [
+        "interval_range_s",
+        {
+         "tuple": [
+          "0.0",
+          "0.0"
+         ]
+        }
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "ramp_steps",
+           "12800"
+          ],
+          [
+           "nominal_friction",
+           "2.0"
+          ],
+          [
+           "initial_multiplier",
+           "3.0"
+          ],
+          [
+           "final_multiplier",
+           "1.0"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "physics_dr_mass",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_mass_at_reset"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "object_name",
+           "'object_right'"
+          ],
+          [
+           "mass_scale_range",
+           {
+            "tuple": [
+             "0.7",
+             "1.3"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "physics_dr_friction",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_friction_at_reset"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "object_name",
+           "'object_right'"
+          ],
+          [
+           "static_friction_scale_range",
+           {
+            "tuple": [
+             "0.5",
+             "1.5"
+            ]
+           }
+          ],
+          [
+           "dynamic_friction_scale_range",
+           {
+            "tuple": [
+             "0.5",
+             "1.5"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "physics_dr_restitution",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_restitution_at_reset"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "object_name",
+           "'object_right'"
+          ],
+          [
+           "restitution_scale_range",
+           {
+            "tuple": [
+             "0.5",
+             "1.5"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "physics_dr_com",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_com_at_reset"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "object_name",
+           "'object_right'"
+          ],
+          [
+           "com_offset_range_m",
+           {
+            "tuple": [
+             "-0.02",
+             "0.02"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": false
+  },
+  "TaskCurriculumCfg": {
+   "name": "_build_task_curriculum_cfg.<locals>.TaskCurriculumCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [],
+   "fields": [
+    [
+     "threshold_tightening",
+     {
+      "call": "isaaclab.managers.CurriculumTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.LinearThresholdSchedule"
+        }
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "anneal_steps",
+           "1"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": false
+  }
+ },
+ "task bimanual=True left_uni=False": {
+  "RightHandTaskObservationsCfg": {
+   "name": "_build_task_observations_cfg.<locals>.RightHandTaskObservationsCfg",
+   "bases": [
+    "object"
+   ],
+   "annotations": [
+    [
+     "policy",
+     "PolicyCfg"
+    ]
+   ],
+   "fields": [
+    [
+     "PolicyCfg",
+     {
+      "name": "_build_task_observations_cfg.<locals>.RightHandTaskObservationsCfg.PolicyCfg",
+      "bases": [
+       "isaaclab.managers.ObservationGroupCfg"
+      ],
+      "annotations": [],
+      "fields": [
+       [
+        "right_hand",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "isaaclab.managers.ManagerTermBase"
+           }
+          ],
+          [
+           "params",
+           {
+            "dict": [
+             [
+              "hand_name",
+              "'right_hand'"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ],
+       [
+        "last_base_action",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "mdp.ReferenceBaseAction"
+           }
+          ],
+          [
+           "params",
+           {
+            "dict": [
+             [
+              "action_key",
+              "'right_hand_joint_pos'"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ],
+       [
+        "left_hand",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "isaaclab.managers.ManagerTermBase"
+           }
+          ],
+          [
+           "params",
+           {
+            "dict": [
+             [
+              "hand_name",
+              "'left_hand'"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ],
+       [
+        "left_last_base_action",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "mdp.ReferenceBaseAction"
+           }
+          ],
+          [
+           "params",
+           {
+            "dict": [
+             [
+              "action_key",
+              "'left_hand_joint_pos'"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ],
+       [
+        "actions",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "mdp.last_action"
+           }
+          ]
+         ]
+        }
+       ],
+       [
+        "object_state",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "isaaclab.managers.ManagerTermBase"
+           }
+          ],
+          [
+           "params",
+           {
+            "dict": [
+             [
+              "side",
+              "'right'"
+             ],
+             [
+              "object_key",
+              "'object_right'"
+             ],
+             [
+              "mesh_dir",
+              "''"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ],
+       [
+        "object_state_left",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "isaaclab.managers.ManagerTermBase"
+           }
+          ],
+          [
+           "params",
+           {
+            "dict": [
+             [
+              "side",
+              "'left'"
+             ],
+             [
+              "object_key",
+              "'object_left'"
+             ],
+             [
+              "mesh_dir",
+              "''"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ],
+      "post_init": true
+     }
+    ],
+    [
+     "policy",
+     {
+      "call": "isaaclab.managers.ObservationGroupCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ]
+   ],
+   "post_init": false
+  },
+  "RightHandTaskRewardsCfg": {
+   "name": "_build_task_rewards_cfg.<locals>.RightHandTaskRewardsCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [],
+   "fields": [
+    [
+     "action_rate",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardActionRate"
+        }
+       ],
+       [
+        "weight",
+        "0.1"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "1.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_pos",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjPos"
+        }
+       ],
+       [
+        "weight",
+        "2.5"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "80.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_rot",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjRot"
+        }
+       ],
+       [
+        "weight",
+        "2.0"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "3.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_vel",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjVel"
+        }
+       ],
+       [
+        "weight",
+        "0.1"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "1.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_ang_vel",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjAngVel"
+        }
+       ],
+       [
+        "weight",
+        "0.1"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "1.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "action_rate_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardActionRate"
+        }
+       ],
+       [
+        "weight",
+        "0.1"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "1.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "residual_l2_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.residual_norm_penalty"
+        }
+       ],
+       [
+        "weight",
+        "0.0"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "deadzone",
+           "0.5"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_pos_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjPos"
+        }
+       ],
+       [
+        "weight",
+        "2.5"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "80.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ],
+          [
+           "object_key",
+           "'object_left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_rot_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjRot"
+        }
+       ],
+       [
+        "weight",
+        "2.0"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "3.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ],
+          [
+           "object_key",
+           "'object_left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_vel_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjVel"
+        }
+       ],
+       [
+        "weight",
+        "0.1"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "1.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ],
+          [
+           "object_key",
+           "'object_left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_ang_vel_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjAngVel"
+        }
+       ],
+       [
+        "weight",
+        "0.1"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "1.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ],
+          [
+           "object_key",
+           "'object_left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "eef_pos_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardEefPos"
+        }
+       ],
+       [
+        "weight",
+        "0.6"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "40.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "eef_rot_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardEefRot"
+        }
+       ],
+       [
+        "weight",
+        "0.6"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "3.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "thumb_tip_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardThumbTip"
+        }
+       ],
+       [
+        "weight",
+        "0.9"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "100.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "index_tip_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardIndexTip"
+        }
+       ],
+       [
+        "weight",
+        "0.8"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "90.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "middle_tip_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardMiddleTip"
+        }
+       ],
+       [
+        "weight",
+        "0.75"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "80.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "ring_tip_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardRingTip"
+        }
+       ],
+       [
+        "weight",
+        "0.6"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "60.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "pinky_tip_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardPinkyTip"
+        }
+       ],
+       [
+        "weight",
+        "0.6"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "60.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "level_1_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardLevel1"
+        }
+       ],
+       [
+        "weight",
+        "0.5"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "50.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "level_2_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardLevel2"
+        }
+       ],
+       [
+        "weight",
+        "0.3"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "40.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "finger_pose_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardFingerPose"
+        }
+       ],
+       [
+        "weight",
+        "0.0"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "4.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "eef_vel_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardEefVel"
+        }
+       ],
+       [
+        "weight",
+        "0.1"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "1.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "joints_vel_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardJointsVel"
+        }
+       ],
+       [
+        "weight",
+        "0.1"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "1.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "power_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardPower"
+        }
+       ],
+       [
+        "weight",
+        "0.2"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "10.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "wrist_power_left",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardWristPower"
+        }
+       ],
+       [
+        "weight",
+        "0.15"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "2.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": false
+  },
+  "RightHandTaskTerminationsCfg": {
+   "name": "_build_task_terminations_cfg.<locals>.RightHandTaskTerminationsCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [],
+   "fields": [
+    [
+     "object_tracking",
+     {
+      "call": "isaaclab.managers.TerminationTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.ObjectTrackingExceeded"
+        }
+       ],
+       [
+        "time_out",
+        "False"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "pos_start",
+           "0.05"
+          ],
+          [
+           "pos_end",
+           "0.03"
+          ],
+          [
+           "rot_start_deg",
+           "120.0"
+          ],
+          [
+           "rot_end_deg",
+           "90.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "object_tracking_left",
+     {
+      "call": "isaaclab.managers.TerminationTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.ObjectTrackingExceeded"
+        }
+       ],
+       [
+        "time_out",
+        "False"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "pos_start",
+           "0.05"
+          ],
+          [
+           "pos_end",
+           "0.03"
+          ],
+          [
+           "rot_start_deg",
+           "120.0"
+          ],
+          [
+           "rot_end_deg",
+           "90.0"
+          ],
+          [
+           "side",
+           "'left'"
+          ],
+          [
+           "object_key",
+           "'object_left'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "object_velocity",
+     "None"
+    ]
+   ],
+   "post_init": false
+  },
+  "RightHandTaskEventCfg": {
+   "name": "_build_task_event_cfg.<locals>.RightHandTaskEventCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [],
+   "fields": [
+    [
+     "randomize_pose",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_initial_pose"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "randomize_fraction",
+           "0.0"
+          ],
+          [
+           "finger_open_deg",
+           "0.0"
+          ],
+          [
+           "wrist_z_max_cm",
+           "0.0"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "gravity_ramp",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.ramp_object_gravity"
+        }
+       ],
+       [
+        "mode",
+        "'interval'"
+       ],
+       [
+        "interval_range_s",
+        {
+         "tuple": [
+          "0.0",
+          "0.0"
+         ]
+        }
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "ramp_steps",
+           "12800"
+          ],
+          [
+           "gravity_magnitude",
+           "9.81"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "friction_decay",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_friction"
+        }
+       ],
+       [
+        "mode",
+        "'interval'"
+       ],
+       [
+        "interval_range_s",
+        {
+         "tuple": [
+          "0.0",
+          "0.0"
+         ]
+        }
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "ramp_steps",
+           "12800"
+          ],
+          [
+           "nominal_friction",
+           "2.0"
+          ],
+          [
+           "initial_multiplier",
+           "3.0"
+          ],
+          [
+           "final_multiplier",
+           "1.0"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "physics_dr_mass",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_mass_at_reset"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "object_name",
+           "'object_right'"
+          ],
+          [
+           "mass_scale_range",
+           {
+            "tuple": [
+             "0.7",
+             "1.3"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "physics_dr_friction",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_friction_at_reset"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "object_name",
+           "'object_right'"
+          ],
+          [
+           "static_friction_scale_range",
+           {
+            "tuple": [
+             "0.5",
+             "1.5"
+            ]
+           }
+          ],
+          [
+           "dynamic_friction_scale_range",
+           {
+            "tuple": [
+             "0.5",
+             "1.5"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "physics_dr_restitution",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_restitution_at_reset"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "object_name",
+           "'object_right'"
+          ],
+          [
+           "restitution_scale_range",
+           {
+            "tuple": [
+             "0.5",
+             "1.5"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "physics_dr_com",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_com_at_reset"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "object_name",
+           "'object_right'"
+          ],
+          [
+           "com_offset_range_m",
+           {
+            "tuple": [
+             "-0.02",
+             "0.02"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": false
+  },
+  "TaskCurriculumCfg": {
+   "name": "_build_task_curriculum_cfg.<locals>.TaskCurriculumCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [],
+   "fields": [
+    [
+     "threshold_tightening",
+     {
+      "call": "isaaclab.managers.CurriculumTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.LinearThresholdSchedule"
+        }
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "anneal_steps",
+           "1"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": false
+  }
+ },
+ "task bimanual=False left_uni=True": {
+  "RightHandTaskObservationsCfg": {
+   "name": "_build_task_observations_cfg.<locals>.RightHandTaskObservationsCfg",
+   "bases": [
+    "object"
+   ],
+   "annotations": [
+    [
+     "policy",
+     "PolicyCfg"
+    ]
+   ],
+   "fields": [
+    [
+     "PolicyCfg",
+     {
+      "name": "_build_task_observations_cfg.<locals>.RightHandTaskObservationsCfg.PolicyCfg",
+      "bases": [
+       "isaaclab.managers.ObservationGroupCfg"
+      ],
+      "annotations": [],
+      "fields": [
+       [
+        "left_hand",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "isaaclab.managers.ManagerTermBase"
+           }
+          ],
+          [
+           "params",
+           {
+            "dict": [
+             [
+              "hand_name",
+              "'left_hand'"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ],
+       [
+        "last_base_action",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "mdp.ReferenceBaseAction"
+           }
+          ],
+          [
+           "params",
+           {
+            "dict": [
+             [
+              "action_key",
+              "'left_hand_joint_pos'"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ],
+       [
+        "actions",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "mdp.last_action"
+           }
+          ]
+         ]
+        }
+       ],
+       [
+        "object_state",
+        {
+         "call": "isaaclab.managers.ObservationTermCfg",
+         "args": [],
+         "kwargs": [
+          [
+           "func",
+           {
+            "class": "isaaclab.managers.ManagerTermBase"
+           }
+          ],
+          [
+           "params",
+           {
+            "dict": [
+             [
+              "side",
+              "'left'"
+             ],
+             [
+              "object_key",
+              "'object_left'"
+             ],
+             [
+              "mesh_dir",
+              "''"
+             ]
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ],
+      "post_init": true
+     }
+    ],
+    [
+     "policy",
+     {
+      "call": "isaaclab.managers.ObservationGroupCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ]
+   ],
+   "post_init": false
+  },
+  "RightHandTaskRewardsCfg": {
+   "name": "_build_task_rewards_cfg.<locals>.RightHandTaskRewardsCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [],
+   "fields": [
+    [
+     "action_rate",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardActionRate"
+        }
+       ],
+       [
+        "weight",
+        "0.1"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "1.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_pos",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjPos"
+        }
+       ],
+       [
+        "weight",
+        "2.5"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "80.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_rot",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjRot"
+        }
+       ],
+       [
+        "weight",
+        "2.0"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "3.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_vel",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjVel"
+        }
+       ],
+       [
+        "weight",
+        "0.1"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "1.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "obj_ang_vel",
+     {
+      "call": "isaaclab.managers.RewardTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.RewardObjAngVel"
+        }
+       ],
+       [
+        "weight",
+        "0.1"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "k",
+           "1.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": false
+  },
+  "RightHandTaskTerminationsCfg": {
+   "name": "_build_task_terminations_cfg.<locals>.RightHandTaskTerminationsCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [],
+   "fields": [
+    [
+     "object_tracking",
+     {
+      "call": "isaaclab.managers.TerminationTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.ObjectTrackingExceeded"
+        }
+       ],
+       [
+        "time_out",
+        "False"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "pos_start",
+           "0.05"
+          ],
+          [
+           "pos_end",
+           "0.03"
+          ],
+          [
+           "rot_start_deg",
+           "120.0"
+          ],
+          [
+           "rot_end_deg",
+           "90.0"
+          ],
+          [
+           "side",
+           "'right'"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "object_velocity",
+     "None"
+    ]
+   ],
+   "post_init": false
+  },
+  "RightHandTaskEventCfg": {
+   "name": "_build_task_event_cfg.<locals>.RightHandTaskEventCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [],
+   "fields": [
+    [
+     "randomize_pose",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_initial_pose"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "randomize_fraction",
+           "0.0"
+          ],
+          [
+           "finger_open_deg",
+           "0.0"
+          ],
+          [
+           "wrist_z_max_cm",
+           "0.0"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "gravity_ramp",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.ramp_object_gravity"
+        }
+       ],
+       [
+        "mode",
+        "'interval'"
+       ],
+       [
+        "interval_range_s",
+        {
+         "tuple": [
+          "0.0",
+          "0.0"
+         ]
+        }
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "ramp_steps",
+           "12800"
+          ],
+          [
+           "gravity_magnitude",
+           "9.81"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "friction_decay",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_friction"
+        }
+       ],
+       [
+        "mode",
+        "'interval'"
+       ],
+       [
+        "interval_range_s",
+        {
+         "tuple": [
+          "0.0",
+          "0.0"
+         ]
+        }
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "ramp_steps",
+           "12800"
+          ],
+          [
+           "nominal_friction",
+           "2.0"
+          ],
+          [
+           "initial_multiplier",
+           "3.0"
+          ],
+          [
+           "final_multiplier",
+           "1.0"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "physics_dr_mass",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_mass_at_reset"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "object_name",
+           "'object_right'"
+          ],
+          [
+           "mass_scale_range",
+           {
+            "tuple": [
+             "0.7",
+             "1.3"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "physics_dr_friction",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_friction_at_reset"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "object_name",
+           "'object_right'"
+          ],
+          [
+           "static_friction_scale_range",
+           {
+            "tuple": [
+             "0.5",
+             "1.5"
+            ]
+           }
+          ],
+          [
+           "dynamic_friction_scale_range",
+           {
+            "tuple": [
+             "0.5",
+             "1.5"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "physics_dr_restitution",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_restitution_at_reset"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "object_name",
+           "'object_right'"
+          ],
+          [
+           "restitution_scale_range",
+           {
+            "tuple": [
+             "0.5",
+             "1.5"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ],
+    [
+     "physics_dr_com",
+     {
+      "call": "isaaclab.managers.EventTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.randomize_object_com_at_reset"
+        }
+       ],
+       [
+        "mode",
+        "'reset'"
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "object_name",
+           "'object_right'"
+          ],
+          [
+           "com_offset_range_m",
+           {
+            "tuple": [
+             "-0.02",
+             "0.02"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": false
+  },
+  "TaskCurriculumCfg": {
+   "name": "_build_task_curriculum_cfg.<locals>.TaskCurriculumCfg",
+   "bases": [
+    "_Base"
+   ],
+   "annotations": [],
+   "fields": [
+    [
+     "threshold_tightening",
+     {
+      "call": "isaaclab.managers.CurriculumTermCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "func",
+        {
+         "class": "mdp.LinearThresholdSchedule"
+        }
+       ],
+       [
+        "params",
+        {
+         "dict": [
+          [
+           "anneal_steps",
+           "1"
+          ]
+         ]
+        }
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": false
+  }
+ },
+ "arm_env relpath='link_head/zed'": {
+  "class": {
+   "name": "_build_train_arm_env_cfg.<locals>.TrainArmEnvCfg",
+   "bases": [
+    "isaaclab.envs.ManagerBasedRLEnvCfg"
+   ],
+   "annotations": [
+    [
+     "scene",
+     "scene_cfg_cls"
+    ],
+    [
+     "observations",
+     "observations_cfg_cls"
+    ],
+    [
+     "actions",
+     "ArmIKActionsCfg"
+    ],
+    [
+     "rewards",
+     "rewards_cfg_cls"
+    ],
+    [
+     "terminations",
+     "terminations_cfg_cls"
+    ],
+    [
+     "events",
+     "ArmTrainEventCfg"
+    ],
+    [
+     "curriculum",
+     "ArmCurriculumCfg"
+    ],
+    [
+     "trajectory",
+     "trajectory_manager_cfg_cls"
+    ]
+   ],
+   "fields": [
+    [
+     "scene",
+     {
+      "call": "SceneCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "num_envs",
+        "4096"
+       ],
+       [
+        "env_spacing",
+        "2.5"
+       ]
+      ]
+     }
+    ],
+    [
+     "observations",
+     {
+      "call": "ObservationsCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ],
+    [
+     "actions",
+     {
+      "call": "ArmIKActionsCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ],
+    [
+     "rewards",
+     {
+      "call": "RewardsCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ],
+    [
+     "terminations",
+     {
+      "call": "TerminationsCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ],
+    [
+     "events",
+     {
+      "call": "ArmTrainEventCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ],
+    [
+     "curriculum",
+     {
+      "call": "ArmCurriculumCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ],
+    [
+     "trajectory",
+     {
+      "call": "TrajectoryManagerCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "data_dir",
+        "'/r/dir'"
+       ],
+       [
+        "sequence_filter",
+        "'rh_main'"
+       ],
+       [
+        "rotate_to_x_forward",
+        "True"
+       ],
+       [
+        "desk_height",
+        "0.76"
+       ],
+       [
+        "traj_offset_z",
+        "0.76"
+       ],
+       [
+        "urdf_hand",
+        "True"
+       ],
+       [
+        "arm_ik_poses_dir_right",
+        "'/arm/ik'"
+       ],
+       [
+        "wrist_poses_dir_right",
+        "'/wrist/poses'"
+       ],
+       [
+        "hand",
+        "'hand_x'"
+       ],
+       [
+        "urdf",
+        "'h.urdf'"
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": true
+  },
+  "robot_call": [
+   "arm_spec_x",
+   "hand_x",
+   [
+    [
+     "prim_path",
+     "'{ENV_REGEX_NS}/Robot'"
+    ],
+    [
+     "init_pos",
+     "(0.0, 0.0, 0.1)"
+    ],
+    [
+     "init_rot",
+     "(1.0, 0.0, 0.0, 0.0)"
+    ],
+    [
+     "finger_armature",
+     "0.01"
+    ],
+    [
+     "mimic_kp",
+     "20.0"
+    ],
+    [
+     "mimic_kd",
+     "2.0"
+    ],
+    [
+     "mimic_armature",
+     "0.02"
+    ],
+    [
+     "rigid_linear_damping",
+     "0.1"
+    ],
+    [
+     "rigid_angular_damping",
+     "0.2"
+    ],
+    [
+     "max_depenetration_velocity",
+     "3.0"
+    ]
+   ]
+  ],
+  "env": {
+   "decimation": 2,
+   "episode_length_s": 30.0,
+   "dt": "0.01",
+   "render_interval": 2,
+   "head_camera": "{ENV_REGEX_NS}/Robot/link_head/zed/HeadCamera"
+  },
+  "stdout": "[TrainArm __post_init__] head_camera -> {ENV_REGEX_NS}/Robot/link_head/zed/HeadCamera\n[TrainArm __post_init__] combo articulation: arm=arm_x hand=hand_x usd=/usd/combo.usd\n"
+ },
+ "arm_env relpath=''": {
+  "class": {
+   "name": "_build_train_arm_env_cfg.<locals>.TrainArmEnvCfg",
+   "bases": [
+    "isaaclab.envs.ManagerBasedRLEnvCfg"
+   ],
+   "annotations": [
+    [
+     "scene",
+     "scene_cfg_cls"
+    ],
+    [
+     "observations",
+     "observations_cfg_cls"
+    ],
+    [
+     "actions",
+     "ArmIKActionsCfg"
+    ],
+    [
+     "rewards",
+     "rewards_cfg_cls"
+    ],
+    [
+     "terminations",
+     "terminations_cfg_cls"
+    ],
+    [
+     "events",
+     "ArmTrainEventCfg"
+    ],
+    [
+     "curriculum",
+     "ArmCurriculumCfg"
+    ],
+    [
+     "trajectory",
+     "trajectory_manager_cfg_cls"
+    ]
+   ],
+   "fields": [
+    [
+     "scene",
+     {
+      "call": "SceneCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "num_envs",
+        "4096"
+       ],
+       [
+        "env_spacing",
+        "2.5"
+       ]
+      ]
+     }
+    ],
+    [
+     "observations",
+     {
+      "call": "ObservationsCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ],
+    [
+     "actions",
+     {
+      "call": "ArmIKActionsCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ],
+    [
+     "rewards",
+     {
+      "call": "RewardsCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ],
+    [
+     "terminations",
+     {
+      "call": "TerminationsCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ],
+    [
+     "events",
+     {
+      "call": "ArmTrainEventCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ],
+    [
+     "curriculum",
+     {
+      "call": "ArmCurriculumCfg",
+      "args": [],
+      "kwargs": []
+     }
+    ],
+    [
+     "trajectory",
+     {
+      "call": "TrajectoryManagerCfg",
+      "args": [],
+      "kwargs": [
+       [
+        "data_dir",
+        "'/r/dir'"
+       ],
+       [
+        "sequence_filter",
+        "'rh_main'"
+       ],
+       [
+        "rotate_to_x_forward",
+        "True"
+       ],
+       [
+        "desk_height",
+        "0.76"
+       ],
+       [
+        "traj_offset_z",
+        "0.76"
+       ],
+       [
+        "urdf_hand",
+        "True"
+       ],
+       [
+        "arm_ik_poses_dir_right",
+        "'/arm/ik'"
+       ],
+       [
+        "wrist_poses_dir_right",
+        "'/wrist/poses'"
+       ],
+       [
+        "hand",
+        "'hand_x'"
+       ],
+       [
+        "urdf",
+        "'h.urdf'"
+       ]
+      ]
+     }
+    ]
+   ],
+   "post_init": true
+  },
+  "robot_call": [
+   "arm_spec_x",
+   "hand_x",
+   [
+    [
+     "prim_path",
+     "'{ENV_REGEX_NS}/Robot'"
+    ],
+    [
+     "init_pos",
+     "(0.0, 0.0, 0.1)"
+    ],
+    [
+     "init_rot",
+     "(1.0, 0.0, 0.0, 0.0)"
+    ],
+    [
+     "finger_armature",
+     "0.01"
+    ],
+    [
+     "mimic_kp",
+     "20.0"
+    ],
+    [
+     "mimic_kd",
+     "2.0"
+    ],
+    [
+     "mimic_armature",
+     "0.02"
+    ],
+    [
+     "rigid_linear_damping",
+     "0.1"
+    ],
+    [
+     "rigid_angular_damping",
+     "0.2"
+    ],
+    [
+     "max_depenetration_velocity",
+     "3.0"
+    ]
+   ]
+  ],
+  "env": {
+   "decimation": 2,
+   "episode_length_s": 30.0,
+   "dt": "0.01",
+   "render_interval": 2,
+   "head_camera": null
+  },
+  "stdout": "[TrainArm __post_init__] head_camera removed (arm=arm_x has no ZED prim path)\n[TrainArm __post_init__] combo articulation: arm=arm_x hand=hand_x usd=/usd/combo.usd\n"
+ }
+}

@@ -1,0 +1,5661 @@
+{
+ "sources": {
+  "polyhaven": {
+   "name": "Poly Haven",
+   "url": "https://polyhaven.com",
+   "license": "CC0 1.0 Universal",
+   "license_url": "https://polyhaven.com/license",
+   "attribution": null
+  },
+  "ambientcg": {
+   "name": "ambientCG",
+   "url": "https://ambientcg.com",
+   "license": "CC0 1.0 Universal",
+   "license_url": "https://docs.ambientcg.com/license/",
+   "attribution": null
+  },
+  "gso": {
+   "name": "Google Scanned Objects (Gazebo Fuel · GoogleResearch)",
+   "url": "https://fuel.gazebosim.org/1.0/GoogleResearch",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0/",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch"
+  }
+ },
+ "created": "2026-10-12T11:43:58+0900",
+ "textures": {
+  "american_walnut_veneer": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "dims_mm": [
+    1000,
+    1000
+   ],
+   "page": "https://polyhaven.com/a/american_walnut_veneer",
+   "files": {
+    "diff": "textures/american_walnut_veneer/american_walnut_veneer_diff_2k.jpg",
+    "rough": "textures/american_walnut_veneer/american_walnut_veneer_rough_2k.jpg",
+    "nor_gl": "textures/american_walnut_veneer/american_walnut_veneer_nor_gl_2k.jpg"
+   },
+   "mean_srgb": [
+    0.4486,
+    0.4323,
+    0.413
+   ]
+  },
+  "ash_veneer": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "dims_mm": [
+    1000,
+    1000
+   ],
+   "page": "https://polyhaven.com/a/ash_veneer",
+   "files": {
+    "diff": "textures/ash_veneer/ash_veneer_diff_2k.jpg",
+    "rough": "textures/ash_veneer/ash_veneer_rough_2k.jpg",
+    "nor_gl": "textures/ash_veneer/ash_veneer_nor_gl_2k.jpg"
+   },
+   "mean_srgb": [
+    0.6743,
+    0.5812,
+    0.4896
+   ]
+  },
+  "bamboo_veneer": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "dims_mm": [
+    1000,
+    1000
+   ],
+   "page": "https://polyhaven.com/a/bamboo_veneer",
+   "files": {
+    "diff": "textures/bamboo_veneer/bamboo_veneer_diff_2k.jpg",
+    "rough": "textures/bamboo_veneer/bamboo_veneer_rough_2k.jpg",
+    "nor_gl": "textures/bamboo_veneer/bamboo_veneer_nor_gl_2k.jpg"
+   },
+   "mean_srgb": [
+    0.8239,
+    0.6796,
+    0.5031
+   ]
+  },
+  "beige_wall_001": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "dims_mm": [
+    3000,
+    3000.000238418579
+   ],
+   "page": "https://polyhaven.com/a/beige_wall_001",
+   "files": {
+    "diff": "textures/beige_wall_001/beige_wall_001_diff_1k.jpg",
+    "rough": "textures/beige_wall_001/beige_wall_001_rough_1k.jpg",
+    "nor_gl": "textures/beige_wall_001/beige_wall_001_nor_gl_1k.jpg"
+   },
+   "mean_srgb": [
+    0.6184,
+    0.549,
+    0.4706
+   ]
+  },
+  "black_walnut_veneer_01": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "dims_mm": [
+    1000,
+    1000
+   ],
+   "page": "https://polyhaven.com/a/black_walnut_veneer_01",
+   "files": {
+    "diff": "textures/black_walnut_veneer_01/black_walnut_veneer_01_diff_2k.jpg",
+    "rough": "textures/black_walnut_veneer_01/black_walnut_veneer_01_rough_2k.jpg",
+    "nor_gl": "textures/black_walnut_veneer_01/black_walnut_veneer_01_nor_gl_2k.jpg"
+   },
+   "mean_srgb": [
+    0.6731,
+    0.5824,
+    0.4961
+   ]
+  },
+  "cherry_veneer": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "dims_mm": [
+    1000,
+    1000
+   ],
+   "page": "https://polyhaven.com/a/cherry_veneer",
+   "files": {
+    "diff": "textures/cherry_veneer/cherry_veneer_diff_2k.jpg",
+    "rough": "textures/cherry_veneer/cherry_veneer_rough_2k.jpg",
+    "nor_gl": "textures/cherry_veneer/cherry_veneer_nor_gl_2k.jpg"
+   },
+   "mean_srgb": [
+    0.8792,
+    0.6891,
+    0.5166
+   ]
+  },
+  "concrete_floor_02": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "dims_mm": [
+    2000,
+    2000
+   ],
+   "page": "https://polyhaven.com/a/concrete_floor_02",
+   "files": {
+    "diff": "textures/concrete_floor_02/concrete_floor_02_diff_1k.jpg",
+    "rough": "textures/concrete_floor_02/concrete_floor_02_rough_1k.jpg",
+    "nor_gl": "textures/concrete_floor_02/concrete_floor_02_nor_gl_1k.jpg"
+   },
+   "mean_srgb": [
+    0.4694,
+    0.4321,
+    0.3559
+   ]
+  },
+  "dirty_carpet": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "dims_mm": [
+    599.9999046325684,
+    599.9999046325684
+   ],
+   "page": "https://polyhaven.com/a/dirty_carpet",
+   "files": {
+    "diff": "textures/dirty_carpet/dirty_carpet_diff_1k.jpg",
+    "rough": "textures/dirty_carpet/dirty_carpet_rough_1k.jpg",
+    "nor_gl": "textures/dirty_carpet/dirty_carpet_nor_gl_1k.jpg"
+   },
+   "mean_srgb": [
+    0.2072,
+    0.1838,
+    0.1444
+   ]
+  },
+  "floor_tiles_06": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "dims_mm": [
+    3000,
+    3000
+   ],
+   "page": "https://polyhaven.com/a/floor_tiles_06",
+   "files": {
+    "diff": "textures/floor_tiles_06/floor_tiles_06_diff_1k.jpg",
+    "rough": "textures/floor_tiles_06/floor_tiles_06_rough_1k.jpg",
+    "nor_gl": "textures/floor_tiles_06/floor_tiles_06_nor_gl_1k.jpg"
+   },
+   "mean_srgb": [
+    0.4762,
+    0.4366,
+    0.4196
+   ]
+  },
+  "grey_cartago_01": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "dims_mm": [
+    750.0000596046448,
+    750.0000596046448
+   ],
+   "page": "https://polyhaven.com/a/grey_cartago_01",
+   "files": {
+    "diff": "textures/grey_cartago_01/grey_cartago_01_diff_1k.jpg",
+    "rough": "textures/grey_cartago_01/grey_cartago_01_rough_1k.jpg",
+    "nor_gl": "textures/grey_cartago_01/grey_cartago_01_nor_gl_1k.jpg"
+   },
+   "mean_srgb": [
+    0.3775,
+    0.3207,
+    0.2469
+   ]
+  },
+  "grey_oak_veneer_01": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "dims_mm": [
+    1000,
+    1000
+   ],
+   "page": "https://polyhaven.com/a/grey_oak_veneer_01",
+   "files": {
+    "diff": "textures/grey_oak_veneer_01/grey_oak_veneer_01_diff_2k.jpg",
+    "rough": "textures/grey_oak_veneer_01/grey_oak_veneer_01_rough_2k.jpg",
+    "nor_gl": "textures/grey_oak_veneer_01/grey_oak_veneer_01_nor_gl_2k.jpg"
+   },
+   "mean_srgb": [
+    0.8032,
+    0.7183,
+    0.6373
+   ]
+  },
+  "grey_plaster": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "dims_mm": [
+    1000,
+    1000
+   ],
+   "page": "https://polyhaven.com/a/grey_plaster",
+   "files": {
+    "diff": "textures/grey_plaster/grey_plaster_diff_1k.jpg",
+    "rough": "textures/grey_plaster/grey_plaster_rough_1k.jpg",
+    "nor_gl": "textures/grey_plaster/grey_plaster_nor_gl_1k.jpg"
+   },
+   "mean_srgb": [
+    0.5495,
+    0.5266,
+    0.4572
+   ]
+  },
+  "herringbone_parquet": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "dims_mm": [
+    3400.0000953674316,
+    3400.0000953674316
+   ],
+   "page": "https://polyhaven.com/a/herringbone_parquet",
+   "files": {
+    "diff": "textures/herringbone_parquet/herringbone_parquet_diff_1k.jpg",
+    "rough": "textures/herringbone_parquet/herringbone_parquet_rough_1k.jpg",
+    "nor_gl": "textures/herringbone_parquet/herringbone_parquet_nor_gl_1k.jpg"
+   },
+   "mean_srgb": [
+    0.5759,
+    0.4386,
+    0.3023
+   ]
+  },
+  "kitchen_wood": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "dims_mm": [
+    600.0000238418579,
+    600.0000238418579
+   ],
+   "page": "https://polyhaven.com/a/kitchen_wood",
+   "files": {
+    "diff": "textures/kitchen_wood/kitchen_wood_diff_2k.jpg",
+    "rough": "textures/kitchen_wood/kitchen_wood_rough_2k.jpg",
+    "nor_gl": "textures/kitchen_wood/kitchen_wood_nor_gl_2k.jpg"
+   },
+   "mean_srgb": [
+    0.4376,
+    0.3652,
+    0.2846
+   ]
+  },
+  "laminate_floor_02": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "dims_mm": [
+    1699.9999284744263,
+    1700.0000476837158
+   ],
+   "page": "https://polyhaven.com/a/laminate_floor_02",
+   "files": {
+    "diff": "textures/laminate_floor_02/laminate_floor_02_diff_1k.jpg",
+    "rough": "textures/laminate_floor_02/laminate_floor_02_rough_1k.jpg",
+    "nor_gl": "textures/laminate_floor_02/laminate_floor_02_nor_gl_1k.jpg"
+   },
+   "mean_srgb": [
+    0.609,
+    0.5035,
+    0.3899
+   ]
+  },
+  "oak_veneer_01": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "dims_mm": [
+    1830.0000429153442,
+    1830.0000429153442
+   ],
+   "page": "https://polyhaven.com/a/oak_veneer_01",
+   "files": {
+    "diff": "textures/oak_veneer_01/oak_veneer_01_diff_2k.jpg",
+    "rough": "textures/oak_veneer_01/oak_veneer_01_rough_2k.jpg",
+    "nor_gl": "textures/oak_veneer_01/oak_veneer_01_nor_gl_2k.jpg"
+   },
+   "mean_srgb": [
+    0.6324,
+    0.4944,
+    0.3425
+   ]
+  },
+  "painted_brick": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "dims_mm": [
+    1800.0000715255737,
+    1800.0000715255737
+   ],
+   "page": "https://polyhaven.com/a/painted_brick",
+   "files": {
+    "diff": "textures/painted_brick/painted_brick_diff_1k.jpg",
+    "rough": "textures/painted_brick/painted_brick_rough_1k.jpg",
+    "nor_gl": "textures/painted_brick/painted_brick_nor_gl_1k.jpg"
+   },
+   "mean_srgb": [
+    0.4699,
+    0.623,
+    0.6684
+   ]
+  },
+  "plank_flooring": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "dims_mm": [
+    1339.9999141693115,
+    1340.0001525878906
+   ],
+   "page": "https://polyhaven.com/a/plank_flooring",
+   "files": {
+    "diff": "textures/plank_flooring/plank_flooring_diff_1k.jpg",
+    "rough": "textures/plank_flooring/plank_flooring_rough_1k.jpg",
+    "nor_gl": "textures/plank_flooring/plank_flooring_nor_gl_1k.jpg"
+   },
+   "mean_srgb": [
+    0.4431,
+    0.3196,
+    0.2259
+   ]
+  },
+  "smooth_concrete_floor": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "dims_mm": [
+    2000,
+    2000
+   ],
+   "page": "https://polyhaven.com/a/smooth_concrete_floor",
+   "files": {
+    "diff": "textures/smooth_concrete_floor/smooth_concrete_floor_diff_1k.jpg",
+    "rough": "textures/smooth_concrete_floor/smooth_concrete_floor_rough_1k.jpg",
+    "nor_gl": "textures/smooth_concrete_floor/smooth_concrete_floor_nor_gl_1k.jpg"
+   },
+   "mean_srgb": [
+    0.333,
+    0.2364,
+    0.1597
+   ]
+  },
+  "terrazzo_tiles": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "dims_mm": [
+    2000,
+    2000
+   ],
+   "page": "https://polyhaven.com/a/terrazzo_tiles",
+   "files": {
+    "diff": "textures/terrazzo_tiles/terrazzo_tiles_diff_1k.jpg",
+    "rough": "textures/terrazzo_tiles/terrazzo_tiles_rough_1k.jpg",
+    "nor_gl": "textures/terrazzo_tiles/terrazzo_tiles_nor_gl_1k.jpg"
+   },
+   "mean_srgb": [
+    0.5374,
+    0.4261,
+    0.3402
+   ]
+  },
+  "white_plaster_02": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "dims_mm": [
+    1000,
+    1000
+   ],
+   "page": "https://polyhaven.com/a/white_plaster_02",
+   "files": {
+    "diff": "textures/white_plaster_02/white_plaster_02_diff_1k.jpg",
+    "rough": "textures/white_plaster_02/white_plaster_02_rough_1k.jpg",
+    "nor_gl": "textures/white_plaster_02/white_plaster_02_nor_gl_1k.jpg"
+   },
+   "mean_srgb": [
+    0.5556,
+    0.5306,
+    0.4799
+   ]
+  },
+  "Bricks060": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Bricks060/Bricks060_Color.jpg",
+    "rough": "textures/Bricks060/Bricks060_Roughness.jpg",
+    "nor_gl": "textures/Bricks060/Bricks060_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1050.0,
+    1050.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Bricks",
+   "page": "https://ambientcg.com/a/Bricks060",
+   "mean_srgb": [
+    0.8648,
+    0.8423,
+    0.827
+   ]
+  },
+  "Bricks066": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Bricks066/Bricks066_Color.jpg",
+    "rough": "textures/Bricks066/Bricks066_Roughness.jpg",
+    "nor_gl": "textures/Bricks066/Bricks066_NormalGL.jpg"
+   },
+   "dims_mm": [
+    2400.0,
+    2400.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Bricks",
+   "page": "https://ambientcg.com/a/Bricks066",
+   "mean_srgb": [
+    0.5241,
+    0.5239,
+    0.5211
+   ]
+  },
+  "Bricks075A": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Bricks075A/Bricks075A_Color.jpg",
+    "rough": "textures/Bricks075A/Bricks075A_Roughness.jpg",
+    "nor_gl": "textures/Bricks075A/Bricks075A_NormalGL.jpg"
+   },
+   "dims_mm": [
+    2000.0,
+    1000.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Bricks",
+   "page": "https://ambientcg.com/a/Bricks075A",
+   "mean_srgb": [
+    0.5544,
+    0.5147,
+    0.4298
+   ]
+  },
+  "Carpet001": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Carpet001/Carpet001_Color.jpg",
+    "rough": "textures/Carpet001/Carpet001_Roughness.jpg",
+    "nor_gl": "textures/Carpet001/Carpet001_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Carpet",
+   "page": "https://ambientcg.com/a/Carpet001",
+   "mean_srgb": [
+    0.5775,
+    0.5687,
+    0.5433
+   ]
+  },
+  "Carpet011": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Carpet011/Carpet011_Color.jpg",
+    "rough": "textures/Carpet011/Carpet011_Roughness.jpg",
+    "nor_gl": "textures/Carpet011/Carpet011_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Carpet",
+   "page": "https://ambientcg.com/a/Carpet011",
+   "mean_srgb": [
+    0.6657,
+    0.6222,
+    0.3737
+   ]
+  },
+  "Carpet012": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Carpet012/Carpet012_Color.jpg",
+    "rough": "textures/Carpet012/Carpet012_Roughness.jpg",
+    "nor_gl": "textures/Carpet012/Carpet012_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Carpet",
+   "page": "https://ambientcg.com/a/Carpet012",
+   "mean_srgb": [
+    0.2046,
+    0.2308,
+    0.2839
+   ]
+  },
+  "Carpet013": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Carpet013/Carpet013_Color.jpg",
+    "rough": "textures/Carpet013/Carpet013_Roughness.jpg",
+    "nor_gl": "textures/Carpet013/Carpet013_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Carpet",
+   "page": "https://ambientcg.com/a/Carpet013",
+   "mean_srgb": [
+    0.6584,
+    0.3589,
+    0.3542
+   ]
+  },
+  "Carpet014": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Carpet014/Carpet014_Color.jpg",
+    "rough": "textures/Carpet014/Carpet014_Roughness.jpg",
+    "nor_gl": "textures/Carpet014/Carpet014_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Carpet",
+   "page": "https://ambientcg.com/a/Carpet014",
+   "mean_srgb": [
+    0.7502,
+    0.7295,
+    0.6967
+   ]
+  },
+  "Carpet016": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Carpet016/Carpet016_Color.jpg",
+    "rough": "textures/Carpet016/Carpet016_Roughness.jpg",
+    "nor_gl": "textures/Carpet016/Carpet016_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1700.0,
+    1700.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Carpet",
+   "page": "https://ambientcg.com/a/Carpet016",
+   "mean_srgb": [
+    0.7357,
+    0.6907,
+    0.5778
+   ]
+  },
+  "Chipboard003": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Chipboard003/Chipboard003_Color.jpg",
+    "rough": "textures/Chipboard003/Chipboard003_Roughness.jpg",
+    "nor_gl": "textures/Chipboard003/Chipboard003_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Chipboard",
+   "page": "https://ambientcg.com/a/Chipboard003",
+   "mean_srgb": [
+    0.7987,
+    0.5763,
+    0.3368
+   ]
+  },
+  "Chipboard004": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Chipboard004/Chipboard004_Color.jpg",
+    "rough": "textures/Chipboard004/Chipboard004_Roughness.jpg",
+    "nor_gl": "textures/Chipboard004/Chipboard004_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Chipboard",
+   "page": "https://ambientcg.com/a/Chipboard004",
+   "mean_srgb": [
+    0.82,
+    0.6536,
+    0.449
+   ]
+  },
+  "Concrete030": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Concrete030/Concrete030_Color.jpg",
+    "rough": "textures/Concrete030/Concrete030_Roughness.jpg",
+    "nor_gl": "textures/Concrete030/Concrete030_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Concrete",
+   "page": "https://ambientcg.com/a/Concrete030",
+   "mean_srgb": [
+    0.3903,
+    0.376,
+    0.3614
+   ]
+  },
+  "Concrete031": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Concrete031/Concrete031_Color.jpg",
+    "rough": "textures/Concrete031/Concrete031_Roughness.jpg",
+    "nor_gl": "textures/Concrete031/Concrete031_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Concrete",
+   "page": "https://ambientcg.com/a/Concrete031",
+   "mean_srgb": [
+    0.3901,
+    0.3786,
+    0.3593
+   ]
+  },
+  "Concrete034": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Concrete034/Concrete034_Color.jpg",
+    "rough": "textures/Concrete034/Concrete034_Roughness.jpg",
+    "nor_gl": "textures/Concrete034/Concrete034_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1100.0,
+    550.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Concrete",
+   "page": "https://ambientcg.com/a/Concrete034",
+   "mean_srgb": [
+    0.7228,
+    0.7228,
+    0.7228
+   ]
+  },
+  "Concrete042A": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Concrete042A/Concrete042A_Color.jpg",
+    "rough": "textures/Concrete042A/Concrete042A_Roughness.jpg",
+    "nor_gl": "textures/Concrete042A/Concrete042A_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Concrete",
+   "page": "https://ambientcg.com/a/Concrete042A",
+   "mean_srgb": [
+    0.3801,
+    0.3643,
+    0.3493
+   ]
+  },
+  "Cork001": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Cork001/Cork001_Color.jpg",
+    "rough": "textures/Cork001/Cork001_Roughness.jpg",
+    "nor_gl": "textures/Cork001/Cork001_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Cork",
+   "page": "https://ambientcg.com/a/Cork001",
+   "mean_srgb": [
+    0.7525,
+    0.5078,
+    0.4071
+   ]
+  },
+  "Cork002": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Cork002/Cork002_Color.jpg",
+    "rough": "textures/Cork002/Cork002_Roughness.jpg",
+    "nor_gl": "textures/Cork002/Cork002_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Cork",
+   "page": "https://ambientcg.com/a/Cork002",
+   "mean_srgb": [
+    0.6858,
+    0.5093,
+    0.3976
+   ]
+  },
+  "Fabric019": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Fabric019/Fabric019_Color.jpg",
+    "rough": "textures/Fabric019/Fabric019_Roughness.jpg",
+    "nor_gl": "textures/Fabric019/Fabric019_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Fabric",
+   "page": "https://ambientcg.com/a/Fabric019",
+   "mean_srgb": [
+    0.9429,
+    0.9429,
+    0.9429
+   ]
+  },
+  "Fabric030": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Fabric030/Fabric030_Color.jpg",
+    "rough": "textures/Fabric030/Fabric030_Roughness.jpg",
+    "nor_gl": "textures/Fabric030/Fabric030_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Fabric",
+   "page": "https://ambientcg.com/a/Fabric030",
+   "mean_srgb": [
+    0.3582,
+    0.356,
+    0.3586
+   ]
+  },
+  "Fabric036": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Fabric036/Fabric036_Color.jpg",
+    "rough": "textures/Fabric036/Fabric036_Roughness.jpg",
+    "nor_gl": "textures/Fabric036/Fabric036_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Fabric",
+   "page": "https://ambientcg.com/a/Fabric036",
+   "mean_srgb": [
+    0.7294,
+    0.7294,
+    0.7294
+   ]
+  },
+  "Fabric061": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Fabric061/Fabric061_Color.jpg",
+    "rough": "textures/Fabric061/Fabric061_Roughness.jpg",
+    "nor_gl": "textures/Fabric061/Fabric061_NormalGL.jpg"
+   },
+   "dims_mm": [
+    400.0,
+    400.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Fabric",
+   "page": "https://ambientcg.com/a/Fabric061",
+   "mean_srgb": [
+    0.553,
+    0.5331,
+    0.5124
+   ]
+  },
+  "Leather026": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Leather026/Leather026_Color.jpg",
+    "rough": "textures/Leather026/Leather026_Roughness.jpg",
+    "nor_gl": "textures/Leather026/Leather026_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Leather",
+   "page": "https://ambientcg.com/a/Leather026",
+   "mean_srgb": [
+    0.1002,
+    0.0964,
+    0.0955
+   ]
+  },
+  "Leather030": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Leather030/Leather030_Color.jpg",
+    "rough": "textures/Leather030/Leather030_Roughness.jpg",
+    "nor_gl": "textures/Leather030/Leather030_NormalGL.jpg"
+   },
+   "dims_mm": [
+    450.0,
+    450.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Leather",
+   "page": "https://ambientcg.com/a/Leather030",
+   "mean_srgb": [
+    0.2273,
+    0.1543,
+    0.129
+   ]
+  },
+  "Leather037": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Leather037/Leather037_Color.jpg",
+    "rough": "textures/Leather037/Leather037_Roughness.jpg",
+    "nor_gl": "textures/Leather037/Leather037_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Leather",
+   "page": "https://ambientcg.com/a/Leather037",
+   "mean_srgb": [
+    0.392,
+    0.2194,
+    0.1605
+   ]
+  },
+  "Marble006": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Marble006/Marble006_Color.jpg",
+    "rough": "textures/Marble006/Marble006_Roughness.jpg",
+    "nor_gl": "textures/Marble006/Marble006_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Marble",
+   "page": "https://ambientcg.com/a/Marble006",
+   "mean_srgb": [
+    0.0987,
+    0.0994,
+    0.0997
+   ]
+  },
+  "Marble012": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Marble012/Marble012_Color.jpg",
+    "rough": "textures/Marble012/Marble012_Roughness.jpg",
+    "nor_gl": "textures/Marble012/Marble012_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Marble",
+   "page": "https://ambientcg.com/a/Marble012",
+   "mean_srgb": [
+    0.6761,
+    0.6799,
+    0.7139
+   ]
+  },
+  "Marble014": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Marble014/Marble014_Color.jpg",
+    "rough": "textures/Marble014/Marble014_Roughness.jpg",
+    "nor_gl": "textures/Marble014/Marble014_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Marble",
+   "page": "https://ambientcg.com/a/Marble014",
+   "mean_srgb": [
+    0.818,
+    0.767,
+    0.6927
+   ]
+  },
+  "Marble016": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Marble016/Marble016_Color.jpg",
+    "rough": "textures/Marble016/Marble016_Roughness.jpg",
+    "nor_gl": "textures/Marble016/Marble016_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Marble",
+   "page": "https://ambientcg.com/a/Marble016",
+   "mean_srgb": [
+    0.2401,
+    0.2458,
+    0.2429
+   ]
+  },
+  "Paint001": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Paint001/Paint001_Color.jpg",
+    "rough": "textures/Paint001/Paint001_Roughness.jpg",
+    "nor_gl": "textures/Paint001/Paint001_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Paint",
+   "page": "https://ambientcg.com/a/Paint001",
+   "mean_srgb": [
+    0.8708,
+    0.3009,
+    0.1217
+   ]
+  },
+  "Paint002": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Paint002/Paint002_Color.jpg",
+    "rough": "textures/Paint002/Paint002_Roughness.jpg",
+    "nor_gl": "textures/Paint002/Paint002_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Paint",
+   "page": "https://ambientcg.com/a/Paint002",
+   "mean_srgb": [
+    0.1165,
+    0.594,
+    0.8674
+   ]
+  },
+  "Paint003": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Paint003/Paint003_Color.jpg",
+    "rough": "textures/Paint003/Paint003_Roughness.jpg",
+    "nor_gl": "textures/Paint003/Paint003_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Paint",
+   "page": "https://ambientcg.com/a/Paint003",
+   "mean_srgb": [
+    0.1209,
+    0.8907,
+    0.3478
+   ]
+  },
+  "Paint004": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Paint004/Paint004_Color.jpg",
+    "rough": "textures/Paint004/Paint004_Roughness.jpg",
+    "nor_gl": "textures/Paint004/Paint004_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Paint",
+   "page": "https://ambientcg.com/a/Paint004",
+   "mean_srgb": [
+    0.7602,
+    0.8898,
+    0.9089
+   ]
+  },
+  "Paint005": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Paint005/Paint005_Color.jpg",
+    "rough": "textures/Paint005/Paint005_Roughness.jpg",
+    "nor_gl": "textures/Paint005/Paint005_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Paint",
+   "page": "https://ambientcg.com/a/Paint005",
+   "mean_srgb": [
+    0.0089,
+    0.0894,
+    0.0958
+   ]
+  },
+  "PaintedBricks001": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedBricks001/PaintedBricks001_Color.jpg",
+    "rough": "textures/PaintedBricks001/PaintedBricks001_Roughness.jpg",
+    "nor_gl": "textures/PaintedBricks001/PaintedBricks001_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1550.0,
+    1550.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Painted Bricks",
+   "page": "https://ambientcg.com/a/PaintedBricks001",
+   "mean_srgb": [
+    0.1195,
+    0.3299,
+    0.4702
+   ]
+  },
+  "PaintedBricks003": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedBricks003/PaintedBricks003_Color.jpg",
+    "rough": "textures/PaintedBricks003/PaintedBricks003_Roughness.jpg",
+    "nor_gl": "textures/PaintedBricks003/PaintedBricks003_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1550.0,
+    1550.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Painted Bricks",
+   "page": "https://ambientcg.com/a/PaintedBricks003",
+   "mean_srgb": [
+    0.4,
+    0.5568,
+    0.4196
+   ]
+  },
+  "PaintedBricks004": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedBricks004/PaintedBricks004_Color.jpg",
+    "rough": "textures/PaintedBricks004/PaintedBricks004_Roughness.jpg",
+    "nor_gl": "textures/PaintedBricks004/PaintedBricks004_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1550.0,
+    1550.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Painted Bricks",
+   "page": "https://ambientcg.com/a/PaintedBricks004",
+   "mean_srgb": [
+    0.596,
+    0.6469,
+    0.6783
+   ]
+  },
+  "PaintedPlaster001": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedPlaster001/PaintedPlaster001_Color.jpg",
+    "rough": "textures/PaintedPlaster001/PaintedPlaster001_Roughness.jpg",
+    "nor_gl": "textures/PaintedPlaster001/PaintedPlaster001_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Painted Plaster",
+   "page": "https://ambientcg.com/a/PaintedPlaster001",
+   "mean_srgb": [
+    0.7865,
+    0.243,
+    0.1993
+   ]
+  },
+  "PaintedPlaster002": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedPlaster002/PaintedPlaster002_Color.jpg",
+    "rough": "textures/PaintedPlaster002/PaintedPlaster002_Roughness.jpg",
+    "nor_gl": "textures/PaintedPlaster002/PaintedPlaster002_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Painted Plaster",
+   "page": "https://ambientcg.com/a/PaintedPlaster002",
+   "mean_srgb": [
+    0.3565,
+    0.5003,
+    0.7815
+   ]
+  },
+  "PaintedPlaster003": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedPlaster003/PaintedPlaster003_Color.jpg",
+    "rough": "textures/PaintedPlaster003/PaintedPlaster003_Roughness.jpg",
+    "nor_gl": "textures/PaintedPlaster003/PaintedPlaster003_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Painted Plaster",
+   "page": "https://ambientcg.com/a/PaintedPlaster003",
+   "mean_srgb": [
+    0.3282,
+    0.4836,
+    0.3452
+   ]
+  },
+  "PaintedPlaster004": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedPlaster004/PaintedPlaster004_Color.jpg",
+    "rough": "textures/PaintedPlaster004/PaintedPlaster004_Roughness.jpg",
+    "nor_gl": "textures/PaintedPlaster004/PaintedPlaster004_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Painted Plaster",
+   "page": "https://ambientcg.com/a/PaintedPlaster004",
+   "mean_srgb": [
+    0.7841,
+    0.6518,
+    0.2541
+   ]
+  },
+  "PaintedPlaster005": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedPlaster005/PaintedPlaster005_Color.jpg",
+    "rough": "textures/PaintedPlaster005/PaintedPlaster005_Roughness.jpg",
+    "nor_gl": "textures/PaintedPlaster005/PaintedPlaster005_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Painted Plaster",
+   "page": "https://ambientcg.com/a/PaintedPlaster005",
+   "mean_srgb": [
+    0.8142,
+    0.5737,
+    0.1596
+   ]
+  },
+  "PaintedPlaster017": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedPlaster017/PaintedPlaster017_Color.jpg",
+    "rough": "textures/PaintedPlaster017/PaintedPlaster017_Roughness.jpg",
+    "nor_gl": "textures/PaintedPlaster017/PaintedPlaster017_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Painted Plaster",
+   "page": "https://ambientcg.com/a/PaintedPlaster017",
+   "mean_srgb": [
+    0.7448,
+    0.7477,
+    0.7324
+   ]
+  },
+  "PaintedWood006C": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedWood006C/PaintedWood006C_Color.jpg",
+    "rough": "textures/PaintedWood006C/PaintedWood006C_Roughness.jpg",
+    "nor_gl": "textures/PaintedWood006C/PaintedWood006C_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Painted Wood",
+   "page": "https://ambientcg.com/a/PaintedWood006C",
+   "mean_srgb": [
+    0.7804,
+    0.6553,
+    0.4915
+   ]
+  },
+  "PaintedWood007A": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedWood007A/PaintedWood007A_Color.jpg",
+    "rough": "textures/PaintedWood007A/PaintedWood007A_Roughness.jpg",
+    "nor_gl": "textures/PaintedWood007A/PaintedWood007A_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Painted Wood",
+   "page": "https://ambientcg.com/a/PaintedWood007A",
+   "mean_srgb": [
+    0.1538,
+    0.2004,
+    0.2704
+   ]
+  },
+  "PaintedWood007B": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedWood007B/PaintedWood007B_Color.jpg",
+    "rough": "textures/PaintedWood007B/PaintedWood007B_Roughness.jpg",
+    "nor_gl": "textures/PaintedWood007B/PaintedWood007B_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Painted Wood",
+   "page": "https://ambientcg.com/a/PaintedWood007B",
+   "mean_srgb": [
+    0.3352,
+    0.332,
+    0.3342
+   ]
+  },
+  "PaintedWood007C": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedWood007C/PaintedWood007C_Color.jpg",
+    "rough": "textures/PaintedWood007C/PaintedWood007C_Roughness.jpg",
+    "nor_gl": "textures/PaintedWood007C/PaintedWood007C_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Painted Wood",
+   "page": "https://ambientcg.com/a/PaintedWood007C",
+   "mean_srgb": [
+    0.7804,
+    0.6553,
+    0.4915
+   ]
+  },
+  "PaintedWood008B": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedWood008B/PaintedWood008B_Color.jpg",
+    "rough": "textures/PaintedWood008B/PaintedWood008B_Roughness.jpg",
+    "nor_gl": "textures/PaintedWood008B/PaintedWood008B_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Painted Wood",
+   "page": "https://ambientcg.com/a/PaintedWood008B",
+   "mean_srgb": [
+    0.4272,
+    0.4268,
+    0.4236
+   ]
+  },
+  "PaintedWood008C": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/PaintedWood008C/PaintedWood008C_Color.jpg",
+    "rough": "textures/PaintedWood008C/PaintedWood008C_Roughness.jpg",
+    "nor_gl": "textures/PaintedWood008C/PaintedWood008C_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Painted Wood",
+   "page": "https://ambientcg.com/a/PaintedWood008C",
+   "mean_srgb": [
+    0.3698,
+    0.2884,
+    0.181
+   ]
+  },
+  "Planks021": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Planks021/Planks021_Color.jpg",
+    "rough": "textures/Planks021/Planks021_Roughness.jpg",
+    "nor_gl": "textures/Planks021/Planks021_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1400.0,
+    1400.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Planks",
+   "page": "https://ambientcg.com/a/Planks021",
+   "mean_srgb": [
+    0.767,
+    0.6668,
+    0.4536
+   ]
+  },
+  "Planks023A": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Planks023A/Planks023A_Color.jpg",
+    "rough": "textures/Planks023A/Planks023A_Roughness.jpg",
+    "nor_gl": "textures/Planks023A/Planks023A_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Planks",
+   "page": "https://ambientcg.com/a/Planks023A",
+   "mean_srgb": [
+    0.3491,
+    0.3096,
+    0.273
+   ]
+  },
+  "Planks037A": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Planks037A/Planks037A_Color.jpg",
+    "rough": "textures/Planks037A/Planks037A_Roughness.jpg",
+    "nor_gl": "textures/Planks037A/Planks037A_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Planks",
+   "page": "https://ambientcg.com/a/Planks037A",
+   "mean_srgb": [
+    0.3128,
+    0.2414,
+    0.1798
+   ]
+  },
+  "Plaster002": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Plaster002/Plaster002_Color.jpg",
+    "rough": "textures/Plaster002/Plaster002_Roughness.jpg",
+    "nor_gl": "textures/Plaster002/Plaster002_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Plaster",
+   "page": "https://ambientcg.com/a/Plaster002",
+   "mean_srgb": [
+    0.8503,
+    0.8368,
+    0.8234
+   ]
+  },
+  "Plaster003": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Plaster003/Plaster003_Color.jpg",
+    "rough": "textures/Plaster003/Plaster003_Roughness.jpg",
+    "nor_gl": "textures/Plaster003/Plaster003_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Plaster",
+   "page": "https://ambientcg.com/a/Plaster003",
+   "mean_srgb": [
+    0.8433,
+    0.8299,
+    0.8172
+   ]
+  },
+  "Plaster004": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Plaster004/Plaster004_Color.jpg",
+    "rough": "textures/Plaster004/Plaster004_Roughness.jpg",
+    "nor_gl": "textures/Plaster004/Plaster004_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Plaster",
+   "page": "https://ambientcg.com/a/Plaster004",
+   "mean_srgb": [
+    0.6059,
+    0.6051,
+    0.5881
+   ]
+  },
+  "Plaster005": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Plaster005/Plaster005_Color.jpg",
+    "rough": "textures/Plaster005/Plaster005_Roughness.jpg",
+    "nor_gl": "textures/Plaster005/Plaster005_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Plaster",
+   "page": "https://ambientcg.com/a/Plaster005",
+   "mean_srgb": [
+    0.6512,
+    0.6484,
+    0.6341
+   ]
+  },
+  "Plaster006": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Plaster006/Plaster006_Color.jpg",
+    "rough": "textures/Plaster006/Plaster006_Roughness.jpg",
+    "nor_gl": "textures/Plaster006/Plaster006_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Plaster",
+   "page": "https://ambientcg.com/a/Plaster006",
+   "mean_srgb": [
+    0.6628,
+    0.6583,
+    0.6425
+   ]
+  },
+  "Plastic001": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Plastic001/Plastic001_Color.jpg",
+    "rough": "textures/Plastic001/Plastic001_Roughness.jpg",
+    "nor_gl": "textures/Plastic001/Plastic001_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Plastic",
+   "page": "https://ambientcg.com/a/Plastic001",
+   "mean_srgb": [
+    0.0544,
+    0.1014,
+    0.1493
+   ]
+  },
+  "Plastic006": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Plastic006/Plastic006_Color.jpg",
+    "rough": "textures/Plastic006/Plastic006_Roughness.jpg",
+    "nor_gl": "textures/Plastic006/Plastic006_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Plastic",
+   "page": "https://ambientcg.com/a/Plastic006",
+   "mean_srgb": [
+    0.0264,
+    0.0304,
+    0.0381
+   ]
+  },
+  "Plastic008": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Plastic008/Plastic008_Color.jpg",
+    "rough": "textures/Plastic008/Plastic008_Roughness.jpg",
+    "nor_gl": "textures/Plastic008/Plastic008_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Plastic",
+   "page": "https://ambientcg.com/a/Plastic008",
+   "mean_srgb": [
+    0.1035,
+    0.2799,
+    0.4973
+   ]
+  },
+  "Plastic010": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Plastic010/Plastic010_Color.jpg",
+    "rough": "textures/Plastic010/Plastic010_Roughness.jpg",
+    "nor_gl": "textures/Plastic010/Plastic010_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Plastic",
+   "page": "https://ambientcg.com/a/Plastic010",
+   "mean_srgb": [
+    0.6402,
+    0.6519,
+    0.6716
+   ]
+  },
+  "Plastic011": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Plastic011/Plastic011_Color.jpg",
+    "rough": "textures/Plastic011/Plastic011_Roughness.jpg",
+    "nor_gl": "textures/Plastic011/Plastic011_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Plastic",
+   "page": "https://ambientcg.com/a/Plastic011",
+   "mean_srgb": [
+    0.1955,
+    0.1994,
+    0.2073
+   ]
+  },
+  "Plastic013A": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Plastic013A/Plastic013A_Color.jpg",
+    "rough": "textures/Plastic013A/Plastic013A_Roughness.jpg",
+    "nor_gl": "textures/Plastic013A/Plastic013A_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Plastic",
+   "page": "https://ambientcg.com/a/Plastic013A",
+   "mean_srgb": [
+    0.9319,
+    0.9162,
+    0.9123
+   ]
+  },
+  "Rubber001": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Rubber001/Rubber001_Color.jpg",
+    "rough": "textures/Rubber001/Rubber001_Roughness.jpg",
+    "nor_gl": "textures/Rubber001/Rubber001_NormalGL.jpg"
+   },
+   "dims_mm": [
+    750.0,
+    750.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Rubber",
+   "page": "https://ambientcg.com/a/Rubber001",
+   "mean_srgb": [
+    0.1032,
+    0.1085,
+    0.1142
+   ]
+  },
+  "Rubber004": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Rubber004/Rubber004_Color.jpg",
+    "rough": "textures/Rubber004/Rubber004_Roughness.jpg",
+    "nor_gl": "textures/Rubber004/Rubber004_NormalGL.jpg"
+   },
+   "dims_mm": [
+    750.0,
+    750.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Rubber",
+   "page": "https://ambientcg.com/a/Rubber004",
+   "mean_srgb": [
+    0.1638,
+    0.1702,
+    0.1942
+   ]
+  },
+  "Tatami001": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Tatami001/Tatami001_Color.jpg",
+    "rough": "textures/Tatami001/Tatami001_Roughness.jpg",
+    "nor_gl": "textures/Tatami001/Tatami001_NormalGL.jpg"
+   },
+   "dims_mm": [
+    2500.0,
+    2500.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Tatami",
+   "page": "https://ambientcg.com/a/Tatami001",
+   "mean_srgb": [
+    0.8495,
+    0.7529,
+    0.4771
+   ]
+  },
+  "Tatami004": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Tatami004/Tatami004_Color.jpg",
+    "rough": "textures/Tatami004/Tatami004_Roughness.jpg",
+    "nor_gl": "textures/Tatami004/Tatami004_NormalGL.jpg"
+   },
+   "dims_mm": [
+    2500.0,
+    2500.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Tatami",
+   "page": "https://ambientcg.com/a/Tatami004",
+   "mean_srgb": [
+    0.759,
+    0.6719,
+    0.4323
+   ]
+  },
+  "Terrazzo001": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Terrazzo001/Terrazzo001_Color.jpg",
+    "rough": "textures/Terrazzo001/Terrazzo001_Roughness.jpg",
+    "nor_gl": "textures/Terrazzo001/Terrazzo001_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Terrazzo",
+   "page": "https://ambientcg.com/a/Terrazzo001",
+   "mean_srgb": [
+    0.7476,
+    0.7343,
+    0.7436
+   ]
+  },
+  "Terrazzo004": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Terrazzo004/Terrazzo004_Color.jpg",
+    "rough": "textures/Terrazzo004/Terrazzo004_Roughness.jpg",
+    "nor_gl": "textures/Terrazzo004/Terrazzo004_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Terrazzo",
+   "page": "https://ambientcg.com/a/Terrazzo004",
+   "mean_srgb": [
+    0.8397,
+    0.8378,
+    0.8493
+   ]
+  },
+  "Terrazzo005": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Terrazzo005/Terrazzo005_Color.jpg",
+    "rough": "textures/Terrazzo005/Terrazzo005_Roughness.jpg",
+    "nor_gl": "textures/Terrazzo005/Terrazzo005_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Terrazzo",
+   "page": "https://ambientcg.com/a/Terrazzo005",
+   "mean_srgb": [
+    0.7582,
+    0.7388,
+    0.7219
+   ]
+  },
+  "Tiles002": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Tiles002/Tiles002_Color.jpg",
+    "rough": "textures/Tiles002/Tiles002_Roughness.jpg",
+    "nor_gl": "textures/Tiles002/Tiles002_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Tiles",
+   "page": "https://ambientcg.com/a/Tiles002",
+   "mean_srgb": [
+    0.805,
+    0.8051,
+    0.8037
+   ]
+  },
+  "Tiles036": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Tiles036/Tiles036_Color.jpg",
+    "rough": "textures/Tiles036/Tiles036_Roughness.jpg",
+    "nor_gl": "textures/Tiles036/Tiles036_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Tiles",
+   "page": "https://ambientcg.com/a/Tiles036",
+   "mean_srgb": [
+    0.8154,
+    0.8154,
+    0.8154
+   ]
+  },
+  "Tiles040": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Tiles040/Tiles040_Color.jpg",
+    "rough": "textures/Tiles040/Tiles040_Roughness.jpg",
+    "nor_gl": "textures/Tiles040/Tiles040_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Tiles",
+   "page": "https://ambientcg.com/a/Tiles040",
+   "mean_srgb": [
+    0.8595,
+    0.852,
+    0.8584
+   ]
+  },
+  "Tiles045": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Tiles045/Tiles045_Color.jpg",
+    "rough": "textures/Tiles045/Tiles045_Roughness.jpg",
+    "nor_gl": "textures/Tiles045/Tiles045_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Tiles",
+   "page": "https://ambientcg.com/a/Tiles045",
+   "mean_srgb": [
+    0.0808,
+    0.0823,
+    0.0877
+   ]
+  },
+  "Tiles052": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Tiles052/Tiles052_Color.jpg",
+    "rough": "textures/Tiles052/Tiles052_Roughness.jpg",
+    "nor_gl": "textures/Tiles052/Tiles052_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Tiles",
+   "page": "https://ambientcg.com/a/Tiles052",
+   "mean_srgb": [
+    0.103,
+    0.1044,
+    0.1093
+   ]
+  },
+  "Tiles074": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Tiles074/Tiles074_Color.jpg",
+    "rough": "textures/Tiles074/Tiles074_Roughness.jpg",
+    "nor_gl": "textures/Tiles074/Tiles074_NormalGL.jpg"
+   },
+   "dims_mm": [
+    2100.0,
+    2100.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Tiles",
+   "page": "https://ambientcg.com/a/Tiles074",
+   "mean_srgb": [
+    0.3335,
+    0.2946,
+    0.2639
+   ]
+  },
+  "Tiles075": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Tiles075/Tiles075_Color.jpg",
+    "rough": "textures/Tiles075/Tiles075_Roughness.jpg",
+    "nor_gl": "textures/Tiles075/Tiles075_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1350.0,
+    1350.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Tiles",
+   "page": "https://ambientcg.com/a/Tiles075",
+   "mean_srgb": [
+    0.074,
+    0.0757,
+    0.0787
+   ]
+  },
+  "Tiles078": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Tiles078/Tiles078_Color.jpg",
+    "rough": "textures/Tiles078/Tiles078_Roughness.jpg",
+    "nor_gl": "textures/Tiles078/Tiles078_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Tiles",
+   "page": "https://ambientcg.com/a/Tiles078",
+   "mean_srgb": [
+    0.6112,
+    0.5267,
+    0.4582
+   ]
+  },
+  "Tiles105": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Tiles105/Tiles105_Color.jpg",
+    "rough": "textures/Tiles105/Tiles105_Roughness.jpg",
+    "nor_gl": "textures/Tiles105/Tiles105_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1000.0,
+    1000.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Tiles",
+   "page": "https://ambientcg.com/a/Tiles105",
+   "mean_srgb": [
+    0.9744,
+    0.9739,
+    0.9729
+   ]
+  },
+  "Tiles107": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Tiles107/Tiles107_Color.jpg",
+    "rough": "textures/Tiles107/Tiles107_Roughness.jpg",
+    "nor_gl": "textures/Tiles107/Tiles107_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1000.0,
+    1000.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Tiles",
+   "page": "https://ambientcg.com/a/Tiles107",
+   "mean_srgb": [
+    0.9729,
+    0.9724,
+    0.9713
+   ]
+  },
+  "Wallpaper001A": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Wallpaper001A/Wallpaper001A_Color.jpg",
+    "rough": "textures/Wallpaper001A/Wallpaper001A_Roughness.jpg",
+    "nor_gl": "textures/Wallpaper001A/Wallpaper001A_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Wallpaper",
+   "page": "https://ambientcg.com/a/Wallpaper001A",
+   "mean_srgb": [
+    0.8771,
+    0.8809,
+    0.8616
+   ]
+  },
+  "Wallpaper002A": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Wallpaper002A/Wallpaper002A_Color.jpg",
+    "rough": "textures/Wallpaper002A/Wallpaper002A_Roughness.jpg",
+    "nor_gl": "textures/Wallpaper002A/Wallpaper002A_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Wallpaper",
+   "page": "https://ambientcg.com/a/Wallpaper002A",
+   "mean_srgb": [
+    0.8768,
+    0.8805,
+    0.8613
+   ]
+  },
+  "Wood026": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Wood026/Wood026_Color.jpg",
+    "rough": "textures/Wood026/Wood026_Roughness.jpg",
+    "nor_gl": "textures/Wood026/Wood026_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Wood",
+   "page": "https://ambientcg.com/a/Wood026",
+   "mean_srgb": [
+    0.4081,
+    0.2227,
+    0.091
+   ]
+  },
+  "Wood027": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Wood027/Wood027_Color.jpg",
+    "rough": "textures/Wood027/Wood027_Roughness.jpg",
+    "nor_gl": "textures/Wood027/Wood027_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Wood",
+   "page": "https://ambientcg.com/a/Wood027",
+   "mean_srgb": [
+    0.2471,
+    0.1346,
+    0.0574
+   ]
+  },
+  "Wood048": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Wood048/Wood048_Color.jpg",
+    "rough": "textures/Wood048/Wood048_Roughness.jpg",
+    "nor_gl": "textures/Wood048/Wood048_NormalGL.jpg"
+   },
+   "dims_mm": [
+    800.0,
+    800.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood",
+   "page": "https://ambientcg.com/a/Wood048",
+   "mean_srgb": [
+    0.69,
+    0.5636,
+    0.3975
+   ]
+  },
+  "Wood049": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Wood049/Wood049_Color.jpg",
+    "rough": "textures/Wood049/Wood049_Roughness.jpg",
+    "nor_gl": "textures/Wood049/Wood049_NormalGL.jpg"
+   },
+   "dims_mm": [
+    800.0,
+    800.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood",
+   "page": "https://ambientcg.com/a/Wood049",
+   "mean_srgb": [
+    0.4825,
+    0.3883,
+    0.3041
+   ]
+  },
+  "Wood050": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Wood050/Wood050_Color.jpg",
+    "rough": "textures/Wood050/Wood050_Roughness.jpg",
+    "nor_gl": "textures/Wood050/Wood050_NormalGL.jpg"
+   },
+   "dims_mm": [
+    800.0,
+    800.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood",
+   "page": "https://ambientcg.com/a/Wood050",
+   "mean_srgb": [
+    0.8341,
+    0.6359,
+    0.4924
+   ]
+  },
+  "Wood051": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Wood051/Wood051_Color.jpg",
+    "rough": "textures/Wood051/Wood051_Roughness.jpg",
+    "nor_gl": "textures/Wood051/Wood051_NormalGL.jpg"
+   },
+   "dims_mm": [
+    800.0,
+    800.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood",
+   "page": "https://ambientcg.com/a/Wood051",
+   "mean_srgb": [
+    0.2557,
+    0.2049,
+    0.1813
+   ]
+  },
+  "Wood058": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Wood058/Wood058_Color.jpg",
+    "rough": "textures/Wood058/Wood058_Roughness.jpg",
+    "nor_gl": "textures/Wood058/Wood058_NormalGL.jpg"
+   },
+   "dims_mm": [
+    400.0,
+    400.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood",
+   "page": "https://ambientcg.com/a/Wood058",
+   "mean_srgb": [
+    0.6279,
+    0.4752,
+    0.357
+   ]
+  },
+  "Wood060": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Wood060/Wood060_Color.jpg",
+    "rough": "textures/Wood060/Wood060_Roughness.jpg",
+    "nor_gl": "textures/Wood060/Wood060_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Wood",
+   "page": "https://ambientcg.com/a/Wood060",
+   "mean_srgb": [
+    0.3985,
+    0.2663,
+    0.1911
+   ]
+  },
+  "Wood066": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Wood066/Wood066_Color.jpg",
+    "rough": "textures/Wood066/Wood066_Roughness.jpg",
+    "nor_gl": "textures/Wood066/Wood066_NormalGL.jpg"
+   },
+   "dims_mm": [
+    400.0,
+    400.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood",
+   "page": "https://ambientcg.com/a/Wood066",
+   "mean_srgb": [
+    0.3497,
+    0.2022,
+    0.0749
+   ]
+  },
+  "Wood067": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/Wood067/Wood067_Color.jpg",
+    "rough": "textures/Wood067/Wood067_Roughness.jpg",
+    "nor_gl": "textures/Wood067/Wood067_NormalGL.jpg"
+   },
+   "dims_mm": [
+    400.0,
+    400.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood",
+   "page": "https://ambientcg.com/a/Wood067",
+   "mean_srgb": [
+    0.2172,
+    0.1212,
+    0.0561
+   ]
+  },
+  "WoodFloor007": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/WoodFloor007/WoodFloor007_Color.jpg",
+    "rough": "textures/WoodFloor007/WoodFloor007_Roughness.jpg",
+    "nor_gl": "textures/WoodFloor007/WoodFloor007_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Wood Floor",
+   "page": "https://ambientcg.com/a/WoodFloor007",
+   "mean_srgb": [
+    0.5136,
+    0.3772,
+    0.2469
+   ]
+  },
+  "WoodFloor008": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/WoodFloor008/WoodFloor008_Color.jpg",
+    "rough": "textures/WoodFloor008/WoodFloor008_Roughness.jpg",
+    "nor_gl": "textures/WoodFloor008/WoodFloor008_NormalGL.jpg"
+   },
+   "dims_mm": null,
+   "dims_from": "none — 1 m",
+   "cat": "Wood Floor",
+   "page": "https://ambientcg.com/a/WoodFloor008",
+   "mean_srgb": [
+    0.253,
+    0.184,
+    0.1331
+   ]
+  },
+  "WoodFloor034": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/WoodFloor034/WoodFloor034_Color.jpg",
+    "rough": "textures/WoodFloor034/WoodFloor034_Roughness.jpg",
+    "nor_gl": "textures/WoodFloor034/WoodFloor034_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1900.0,
+    1900.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood Floor",
+   "page": "https://ambientcg.com/a/WoodFloor034",
+   "mean_srgb": [
+    0.5689,
+    0.4217,
+    0.2624
+   ]
+  },
+  "WoodFloor039": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/WoodFloor039/WoodFloor039_Color.jpg",
+    "rough": "textures/WoodFloor039/WoodFloor039_Roughness.jpg",
+    "nor_gl": "textures/WoodFloor039/WoodFloor039_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1900.0,
+    1900.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood Floor",
+   "page": "https://ambientcg.com/a/WoodFloor039",
+   "mean_srgb": [
+    0.8796,
+    0.7721,
+    0.6088
+   ]
+  },
+  "WoodFloor040": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/WoodFloor040/WoodFloor040_Color.jpg",
+    "rough": "textures/WoodFloor040/WoodFloor040_Roughness.jpg",
+    "nor_gl": "textures/WoodFloor040/WoodFloor040_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1900.0,
+    1900.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood Floor",
+   "page": "https://ambientcg.com/a/WoodFloor040",
+   "mean_srgb": [
+    0.7156,
+    0.5309,
+    0.3335
+   ]
+  },
+  "WoodFloor041": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/WoodFloor041/WoodFloor041_Color.jpg",
+    "rough": "textures/WoodFloor041/WoodFloor041_Roughness.jpg",
+    "nor_gl": "textures/WoodFloor041/WoodFloor041_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1900.0,
+    1900.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood Floor",
+   "page": "https://ambientcg.com/a/WoodFloor041",
+   "mean_srgb": [
+    0.3593,
+    0.2943,
+    0.224
+   ]
+  },
+  "WoodFloor043": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/WoodFloor043/WoodFloor043_Color.jpg",
+    "rough": "textures/WoodFloor043/WoodFloor043_Roughness.jpg",
+    "nor_gl": "textures/WoodFloor043/WoodFloor043_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1300.0,
+    650.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood Floor",
+   "page": "https://ambientcg.com/a/WoodFloor043",
+   "mean_srgb": [
+    0.4007,
+    0.2757,
+    0.1454
+   ]
+  },
+  "WoodFloor044": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/WoodFloor044/WoodFloor044_Color.jpg",
+    "rough": "textures/WoodFloor044/WoodFloor044_Roughness.jpg",
+    "nor_gl": "textures/WoodFloor044/WoodFloor044_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1300.0,
+    650.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood Floor",
+   "page": "https://ambientcg.com/a/WoodFloor044",
+   "mean_srgb": [
+    0.7468,
+    0.588,
+    0.4241
+   ]
+  },
+  "WoodFloor051": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/WoodFloor051/WoodFloor051_Color.jpg",
+    "rough": "textures/WoodFloor051/WoodFloor051_Roughness.jpg",
+    "nor_gl": "textures/WoodFloor051/WoodFloor051_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1800.0,
+    1800.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood Floor",
+   "page": "https://ambientcg.com/a/WoodFloor051",
+   "mean_srgb": [
+    0.6068,
+    0.4807,
+    0.3666
+   ]
+  },
+  "WoodFloor052": {
+   "src": "ambientcg",
+   "license": "CC0 1.0 Universal",
+   "res": "1K-JPG",
+   "files": {
+    "diff": "textures/WoodFloor052/WoodFloor052_Color.jpg",
+    "rough": "textures/WoodFloor052/WoodFloor052_Roughness.jpg",
+    "nor_gl": "textures/WoodFloor052/WoodFloor052_NormalGL.jpg"
+   },
+   "dims_mm": [
+    1800.0,
+    1800.0
+   ],
+   "dims_from": "dimensionX/Y cm",
+   "cat": "Wood Floor",
+   "page": "https://ambientcg.com/a/WoodFloor052",
+   "mean_srgb": [
+    0.5995,
+    0.4736,
+    0.3599
+   ]
+  }
+ },
+ "models": {
+  "Camera_01": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/Camera_01/Camera_01_1k.usdc",
+   "dims_mm": [
+    213.90153467655182,
+    262.82382383942604,
+    77.84665003418922
+   ],
+   "page": "https://polyhaven.com/a/Camera_01"
+  },
+  "alarm_clock_01": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/alarm_clock_01/alarm_clock_01_1k.usdc",
+   "dims_mm": [
+    227.71471738815308,
+    168.41959953308105,
+    174.15538430213928
+   ],
+   "page": "https://polyhaven.com/a/alarm_clock_01"
+  },
+  "croissant": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/croissant/croissant_1k.usdc",
+   "dims_mm": [
+    200.00000298023224,
+    75.51151886582375,
+    61.99566961731762
+   ],
+   "page": "https://polyhaven.com/a/croissant"
+  },
+  "digital_wrist_watch": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/digital_wrist_watch/digital_wrist_watch_1k.usdc",
+   "dims_mm": [
+    36.49514354765415,
+    217.24141389131546,
+    8.34511243738234
+   ],
+   "page": "https://polyhaven.com/a/digital_wrist_watch"
+  },
+  "food_apple_01": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/food_apple_01/food_apple_01_1k.usdc",
+   "dims_mm": [
+    97.56118059158325,
+    95.90170904994011,
+    85.38994403897959
+   ],
+   "page": "https://polyhaven.com/a/food_apple_01"
+  },
+  "food_lime_01": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/food_lime_01/food_lime_01_1k.usdc",
+   "dims_mm": [
+    60.0700993090868,
+    61.33793853223324,
+    75.4411633242853
+   ],
+   "page": "https://polyhaven.com/a/food_lime_01"
+  },
+  "jug_01": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/jug_01/jug_01_1k.usdc",
+   "dims_mm": [
+    275.3216624259949,
+    167.5262302160263,
+    211.31345149478875
+   ],
+   "page": "https://polyhaven.com/a/jug_01"
+  },
+  "lemon": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/lemon/lemon_1k.usdc",
+   "dims_mm": [
+    68.68193298578262,
+    68.2600848376751,
+    95.36931291222572
+   ],
+   "page": "https://polyhaven.com/a/lemon"
+  },
+  "magnifying_glass_01": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/magnifying_glass_01/magnifying_glass_01_1k.usdc",
+   "dims_mm": [
+    132.1375072002411,
+    26.717988774180412,
+    271.5718152341225
+   ],
+   "page": "https://polyhaven.com/a/magnifying_glass_01"
+  },
+  "measuring_tape_01": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/measuring_tape_01/measuring_tape_01_1k.usdc",
+   "dims_mm": [
+    40.56626558303833,
+    169.41863298416138,
+    73.41387253836729
+   ],
+   "page": "https://polyhaven.com/a/measuring_tape_01"
+  },
+  "multi_cleaner_bottle": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/multi_cleaner_bottle/multi_cleaner_bottle_1k.usdc",
+   "dims_mm": [
+    88.47218751907349,
+    89.751485735178,
+    228.56293622158105
+   ],
+   "page": "https://polyhaven.com/a/multi_cleaner_bottle"
+  },
+  "planter_pot_clay": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/planter_pot_clay/planter_pot_clay_1k.usdc",
+   "dims_mm": [
+    265.9967243671417,
+    263.4630501270294,
+    221.87034250237048
+   ],
+   "page": "https://polyhaven.com/a/planter_pot_clay"
+  },
+  "potted_plant_04": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/potted_plant_04/potted_plant_04_1k.usdc",
+   "dims_mm": [
+    170.27407884597778,
+    185.9453096985817,
+    267.5964875961654
+   ],
+   "page": "https://polyhaven.com/a/potted_plant_04"
+  },
+  "retro_multimeter": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/retro_multimeter/retro_multimeter_1k.usdc",
+   "dims_mm": [
+    215.97424149513245,
+    202.6422657072544,
+    278.6375405266881
+   ],
+   "page": "https://polyhaven.com/a/retro_multimeter"
+  },
+  "stationery_supplies": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/stationery_supplies/stationery_supplies_1k.usdc",
+   "dims_mm": [
+    301.8620014190674,
+    83.66207033395767,
+    164.34769332408905
+   ],
+   "page": "https://polyhaven.com/a/stationery_supplies"
+  },
+  "vintage_stapler": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/vintage_stapler/vintage_stapler_1k.usdc",
+   "dims_mm": [
+    208.4641233086586,
+    47.41005226969719,
+    95.26899177581072
+   ],
+   "page": "https://polyhaven.com/a/vintage_stapler"
+  },
+  "wooden_bowl_01": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/wooden_bowl_01/wooden_bowl_01_1k.usdc",
+   "dims_mm": [
+    313.08163702487946,
+    309.1423809528351,
+    93.69255532510579
+   ],
+   "page": "https://polyhaven.com/a/wooden_bowl_01"
+  },
+  "wooden_cutting_board": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "1k",
+   "usd": "models/wooden_cutting_board/wooden_cutting_board_1k.usdc",
+   "dims_mm": [
+    449.8896151781082,
+    246.6525286436081,
+    41.25304119224893
+   ],
+   "page": "https://polyhaven.com/a/wooden_cutting_board",
+   "excluded": "size [0.45, 0.247, 0.041] m > cap (height 0.3 · floor diagonal 0.48)"
+  },
+  "gso:2_of_Jenga_Classic_Game": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/2_of_Jenga_Classic_Game/model.usda",
+   "dims_mm": [
+    78.9,
+    84.4,
+    292.1
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/2_of_Jenga_Classic_Game",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "2 of Jenga Classic Game"
+  },
+  "gso:3D_Dollhouse_Sofa": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/3D_Dollhouse_Sofa/model.usda",
+   "dims_mm": [
+    209.6,
+    86.8,
+    102.3
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/3D_Dollhouse_Sofa",
+   "categories": [
+    "Toys"
+   ],
+   "description": "3D Dollhouse Sofa"
+  },
+  "gso:5_HTP": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/5_HTP/model.usda",
+   "dims_mm": [
+    53.1,
+    52.5,
+    88.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/5_HTP",
+   "categories": [
+    "Bottles and Cans and Cups"
+   ],
+   "description": "5 HTP"
+  },
+  "gso:Air_Hogs_Wind_Flyers_Set_Airplane_Red": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Air_Hogs_Wind_Flyers_Set_Airplane_Red/model.usda",
+   "dims_mm": [
+    268.3,
+    272.0,
+    50.3
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Air_Hogs_Wind_Flyers_Set_Airplane_Red",
+   "categories": [],
+   "description": "Air Hogs Wind Flyers Set, Airplane, Red"
+  },
+  "gso:Animal_Crossing_New_Leaf_Nintendo_3DS_Game": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Animal_Crossing_New_Leaf_Nintendo_3DS_Game/model.usda",
+   "dims_mm": [
+    137.2,
+    124.9,
+    15.1
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Animal_Crossing_New_Leaf_Nintendo_3DS_Game",
+   "categories": [
+    "Media Cases"
+   ],
+   "description": "Animal Crossing: New Leaf [Nintendo 3DS Game]"
+  },
+  "gso:Asus_M5A78LMUSB3_Motherboard_Micro_ATX_Socket_AM3": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Asus_M5A78LMUSB3_Motherboard_Micro_ATX_Socket_AM3/model.usda",
+   "dims_mm": [
+    276.7,
+    65.7,
+    267.2
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Asus_M5A78LMUSB3_Motherboard_Micro_ATX_Socket_AM3",
+   "categories": [],
+   "description": "Asus M5A78L-M/USB3 Motherboard Micro ATX Socket AM3+"
+  },
+  "gso:Asus_Z97IPLUS_Motherboard_Mini_ITX_LGA1150_Socket": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Asus_Z97IPLUS_Motherboard_Mini_ITX_LGA1150_Socket/model.usda",
+   "dims_mm": [
+    231.5,
+    99.7,
+    189.6
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Asus_Z97IPLUS_Motherboard_Mini_ITX_LGA1150_Socket",
+   "categories": [],
+   "description": "Asus Z97I-PLUS Motherboard Mini ITX LGA1150 Socket"
+  },
+  "gso:BALANCING_CACTUS": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/BALANCING_CACTUS/model.usda",
+   "dims_mm": [
+    263.5,
+    134.8,
+    217.5
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/BALANCING_CACTUS",
+   "categories": [
+    "Toys"
+   ],
+   "description": "BALANCING CACTUS\nIt?s all about strategy! The player that can build and balance the cactus without making it fall is the winner. Ideal for 1 - 4 players."
+  },
+  "gso:BIA_Cordon_Bleu_White_Porcelain_Utensil_Holder_900028": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/BIA_Cordon_Bleu_White_Porcelain_Utensil_Holder_900028/model.usda",
+   "dims_mm": [
+    147.6,
+    148.8,
+    175.2
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/BIA_Cordon_Bleu_White_Porcelain_Utensil_Holder_900028",
+   "categories": [],
+   "description": "B.I.A Cordon Bleu White Porcelain Utensil Holder 900028\nBIA Cordon Bleu Give your spatulas and serving spoons an elegant home with this 60 Oz.  Made from porcelain, this piece is resistant to chipping, cracking and staining.  The clean design and solid white glaze make this piece a classic addition to any table kitchen."
+  },
+  "gso:BUILD_A_ZOO": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/BUILD_A_ZOO/model.usda",
+   "dims_mm": [
+    143.2,
+    22.3,
+    218.3
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/BUILD_A_ZOO",
+   "categories": [
+    "Toys"
+   ],
+   "description": "BUILD A ZOO\nHelp develop fine motor skills by building the zoo and matching the animal to its place using the forceps. It also reinforces color recognition and counting. The set consists of 16 wooden pieces and 5 animals."
+  },
+  "gso:Beyonc_Life_is_But_a_Dream_DVD": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Beyonc_Life_is_But_a_Dream_DVD/model.usda",
+   "dims_mm": [
+    140.2,
+    188.5,
+    15.1
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Beyonc_Life_is_But_a_Dream_DVD",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Beyonc? - Life is But a Dream [DVD]"
+  },
+  "gso:Black_Elderberry_Syrup_54_oz_Gaia_Herbs": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Black_Elderberry_Syrup_54_oz_Gaia_Herbs/model.usda",
+   "dims_mm": [
+    57.1,
+    59.1,
+    145.1
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Black_Elderberry_Syrup_54_oz_Gaia_Herbs",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Black Elderberry Syrup, 5.4 oz, Gaia Herbs"
+  },
+  "gso:BlueBlack_Nintendo_3DSXL": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/BlueBlack_Nintendo_3DSXL/model.usda",
+   "dims_mm": [
+    156.6,
+    133.7,
+    92.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/BlueBlack_Nintendo_3DSXL",
+   "categories": [],
+   "description": "Blue/Black Nintendo 3DS?XL\nThe Nintendo 3DS XL system combines next-generation portable gaming with eye-popping 3D\nvisuals?without the need for special glasses. Take 3D photos, connect to friends, other players, or wireless hotspots with the wireless StreetPass? and SpotPass? communication modes. From games to photos and beyond, Nintendo 3DS XL is the ultimate 3D entertainment system. It comes bundled with a 4GB SD card, making it perfect for downloading content from the Nintendo eShop.\n\nThe Nintendo 3DS XL system plays all Nintendo DS games. Nintendo DS games will not appear in 3D."
+  },
+  "gso:Brother_Ink_Cartridge_Magenta_LC75M": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Brother_Ink_Cartridge_Magenta_LC75M/model.usda",
+   "dims_mm": [
+    87.8,
+    30.9,
+    147.2
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Brother_Ink_Cartridge_Magenta_LC75M",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Brother Ink Cartridge, Magenta LC75M"
+  },
+  "gso:CHICKEN_RACER": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/CHICKEN_RACER/model.usda",
+   "dims_mm": [
+    91.7,
+    88.0,
+    99.5
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/CHICKEN_RACER",
+   "categories": [
+    "Toys"
+   ],
+   "description": "CHICKEN RACER\nHave great fun with Chicken 3cars. They have gently curve design which is easy for children to hold and push"
+  },
+  "gso:CONE_SORTING_kg5fbARBwts": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/CONE_SORTING_kg5fbARBwts/model.usda",
+   "dims_mm": [
+    390.9,
+    135.5,
+    134.6
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/CONE_SORTING_kg5fbARBwts",
+   "categories": [
+    "Toys"
+   ],
+   "description": "CONE SORTING\nLearn about height, depth, size, patterns and ?the sequence of sorting and stacking with this ?nine-piece set."
+  },
+  "gso:Canon_Pixma_Ink_Cartridge_251_M": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Canon_Pixma_Ink_Cartridge_251_M/model.usda",
+   "dims_mm": [
+    24.4,
+    111.9,
+    97.1
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Canon_Pixma_Ink_Cartridge_251_M",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Canon Pixma Ink Cartridge, 251 M"
+  },
+  "gso:Chefmate_8_Frypan": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Chefmate_8_Frypan/model.usda",
+   "dims_mm": [
+    355.8,
+    204.3,
+    55.0
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Chefmate_8_Frypan",
+   "categories": [],
+   "description": "Chefmate 8\" Frypan"
+  },
+  "gso:CoQ10_BjTLbuRVt1t": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/CoQ10_BjTLbuRVt1t/model.usda",
+   "dims_mm": [
+    47.5,
+    47.3,
+    83.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/CoQ10_BjTLbuRVt1t",
+   "categories": [
+    "Bottles and Cans and Cups"
+   ],
+   "description": "Co-Q10"
+  },
+  "gso:Cole_Hardware_Deep_Bowl_Good_Earth_1075": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Cole_Hardware_Deep_Bowl_Good_Earth_1075/model.usda",
+   "dims_mm": [
+    283.7,
+    284.3,
+    131.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Cole_Hardware_Deep_Bowl_Good_Earth_1075",
+   "categories": [],
+   "description": "Cole Hardware Deep Bowl, Good Earth, 10.75\""
+  },
+  "gso:Cole_Hardware_Electric_Pot_Assortment_55": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Cole_Hardware_Electric_Pot_Assortment_55/model.usda",
+   "dims_mm": [
+    143.0,
+    140.6,
+    128.0
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Cole_Hardware_Electric_Pot_Assortment_55",
+   "categories": [],
+   "description": "Cole Hardware Electric Pot, Assortment, 5.5\""
+  },
+  "gso:Cole_Hardware_Plant_Saucer_Brown_125": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Cole_Hardware_Plant_Saucer_Brown_125/model.usda",
+   "dims_mm": [
+    310.7,
+    309.5,
+    45.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Cole_Hardware_Plant_Saucer_Brown_125",
+   "categories": [],
+   "description": "Cole Hardware Plant Saucer, Brown, 12.5\""
+  },
+  "gso:Cootie_Game": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Cootie_Game/model.usda",
+   "dims_mm": [
+    341.2,
+    264.6,
+    87.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Cootie_Game",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Cootie Game"
+  },
+  "gso:Crayola_Crayons_24_count": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Crayola_Crayons_24_count/model.usda",
+   "dims_mm": [
+    74.0,
+    29.6,
+    116.6
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Crayola_Crayons_24_count",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Crayola Crayons - 24 count"
+  },
+  "gso:Crayola_Washable_Sidewalk_Chalk_16_pack_wDZECiw7J6s": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Crayola_Washable_Sidewalk_Chalk_16_pack_wDZECiw7J6s/model.usda",
+   "dims_mm": [
+    92.5,
+    91.8,
+    148.1
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Crayola_Washable_Sidewalk_Chalk_16_pack_wDZECiw7J6s",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Crayola Washable Sidewalk Chalk - 16 pack"
+  },
+  "gso:DIM_CDG": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/DIM_CDG/model.usda",
+   "dims_mm": [
+    47.7,
+    47.6,
+    84.3
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/DIM_CDG",
+   "categories": [
+    "Bottles and Cans and Cups"
+   ],
+   "description": "DIM + CDG"
+  },
+  "gso:Dell_Ink_Cartridge": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Dell_Ink_Cartridge/model.usda",
+   "dims_mm": [
+    103.4,
+    53.0,
+    139.9
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Dell_Ink_Cartridge",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Dell Ink Cartridge"
+  },
+  "gso:Diet_Pepsi_Soda_Cola12_Pack_12_oz_Cans": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Diet_Pepsi_Soda_Cola12_Pack_12_oz_Cans/model.usda",
+   "dims_mm": [
+    406.4,
+    128.9,
+    138.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Diet_Pepsi_Soda_Cola12_Pack_12_oz_Cans",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Diet Pepsi Soda Cola,12 Pack 12 oz Cans"
+  },
+  "gso:Down_To_Earth_Ceramic_Orchid_Pot_Asst_Blue": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Down_To_Earth_Ceramic_Orchid_Pot_Asst_Blue/model.usda",
+   "dims_mm": [
+    132.7,
+    132.7,
+    119.3
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Down_To_Earth_Ceramic_Orchid_Pot_Asst_Blue",
+   "categories": [],
+   "description": "Down To Earth Ceramic Orchid Pot, Asst Blue"
+  },
+  "gso:Ecoforms_Plant_Bowl_Atlas_Low": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Ecoforms_Plant_Bowl_Atlas_Low/model.usda",
+   "dims_mm": [
+    321.9,
+    322.0,
+    134.4
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Ecoforms_Plant_Bowl_Atlas_Low",
+   "categories": [],
+   "description": "Ecoforms Plant Bowl, Atlas Low"
+  },
+  "gso:Ecoforms_Plant_Container_GP16A_Coral": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Ecoforms_Plant_Container_GP16A_Coral/model.usda",
+   "dims_mm": [
+    164.7,
+    164.5,
+    160.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Ecoforms_Plant_Container_GP16A_Coral",
+   "categories": [],
+   "description": "Ecoforms Plant Container, GP16A, Coral"
+  },
+  "gso:Ecoforms_Plant_Container_Quadra_Turquoise_QP12": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Ecoforms_Plant_Container_Quadra_Turquoise_QP12/model.usda",
+   "dims_mm": [
+    199.8,
+    199.7,
+    282.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Ecoforms_Plant_Container_Quadra_Turquoise_QP12",
+   "categories": [],
+   "description": "Ecoforms Plant Container, Quadra, Turquoise, QP12"
+  },
+  "gso:Ecoforms_Plant_Container_Urn_55_Avocado": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Ecoforms_Plant_Container_Urn_55_Avocado/model.usda",
+   "dims_mm": [
+    149.5,
+    148.9,
+    159.9
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Ecoforms_Plant_Container_Urn_55_Avocado",
+   "categories": [],
+   "description": "Ecoforms Plant Container, Urn 5.5, Avocado"
+  },
+  "gso:Ecoforms_Plant_Saucer_S14NATURAL": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Ecoforms_Plant_Saucer_S14NATURAL/model.usda",
+   "dims_mm": [
+    147.6,
+    147.5,
+    26.2
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Ecoforms_Plant_Saucer_S14NATURAL",
+   "categories": [],
+   "description": "Ecoforms Plant Saucer, S14-NATURAL"
+  },
+  "gso:Ecoforms_Planter_Pot_GP12AAvocado": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Ecoforms_Planter_Pot_GP12AAvocado/model.usda",
+   "dims_mm": [
+    118.3,
+    118.6,
+    112.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Ecoforms_Planter_Pot_GP12AAvocado",
+   "categories": [],
+   "description": "Ecoforms Planter Pot, GP12A-Avocado"
+  },
+  "gso:Elephant": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Elephant/model.usda",
+   "dims_mm": [
+    191.4,
+    209.9,
+    270.5
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Elephant",
+   "categories": [],
+   "description": "Elephant\nElephant"
+  },
+  "gso:Epson_LabelWorks_LC4WBN9_Tape_reel_labels_047_x_295_Roll_Black_on_White": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Epson_LabelWorks_LC4WBN9_Tape_reel_labels_047_x_295_Roll_Black_on_White/model.usda",
+   "dims_mm": [
+    88.1,
+    40.7,
+    123.0
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Epson_LabelWorks_LC4WBN9_Tape_reel_labels_047_x_295_Roll_Black_on_White",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Epson LabelWorks LC-4WBN9 Tape reel labels, 0.47\" x 29.5' Roll, Black on White"
+  },
+  "gso:FARM_ANIMAL": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/FARM_ANIMAL/model.usda",
+   "dims_mm": [
+    176.3,
+    174.4,
+    91.9
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/FARM_ANIMAL",
+   "categories": [
+    "Toys"
+   ],
+   "description": "FARM ANIMAL\nThe set includes a cow, a calf, a piglet, a sheep dog that has moveable head, a sheep plus the sheep?s wool is removable to give that sheered look."
+  },
+  "gso:FRACTION_FUN_n4h4qte23QR": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/FRACTION_FUN_n4h4qte23QR/model.usda",
+   "dims_mm": [
+    175.2,
+    189.1,
+    43.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/FRACTION_FUN_n4h4qte23QR",
+   "categories": [
+    "Toys"
+   ],
+   "description": "FRACTION FUN\nFeature as two-sided curved base which easy to flip over! Set develops the understanding of geometric fraction from shapes. Kid will learn about the proportional relationships between one section and the whole."
+  },
+  "gso:FisherPrice_Make_A_Match_Game_Thomas_Friends": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/FisherPrice_Make_A_Match_Game_Thomas_Friends/model.usda",
+   "dims_mm": [
+    202.6,
+    49.0,
+    267.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/FisherPrice_Make_A_Match_Game_Thomas_Friends",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Fisher-Price Make A Match Game, Thomas & Friends"
+  },
+  "gso:Frozen_Olafs_In_Trouble_PopOMatic_Game_OEu83W9T8pD": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Frozen_Olafs_In_Trouble_PopOMatic_Game_OEu83W9T8pD/model.usda",
+   "dims_mm": [
+    260.6,
+    260.6,
+    33.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Frozen_Olafs_In_Trouble_PopOMatic_Game_OEu83W9T8pD",
+   "categories": [
+    "Board Games"
+   ],
+   "description": "Frozen Olaf's In Trouble Pop-O-Matic Game"
+  },
+  "gso:GEARS_PUZZLES_STANDARD_gcYxhNHhKlI": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/GEARS_PUZZLES_STANDARD_gcYxhNHhKlI/model.usda",
+   "dims_mm": [
+    311.2,
+    161.2,
+    40.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/GEARS_PUZZLES_STANDARD_gcYxhNHhKlI",
+   "categories": [
+    "Toys"
+   ],
+   "description": "GEARS & PUZZLES - STANDARD\nExplore and build endless possibilities by combining the colorful assortment of gears. Place the puzzle pieces together and watch the amazing movement you can create by spinning and twirling the gears. (12 pieces included)"
+  },
+  "gso:Germanium_GE132": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Germanium_GE132/model.usda",
+   "dims_mm": [
+    43.9,
+    43.9,
+    77.4
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Germanium_GE132",
+   "categories": [
+    "Bottles and Cans and Cups"
+   ],
+   "description": "Germanium GE-132"
+  },
+  "gso:Granimals_20_Wooden_ABC_Blocks_Wagon_85VdSftGsLi": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Granimals_20_Wooden_ABC_Blocks_Wagon_85VdSftGsLi/model.usda",
+   "dims_mm": [
+    30.6,
+    31.2,
+    30.5
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Granimals_20_Wooden_ABC_Blocks_Wagon_85VdSftGsLi",
+   "categories": [],
+   "description": "Granimals 20 Wooden ABC Blocks & Wagon\n18+ months",
+   "excluded": "size [0.031, 0.031, 0.03] m < floor (0.04)"
+  },
+  "gso:HAMMER_BALL": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/HAMMER_BALL/model.usda",
+   "dims_mm": [
+    283.9,
+    185.1,
+    120.6
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/HAMMER_BALL",
+   "categories": [
+    "Toys"
+   ],
+   "description": "HAMMER BALL\nThis toy helps children to improve hand-eye coordination, aligning, slotting and aiming."
+  },
+  "gso:Hasbro_Cranium_Performance_and_Acting_Game": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Hasbro_Cranium_Performance_and_Acting_Game/model.usda",
+   "dims_mm": [
+    208.1,
+    54.9,
+    272.0
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Hasbro_Cranium_Performance_and_Acting_Game",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Hasbro Cranium Performance and Acting Game"
+  },
+  "gso:HeavyDuty_Flashlight": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/HeavyDuty_Flashlight/model.usda",
+   "dims_mm": [
+    77.6,
+    77.9,
+    229.2
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/HeavyDuty_Flashlight",
+   "categories": [],
+   "description": "Heavy-Duty Flashlight"
+  },
+  "gso:HyperX_Cloud_II_Headset_Gun_Metal": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/HyperX_Cloud_II_Headset_Gun_Metal/model.usda",
+   "dims_mm": [
+    245.2,
+    127.3,
+    329.5
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/HyperX_Cloud_II_Headset_Gun_Metal",
+   "categories": [
+    "Headphones"
+   ],
+   "description": "HyperX Cloud II Headset - Gun Metal\nHyperXR Cloud II features a redesigned USB sound card audio control box that amplifies audio and voice for an optimal Hi-Fi gaming experience, so you can hear what you?ve been missing. Open up a world of detail other gamers will never know ? the rustle of a camper?s boot, the scuttle in a distant vent. Its independent audio and microphone volume control lets you adjust not only sound volume but also mic volume and easily toggle Surround Sound 7.1 or the mic sound on and off. This next-generation headset generates virtual 7.1 surround sound with distance and depth to enhance your gaming, movie or music experience. Pinpoint your opponents? location in the game and strike before he sees you coming. It?s hardware driven and plug and play, with no driver needed. HyperX Cloud II has a digitally enhanced, noise-cancelling microphone with automatic gain control functionality and echo cancellation enabled through the USB sound card. The result is clearer voice quality and reduced background noise, with voice volume automatically increasing as in-game sound gets louder, to optimize team communication and in-game chat in intense battles. HyperX Cloud II is certified by TeamSpeak and optimized for Skype and other leading chat programs. HyperX Cloud II is Hi-Fi capable, with 53mm drivers for superior audio performance and rich sound quality with crystal-clear low, mid and high tones and enhanced bass via the sound card. Pro-gaming optimized, HyperX Cloud II is USB-powered for PCs and Macs and 3.5mm stereo-compatible for PS4 and Xbox One1. Its closed cup design helps with noise cancellation in gaming tournaments and other loud environments so players can obliterate the enemy in peace.",
+   "excluded": "size [0.245, 0.127, 0.33] m > cap (height 0.3 · floor diagonal 0.48)"
+  },
+  "gso:InterDesign_Over_Door": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/InterDesign_Over_Door/model.usda",
+   "dims_mm": [
+    215.2,
+    291.2,
+    97.0
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/InterDesign_Over_Door",
+   "categories": [],
+   "description": "InterDesign Over Door"
+  },
+  "gso:JarroDophilusFOS_Value_Size": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/JarroDophilusFOS_Value_Size/model.usda",
+   "dims_mm": [
+    66.9,
+    66.3,
+    128.5
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/JarroDophilusFOS_Value_Size",
+   "categories": [
+    "Bottles and Cans and Cups"
+   ],
+   "description": "Jarro-Dophilus+FOS - Value Size"
+  },
+  "gso:Just_For_Men_Mustache_Beard_Brushin_Hair_Color_Gel_Kit_Jet_Black_M60": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Just_For_Men_Mustache_Beard_Brushin_Hair_Color_Gel_Kit_Jet_Black_M60/model.usda",
+   "dims_mm": [
+    79.8,
+    46.0,
+    143.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Just_For_Men_Mustache_Beard_Brushin_Hair_Color_Gel_Kit_Jet_Black_M60",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Just For Men Mustache & Beard Brush-in Hair Color Gel Kit Jet Black M-60"
+  },
+  "gso:KITCHEN_FURNITURE_SET_1": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/KITCHEN_FURNITURE_SET_1/model.usda",
+   "dims_mm": [
+    180.0,
+    144.2,
+    106.1
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/KITCHEN_FURNITURE_SET_1",
+   "categories": [
+    "Toys"
+   ],
+   "description": "KITCHEN (FURNITURE SET 1)\nThe set includes refrigerator, a freestanding range, corner storage, and a sink with bottom shlef. Made of Eco-Friendly PlanWood and solid rubber wood."
+  },
+  "gso:Kong_Puppy_Teething_Rubber_Small_Pink": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Kong_Puppy_Teething_Rubber_Small_Pink/model.usda",
+   "dims_mm": [
+    44.5,
+    44.5,
+    71.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Kong_Puppy_Teething_Rubber_Small_Pink",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Kong Puppy Teething Rubber, Small, Pink"
+  },
+  "gso:LADYBUG_BEAD": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/LADYBUG_BEAD/model.usda",
+   "dims_mm": [
+    57.2,
+    84.2,
+    30.3
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/LADYBUG_BEAD",
+   "categories": [
+    "Toys"
+   ],
+   "description": "LADYBUG BEAD\nThis cute grasping toy features rainbow-colored beads which spin and rattle."
+  },
+  "gso:LEGO_Duplo_Creative_Animals_10573": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/LEGO_Duplo_Creative_Animals_10573/model.usda",
+   "dims_mm": [
+    389.2,
+    148.5,
+    159.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/LEGO_Duplo_Creative_Animals_10573",
+   "categories": [
+    "Legos"
+   ],
+   "description": "LEGO Duplo Creative Animals (10573)"
+  },
+  "gso:Leap_Frog_Paint_Dabber_Dot_Art_5_paint_bottles": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Leap_Frog_Paint_Dabber_Dot_Art_5_paint_bottles/model.usda",
+   "dims_mm": [
+    235.7,
+    57.2,
+    232.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Leap_Frog_Paint_Dabber_Dot_Art_5_paint_bottles",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Leap Frog Paint Dabber Dot Art - 5 paint bottles"
+  },
+  "gso:Little_Debbie_Cloud_Cakes_10_ct": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Little_Debbie_Cloud_Cakes_10_ct/model.usda",
+   "dims_mm": [
+    242.6,
+    81.5,
+    139.5
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Little_Debbie_Cloud_Cakes_10_ct",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Little Debbie Cloud Cakes 10 ct"
+  },
+  "gso:Lutein": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Lutein/model.usda",
+   "dims_mm": [
+    53.9,
+    53.9,
+    97.2
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Lutein",
+   "categories": [
+    "Bottles and Cans and Cups"
+   ],
+   "description": "Lutein"
+  },
+  "gso:MODERN_DOLL_FAMILY": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/MODERN_DOLL_FAMILY/model.usda",
+   "dims_mm": [
+    212.2,
+    95.6,
+    131.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/MODERN_DOLL_FAMILY",
+   "categories": [
+    "Toys"
+   ],
+   "description": "MODERN DOLL FAMILY\nFashionably clothed dolls scaled to fit PlanDollhouse."
+  },
+  "gso:Magnifying_Glassassrt": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Magnifying_Glassassrt/model.usda",
+   "dims_mm": [
+    151.8,
+    60.4,
+    17.0
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Magnifying_Glassassrt",
+   "categories": [],
+   "description": "Magnifying Glass-assrt"
+  },
+  "gso:Mario_Party_9_Wii_Game": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Mario_Party_9_Wii_Game/model.usda",
+   "dims_mm": [
+    136.9,
+    191.3,
+    17.2
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Mario_Party_9_Wii_Game",
+   "categories": [
+    "Media Cases"
+   ],
+   "description": "Mario Party 9 [Wii Game]"
+  },
+  "gso:Melissa_Doug_Cart_Turtle_Block": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Melissa_Doug_Cart_Turtle_Block/model.usda",
+   "dims_mm": [
+    273.2,
+    352.2,
+    69.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Melissa_Doug_Cart_Turtle_Block",
+   "categories": [],
+   "description": "Melissa & Doug Cart, Turtle Block"
+  },
+  "gso:Melissa_Doug_Shape_Sorting_Clock": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Melissa_Doug_Shape_Sorting_Clock/model.usda",
+   "dims_mm": [
+    306.5,
+    305.0,
+    60.1
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Melissa_Doug_Shape_Sorting_Clock",
+   "categories": [],
+   "description": "Melissa & Doug Shape Sorting Clock"
+  },
+  "gso:My_Little_Pony_Princess_Celestia": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/My_Little_Pony_Princess_Celestia/model.usda",
+   "dims_mm": [
+    193.2,
+    223.9,
+    232.0
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/My_Little_Pony_Princess_Celestia",
+   "categories": [
+    "Toys"
+   ],
+   "description": "My Little Pony Princess Celestia"
+  },
+  "gso:Nescafe_16Count_Dolce_Gusto_Cappuccino_Capsules": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Nescafe_16Count_Dolce_Gusto_Cappuccino_Capsules/model.usda",
+   "dims_mm": [
+    123.8,
+    124.0,
+    122.6
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Nescafe_16Count_Dolce_Gusto_Cappuccino_Capsules",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Nescafe 16-Count Dolce Gusto Cappuccino Capsules"
+  },
+  "gso:Nestle_Candy_19_oz_Butterfinger_Singles_116567": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Nestle_Candy_19_oz_Butterfinger_Singles_116567/model.usda",
+   "dims_mm": [
+    168.2,
+    41.9,
+    18.6
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Nestle_Candy_19_oz_Butterfinger_Singles_116567",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Nestle Candy 1.9 oz. Butterfinger Singles 116567"
+  },
+  "gso:Nestle_Skinny_Cow_Dreamy_Clusters_Candy_Dark_Chocolate_6_pack_1_oz_pouches": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Nestle_Skinny_Cow_Dreamy_Clusters_Candy_Dark_Chocolate_6_pack_1_oz_pouches/model.usda",
+   "dims_mm": [
+    138.1,
+    58.9,
+    164.6
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Nestle_Skinny_Cow_Dreamy_Clusters_Candy_Dark_Chocolate_6_pack_1_oz_pouches",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Nestle Skinny Cow Dreamy Clusters Candy, Dark Chocolate - 6 pack, 1 oz pouches"
+  },
+  "gso:Nickelodeon_Teenage_Mutant_Ninja_Turtles_Michelangelo": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Nickelodeon_Teenage_Mutant_Ninja_Turtles_Michelangelo/model.usda",
+   "dims_mm": [
+    141.7,
+    45.6,
+    114.3
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Nickelodeon_Teenage_Mutant_Ninja_Turtles_Michelangelo",
+   "categories": [
+    "Action Figures"
+   ],
+   "description": "Nickelodeon Teenage Mutant Ninja Turtles Michelangelo"
+  },
+  "gso:Nintendo_Mario_Action_Figure": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Nintendo_Mario_Action_Figure/model.usda",
+   "dims_mm": [
+    63.2,
+    54.3,
+    102.4
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Nintendo_Mario_Action_Figure",
+   "categories": [
+    "Toys"
+   ],
+   "description": "Nintendo Mario Action Figure"
+  },
+  "gso:Now_Designs_Snack_Bags_Bicycle_2_count": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Now_Designs_Snack_Bags_Bicycle_2_count/model.usda",
+   "dims_mm": [
+    190.5,
+    202.0,
+    21.6
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Now_Designs_Snack_Bags_Bicycle_2_count",
+   "categories": [],
+   "description": "Now Designs Snack Bags, Bicycle - 2 count"
+  },
+  "gso:Object_REmvBDJStub": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Object_REmvBDJStub/model.usda",
+   "dims_mm": [
+    235.8,
+    284.7,
+    250.6
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Object_REmvBDJStub",
+   "categories": [],
+   "description": "Object\nObject"
+  },
+  "gso:Office_Depot_Canon_CLI_8Y_Ink_Cartridge_Yellow_0623B002": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Office_Depot_Canon_CLI_8Y_Ink_Cartridge_Yellow_0623B002/model.usda",
+   "dims_mm": [
+    85.9,
+    49.4,
+    118.3
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Office_Depot_Canon_CLI_8Y_Ink_Cartridge_Yellow_0623B002",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Office Depot Canon CLI 8Y Ink Cartridge, Yellow (0623B002)"
+  },
+  "gso:Office_Depot_Canon_PG_240XL_Ink_Cartridge_Black_5206B001": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Office_Depot_Canon_PG_240XL_Ink_Cartridge_Black_5206B001/model.usda",
+   "dims_mm": [
+    86.0,
+    49.4,
+    118.4
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Office_Depot_Canon_PG_240XL_Ink_Cartridge_Black_5206B001",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Office Depot Canon PG 240XL Ink Cartridge, Black (5206B001)"
+  },
+  "gso:Office_Depot_Dell_Series_9_Ink_Cartridge_Black_MK992": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Office_Depot_Dell_Series_9_Ink_Cartridge_Black_MK992/model.usda",
+   "dims_mm": [
+    86.2,
+    49.7,
+    118.1
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Office_Depot_Dell_Series_9_Ink_Cartridge_Black_MK992",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Office Depot Dell Series 9 Ink Cartridge, Black (MK992)"
+  },
+  "gso:Office_Depot_HP_74XL75_Remanufactured_Ink_Cartridges_BlackTriColor_2_count": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Office_Depot_HP_74XL75_Remanufactured_Ink_Cartridges_BlackTriColor_2_count/model.usda",
+   "dims_mm": [
+    85.5,
+    85.1,
+    116.5
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Office_Depot_HP_74XL75_Remanufactured_Ink_Cartridges_BlackTriColor_2_count",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Office Depot (HP 74XL/75) Remanufactured Ink Cartridges - Black/Tri-Color - 2 count"
+  },
+  "gso:Office_Depot_HP_98_Remanufactured_Ink_Cartridge_Black": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Office_Depot_HP_98_Remanufactured_Ink_Cartridge_Black/model.usda",
+   "dims_mm": [
+    85.5,
+    49.3,
+    147.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Office_Depot_HP_98_Remanufactured_Ink_Cartridge_Black",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Office Depot (HP 98) Remanufactured Ink Cartridge - Black"
+  },
+  "gso:Ortho_Forward_Facing_CkAW6rL25xH": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Ortho_Forward_Facing_CkAW6rL25xH/model.usda",
+   "dims_mm": [
+    251.2,
+    278.8,
+    265.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Ortho_Forward_Facing_CkAW6rL25xH",
+   "categories": [],
+   "description": "Ortho Forward Facing"
+  },
+  "gso:PINEAPPLE_MARACA_6_PCSSET": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/PINEAPPLE_MARACA_6_PCSSET/model.usda",
+   "dims_mm": [
+    68.8,
+    100.3,
+    53.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/PINEAPPLE_MARACA_6_PCSSET",
+   "categories": [
+    "Toys"
+   ],
+   "description": "PINEAPPLE MARACA (6 PCS/SET)\nShake up your next musical adventure with this tropical maraca. Combine with other PlanToys musical items to form a rockstar band !"
+  },
+  "gso:Pass_The_Popcorn_Movie_Guessing_Game": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Pass_The_Popcorn_Movie_Guessing_Game/model.usda",
+   "dims_mm": [
+    204.9,
+    62.6,
+    270.4
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Pass_The_Popcorn_Movie_Guessing_Game",
+   "categories": [
+    "Board Games"
+   ],
+   "description": "Pass The Popcorn Movie Guessing Game"
+  },
+  "gso:Perricoen_MD_No_Concealer_Concealer": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Perricoen_MD_No_Concealer_Concealer/model.usda",
+   "dims_mm": [
+    52.6,
+    43.1,
+    110.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Perricoen_MD_No_Concealer_Concealer",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Perricoen MD No Concealer Concealer\nA universal concealer, brightener, and illuminator with anti-aging and hydrating benefits for the eye area."
+  },
+  "gso:Perricone_MD_Cold_Plasma_Body": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Perricone_MD_Cold_Plasma_Body/model.usda",
+   "dims_mm": [
+    84.6,
+    71.4,
+    158.4
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Perricone_MD_Cold_Plasma_Body",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Perricone MD Cold Plasma Body\nAn anti-aging body moisturizer formulated with Dr. Perricone's Cold Plasma delivery system."
+  },
+  "gso:Perricone_MD_Hypoallergenic_Firming_Eye_Cream_05_oz": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Perricone_MD_Hypoallergenic_Firming_Eye_Cream_05_oz/model.usda",
+   "dims_mm": [
+    57.0,
+    57.3,
+    49.0
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Perricone_MD_Hypoallergenic_Firming_Eye_Cream_05_oz",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Perricone MD Hypoallergenic Firming Eye Cream 0.5 oz"
+  },
+  "gso:Perricone_MD_No_Foundation_Serum": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Perricone_MD_No_Foundation_Serum/model.usda",
+   "dims_mm": [
+    64.3,
+    43.5,
+    122.3
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Perricone_MD_No_Foundation_Serum",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Perricone MD No Foundation Serum\nPerricone MD's No Foundation Serum is a multitasking makeup foundation scientifically formulated to deliver flawless coverage, powerful anti-aging benefits, and sun protection."
+  },
+  "gso:Perricone_MD_Photo_Plasma": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Perricone_MD_Photo_Plasma/model.usda",
+   "dims_mm": [
+    105.8,
+    65.2,
+    105.0
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Perricone_MD_Photo_Plasma",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Perricone MD Photo Plasma\nAn anti-aging moisturizer luxurious in texture, oil-free and with broad spectrum SPF 30."
+  },
+  "gso:Perricone_MD_The_Power_Treatments": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Perricone_MD_The_Power_Treatments/model.usda",
+   "dims_mm": [
+    210.9,
+    54.5,
+    159.0
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Perricone_MD_The_Power_Treatments",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Perricone MD The Power Treatments\nA collection of Dr. Perricone's most powerful and effective anti-aging treatments."
+  },
+  "gso:Philips_EcoVantage_43_W_Light_Bulbs_Natural_Light_2_pack": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Philips_EcoVantage_43_W_Light_Bulbs_Natural_Light_2_pack/model.usda",
+   "dims_mm": [
+    106.9,
+    67.3,
+    107.9
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Philips_EcoVantage_43_W_Light_Bulbs_Natural_Light_2_pack",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Philips EcoVantage 43 W Light Bulbs, Natural Light - 2 pack"
+  },
+  "gso:PhosphOmega": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/PhosphOmega/model.usda",
+   "dims_mm": [
+    60.7,
+    61.0,
+    112.4
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/PhosphOmega",
+   "categories": [
+    "Bottles and Cans and Cups"
+   ],
+   "description": "PhosphOmega"
+  },
+  "gso:Pokmon_Y_Nintendo_3DS_Game": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Pokmon_Y_Nintendo_3DS_Game/model.usda",
+   "dims_mm": [
+    137.5,
+    125.3,
+    15.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Pokmon_Y_Nintendo_3DS_Game",
+   "categories": [
+    "Media Cases"
+   ],
+   "description": "Pok?mon Y [Nintendo 3DS Game]"
+  },
+  "gso:Poppin_File_Sorter_White": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Poppin_File_Sorter_White/model.usda",
+   "dims_mm": [
+    250.6,
+    173.9,
+    156.1
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Poppin_File_Sorter_White",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Poppin File Sorter, White"
+  },
+  "gso:QHPomegranate": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/QHPomegranate/model.usda",
+   "dims_mm": [
+    54.1,
+    53.8,
+    97.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/QHPomegranate",
+   "categories": [
+    "Bottles and Cans and Cups"
+   ],
+   "description": "QH-Pomegranate"
+  },
+  "gso:Razer_Abyssus_Ambidextrous_Gaming_Mouse": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Razer_Abyssus_Ambidextrous_Gaming_Mouse/model.usda",
+   "dims_mm": [
+    101.0,
+    145.8,
+    38.4
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Razer_Abyssus_Ambidextrous_Gaming_Mouse",
+   "categories": [
+    "Mouse"
+   ],
+   "description": "Razer Abyssus - Ambidextrous Gaming Mouse\nThe Razer Abyssus is armed with ultra-responsive buttons tuned for maximum tactile feedback. With an uncompromising 3500 DPI Razer optical sensor at its core, take full control of your every aim with perfect tracking so you outgun your competition."
+  },
+  "gso:Razer_Kraken_Pro_headset_Full_size_Black": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Razer_Kraken_Pro_headset_Full_size_Black/model.usda",
+   "dims_mm": [
+    179.2,
+    136.3,
+    290.2
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Razer_Kraken_Pro_headset_Full_size_Black",
+   "categories": [
+    "Headphones"
+   ],
+   "description": "Razer Kraken Pro - headset - Full size- Black\nThe Razer Kraken Pro gaming headset can extend gaming sessions as well as for unparalleled comfort on the go. The Razer Kraken Pro's large neodymium magnet drivers are tuned for clear high- and mid-ranges as well as deep bass for powerful lows. A closed ear cup deign with plush circumlunar padding creates superior sound isolation so you can focus on your game or conversation uninterrupted by outside noise."
+  },
+  "gso:Remington_TStudio_Hair_Dryer": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Remington_TStudio_Hair_Dryer/model.usda",
+   "dims_mm": [
+    330.0,
+    251.3,
+    89.6
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Remington_TStudio_Hair_Dryer",
+   "categories": [],
+   "description": "Remington T/Studio Hair Dryer"
+  },
+  "gso:Rexy_Glove_Heavy_Duty_Large": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Rexy_Glove_Heavy_Duty_Large/model.usda",
+   "dims_mm": [
+    274.1,
+    244.2,
+    33.9
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Rexy_Glove_Heavy_Duty_Large",
+   "categories": [],
+   "description": "Rexy Glove Heavy Duty, Large"
+  },
+  "gso:Room_Essentials_Salad_Plate_Turquoise": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Room_Essentials_Salad_Plate_Turquoise/model.usda",
+   "dims_mm": [
+    221.9,
+    221.9,
+    28.4
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Room_Essentials_Salad_Plate_Turquoise",
+   "categories": [],
+   "description": "Room Essentials Salad Plate, Turquoise"
+  },
+  "gso:SHAPE_MATCHING": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/SHAPE_MATCHING/model.usda",
+   "dims_mm": [
+    254.1,
+    189.3,
+    34.0
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/SHAPE_MATCHING",
+   "categories": [
+    "Toys"
+   ],
+   "description": "SHAPE MATCHING\nSet included 8 different puzzles blocks with two-sided curved base. Matching the corresponding halves and places the complete shape on the board. Good for differentiating colors, shapes, and forms.  Curved base for easy flip over."
+  },
+  "gso:SORTING_TRAIN": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/SORTING_TRAIN/model.usda",
+   "dims_mm": [
+    100.8,
+    238.2,
+    137.8
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/SORTING_TRAIN",
+   "categories": [
+    "Toys"
+   ],
+   "description": "SORTING TRAIN\nShape and sort features enable this set to form a train which can be used as a pull toy."
+  },
+  "gso:Saccharomyces_Boulardii_MOS_Value_Size": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Saccharomyces_Boulardii_MOS_Value_Size/model.usda",
+   "dims_mm": [
+    74.8,
+    74.0,
+    135.1
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Saccharomyces_Boulardii_MOS_Value_Size",
+   "categories": [
+    "Bottles and Cans and Cups"
+   ],
+   "description": "Saccharomyces Boulardii + MOS Value Size"
+  },
+  "gso:Schleich_Hereford_Bull": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Schleich_Hereford_Bull/model.usda",
+   "dims_mm": [
+    43.8,
+    134.4,
+    81.6
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Schleich_Hereford_Bull",
+   "categories": [
+    "Toys"
+   ],
+   "description": "Schleich Hereford Bull"
+  },
+  "gso:Seagate_1TB_Backup_Plus_portable_drive_Silver": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Seagate_1TB_Backup_Plus_portable_drive_Silver/model.usda",
+   "dims_mm": [
+    16.6,
+    81.9,
+    124.2
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Seagate_1TB_Backup_Plus_portable_drive_Silver",
+   "categories": [],
+   "description": "Seagate 1TB Backup Plus portable drive - Silver\nThe Backup Plus portable drive from Seagate is the simple, one-click way to protect and share your entire digital life?without getting in the way of the rest of your life."
+  },
+  "gso:Shaxon_100_Molded_Category_6_RJ45RJ45_Shielded_Patch_Cord_White": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Shaxon_100_Molded_Category_6_RJ45RJ45_Shielded_Patch_Cord_White/model.usda",
+   "dims_mm": [
+    174.8,
+    174.8,
+    60.5
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Shaxon_100_Molded_Category_6_RJ45RJ45_Shielded_Patch_Cord_White",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Shaxon 100' Molded Category 6 RJ45/RJ45 Shielded Patch Cord, White"
+  },
+  "gso:Smith_Hawken_Woven_BasketTray_Organizer_with_3_Compartments_95_x_9_x_13": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Smith_Hawken_Woven_BasketTray_Organizer_with_3_Compartments_95_x_9_x_13/model.usda",
+   "dims_mm": [
+    360.7,
+    257.5,
+    268.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Smith_Hawken_Woven_BasketTray_Organizer_with_3_Compartments_95_x_9_x_13",
+   "categories": [],
+   "description": "Smith & Hawken Woven Basket,Tray Organizer with 3 Compartments, 9.5\" x 9' x 13\""
+  },
+  "gso:Sootheze_Cold_Therapy_Elephant": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Sootheze_Cold_Therapy_Elephant/model.usda",
+   "dims_mm": [
+    267.9,
+    220.7,
+    207.4
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Sootheze_Cold_Therapy_Elephant",
+   "categories": [
+    "Stuffed Toys"
+   ],
+   "description": "Sootheze Cold Therapy, Elephant"
+  },
+  "gso:Squirrel": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Squirrel/model.usda",
+   "dims_mm": [
+    99.8,
+    141.1,
+    131.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Squirrel",
+   "categories": [],
+   "description": "Squirrel\nSquirrel"
+  },
+  "gso:Super_Mario_3D_World_Deluxe_Set_yThuvW9vZed": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Super_Mario_3D_World_Deluxe_Set_yThuvW9vZed/model.usda",
+   "dims_mm": [
+    460.5,
+    271.6,
+    55.5
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Super_Mario_3D_World_Deluxe_Set_yThuvW9vZed",
+   "categories": [],
+   "description": "Super Mario 3D World Deluxe Set\n? Black Wii U Console\n? Super Mario 3D World Game \n? Nintendo Land Game\n? Wii U AC Adapter\n? Wii U GamePad AC Adapter\n? High Speed HDMI Cable\n? Sensor Bar\n? Wii U GamePad Cradle\n? Wii U GamePad Stand Support\n? Wii U Console Stand",
+   "excluded": "size [0.461, 0.272, 0.056] m > cap (height 0.3 · floor diagonal 0.48)"
+  },
+  "gso:Swiss_Miss_Hot_Cocoa_KCups_Milk_Chocolate_12_count": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Swiss_Miss_Hot_Cocoa_KCups_Milk_Chocolate_12_count/model.usda",
+   "dims_mm": [
+    150.8,
+    100.6,
+    99.0
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Swiss_Miss_Hot_Cocoa_KCups_Milk_Chocolate_12_count",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Swiss Miss Hot Cocoa K-Cups, Milk Chocolate - 12 count"
+  },
+  "gso:TURBOPROP_AIRPLANE_WITH_PILOT": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/TURBOPROP_AIRPLANE_WITH_PILOT/model.usda",
+   "dims_mm": [
+    91.1,
+    90.7,
+    64.3
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/TURBOPROP_AIRPLANE_WITH_PILOT",
+   "categories": [
+    "Toys"
+   ],
+   "description": "TURBOPROP AIRPLANE WITH PILOT"
+  },
+  "gso:Tag_Dishtowel_Dobby_Stripe_Blue_18_x_26": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Tag_Dishtowel_Dobby_Stripe_Blue_18_x_26/model.usda",
+   "dims_mm": [
+    171.7,
+    237.2,
+    28.3
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Tag_Dishtowel_Dobby_Stripe_Blue_18_x_26",
+   "categories": [],
+   "description": "Tag Dishtowel, Dobby Stripe Blue, 18' x 26\""
+  },
+  "gso:Tetris_Link_Game": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Tetris_Link_Game/model.usda",
+   "dims_mm": [
+    323.1,
+    91.6,
+    267.1
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Tetris_Link_Game",
+   "categories": [
+    "Board Games"
+   ],
+   "description": "Tetris Link Game"
+  },
+  "gso:Thomas_Friends_Wooden_Railway_Deluxe_Track_Accessory_Pack": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Thomas_Friends_Wooden_Railway_Deluxe_Track_Accessory_Pack/model.usda",
+   "dims_mm": [
+    357.0,
+    204.7,
+    58.1
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Thomas_Friends_Wooden_Railway_Deluxe_Track_Accessory_Pack",
+   "categories": [
+    "Toys"
+   ],
+   "description": "Thomas & Friends Wooden Railway, Deluxe Track Accessory Pack"
+  },
+  "gso:Threshold_Dinner_Plate_Square_Rim_White_Porcelain": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Threshold_Dinner_Plate_Square_Rim_White_Porcelain/model.usda",
+   "dims_mm": [
+    271.0,
+    273.5,
+    38.9
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Threshold_Dinner_Plate_Square_Rim_White_Porcelain",
+   "categories": [],
+   "description": "Threshold Dinner Plate, Square Rim, White, Porcelain"
+  },
+  "gso:Threshold_Porcelain_Spoon_Rest_White": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Threshold_Porcelain_Spoon_Rest_White/model.usda",
+   "dims_mm": [
+    236.7,
+    117.6,
+    71.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Threshold_Porcelain_Spoon_Rest_White",
+   "categories": [
+    "Bottles and Cans and Cups"
+   ],
+   "description": "Threshold Porcelain Spoon Rest, White"
+  },
+  "gso:Top_Paw_Dog_Bow_Bone_Ceramic_13_fl_oz_total": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Top_Paw_Dog_Bow_Bone_Ceramic_13_fl_oz_total/model.usda",
+   "dims_mm": [
+    184.4,
+    185.6,
+    68.5
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Top_Paw_Dog_Bow_Bone_Ceramic_13_fl_oz_total",
+   "categories": [],
+   "description": "Top Paw Dog Bow, Bone, Ceramic - 13 fl oz total"
+  },
+  "gso:Travel_Mate_P_series_Notebook": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Travel_Mate_P_series_Notebook/model.usda",
+   "dims_mm": [
+    332.7,
+    375.4,
+    193.9
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Travel_Mate_P_series_Notebook",
+   "categories": [],
+   "description": "Travel Mate P series Notebook\n14\" commerical notebok",
+   "excluded": "size [0.333, 0.375, 0.194] m > cap (height 0.3 · floor diagonal 0.48)"
+  },
+  "gso:Twinlab_Nitric_Fuel": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Twinlab_Nitric_Fuel/model.usda",
+   "dims_mm": [
+    59.7,
+    59.4,
+    113.2
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Twinlab_Nitric_Fuel",
+   "categories": [
+    "Bottles and Cans and Cups"
+   ],
+   "description": "Twinlab Nitric Fuel\nFinally, a product that takes you beyond  a simple pump.*  Nitric  Fuel? floods muscles  with  Nitric  Oxide, Beta-Alanine and Creatine in an innovative bi-layer tablet designed for both quick and prolonged power and pump.* Nitric Fuel goes beyond simple \"pump\" products by combining the volumizing effects  of Nitric Oxide (from Di-arginine Malate and Citrulline Malate) with stamina-boosting Beta-Alanine and performance-enhancing Creatine (Di-creatine Malate).* Nitric Oxide increases blood flow, which may deliver more nutrients to muscles and help get that pumped-up post workout look.* In addition to Di-arginine Malate and Di-creatine Malate, Nitric Fuel's Power Pump Complex contains Citrulline Malate, a precursor to Nitric Oxide that helps promote resistance to fatigue and better muscle recovery; Aspartic acid, which may increase stamina; and L-histidine, an amino acid that combines with Beta- Alanine to further increase muscular strength.* We also added Glyceryl Monostearate, which helps transport water into muscle cells and may further promote muscle hydration.* All of these nutrients are combined in a unique bi-layer tablet. The gray side of the tablet dissolves quickly to kick-start your workout, while the blue side dissipates more slowly to fuel sustained and intense 1-2 hour workouts.*  *These statements have not been evaluated by the Food and Drug Administration.  This product is not intended to diagnose, treat, cure or prevent disease."
+  },
+  "gso:Utana_5_Porcelain_Ramekin_Large": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Utana_5_Porcelain_Ramekin_Large/model.usda",
+   "dims_mm": [
+    132.5,
+    131.8,
+    69.6
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Utana_5_Porcelain_Ramekin_Large",
+   "categories": [],
+   "description": "Utana 5\" Porcelain Ramekin, Large"
+  },
+  "gso:Vtech_Roll_Learn_Turtle": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Vtech_Roll_Learn_Turtle/model.usda",
+   "dims_mm": [
+    169.4,
+    232.5,
+    117.5
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Vtech_Roll_Learn_Turtle",
+   "categories": [],
+   "description": "Vtech Roll & Learn Turtle"
+  },
+  "gso:Weston_No_33_Signature_Sausage_Tonic_12_fl_oz": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Weston_No_33_Signature_Sausage_Tonic_12_fl_oz/model.usda",
+   "dims_mm": [
+    65.5,
+    62.5,
+    198.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Weston_No_33_Signature_Sausage_Tonic_12_fl_oz",
+   "categories": [
+    "Bottles and Cans and Cups"
+   ],
+   "description": "Weston No. 33 Signature Sausage Tonic - 12 fl oz\nWeston Premium Jerky Tonic - the cure for the tired tastebud! Our bottles let you use only what you need. Mix one tablespoon of seasoning with one tablespoon of water for every one pound of meat."
+  },
+  "gso:Wilton_PreCut_Parchment_Sheets_10_x_15_24_sheets": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/Wilton_PreCut_Parchment_Sheets_10_x_15_24_sheets/model.usda",
+   "dims_mm": [
+    273.7,
+    53.0,
+    56.7
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/Wilton_PreCut_Parchment_Sheets_10_x_15_24_sheets",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Wilton Pre-Cut Parchment Sheets, 10\" x 15\" - 24 sheets"
+  },
+  "gso:YumYum_D3_Liquid": {
+   "src": "gso",
+   "license": "CC BY 4.0",
+   "attribution": "Google Scanned Objects by Google Research (Downs et al., ICRA 2022), CC BY 4.0, https://app.gazebosim.org/GoogleResearch",
+   "usd": "models/gso/YumYum_D3_Liquid/model.usda",
+   "dims_mm": [
+    33.3,
+    34.4,
+    100.1
+   ],
+   "page": "https://app.gazebosim.org/GoogleResearch/fuel/models/YumYum_D3_Liquid",
+   "categories": [
+    "Consumer Goods"
+   ],
+   "description": "Yum-Yum D3 Liquid\nJarrow Formulas Yum-Yum D3 Liquid delivers 200 IU of vitamin D3 (cholecalciferol) per drop. Vitamin D3 is essential for children (and adults) in promoting healthy bones, teeth, brain and immune system.* WARNING: Breast-fed and partially breast-fed infants should not consume more than 400 IU (international units) of vitamin D per day. Limit intake of this product to 2 drops per day in infants.  *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease."
+  }
+ },
+ "hdris": {
+  "aerodynamics_workshop": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/aerodynamics_workshop_2k.hdr",
+   "mean_lum": 0.50338,
+   "page": "https://polyhaven.com/a/aerodynamics_workshop"
+  },
+  "blue_photo_studio": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/blue_photo_studio_2k.hdr",
+   "mean_lum": 0.88446,
+   "page": "https://polyhaven.com/a/blue_photo_studio"
+  },
+  "colorful_studio": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/colorful_studio_2k.hdr",
+   "mean_lum": 0.88988,
+   "page": "https://polyhaven.com/a/colorful_studio"
+  },
+  "decor_shop": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/decor_shop_2k.hdr",
+   "mean_lum": 0.36567,
+   "page": "https://polyhaven.com/a/decor_shop"
+  },
+  "ferndale_studio_03": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/ferndale_studio_03_2k.hdr",
+   "mean_lum": 0.87569,
+   "page": "https://polyhaven.com/a/ferndale_studio_03"
+  },
+  "ferndale_studio_09": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/ferndale_studio_09_2k.hdr",
+   "mean_lum": 0.71239,
+   "page": "https://polyhaven.com/a/ferndale_studio_09"
+  },
+  "gym_entrance": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/gym_entrance_2k.hdr",
+   "mean_lum": 0.55091,
+   "page": "https://polyhaven.com/a/gym_entrance"
+  },
+  "kiara_interior": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/kiara_interior_2k.hdr",
+   "mean_lum": 0.52528,
+   "page": "https://polyhaven.com/a/kiara_interior"
+  },
+  "marry_hall": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/marry_hall_2k.hdr",
+   "mean_lum": 0.77817,
+   "page": "https://polyhaven.com/a/marry_hall"
+  },
+  "monochrome_studio_04": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/monochrome_studio_04_2k.hdr",
+   "mean_lum": 0.88085,
+   "page": "https://polyhaven.com/a/monochrome_studio_04"
+  },
+  "old_hall": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/old_hall_2k.hdr",
+   "mean_lum": 0.9359,
+   "page": "https://polyhaven.com/a/old_hall"
+  },
+  "photo_studio_01": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/photo_studio_01_2k.hdr",
+   "mean_lum": 0.73872,
+   "page": "https://polyhaven.com/a/photo_studio_01"
+  },
+  "provence_studio": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/provence_studio_2k.hdr",
+   "mean_lum": 0.67452,
+   "page": "https://polyhaven.com/a/provence_studio"
+  },
+  "small_empty_room_3": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/small_empty_room_3_2k.hdr",
+   "mean_lum": 0.77739,
+   "page": "https://polyhaven.com/a/small_empty_room_3"
+  },
+  "story_studio_02": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/story_studio_02_2k.hdr",
+   "mean_lum": 0.61552,
+   "page": "https://polyhaven.com/a/story_studio_02"
+  },
+  "studio_kominka_02": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/studio_kominka_02_2k.hdr",
+   "mean_lum": 0.40597,
+   "page": "https://polyhaven.com/a/studio_kominka_02"
+  },
+  "studio_small_01": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/studio_small_01_2k.hdr",
+   "mean_lum": 0.77332,
+   "page": "https://polyhaven.com/a/studio_small_01"
+  },
+  "studio_small_08": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/studio_small_08_2k.hdr",
+   "mean_lum": 0.833,
+   "page": "https://polyhaven.com/a/studio_small_08"
+  },
+  "university_workshop": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/university_workshop_2k.hdr",
+   "mean_lum": 0.8404,
+   "page": "https://polyhaven.com/a/university_workshop"
+  },
+  "white_studio_02": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/white_studio_02_2k.hdr",
+   "mean_lum": 0.77275,
+   "page": "https://polyhaven.com/a/white_studio_02"
+  },
+  "wooden_studio_02": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/wooden_studio_02_2k.hdr",
+   "mean_lum": 0.98577,
+   "page": "https://polyhaven.com/a/wooden_studio_02"
+  },
+  "wooden_studio_09": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/wooden_studio_09_2k.hdr",
+   "mean_lum": 0.66625,
+   "page": "https://polyhaven.com/a/wooden_studio_09"
+  },
+  "wooden_studio_15": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/wooden_studio_15_2k.hdr",
+   "mean_lum": 0.3656,
+   "page": "https://polyhaven.com/a/wooden_studio_15"
+  },
+  "yoga_room": {
+   "src": "polyhaven",
+   "license": "CC0 1.0 Universal",
+   "res": "2k",
+   "file": "hdris/yoga_room_2k.hdr",
+   "mean_lum": 0.794,
+   "page": "https://polyhaven.com/a/yoga_room"
+  }
+ },
+ "acg": {
+  "desk": {
+   "acg_Wood051": {
+    "kind": "tex",
+    "id": "Wood051",
+    "cat": "Wood",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Wood049": {
+    "kind": "tex",
+    "id": "Wood049",
+    "cat": "Wood",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Wood066": {
+    "kind": "tex",
+    "id": "Wood066",
+    "cat": "Wood",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Wood026": {
+    "kind": "tex",
+    "id": "Wood026",
+    "cat": "Wood",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Wood058": {
+    "kind": "tex",
+    "id": "Wood058",
+    "cat": "Wood",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Wood027": {
+    "kind": "tex",
+    "id": "Wood027",
+    "cat": "Wood",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Wood048": {
+    "kind": "tex",
+    "id": "Wood048",
+    "cat": "Wood",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Wood060": {
+    "kind": "tex",
+    "id": "Wood060",
+    "cat": "Wood",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Wood067": {
+    "kind": "tex",
+    "id": "Wood067",
+    "cat": "Wood",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Wood050": {
+    "kind": "tex",
+    "id": "Wood050",
+    "cat": "Wood",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_PaintedWood008C": {
+    "kind": "tex",
+    "id": "PaintedWood008C",
+    "cat": "Painted Wood",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_PaintedWood007C": {
+    "kind": "tex",
+    "id": "PaintedWood007C",
+    "cat": "Painted Wood",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_PaintedWood007B": {
+    "kind": "tex",
+    "id": "PaintedWood007B",
+    "cat": "Painted Wood",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_PaintedWood007A": {
+    "kind": "tex",
+    "id": "PaintedWood007A",
+    "cat": "Painted Wood",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_PaintedWood006C": {
+    "kind": "tex",
+    "id": "PaintedWood006C",
+    "cat": "Painted Wood",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_PaintedWood008B": {
+    "kind": "tex",
+    "id": "PaintedWood008B",
+    "cat": "Painted Wood",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Plastic010": {
+    "kind": "tex",
+    "id": "Plastic010",
+    "cat": "Plastic",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Plastic006": {
+    "kind": "tex",
+    "id": "Plastic006",
+    "cat": "Plastic",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Plastic013A": {
+    "kind": "tex",
+    "id": "Plastic013A",
+    "cat": "Plastic",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Plastic011": {
+    "kind": "tex",
+    "id": "Plastic011",
+    "cat": "Plastic",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Plastic008": {
+    "kind": "tex",
+    "id": "Plastic008",
+    "cat": "Plastic",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Plastic001": {
+    "kind": "tex",
+    "id": "Plastic001",
+    "cat": "Plastic",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Marble012": {
+    "kind": "tex",
+    "id": "Marble012",
+    "cat": "Marble",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Marble006": {
+    "kind": "tex",
+    "id": "Marble006",
+    "cat": "Marble",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Marble016": {
+    "kind": "tex",
+    "id": "Marble016",
+    "cat": "Marble",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Marble014": {
+    "kind": "tex",
+    "id": "Marble014",
+    "cat": "Marble",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Terrazzo005": {
+    "kind": "tex",
+    "id": "Terrazzo005",
+    "cat": "Terrazzo",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Terrazzo004": {
+    "kind": "tex",
+    "id": "Terrazzo004",
+    "cat": "Terrazzo",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Terrazzo001": {
+    "kind": "tex",
+    "id": "Terrazzo001",
+    "cat": "Terrazzo",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Leather037": {
+    "kind": "tex",
+    "id": "Leather037",
+    "cat": "Leather",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Leather026": {
+    "kind": "tex",
+    "id": "Leather026",
+    "cat": "Leather",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Leather030": {
+    "kind": "tex",
+    "id": "Leather030",
+    "cat": "Leather",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Fabric030": {
+    "kind": "tex",
+    "id": "Fabric030",
+    "cat": "Fabric",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Fabric019": {
+    "kind": "tex",
+    "id": "Fabric019",
+    "cat": "Fabric",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Fabric036": {
+    "kind": "tex",
+    "id": "Fabric036",
+    "cat": "Fabric",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Fabric061": {
+    "kind": "tex",
+    "id": "Fabric061",
+    "cat": "Fabric",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Cork001": {
+    "kind": "tex",
+    "id": "Cork001",
+    "cat": "Cork",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Cork002": {
+    "kind": "tex",
+    "id": "Cork002",
+    "cat": "Cork",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Chipboard004": {
+    "kind": "tex",
+    "id": "Chipboard004",
+    "cat": "Chipboard",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Chipboard003": {
+    "kind": "tex",
+    "id": "Chipboard003",
+    "cat": "Chipboard",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   }
+  },
+  "floor": {
+   "acg_WoodFloor051": {
+    "kind": "tex",
+    "id": "WoodFloor051",
+    "cat": "Wood Floor",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_WoodFloor040": {
+    "kind": "tex",
+    "id": "WoodFloor040",
+    "cat": "Wood Floor",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_WoodFloor043": {
+    "kind": "tex",
+    "id": "WoodFloor043",
+    "cat": "Wood Floor",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_WoodFloor007": {
+    "kind": "tex",
+    "id": "WoodFloor007",
+    "cat": "Wood Floor",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_WoodFloor041": {
+    "kind": "tex",
+    "id": "WoodFloor041",
+    "cat": "Wood Floor",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_WoodFloor039": {
+    "kind": "tex",
+    "id": "WoodFloor039",
+    "cat": "Wood Floor",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_WoodFloor044": {
+    "kind": "tex",
+    "id": "WoodFloor044",
+    "cat": "Wood Floor",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_WoodFloor052": {
+    "kind": "tex",
+    "id": "WoodFloor052",
+    "cat": "Wood Floor",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_WoodFloor034": {
+    "kind": "tex",
+    "id": "WoodFloor034",
+    "cat": "Wood Floor",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_WoodFloor008": {
+    "kind": "tex",
+    "id": "WoodFloor008",
+    "cat": "Wood Floor",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tiles107": {
+    "kind": "tex",
+    "id": "Tiles107",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tiles040": {
+    "kind": "tex",
+    "id": "Tiles040",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tiles074": {
+    "kind": "tex",
+    "id": "Tiles074",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tiles078": {
+    "kind": "tex",
+    "id": "Tiles078",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tiles036": {
+    "kind": "tex",
+    "id": "Tiles036",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tiles052": {
+    "kind": "tex",
+    "id": "Tiles052",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tiles002": {
+    "kind": "tex",
+    "id": "Tiles002",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tiles075": {
+    "kind": "tex",
+    "id": "Tiles075",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tiles045": {
+    "kind": "tex",
+    "id": "Tiles045",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tiles105": {
+    "kind": "tex",
+    "id": "Tiles105",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Carpet016": {
+    "kind": "tex",
+    "id": "Carpet016",
+    "cat": "Carpet",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Carpet012": {
+    "kind": "tex",
+    "id": "Carpet012",
+    "cat": "Carpet",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Carpet001": {
+    "kind": "tex",
+    "id": "Carpet001",
+    "cat": "Carpet",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Carpet014": {
+    "kind": "tex",
+    "id": "Carpet014",
+    "cat": "Carpet",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Carpet011": {
+    "kind": "tex",
+    "id": "Carpet011",
+    "cat": "Carpet",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Carpet013": {
+    "kind": "tex",
+    "id": "Carpet013",
+    "cat": "Carpet",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Terrazzo005": {
+    "kind": "tex",
+    "id": "Terrazzo005",
+    "cat": "Terrazzo",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Terrazzo004": {
+    "kind": "tex",
+    "id": "Terrazzo004",
+    "cat": "Terrazzo",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Terrazzo001": {
+    "kind": "tex",
+    "id": "Terrazzo001",
+    "cat": "Terrazzo",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Marble012": {
+    "kind": "tex",
+    "id": "Marble012",
+    "cat": "Marble",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Marble006": {
+    "kind": "tex",
+    "id": "Marble006",
+    "cat": "Marble",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Marble016": {
+    "kind": "tex",
+    "id": "Marble016",
+    "cat": "Marble",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Concrete034": {
+    "kind": "tex",
+    "id": "Concrete034",
+    "cat": "Concrete",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Concrete031": {
+    "kind": "tex",
+    "id": "Concrete031",
+    "cat": "Concrete",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Concrete030": {
+    "kind": "tex",
+    "id": "Concrete030",
+    "cat": "Concrete",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Concrete042A": {
+    "kind": "tex",
+    "id": "Concrete042A",
+    "cat": "Concrete",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tatami001": {
+    "kind": "tex",
+    "id": "Tatami001",
+    "cat": "Tatami",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tatami004": {
+    "kind": "tex",
+    "id": "Tatami004",
+    "cat": "Tatami",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Rubber004": {
+    "kind": "tex",
+    "id": "Rubber004",
+    "cat": "Rubber",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Rubber001": {
+    "kind": "tex",
+    "id": "Rubber001",
+    "cat": "Rubber",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   }
+  },
+  "wall": {
+   "acg_PaintedPlaster017": {
+    "kind": "tex",
+    "id": "PaintedPlaster017",
+    "cat": "Painted Plaster",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_PaintedPlaster001": {
+    "kind": "tex",
+    "id": "PaintedPlaster001",
+    "cat": "Painted Plaster",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_PaintedPlaster004": {
+    "kind": "tex",
+    "id": "PaintedPlaster004",
+    "cat": "Painted Plaster",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_PaintedPlaster005": {
+    "kind": "tex",
+    "id": "PaintedPlaster005",
+    "cat": "Painted Plaster",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_PaintedPlaster002": {
+    "kind": "tex",
+    "id": "PaintedPlaster002",
+    "cat": "Painted Plaster",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_PaintedPlaster003": {
+    "kind": "tex",
+    "id": "PaintedPlaster003",
+    "cat": "Painted Plaster",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Plaster002": {
+    "kind": "tex",
+    "id": "Plaster002",
+    "cat": "Plaster",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Plaster003": {
+    "kind": "tex",
+    "id": "Plaster003",
+    "cat": "Plaster",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Plaster004": {
+    "kind": "tex",
+    "id": "Plaster004",
+    "cat": "Plaster",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Plaster006": {
+    "kind": "tex",
+    "id": "Plaster006",
+    "cat": "Plaster",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Plaster005": {
+    "kind": "tex",
+    "id": "Plaster005",
+    "cat": "Plaster",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Paint004": {
+    "kind": "tex",
+    "id": "Paint004",
+    "cat": "Paint",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Paint002": {
+    "kind": "tex",
+    "id": "Paint002",
+    "cat": "Paint",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Paint005": {
+    "kind": "tex",
+    "id": "Paint005",
+    "cat": "Paint",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Paint001": {
+    "kind": "tex",
+    "id": "Paint001",
+    "cat": "Paint",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Paint003": {
+    "kind": "tex",
+    "id": "Paint003",
+    "cat": "Paint",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Wallpaper001A": {
+    "kind": "tex",
+    "id": "Wallpaper001A",
+    "cat": "Wallpaper",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Wallpaper002A": {
+    "kind": "tex",
+    "id": "Wallpaper002A",
+    "cat": "Wallpaper",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_PaintedBricks004": {
+    "kind": "tex",
+    "id": "PaintedBricks004",
+    "cat": "Painted Bricks",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_PaintedBricks001": {
+    "kind": "tex",
+    "id": "PaintedBricks001",
+    "cat": "Painted Bricks",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_PaintedBricks003": {
+    "kind": "tex",
+    "id": "PaintedBricks003",
+    "cat": "Painted Bricks",
+    "src": "ambientcg",
+    "tint_class": "paint"
+   },
+   "acg_Tiles107": {
+    "kind": "tex",
+    "id": "Tiles107",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tiles040": {
+    "kind": "tex",
+    "id": "Tiles040",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tiles074": {
+    "kind": "tex",
+    "id": "Tiles074",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tiles078": {
+    "kind": "tex",
+    "id": "Tiles078",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Tiles036": {
+    "kind": "tex",
+    "id": "Tiles036",
+    "cat": "Tiles",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Bricks075A": {
+    "kind": "tex",
+    "id": "Bricks075A",
+    "cat": "Bricks",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Bricks060": {
+    "kind": "tex",
+    "id": "Bricks060",
+    "cat": "Bricks",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Bricks066": {
+    "kind": "tex",
+    "id": "Bricks066",
+    "cat": "Bricks",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Planks021": {
+    "kind": "tex",
+    "id": "Planks021",
+    "cat": "Planks",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Planks023A": {
+    "kind": "tex",
+    "id": "Planks023A",
+    "cat": "Planks",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   },
+   "acg_Planks037A": {
+    "kind": "tex",
+    "id": "Planks037A",
+    "cat": "Planks",
+    "src": "ambientcg",
+    "tint_class": "natural"
+   }
+  }
+ },
+ "gso_pick": [
+  "2_of_Jenga_Classic_Game",
+  "3D_Dollhouse_Sofa",
+  "5_HTP",
+  "Air_Hogs_Wind_Flyers_Set_Airplane_Red",
+  "Animal_Crossing_New_Leaf_Nintendo_3DS_Game",
+  "Asus_M5A78LMUSB3_Motherboard_Micro_ATX_Socket_AM3",
+  "Asus_Z97IPLUS_Motherboard_Mini_ITX_LGA1150_Socket",
+  "BALANCING_CACTUS",
+  "BIA_Cordon_Bleu_White_Porcelain_Utensil_Holder_900028",
+  "BUILD_A_ZOO",
+  "Beyonc_Life_is_But_a_Dream_DVD",
+  "Black_Elderberry_Syrup_54_oz_Gaia_Herbs",
+  "BlueBlack_Nintendo_3DSXL",
+  "Brother_Ink_Cartridge_Magenta_LC75M",
+  "CHICKEN_RACER",
+  "CONE_SORTING_kg5fbARBwts",
+  "Canon_Pixma_Ink_Cartridge_251_M",
+  "Chefmate_8_Frypan",
+  "CoQ10_BjTLbuRVt1t",
+  "Cole_Hardware_Deep_Bowl_Good_Earth_1075",
+  "Cole_Hardware_Electric_Pot_Assortment_55",
+  "Cole_Hardware_Plant_Saucer_Brown_125",
+  "Cootie_Game",
+  "Crayola_Crayons_24_count",
+  "Crayola_Washable_Sidewalk_Chalk_16_pack_wDZECiw7J6s",
+  "DIM_CDG",
+  "Dell_Ink_Cartridge",
+  "Diet_Pepsi_Soda_Cola12_Pack_12_oz_Cans",
+  "Down_To_Earth_Ceramic_Orchid_Pot_Asst_Blue",
+  "Ecoforms_Plant_Bowl_Atlas_Low",
+  "Ecoforms_Plant_Container_GP16A_Coral",
+  "Ecoforms_Plant_Container_Quadra_Turquoise_QP12",
+  "Ecoforms_Plant_Container_Urn_55_Avocado",
+  "Ecoforms_Plant_Saucer_S14NATURAL",
+  "Ecoforms_Planter_Pot_GP12AAvocado",
+  "Elephant",
+  "Epson_LabelWorks_LC4WBN9_Tape_reel_labels_047_x_295_Roll_Black_on_White",
+  "FARM_ANIMAL",
+  "FRACTION_FUN_n4h4qte23QR",
+  "FisherPrice_Make_A_Match_Game_Thomas_Friends",
+  "Frozen_Olafs_In_Trouble_PopOMatic_Game_OEu83W9T8pD",
+  "GEARS_PUZZLES_STANDARD_gcYxhNHhKlI",
+  "Germanium_GE132",
+  "Granimals_20_Wooden_ABC_Blocks_Wagon_85VdSftGsLi",
+  "HAMMER_BALL",
+  "Hasbro_Cranium_Performance_and_Acting_Game",
+  "HeavyDuty_Flashlight",
+  "HyperX_Cloud_II_Headset_Gun_Metal",
+  "InterDesign_Over_Door",
+  "JarroDophilusFOS_Value_Size",
+  "Just_For_Men_Mustache_Beard_Brushin_Hair_Color_Gel_Kit_Jet_Black_M60",
+  "KITCHEN_FURNITURE_SET_1",
+  "Kong_Puppy_Teething_Rubber_Small_Pink",
+  "LADYBUG_BEAD",
+  "LEGO_Duplo_Creative_Animals_10573",
+  "Leap_Frog_Paint_Dabber_Dot_Art_5_paint_bottles",
+  "Little_Debbie_Cloud_Cakes_10_ct",
+  "Lutein",
+  "MODERN_DOLL_FAMILY",
+  "Magnifying_Glassassrt",
+  "Mario_Party_9_Wii_Game",
+  "Melissa_Doug_Cart_Turtle_Block",
+  "Melissa_Doug_Shape_Sorting_Clock",
+  "My_Little_Pony_Princess_Celestia",
+  "Nescafe_16Count_Dolce_Gusto_Cappuccino_Capsules",
+  "Nestle_Candy_19_oz_Butterfinger_Singles_116567",
+  "Nestle_Skinny_Cow_Dreamy_Clusters_Candy_Dark_Chocolate_6_pack_1_oz_pouches",
+  "Nickelodeon_Teenage_Mutant_Ninja_Turtles_Michelangelo",
+  "Nintendo_Mario_Action_Figure",
+  "Now_Designs_Snack_Bags_Bicycle_2_count",
+  "Object_REmvBDJStub",
+  "Office_Depot_Canon_CLI_8Y_Ink_Cartridge_Yellow_0623B002",
+  "Office_Depot_Canon_PG_240XL_Ink_Cartridge_Black_5206B001",
+  "Office_Depot_Dell_Series_9_Ink_Cartridge_Black_MK992",
+  "Office_Depot_HP_74XL75_Remanufactured_Ink_Cartridges_BlackTriColor_2_count",
+  "Office_Depot_HP_98_Remanufactured_Ink_Cartridge_Black",
+  "Ortho_Forward_Facing_CkAW6rL25xH",
+  "PINEAPPLE_MARACA_6_PCSSET",
+  "Pass_The_Popcorn_Movie_Guessing_Game",
+  "Perricoen_MD_No_Concealer_Concealer",
+  "Perricone_MD_Cold_Plasma_Body",
+  "Perricone_MD_Hypoallergenic_Firming_Eye_Cream_05_oz",
+  "Perricone_MD_No_Foundation_Serum",
+  "Perricone_MD_Photo_Plasma",
+  "Perricone_MD_The_Power_Treatments",
+  "Philips_EcoVantage_43_W_Light_Bulbs_Natural_Light_2_pack",
+  "PhosphOmega",
+  "Pokmon_Y_Nintendo_3DS_Game",
+  "Poppin_File_Sorter_White",
+  "QHPomegranate",
+  "Razer_Abyssus_Ambidextrous_Gaming_Mouse",
+  "Razer_Kraken_Pro_headset_Full_size_Black",
+  "Remington_TStudio_Hair_Dryer",
+  "Rexy_Glove_Heavy_Duty_Large",
+  "Room_Essentials_Salad_Plate_Turquoise",
+  "SHAPE_MATCHING",
+  "SORTING_TRAIN",
+  "Saccharomyces_Boulardii_MOS_Value_Size",
+  "Schleich_Hereford_Bull",
+  "Seagate_1TB_Backup_Plus_portable_drive_Silver",
+  "Shaxon_100_Molded_Category_6_RJ45RJ45_Shielded_Patch_Cord_White",
+  "Smith_Hawken_Woven_BasketTray_Organizer_with_3_Compartments_95_x_9_x_13",
+  "Sootheze_Cold_Therapy_Elephant",
+  "Squirrel",
+  "Super_Mario_3D_World_Deluxe_Set_yThuvW9vZed",
+  "Swiss_Miss_Hot_Cocoa_KCups_Milk_Chocolate_12_count",
+  "TURBOPROP_AIRPLANE_WITH_PILOT",
+  "Tag_Dishtowel_Dobby_Stripe_Blue_18_x_26",
+  "Tetris_Link_Game",
+  "Thomas_Friends_Wooden_Railway_Deluxe_Track_Accessory_Pack",
+  "Threshold_Dinner_Plate_Square_Rim_White_Porcelain",
+  "Threshold_Porcelain_Spoon_Rest_White",
+  "Top_Paw_Dog_Bow_Bone_Ceramic_13_fl_oz_total",
+  "Travel_Mate_P_series_Notebook",
+  "Twinlab_Nitric_Fuel",
+  "Utana_5_Porcelain_Ramekin_Large",
+  "Vtech_Roll_Learn_Turtle",
+  "Weston_No_33_Signature_Sausage_Tonic_12_fl_oz",
+  "Wilton_PreCut_Parchment_Sheets_10_x_15_24_sheets",
+  "YumYum_D3_Liquid"
+ ],
+ "look_d": {
+  "desk": [
+   0.7972,
+   0.7434,
+   0.6907
+  ],
+  "floor": [
+   0.4566,
+   0.4538,
+   0.4383
+  ],
+  "wall": [
+   0.7373,
+   0.7373,
+   0.7373
+  ]
+ },
+ "files": 840,
+ "bytes": 864779498
+}

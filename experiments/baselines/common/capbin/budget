@@ -1,0 +1,24 @@
+#!/bin/bash
+# Training-budget shim: `budget <seconds> <command…>` in a row command marks THAT step's time limit as its budget, not a
+# hang guard. The step runs under the real coreutils timeout like capbin/timeout, but a limit hit (rc 124 · 137) is
+# appended to $E123_CAPLOG.budget, never to $E123_CAPLOG — so trim_reason (common/rowlib.sh) does not read it as TRIM and
+# the row is judged by what the later steps leave (the ManipTrans residual row evaluates the best checkpoint after the cut).
+# Every other `timeout` in a row stays a cap (TRIM = FAIL). The step is told apart by its name in the command.
+# Each call also appends to $E123_CAPLOG.used (the shim-was-on-PATH proof the verdict checks). E123_CAPLOG is set by run_row.
+self=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+real=""
+IFS=: read -r -a _dirs <<< "$PATH"
+for d in "${_dirs[@]}"; do
+  [ -n "$d" ] && [ "$(cd "$d" 2>/dev/null && pwd)" = "$self" ] && continue
+  [ -x "$d/timeout" ] && [ ! -d "$d/timeout" ] && { real=$d/timeout; break; }
+done
+[ -n "$real" ] || { echo "[E123_BUDGET] FAIL no real timeout on PATH" >&2; exit 125; }
+[ -n "${E123_CAPLOG:-}" ] || { echo "[E123_BUDGET] FAIL E123_CAPLOG unset — shim used outside run_row" >&2; exit 125; }
+case "${1:-}" in [1-9]*) ;; *) echo "[E123_BUDGET] FAIL first argument '${1:-}' is not the budget in seconds" >&2; exit 125;; esac
+printf '%s budget %s\n' "$$" "$(printf '%s ' "$@" | cut -c1-200)" >> "$E123_CAPLOG.used"
+"$real" "$@"; rc=$?
+case $rc in
+  124|137) printf '[E123_BUDGET] budget_hit=1 rc=%s %s args: %s\n' "$rc" "$(date -Is)" "$(printf '%s ' "$@" | cut -c1-200)" >> "$E123_CAPLOG.budget"
+           echo "[E123_BUDGET] budget_hit=1 rc=$rc budget=${1}s — the step stopped at its budget; the row goes on" >&2;;
+esac
+exit $rc

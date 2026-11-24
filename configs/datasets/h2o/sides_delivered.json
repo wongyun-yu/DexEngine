@@ -1,0 +1,615 @@
+{
+ "what": "H2O object side(s) per take: the delivered H2O side assignment (task_info <side>_object_mesh_dir)",
+ "source": "data/h2o/mano/bimanual/*/task_info.json (the delivered MANO layer)",
+ "n": 184,
+ "sides": {
+  "subject1_h1__take0_cam4": [
+   "right"
+  ],
+  "subject1_h1__take1_cam4": [
+   "right"
+  ],
+  "subject1_h1__take2_cam4": [
+   "right",
+   "left"
+  ],
+  "subject1_h1__take3_cam4": [
+   "right"
+  ],
+  "subject1_h1__take4_cam4": [
+   "left"
+  ],
+  "subject1_h1__take5_cam4": [
+   "right"
+  ],
+  "subject1_h1__take6_cam4": [
+   "left"
+  ],
+  "subject1_h1__take7_cam4": [
+   "right",
+   "left"
+  ],
+  "subject1_h2__take0_cam4": [
+   "right"
+  ],
+  "subject1_h2__take1_cam4": [
+   "left"
+  ],
+  "subject1_h2__take2_cam4": [
+   "right",
+   "left"
+  ],
+  "subject1_h2__take3_cam4": [
+   "right"
+  ],
+  "subject1_h2__take4_cam4": [
+   "right"
+  ],
+  "subject1_h2__take5_cam4": [
+   "right"
+  ],
+  "subject1_h2__take6_cam4": [
+   "left"
+  ],
+  "subject1_h2__take7_cam4": [
+   "left"
+  ],
+  "subject1_k1__take0_cam4": [
+   "right",
+   "left"
+  ],
+  "subject1_k1__take1_cam4": [
+   "right",
+   "left"
+  ],
+  "subject1_k1__take2_cam4": [
+   "right",
+   "left"
+  ],
+  "subject1_k1__take3_cam4": [
+   "right"
+  ],
+  "subject1_k1__take4_cam4": [
+   "left"
+  ],
+  "subject1_k1__take5_cam4": [
+   "right"
+  ],
+  "subject1_k1__take6_cam4": [
+   "left"
+  ],
+  "subject1_k1__take7_cam4": [
+   "right",
+   "left"
+  ],
+  "subject1_k2__take0_cam4": [
+   "left"
+  ],
+  "subject1_k2__take1_cam4": [
+   "left"
+  ],
+  "subject1_k2__take2_cam4": [
+   "right",
+   "left"
+  ],
+  "subject1_k2__take3_cam4": [
+   "left"
+  ],
+  "subject1_k2__take4_cam4": [
+   "right"
+  ],
+  "subject1_k2__take5_cam4": [
+   "left"
+  ],
+  "subject1_k2__take6_cam4": [
+   "left"
+  ],
+  "subject1_o1__take0_cam4": [
+   "left"
+  ],
+  "subject1_o1__take1_cam4": [
+   "left"
+  ],
+  "subject1_o1__take2_cam4": [
+   "right",
+   "left"
+  ],
+  "subject1_o1__take3_cam4": [
+   "right"
+  ],
+  "subject1_o1__take4_cam4": [
+   "left"
+  ],
+  "subject1_o1__take5_cam4": [
+   "right"
+  ],
+  "subject1_o1__take6_cam4": [
+   "left"
+  ],
+  "subject1_o1__take7_cam4": [
+   "right",
+   "left"
+  ],
+  "subject1_o2__take0_cam4": [
+   "right",
+   "left"
+  ],
+  "subject1_o2__take1_cam4": [
+   "right",
+   "left"
+  ],
+  "subject1_o2__take2_cam4": [
+   "right",
+   "left"
+  ],
+  "subject1_o2__take3_cam4": [
+   "left"
+  ],
+  "subject1_o2__take4_cam4": [
+   "left"
+  ],
+  "subject1_o2__take5_cam4": [
+   "left"
+  ],
+  "subject1_o2__take6_cam4": [
+   "left"
+  ],
+  "subject1_o2__take7_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_h1__take0_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_h1__take1_cam4": [
+   "right"
+  ],
+  "subject2_h1__take2_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_h1__take3_cam4": [
+   "right"
+  ],
+  "subject2_h1__take4_cam4": [
+   "right"
+  ],
+  "subject2_h1__take5_cam4": [
+   "right"
+  ],
+  "subject2_h1__take6_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_h1__take7_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_h2__take0_cam4": [
+   "right"
+  ],
+  "subject2_h2__take1_cam4": [
+   "right"
+  ],
+  "subject2_h2__take2_cam4": [
+   "left"
+  ],
+  "subject2_h2__take3_cam4": [
+   "right"
+  ],
+  "subject2_h2__take4_cam4": [
+   "right"
+  ],
+  "subject2_h2__take5_cam4": [
+   "right"
+  ],
+  "subject2_h2__take6_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_k1__take0_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_k1__take1_cam4": [
+   "right"
+  ],
+  "subject2_k1__take2_cam4": [
+   "left"
+  ],
+  "subject2_k1__take3_cam4": [
+   "left"
+  ],
+  "subject2_k1__take4_cam4": [
+   "left"
+  ],
+  "subject2_k1__take5_cam4": [
+   "left"
+  ],
+  "subject2_k1__take6_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_k2__take0_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_k2__take1_cam4": [
+   "right"
+  ],
+  "subject2_k2__take2_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_k2__take3_cam4": [
+   "left"
+  ],
+  "subject2_k2__take4_cam4": [
+   "left"
+  ],
+  "subject2_k2__take5_cam4": [
+   "left"
+  ],
+  "subject2_k2__take6_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_o1__take0_cam4": [
+   "left"
+  ],
+  "subject2_o1__take1_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_o1__take2_cam4": [
+   "right"
+  ],
+  "subject2_o1__take3_cam4": [
+   "left"
+  ],
+  "subject2_o1__take4_cam4": [
+   "right"
+  ],
+  "subject2_o1__take5_cam4": [
+   "left"
+  ],
+  "subject2_o1__take6_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_o2__take0_cam4": [
+   "left"
+  ],
+  "subject2_o2__take1_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_o2__take2_cam4": [
+   "right",
+   "left"
+  ],
+  "subject2_o2__take3_cam4": [
+   "left"
+  ],
+  "subject2_o2__take4_cam4": [
+   "right"
+  ],
+  "subject2_o2__take5_cam4": [
+   "left"
+  ],
+  "subject2_o2__take6_cam4": [
+   "right",
+   "left"
+  ],
+  "subject3_h1__take0_cam4": [
+   "left"
+  ],
+  "subject3_h1__take1_cam4": [
+   "right"
+  ],
+  "subject3_h1__take2_cam4": [
+   "left"
+  ],
+  "subject3_h1__take3_cam4": [
+   "right"
+  ],
+  "subject3_h1__take4_cam4": [
+   "right"
+  ],
+  "subject3_h1__take5_cam4": [
+   "right"
+  ],
+  "subject3_h1__take6_cam4": [
+   "left"
+  ],
+  "subject3_h1__take7_cam4": [
+   "left"
+  ],
+  "subject3_h2__take0_cam4": [
+   "left"
+  ],
+  "subject3_h2__take1_cam4": [
+   "right"
+  ],
+  "subject3_h2__take2_cam4": [
+   "right",
+   "left"
+  ],
+  "subject3_h2__take3_cam4": [
+   "right"
+  ],
+  "subject3_h2__take4_cam4": [
+   "right",
+   "left"
+  ],
+  "subject3_h2__take5_cam4": [
+   "right"
+  ],
+  "subject3_h2__take6_cam4": [
+   "left"
+  ],
+  "subject3_h2__take7_cam4": [
+   "right",
+   "left"
+  ],
+  "subject3_k1__take0_cam4": [
+   "left"
+  ],
+  "subject3_k1__take1_cam4": [
+   "right"
+  ],
+  "subject3_k1__take2_cam4": [
+   "left"
+  ],
+  "subject3_k1__take3_cam4": [
+   "right"
+  ],
+  "subject3_k1__take4_cam4": [
+   "left"
+  ],
+  "subject3_k1__take5_cam4": [
+   "right"
+  ],
+  "subject3_k1__take6_cam4": [
+   "left"
+  ],
+  "subject3_k1__take7_cam4": [
+   "left"
+  ],
+  "subject3_k2__take0_cam4": [
+   "left"
+  ],
+  "subject3_k2__take1_cam4": [
+   "right"
+  ],
+  "subject3_k2__take2_cam4": [
+   "left"
+  ],
+  "subject3_k2__take3_cam4": [
+   "right"
+  ],
+  "subject3_k2__take4_cam4": [
+   "right",
+   "left"
+  ],
+  "subject3_k2__take5_cam4": [
+   "right"
+  ],
+  "subject3_k2__take6_cam4": [
+   "left"
+  ],
+  "subject3_k2__take7_cam4": [
+   "right",
+   "left"
+  ],
+  "subject3_o1__take0_cam4": [
+   "left"
+  ],
+  "subject3_o1__take1_cam4": [
+   "right"
+  ],
+  "subject3_o1__take2_cam4": [
+   "left"
+  ],
+  "subject3_o1__take3_cam4": [
+   "left"
+  ],
+  "subject3_o1__take4_cam4": [
+   "right",
+   "left"
+  ],
+  "subject3_o1__take5_cam4": [
+   "left"
+  ],
+  "subject3_o1__take6_cam4": [
+   "left"
+  ],
+  "subject3_o1__take7_cam4": [
+   "right",
+   "left"
+  ],
+  "subject3_o2__take0_cam4": [
+   "left"
+  ],
+  "subject3_o2__take1_cam4": [
+   "right"
+  ],
+  "subject3_o2__take2_cam4": [
+   "left"
+  ],
+  "subject3_o2__take3_cam4": [
+   "left"
+  ],
+  "subject3_o2__take4_cam4": [
+   "left"
+  ],
+  "subject3_o2__take5_cam4": [
+   "left"
+  ],
+  "subject3_o2__take6_cam4": [
+   "left"
+  ],
+  "subject3_o2__take7_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_h1__take0_cam4": [
+   "left"
+  ],
+  "subject4_h1__take1_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_h1__take2_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_h1__take3_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_h1__take4_cam4": [
+   "left"
+  ],
+  "subject4_h1__take5_cam4": [
+   "left"
+  ],
+  "subject4_h1__take6_cam4": [
+   "right"
+  ],
+  "subject4_h1__take7_cam4": [
+   "left"
+  ],
+  "subject4_h2__take0_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_h2__take1_cam4": [
+   "left"
+  ],
+  "subject4_h2__take2_cam4": [
+   "left"
+  ],
+  "subject4_h2__take3_cam4": [
+   "right"
+  ],
+  "subject4_h2__take4_cam4": [
+   "left"
+  ],
+  "subject4_h2__take5_cam4": [
+   "right"
+  ],
+  "subject4_h2__take6_cam4": [
+   "left"
+  ],
+  "subject4_h2__take7_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_k1__take0_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_k1__take1_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_k1__take2_cam4": [
+   "right"
+  ],
+  "subject4_k1__take3_cam4": [
+   "left"
+  ],
+  "subject4_k1__take4_cam4": [
+   "right"
+  ],
+  "subject4_k1__take5_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_k1__take6_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_k2__take0_cam4": [
+   "left"
+  ],
+  "subject4_k2__take1_cam4": [
+   "right"
+  ],
+  "subject4_k2__take2_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_k2__take3_cam4": [
+   "right"
+  ],
+  "subject4_k2__take4_cam4": [
+   "left"
+  ],
+  "subject4_k2__take5_cam4": [
+   "right"
+  ],
+  "subject4_k2__take6_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_k2__take7_cam4": [
+   "left"
+  ],
+  "subject4_o1__take0_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_o1__take1_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_o1__take2_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_o1__take3_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_o1__take4_cam4": [
+   "left"
+  ],
+  "subject4_o1__take5_cam4": [
+   "right"
+  ],
+  "subject4_o1__take6_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_o1__take7_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_o2__take0_cam4": [
+   "left"
+  ],
+  "subject4_o2__take1_cam4": [
+   "right",
+   "left"
+  ],
+  "subject4_o2__take2_cam4": [
+   "right"
+  ],
+  "subject4_o2__take3_cam4": [
+   "left"
+  ],
+  "subject4_o2__take4_cam4": [
+   "right"
+  ],
+  "subject4_o2__take5_cam4": [
+   "left"
+  ],
+  "subject4_o2__take6_cam4": [
+   "right",
+   "left"
+  ]
+ }
+}

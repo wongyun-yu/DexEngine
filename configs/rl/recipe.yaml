@@ -1,0 +1,92 @@
+# RL launch recipe (paper Sec. 3.4): the values every training, judge and render launch of
+# `scripts/stage3_rl.py` is built from. Read by `dexengine.rl.launch.recipe`.
+#
+# Two tables, each with a `common` column and one column per path: `uni` (one hand, side right|left)
+# and `bi` (bimanual, side both), applied on top of `common`.
+#   - The top-level columns are the canonical recipe table. Besides the launcher, the shell pipeline
+#     reads it through `scripts/_rl_recipe.sh` (stage 2 takes COLL_PRESET and the IK suffix from it)
+#     and the bundle reader through `dexengine.rl.launch.recipe.table_values`.
+#   - `launcher` holds the launcher's own defaults (not exported to the shell pipeline).
+# A key is a recipe knob: a caller overrides it with `--set KEY=VALUE` (or the same name in a
+# recorded launch environment). A `DEXENGINE_` key that names an RL switch (dexengine.rl.tasks.switches,
+# e.g. DEXENGINE_ENVZ = switch envz) goes into the trainer process's switches file; the other
+# `DEXENGINE_` keys are handed to the trainer process as environment variables; every other key is
+# consumed by the launcher when it builds the trainer argv. Values are strings and go into argv verbatim.
+# Switches the table does not state keep their RLSwitches default; set one with `--set <field>=<value>`.
+
+common:
+  # Trainer environment (read inside the Isaac Lab process).
+  DEXENGINE_ARM_IK_DIR_SUFFIX: _cont25   # arm-IK cache directory suffix (stage-2 coarse-path caches)
+  DEXENGINE_CKPT_INTERVAL: "25"          # checkpoint every 25 PPO iterations (judges read them; 7/8 of MI 1400 = 1225)
+  DEXENGINE_INTRAIN_EVAL: "0"            # no evaluation inside training; the fresh-process judge scores
+  DEXENGINE_ENVZ: "1"                    # apply each clip's desk-relative base height from the arm-IK cache
+  MOUNT_TOL: "0.0025"                    # arm-IK cache mount tolerance (m) -> DEXENGINE_MOUNT_TOL
+
+  # Tracking gate and termination.
+  POSC: "5"            # object position gate (cm), train and judge
+  ROTC: "90"           # object rotation gate (deg)
+  TIGHTEN: "0.5"       # gate ramp length scale (start 10 cm / 180 deg -> POSC / ROTC)
+  LAGW: "25"           # gate lag window: pass if any of the last 25 reference frames matches
+  LAGAHEAD: "5"        # gate look-ahead frames
+  LOOKAHEAD: "5"       # wrist reference look-ahead frames (action contract: same in train and judge)
+
+  # Action and plant.
+  IK_EMA: "0.40"       # low-pass on the IK target
+  ARM_KP: "900"        # arm joint PD gains (only for arms with joint PD; the floating hand has none)
+  ARM_KD: "90"
+  WRIST_POS_MAX: "0.07"   # wrist residual caps (m, deg) - a checkpoint contract
+  WRIST_ROT_MAX: "120"
+  WRIST_HINGE: "1"        # wrist L2 hinge penalty and its schedule
+  HINGE_FREE: "0.7"
+  HINGE_T0: "0.10"
+  HINGE_T1: "0.25"
+
+  # Rewards.
+  ARW: "0.30"          # wrist action-rate weight
+  FARW: "0.10"         # finger action-rate weight
+  STRIP_POWER: "1"     # power-strip reward on
+  FDIR_POST: "100000"  # force window after the reference contact (steps)
+  FORCE_DIR: "1"       # required-force-direction reward (--enable_force_dir_reward)
+  OBJ_OBS_FIXED: "1"   # fixed object-observation layout (87 + 3 per object) - a checkpoint contract
+
+uni:
+  KL_THRESH: "0.02"
+  NE: "4096"           # parallel environments
+  MI: "1600"           # PPO iterations
+
+bi:
+  KL_THRESH: "0.04"
+  NE: "4096"
+  MI: "1600"
+  MB: "16"             # PPO mini-batches
+  EVAL_INTERVAL: "200" # snapshot-metric interval
+  PER_SIDE_ADV: "1"    # per-hand advantage with a two-head critic
+  OBJ_TRACK_GRACE: "60"   # object-gate arming grace after a reset (steps)
+  LGATE_RAMP: "0.10,180"  # left-hand gate ramp start (m, deg) -> DEXENGINE_LEFT_GATE_RAMP
+  RESET_SCHEME: or     # reset when either hand fails
+  POLICY_SIZE: tiny
+  COLL_PRESET: canon_r2r3off   # collision preset (dexengine.rl.tasks.scene.collision_presets)
+  DEXENGINE_BI_SPLIT_ARTIC: "1"        # the two arms are separate articulations
+  DEXENGINE_OBJ_REF_VEL_INIT: "1"      # RSI starts objects at the reference velocity
+  DEXENGINE_OBJ_SPAWN_HOLD: "10"       # objects are held at the reference for 10 steps after a reset
+  DEXENGINE_MEM_RESTART_FREE_GB: "3"   # planned restart when free GPU memory drops below 3 GB
+
+launcher:
+  common:
+    DEXENGINE_DESK_ROBOT_NOCOLL: "0"   # robot-desk collision on
+    CONTACT_MATCH: "1"   # contact-match reward (--enable_contact_match_reward)
+    FT_HINGE_CM: "2.0"   # fingertip hinge distance (cm)
+    PHYSDR: train_narrow # per-reset physics randomisation
+    SEED: "42"
+    CF_W: "10"           # closure-force reward weight
+    RESL2: "0.9"         # residual L2 weight
+    MARGINS: "2,5,5,5,5" # per-finger closure windows (thumb..pinky)
+    RSI_FRACTION: "0.5"  # reference-state-init fraction (the rest start at frame 0)
+    RSI_BAND_RAMP: "0.4" # RSI band ramps 0.35 -> 1.0 over the first 40 % of training
+    OBJ_FOLLOW_RAMP: "4" # object-following reward ramps 1 -> 4
+    KP_W: "2.5"          # farthest-keypoint reward weight
+    ENT_SCALE: "0.01"    # PPO entropy loss scale
+  uni:
+    DEXENGINE_RBY1_BASE_POS: "-0.70,0.0,0.0"   # RB-Y1 base position in the scene (m), restated for the run record
+    EVAL_INTERVAL: "50"
+  bi: {}

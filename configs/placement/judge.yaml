@@ -1,0 +1,56 @@
+# Placement-search judge (paper Sec. 3.3) — the search conditions of one judge run.
+# Loaded by dexengine.placement.judge.config; every value is the default of the judge flag of the same name
+# (`--stride` <-> `stride`, ...). A different file is selected with `--config <yaml>`; single flags still override.
+
+grid:                       # placement grid around the clip pivot (cells of 3.5 cm, yaw in degrees)
+  stride: 5                 # frame stride of the volume screening
+  half_cells: 22
+  half_cells_x: 12          # search radius along scene x (desk depth), cells
+  half_cells_y: 21          # search radius along scene y (desk width), cells
+  n_yaw: 72
+  yaw_lo: -90.0
+  yaw_hi: 90.0
+  dz_cells: "-5.5"          # robot height candidates (comma list, cells); stage 2 passes the dataset policy value
+  hand_margin: -0.05
+  anchors: "0,0;-0.35,0;0.35,0"
+  max_checks: 12            # confirm solves per anchor
+
+screening:
+  vol_frac: 0.80            # coverage: a cell is a candidate when >= 80 % of the frames have a pose in the map
+  prune_radius_mm: 41.0     # how far a cell moves the wrist (dx,dy 25 + dz 18 + yaw 10 mm): branch-and-bound radius
+
+path:                       # coarse path (DP over the map's pose candidates) and tracking acceptance
+  dp_stride: 4
+  dp_budget_mult: 1.0
+  dp_max_stretch: 3.0       # retiming may make the clip at most this many times longer
+  dp_safety: 1.15           # retiming safety factor (must equal the bake's)
+  dp_atoms: 3               # nearest orientation atoms looked up per frame
+  dp_travel: 0.5
+  dp_clr_w: 1.0
+  dp_still_boost: 8.0
+  dp_err_mm: 30.0           # tracking: stretch-weighted p99 wrist error <= 3 cm (retime.stretch.weighted_p99)
+  dp_cov: 0.5
+  jump_max: 1.0             # largest joint jump between adjacent frames (rad)
+  swivel_max_deg: 180.0     # largest elbow swivel change inside a 0.5 s window (deg)
+
+confirm:                    # per-frame IK from the coarse path plus random starts
+  track_seeds: 8            # seeds tracked in parallel (M)
+  track_reseeds: 12
+  track_iters: 4
+  random_start_mult: 4      # random starts NS = max(random_start_mult * M, random_start_min)
+  random_start_min: 32
+  n_candidates: 3           # placements collected per clip (bake retries the next one)
+  seed: 20260828            # base seed of the per-clip random streams
+
+exhaustive:                 # exhaustive search when every anchor path fails
+  exhaustive: true
+  exhaust_max: 1024         # cells per clip
+  exhaust_cands: 3
+  batch_cells: 512          # gate-passing cells confirmed in one GPU batch
+  gate_batch: 256           # cells per batched gate
+  order_nat: 1              # second sort key: distance to the natural (elbow 90 deg) wrist
+  clip_budget_s: 1200.0     # wall-clock budget of one clip's search (0 = none)
+
+desk:
+  desk_shrink_robot: 0.15   # cut this much (m) off the desk's robot-side edge
+  desk_obj_frame0: 1        # the desk constraint applies to the objects' first frame only

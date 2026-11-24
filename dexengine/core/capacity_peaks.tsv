@@ -1,0 +1,20 @@
+# capacity_peaks.tsv — measured memory of pool steps (the records capacity.NEEDS statements name). tests/core/test_capacity.py
+# checks every measured statement against all of its rows: per_job and parent at least capacity.MARGIN x the largest
+# recorded value (inputs heavier than the samples; capacity.oracle warns when a run passes its statement). One row per
+# sample set: 'sample' says what was measured and how many (n). GiB = 2^30 bytes.
+# how: rss = resource ru_maxrss (capacity end marker peak_parent · peak_job: per worker, several jobs each) or VmHWM
+# (one job per process); cgroup = scope/pod memory.peak over workers, per job = difference between worker counts.
+# '-' = not measured in that row.
+step	record	sample	workers	parent_gib	per_job_gib	how	date	source
+dexengine.data.base_adapter	stage2	hot3d wuji2 16 clips -> 20 trees (n=20 trees, 1 worker)	1	0.16	4.16	rss (end marker; scope 8 GiB peak 4.54 GB)	2026-11-22	scope 2 cores · 8 GiB
+dexengine.data.base_adapter	stage2	hot3d wuji2 16 clips -> 20 trees (n=20 trees, 2 workers)	2	0.16	4.00	rss (end marker; scope 20 GiB peak 7.42 GB)	2026-11-22	scope 2 cores · 20 GiB
+dexengine.data.base_adapter	stage2	hot3d sharpa_wave from-raw canary, 53 trees (n=53, 3 workers)	3	0.08	3.67	rss (end marker)	2026-11-22	Slurm job --mem=20G
+dexengine.placement.repair.hand_clear_stage	stage2f	hot3d sharpa_wave slowest 5 trees, one tree per process, old and new code (n=10 runs)	1	-	2.54	rss (VmHWM, 5 s samples; max of 2.22-2.54)	2026-11-22	CPU-only pod (0.5 core, 4 GiB), 2f A/B
+dexengine.placement.repair.hand_clear_stage	stage2f	hot3d sharpa_wave from-raw canary root, every tree alone, one tree per process (n=53; median 2.38, min 0.53)	1	-	2.96	rss (ru_maxrss of the process)	2026-11-22	Slurm job 16 CPUs
+dexengine.placement.repair.hand_clear_stage	stage2f	hot3d sharpa_wave, 61 trees in order in one worker (pool task: shapes dropped and heap handed back per tree; n=61, post-tree RSS max 1.94 / 1.97 in the two halves)	1	-	3.68	rss (VmHWM after each tree)	2026-11-22	1 thread
+dexengine.placement.repair.hand_clear_stage	stage2f	oakink2 sharpa_wave, 40 trees in order in one worker (pool task; n=40, 54 objects)	1	-	2.44	rss (VmHWM after each tree)	2026-11-22	1 thread
+dexengine.placement.repair.hand_clear_stage	stage2f	hot3d sharpa_wave from-raw canary root, the stage itself (53 trees, 5 workers; n=2 runs: 3.74, 3.69)	5	0.04	3.74	rss (end marker peak_job)	2026-11-22	Slurm job 16 CPUs
+dexengine.placement.repair.wrist_desk_stage	stage2e	stage-1 2e run (worker_task policy: MuJoCo cache 0, malloc_trim; n=1 run, 16 workers)	16	-	3.13	rss (the run's [WORKER_MEM] finished-worker peak)	2026-11	wrist_desk_stage.py JOBS note
+dexengine.placement.repair.wrist_desk_stage	stage2e	hot3d sharpa_wave from-raw canary, 53 trees (n=53, 4 workers)	4	0.04	3.11	rss (end marker)	2026-11-22	Slurm job --mem=20G
+dexengine.record.augment.coll_gate	coll_gate_post_sim	post gate workers 12 · 4 · 2 -> cgroup peak 18.7 · 9.5 · 6.0 GB (n=3 runs)	2-4-12	2.33	1.63	cgroup (per job from 4 vs 2; parent = 2-worker peak - 2 jobs)	2026-10	prefetch.py POST_MAX note
+dexengine.record.augment.place_gen	generation_sim	generation 6 · 2 -> cgroup peak 14.7 · 6.1 GB (n=2 runs)	2-6	1.68	2.00	cgroup (per job from 6 vs 2; parent = 2-worker peak - 2 jobs)	2026-10	prefetch.py GEN_MAX note

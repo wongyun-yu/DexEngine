@@ -1,0 +1,21 @@
+#!/bin/bash
+# Cap shim. run_row (common/rowlib.sh) puts common/capbin first on PATH, so every `timeout` inside a row — method commands and the
+# scripts they call — comes through here. The real coreutils timeout runs with the same arguments; a cap hit (rc 124 =
+# cap reached · 137 = killed) is appended to $E123_CAPLOG, and verdict() (common/rowlib.sh) reads the row as TRIM/FAIL
+# even when it left a checkpoint or a result: a capped training row is not a finished one.
+# Each call also appends to $E123_CAPLOG.used — verdict() proves the shim was on PATH. E123_CAPLOG is set by run_row.
+self=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+real=""
+IFS=: read -r -a _dirs <<< "$PATH"
+for d in "${_dirs[@]}"; do
+  [ -n "$d" ] && [ "$(cd "$d" 2>/dev/null && pwd)" = "$self" ] && continue
+  [ -x "$d/timeout" ] && [ ! -d "$d/timeout" ] && { real=$d/timeout; break; }
+done
+[ -n "$real" ] || { echo "[E123_CAP] FAIL no real timeout on PATH" >&2; exit 125; }
+[ -n "${E123_CAPLOG:-}" ] || { echo "[E123_CAP] FAIL E123_CAPLOG unset — shim used outside run_row" >&2; exit 125; }
+printf '%s %s\n' "$$" "$(printf '%s ' "$@" | cut -c1-200)" >> "$E123_CAPLOG.used"
+"$real" "$@"; rc=$?
+case $rc in
+  124|137) printf '[E123_CAP] rc=%s %s args: %s\n' "$rc" "$(date -Is)" "$(printf '%s ' "$@" | cut -c1-200)" >> "$E123_CAPLOG";;
+esac
+exit $rc

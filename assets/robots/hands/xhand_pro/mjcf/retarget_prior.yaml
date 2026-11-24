@@ -1,0 +1,16 @@
+# Retarget posture prior for ROBOTERA XHand Pro (spec dir `xhand_pro`) — **DISABLED ON PURPOSE**.
+#
+# XHand already has correct joint limits, so the rule shared with wuji and tesollo (cutting the hyperextension
+# branch) does not apply. This file **declares** that —
+# ik.py dies without a prior file, so a hand that uses none must say so with a file.
+#
+# Evidence (parsing the vendor URDF `data/_stage/xhand_pro/xhand_{side}/urdf/xhand_{side}.urdf`):
+#   · the 15 flexion joints mcp1·pip·dip (5 fingers × 3) are **[0, 1.571] rad on both hands** — there is no
+#     hyperextension branch at all. The opposite of DG-5F-S's [-90°, +90°]; the same class as SharpA.
+#   · the other 6: mcp0 (spread/opposition) 5 joints [-1.047…1.309] · palm fold ltspalm [0, 0.524].
+#   · the bending direction was checked by URDF FK on each hand (joint signs and ranges).
+# Schema: the `ik.build_prior_conf` docstring — with `enabled: false` **only this one key** is allowed.
+# Do not move other hands' `overrides:` here (e.g. the abduction-limit avoidance term) — if needed, turn it
+# on only after reading the canary quality table (saturation · STUCK).
+# Applied marker: `[PRIOR] … enabled=False` in the retargeting log (without it the run is void).
+enabled: false

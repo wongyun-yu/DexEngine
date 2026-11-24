@@ -1,0 +1,4 @@
+# Temporary exemptions of tests/core/test_references.py: stale references not yet fixed. Columns: file,
+# reference, owner, kind, first finding. Remove a row when it is fixed (a row that matches nothing only warns);
+# the list ends empty. Current findings (file, line, key, message): python -m tests.core.references_scan
+dexengine/retarget/ik/prior.py	assets/robots/sharpa_wave/retarget_prior.yaml	pinned file (cache key + clean-room)	path	path assets/robots/sharpa_wave/retarget_prior.yaml does not exist

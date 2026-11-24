@@ -1,0 +1,37 @@
+{
+ "_doc": "Canonical digests of the float64 transcendental functions (dexengine.core.blas_pin.math_digests) per pin profile. The one owner of these values; blas_pin.math_check reads this file and compares the profile's gated functions (PROFILES[profile]['math']). Regenerate on the canonical host with: NPY_DISABLE_CPU_FEATURES=<profile npy_off> PYTHONPATH=. <profile python> -c 'from dexengine.core import blas_pin; print(blas_pin.math_digests())'.",
+ "profiles": {
+  "bake": {
+   "digests": {
+    "sin": "5c665f1821abffa3",
+    "cos": "71cf3dc74c15cca4",
+    "tan": "815b1717cde960ae",
+    "arcsin": "32f91e5b1d95c441",
+    "arccos": "334bb5076e14dac0",
+    "arctan": "85df7d4a29458fed",
+    "arctan2": "9c8581bd17f61d3c",
+    "hypot": "268add25f148ad9a",
+    "exp": "7d35361e6e9d7451",
+    "expm1": "58e41d6397ff342f",
+    "log": "cba852561ea6a008",
+    "log1p": "b0a52c0e85f7c181",
+    "power": "c16b180b1be084d2",
+    "cbrt": "4854c154fea171f9",
+    "math": "fe7d1cffd7abd8ea"
+   },
+   "made_on": {
+    "host": "reference host",
+    "cpu": "Intel(R) Core(TM) Ultra 9 285K",
+    "glibc": "2.39",
+    "numpy": "1.26.4",
+    "python": "3.11.14",
+    "numpy_dispatch": "AVX512 off (none on this CPU)",
+    "date": "2026-11-22"
+   },
+   "measured_elsewhere": {
+    "glibc 2.35 (Ubuntu 22.04 container, same CPU, numpy 1.26.4)": "equal except arctan, expm1, log1p (and libm sincos; none gated)",
+    "retarget venv numpy 2.3.5": "equal (all 15)"
+   }
+  }
+ }
+}

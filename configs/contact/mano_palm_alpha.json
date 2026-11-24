@@ -1,0 +1,179 @@
+{
+ "generated": "2026-09-20 12:12",
+ "tool": "one-off calibration script (MANO palm alpha; not included)",
+ "hand": "wuji",
+ "n_hand_sides": 777,
+ "threshold_m": 0.03,
+ "alpha": 0.4,
+ "grid": [
+  {
+   "alpha": 0.0,
+   "mano_mean": 0.0253,
+   "robot_mean": 0.2447,
+   "mae": 0.2194,
+   "fire_any_mano": 67,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.05,
+   "mano_mean": 0.0342,
+   "robot_mean": 0.2447,
+   "mae": 0.2104,
+   "fire_any_mano": 93,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.1,
+   "mano_mean": 0.0462,
+   "robot_mean": 0.2447,
+   "mae": 0.1986,
+   "fire_any_mano": 118,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.15,
+   "mano_mean": 0.0631,
+   "robot_mean": 0.2447,
+   "mae": 0.1827,
+   "fire_any_mano": 143,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.2,
+   "mano_mean": 0.0819,
+   "robot_mean": 0.2447,
+   "mae": 0.166,
+   "fire_any_mano": 176,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.25,
+   "mano_mean": 0.1028,
+   "robot_mean": 0.2447,
+   "mae": 0.147,
+   "fire_any_mano": 207,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.3,
+   "mano_mean": 0.1283,
+   "robot_mean": 0.2447,
+   "mae": 0.1307,
+   "fire_any_mano": 251,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.35,
+   "mano_mean": 0.1576,
+   "robot_mean": 0.2447,
+   "mae": 0.1143,
+   "fire_any_mano": 288,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.4,
+   "mano_mean": 0.193,
+   "robot_mean": 0.2447,
+   "mae": 0.1029,
+   "fire_any_mano": 328,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.45,
+   "mano_mean": 0.24,
+   "robot_mean": 0.2447,
+   "mae": 0.1094,
+   "fire_any_mano": 386,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.5,
+   "mano_mean": 0.2958,
+   "robot_mean": 0.2447,
+   "mae": 0.1314,
+   "fire_any_mano": 442,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.55,
+   "mano_mean": 0.3504,
+   "robot_mean": 0.2447,
+   "mae": 0.1603,
+   "fire_any_mano": 492,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.6,
+   "mano_mean": 0.3978,
+   "robot_mean": 0.2447,
+   "mae": 0.1946,
+   "fire_any_mano": 539,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.65,
+   "mano_mean": 0.4441,
+   "robot_mean": 0.2447,
+   "mae": 0.2323,
+   "fire_any_mano": 573,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.7,
+   "mano_mean": 0.4943,
+   "robot_mean": 0.2447,
+   "mae": 0.2737,
+   "fire_any_mano": 599,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.75,
+   "mano_mean": 0.534,
+   "robot_mean": 0.2447,
+   "mae": 0.3073,
+   "fire_any_mano": 626,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.8,
+   "mano_mean": 0.5655,
+   "robot_mean": 0.2447,
+   "mae": 0.3315,
+   "fire_any_mano": 638,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.85,
+   "mano_mean": 0.5831,
+   "robot_mean": 0.2447,
+   "mae": 0.3487,
+   "fire_any_mano": 644,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.9,
+   "mano_mean": 0.5934,
+   "robot_mean": 0.2447,
+   "mae": 0.3591,
+   "fire_any_mano": 646,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 0.95,
+   "mano_mean": 0.6016,
+   "robot_mean": 0.2447,
+   "mae": 0.3674,
+   "fire_any_mano": 651,
+   "fire_any_robot": 478
+  },
+  {
+   "alpha": 1.0,
+   "mano_mean": 0.6081,
+   "robot_mean": 0.2447,
+   "mae": 0.374,
+   "fire_any_mano": 653,
+   "fire_any_robot": 478
+  }
+ ],
+ "why": "palm(α) = wrist + α·(fingertip mean − wrist); α minimises the mean absolute error against the wuji robot palm firing rate"
+}

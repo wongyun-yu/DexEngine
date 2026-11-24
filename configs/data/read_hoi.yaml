@@ -1,0 +1,27 @@
+# Raw -> retargeted trajectories for the library-reader datasets (python -m dexengine.data.read_raw.hoi).
+# All source paths are relative to --dataset-root; large downloads can be mounted there with symlinks.
+schema_version: 1
+
+trajectory:
+  target_ref_dt: 0.02
+  data_id: 0
+  ground_on_first_object_frame: true
+
+datasets:
+  hrdexdb:
+    source: raw/hrdexdb/data
+    smoke_task: apple/0
+  hocap:
+    source: raw/hocap/data
+    mano_models:
+      - raw/hocap/body_models/mano
+      - raw/taco/body_models/mano
+    smoke_task: subject_7-20231023_163653
+  dexcanvas:
+    parquet: raw/dexcanvas/data/mocap_ver0.1.parquet
+    objects: raw/dexcanvas/objects
+    smoke_task: s02__cube1__09__003
+
+quality_gates:
+  joint_audit:
+    max_stuck_joints: 0

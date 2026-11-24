@@ -1,0 +1,174 @@
+# dg5f_s — hand spec (dexengine.core.embodiment; every HandSpec field is stated).
+#
+# Tesollo DG-5F-S (20 DoF).
+# Tesollo DG-5F-S right hand (20 DoF, fully actuated, no coupling).
+# Every value is **measured** from the vendor URDF (dg5fs_right_w_mount.urdf) and the vendor manual. Summary:
+# · 20 actuated joints = joint_{1..5}_{1..4}, **0** mimic joints → fully actuated, so no
+# coupled-joint qpos layout entry is needed (counted by parsing the URDF, not guessed).
+# · All 20 joint ranges contain 0 → no joint_pos_defaults needed
+# (wuji needed them: its thumb joint1 range is [0.0475, 1.6033]).
+# · Finger 1 = thumb, fixed by zero-pose FK — its tip at (27.9, 118.4, 29.8) mm is 199.4 mm from the
+# centroid of fingers 2·3·4. Fingers 2→5 are index·middle·ring·pinky and map onto the rig's
+# {thumb,index,middle,ring,pinky} **without permutation**.
+# · 17 axes are `0 0 1`, 3 (joint_{2,3,4}_2) are `0 0 -1` — the sign flip is real;
+# missing it curls three fingers backwards.
+# · Mount: ISO 9409-1-50-4-M6. joint_base (link_mount→link_base) xyz=(0,0,0.015) =
+# 15.0 mm from the flange face → ee_to_wrist_offset = (0,0,-0.1411).
+# · For finger force and velocity limits the manual beats the URDF — the exception's owner is
+# `vendor_urdf_limit_placeholder` below.
+
+name: dg5f_s
+# finger1 = thumb … finger5 = pinky; k=1..4 = proximal→distal. Same joint order as the vendor URDF.
+finger_joint_names_right:
+- right_joint_1_1
+- right_joint_1_2
+- right_joint_1_3
+- right_joint_1_4
+- right_joint_2_1
+- right_joint_2_2
+- right_joint_2_3
+- right_joint_2_4
+- right_joint_3_1
+- right_joint_3_2
+- right_joint_3_3
+- right_joint_3_4
+- right_joint_4_1
+- right_joint_4_2
+- right_joint_4_3
+- right_joint_4_4
+- right_joint_5_1
+- right_joint_5_2
+- right_joint_5_3
+- right_joint_5_4
+coupled_joint_names_right: []
+coupling_ratios: []
+coupling_source_idx: []
+# 26 — 6 virtual wrist + 20
+hand_qpos_dim: 26
+# These names must exist in the **MJCF rig** (what body_positions.npz follows) — otherwise this dies.
+# Measured: MuJoCo merges fixed-joint children into the parent, so the rig has neither `link_N_tip`
+# nor `link_base`. Rig = `link_mount` + `link_N_1..N_4`; merged URDF = `link_base` +
+# `link_N_1..N_4` + `link_N_tip`. Only `link_N_1..N_4` is in both.
+# wuji follows the same rule (last **actuated** link `finger{N}_link4`, not `_tip_link`).
+# The palm **FK body** is the rig root `link_mount` — one rigid body with the merged URDF's `link_base`
+# through a fixed joint, but under another name, so only the URDF surface points drop to the origin (the run
+# log says so).
+# ⚠ The palm **site** is not this body's origin — `palm_site_offset` below owns it.
+# Serving both roles with one field gave a palm error of p50 19.6/18.9 mm.
+tip_body_names_right:
+- right_link_1_4
+- right_link_2_4
+- right_link_3_4
+- right_link_4_4
+- right_link_5_4
+palm_fk_body_right: right_link_mount
+contact_body_regex_right: right_link_.*
+# Root link the full-robot merge cuts the hand subtree at.
+urdf_subtree_root: link_base
+# Mounting face → urdf_subtree_root along the root's +z (the hand's part of the mount stack).
+# The vendor joint_base link_mount → link_base xyz (0, 0, 0.015), rpy 0 (URDF:62-66).
+mount_face_to_root: 0.015
+urdf_palm_frame_right: right_link_base
+# FK body (rig root link_mount) → URDF palm frame (link_base) translation = vendor URDF `joint_base` xyz
+# (same left and right, rpy 0). With (0,0,0) here the arm IK puts link_base where the rig's link_mount is, and
+# every fingertip lands exactly 15.00 mm off the reference. **The vendor URDF owns the value** — the hand spec
+# verifier checks it against the left/right URDF fixed chains (rc 1 on mismatch) before registration, stage 1
+# and the IK pool bake; after the bake `dexengine/placement/gate/palm_check.py` re-measures it on tree samples
+# (an independent oracle).
+palm_frame_offset_pos: [0.0, 0.0, 0.015]
+# The palm **site** must sit at the MANO wrist reference point, not at the FK body (= the mount flange).
+# This value is a least-squares registration solved over the 50 canonical clips
+# (right (7.98,5.20,8.05) · left mirrored (9.20,4.03,8.82) mm, left/right mismatch 1.9 mm).
+# The field docstring owns the convention and procedure. Restoring the 15 mm flange (link_base) is **wrong** —
+# that is Z 15 mm only, while the measurement asks for Z 8.4 mm + 8.6 mm toward the palm (X).
+palm_site_offset: [0.0086, 0.0046, 0.0084]
+palm_site_mano_frame: []
+joint_pos_defaults: {}
+# The vendor URDF is a single hand, so links carry no side prefix (measured: right_ prefix on 0/27).
+vendor_link_prefix: ''
+display_name: Tesollo DG-5F-S
+vendor_urdf: data/_stage/dg5f_s/urdf/dg5fs_{side}_w_mount.urdf
+vendor_meshes: data/_stage/dg5f_s/meshes/dg5fs_{side}
+# Side → the merge document when it is not vendor_urdf.
+merge_source: {}
+# The retargeting rig is built from vendor_urdf (no vendor MJCF route).
+vendor_mjcf: ''
+rig_palm_site: []
+rig_capsule_distal_start: 0.0
+rig_capsule_middle: false
+retarget_dirname: dg5f_s
+abduction_joint_regex: ''
+# Kp = finger_effort / 0.2 rad, Kd = 0.25 Kp (hands.spec.finger_gains_from_cap).
+# Finger PD by the cap rule (the rule wuji / XHand use): Kp = 0.65 / 0.2 = 3.25 N·m/rad, Kd = 0.8125.
+# The vendor's bring-up PID gain 1.5 is not used.
+finger_gains: from_effort_cap
+finger_armature: null
+# Manual stall (peak) torque, N·m, every joint (the same actuator in all 20) — the URDF's 7.5 is a placeholder.
+# The cap is the actuator's MAXIMUM, the convention every other hand follows (their vendor URDF effort limits);
+# the manual's 0.11 N·m rated torque is a continuous (thermal) budget, not a hard limit — capping at it made the
+# fingertip force ~2.8 N against the spec's 19.4 N max and 1-2 kg pinch payload, and the hand dropped held objects.
+# DG5FS_FINGER_EFFORT — manual stall 0.65 N·m (rated 0.11 is a continuous budget — see above)
+finger_effort: 0.65
+# 8.90 — manual no-load 85 RPM = 8.90 rad/s
+finger_velocity: 8.9
+# The cap rule every hand with a published fingertip force follows (wuji2 · XHand): the applied cap is scaled so the
+# rig's best index distal-pad force equals the vendor nominal fingertip force. At the 0.65 stall torque that pad
+# force is 8.6 N (fingertip-force oracle, this rig) = 0.44 × the 19.4 N nominal → scale = 19.4 / 8.6 = 2.26
+# (applied cap 1.469 N·m, pad 19.4 N). The applied cap is above the manual stall torque — the rule is the vendor
+# fingertip force, as for the other hands. Gains stay on the 0.65 effort (finger_gains_from_cap).
+finger_effort_peak_scale: 2.26
+vendor_fingertip_force_n: 19.4
+finger_velocity_peak_scale: 1.0
+vendor_close_repetition_hz: null
+finger_velocity_peak_scale_overrides: {}
+# The manual wins: the vendor URDF <limit> is a placeholder of effort 7.5 · velocity π on all 20 joints, both sides
+# (11.5 × the 0.65 stall · 0.35 × the 8.90 no-load). Expiry: remove once real-robot measurements replace the
+# manual values (the structural expiry is in the field description).
+vendor_urdf_limit_placeholder:
+  finger_effort: 7.5
+  finger_velocity: 3.141592653589793
+# Pad = centre of the 3 mm end cap, 1.5 mm inside the farthest point of the fingertip collider (collision meshes
+# of `link_N_4` + its fixed child `link_N_tip`) along the fingertip direction (measured by the geometry rule of
+# `dexengine.robots.rig.sites.check_tip_sites`). The `joint_N_tip` origin (18.0 / 28.9 mm) is the **root** of the
+# tip piece, not the pad — the collider reaches 17.9 mm further, and the reference fingertip was that much short.
+# Measured on the vendor URDF meshes: index–ring x 34.40 · thumb·pinky 45.30 mm, lateral y −2.58 mm.
+# On the left hand only the thumb's **lateral (y) component** is +2.58 (its own left key); fingers 2–5 keep the
+# right values — in the vendor left URDF only the thumb's distal frame has a mirrored y axis (fingers 2–5 mirror
+# z). Left mesh cap centres measured: thumb y +2.58 · fingers 2–5 y −2.58 mm; flipping y on fingers 2–5 puts the
+# common-frame FK mirror check 5.16 mm off (now 0.04 mm). This holds for y only — z (±0.02 mm) has the opposite
+# sign to the mirror on all five fingers, but the 0.04 mm residual left the values as they are (changing them
+# changes the rig hash and forces a dg5f_s data regeneration).
+# A one-sided flip is caught by the **left/right measurement match** of `check_tip_sites`; a
+# flip on both sides is caught by the lateral tolerance below (mirror lateral 4.98–5.00 mm) — tested negatively
+# by the tip-site self-test.
+fingertip_site_offsets:
+  right_link_1_4: [0.0453, -0.00258, -2.0e-05]
+  right_link_2_4: [0.0344, -0.00258, -2.0e-05]
+  right_link_3_4: [0.0344, -0.00258, -2.0e-05]
+  right_link_4_4: [0.0344, -0.00258, -2.0e-05]
+  right_link_5_4: [0.0453, -0.00258, -2.0e-05]
+  left_link_1_4: [0.0453, 0.00258, 2.0e-05]
+# Vendor URDF measured lateral max 0.08 mm (the value is the cap centre) → 0.08 + 1 → 1.5 mm (a 4.98 mm mirror
+# error falls outside).
+fingertip_pad_lateral_max_m: 0.0015
+# Tesollo training uses truncated limits: the 20 joints (PIP · DIP · thumb 1_3/1_4 · pinky 5_3/5_4 …)
+# go from [−90°, 90°] to the flexion side [0°, 90°] — the little MCP 5_3 to [−20°, 90°] (sim_finger_hyperext_allow_deg)
+# (ledger rby1_dg5f_s_truncated/truncation_provenance.json). Sim variant =
+# _truncated(_mi)_armhull.
+sim_finger_limits: truncated
+# Sim body hyperextension allowance (deg, past neutral on the side opposite to flexion; cut = max(vendor lower,
+# −allowance)); the retargeting IK and the reference finger range keep 0°. MCP 20°. Only the little MCP joint_5_3 moves ([0°, 90°] → [−20°, 90°], both hands) — the
+# index · middle · ring MCPs are one-sided in hardware ([0°, 126–130°]) and the thumb MCP's outer limit is 0°.
+sim_finger_hyperext_allow_deg: {mcp: 20.0, pip: 0.0, dip: 0.0}
+# RL training recipe (hands.spec.HandRLRecipe; null = none). Tesollo DG-5F-S: effort curriculum C — build cap = 3 ×
+# finger_effort (the 0.65 stall torque), ramping to the applied cap (finger_effort_applied) from
+# finger_effort_anneal_start. No imitation release
+# (its measured gain did not clear the threshold). The training entry checks the tree rig
+# identity before Kit.
+rl_recipe:
+  finger_effort_scale: 1.0
+  finger_effort:
+    hardware_cap_times: 3.0
+  finger_effort_anneal_start: 0.5
+  imit_release_min: null
+  imit_release_start: null

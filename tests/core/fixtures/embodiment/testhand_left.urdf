@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- Synthetic two-link hand for the config-only embodiment test (tests/core/test_embodiment.py): no meshes. -->
+<robot name="testhand_left">
+  <link name="left_hand_link">
+    <visual><geometry><box size="0.06 0.04 0.02"/></geometry></visual>
+  </link>
+  <link name="left_hand_index_link">
+    <visual><geometry><box size="0.01 0.01 0.04"/></geometry></visual>
+  </link>
+  <joint name="left_hand_index_joint" type="revolute">
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    <parent link="left_hand_link"/>
+    <child link="left_hand_index_link"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0" upper="1.5" effort="0.3" velocity="2.0"/>
+  </joint>
+</robot>
