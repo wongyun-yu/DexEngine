@@ -1,0 +1,52 @@
+# Where every robot and hand file comes from. Owner of the list: this file and files.tsv beside it
+# (reader: dexengine/robots/vendor.py; `python -m dexengine.robots.vendor fetch` places every file, `... check` verifies).
+#
+# kind github     — the manufacturer publishes the file: it is NOT in this repository. `fetch` downloads it from `repo` at
+#                   `commit`, checks its sha256 (files.tsv) and writes it to its destination.
+# kind repository — the manufacturer does not publish the file we use: it is shipped in this repository under `root`,
+#                   and `fetch` copies it to its destination (same sha256 check).
+# A destination that starts with `data/` goes under the data root, any other one under this checkout.
+# Every file the builders read (hand_rig.py · urdf/merge.py · urdf/truncate.py · the USD bake) is listed here; the rigs,
+# the merged robot URDFs and the USDs are built from these files (docs/hands.md).
+rby1:
+  what: Rainbow Robotics RB-Y1 (model A) URDF and meshes
+  kind: github
+  repo: RainbowRobotics/rby1-sdk
+  commit: 60a97d6ca89511da17f75c8757ae9905b59f1ed4
+  licence: Apache-2.0
+sharpa_wave:
+  what: Sharpa Wave hand URDF, MJCF and meshes (with flange)
+  kind: github
+  repo: sharpa-robotics/sharpa-urdf-usd-xml
+  commit: 6eea427eb24189519f32b9f21674cd534d3f973c
+  licence: Apache-2.0
+dg5f_s:
+  what: Tesollo DG-5F-S hand URDF (with mount) and meshes
+  kind: github
+  repo: tesollodelto/dg5f_s_ros2
+  commit: 284501f7136b48a76943df2ccf58d1db84b86e74
+  licence: BSD-3-Clause
+wuji2:
+  what: Wuji Hand 2 (beta 2) hand meshes
+  kind: github
+  repo: wuji-technology/wuji-description
+  commit: 06e5f14cdd1d5fad0a666ca463a668bf609f9534
+  licence: MIT
+zed_mini:
+  what: Stereolabs ZED Mini camera mesh (render head camera)
+  kind: github
+  repo: stereolabs/zed-ros2-description
+  commit: 449eef9566a49461cc37d6ac13230fe2886ff2be
+  licence: Apache-2.0
+wuji2_body:
+  what: Wuji Hand 2 hand URDFs as mounted on RB-Y1 (one per side) and the adapter parts between the arm flange and the
+    hand (wrist adapter, mount flange), and the wrist frames
+  kind: repository
+  root: assets/robots/vendor
+  licence: MIT (vendor hand data from wuji-description) and the repository licence (adapter parts, wrist frames)
+xhand_pro:
+  what: XHand Pro hand URDF and meshes (one URDF and its meshes per side, the files the XHand post-processing reads)
+  kind: github
+  repo: lixiaolong04/rotate_dexgen   # a third-party public repository (assets/xhand_green), not the maker's release
+  commit: 28a7a242a29d5ba1f492a82cbc12982a916082d7   # the last commit that changed assets/xhand_green
+  licence: no separate notice for these files; the repository LICENSE is Apache-2.0 (Copyright Sharpa Group)

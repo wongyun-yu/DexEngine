@@ -1,0 +1,171 @@
+# xhand_pro — hand spec (dexengine.core.embodiment; every HandSpec field is stated).
+#
+# ROBOTERA XHand Pro (21 DoF).
+# ROBOTERA XHand Pro right hand (21 DoF, fully actuated, no coupling).
+# Every value is **parsed** from the vendor URDF (`data/_stage/xhand_pro/xhand_{side}/urdf/xhand_{side}.urdf`,
+# ROBOTERA XHAND1 Pro V1.0 2026-05-13, unmodified; not shipped — fetched from the source pinned in
+# configs/robots/vendor/sources.yaml `xhand_pro`). In short:
+# · 21 actuated joints = thumb·index·middle·ring·pinky × {mcp0 (abduction/opposition), mcp1, pip, dip} + the palm
+# fold `ltspalm` (parent of the pinky chain). mimic **0** — matches the manual's spec table "Active DoF (Total) 21,
+# fully direct drive", so no coupling table is needed. Order = vendor URDF = compiled MJCF order.
+# · All 21 joint ranges contain 0 → no joint_pos_defaults needed.
+# · Every pip/dip/mcp1 is [0, +π/2], so there is no hyperextension branch → retargeting prior `enabled: false`
+# (`assets/robots/hands/xhand_pro/mjcf/retarget_prior.yaml`).
+# · Vendor links are already `right_hand_*`/`left_hand_*`, so the side-prefix convention (`{side}_`) holds as is.
+# · Tactile links (`*_sensor_link`·`*_cos_link`·`*_back_link` etc., 53 fixed) are **kept in the model**. The MuJoCo
+# rig merges them into their parent bodies; the merged URDF keeps them as they are.
+# · Mass: URDF 1.263 kg (the manual says 0.884 kg — the URDF value is used; revisit at sim2real).
+
+name: xhand_pro
+# The vendor URDF joint order as is (= the order after the 6 virtual wrist joints of the compiled rig MJCF — checked
+# by measurement). `ltspalm` is the parent of the pinky chain, so it comes before the pinky.
+finger_joint_names_right:
+- right_hand_thumb_mcp0_joint
+- right_hand_thumb_mcp1_joint
+- right_hand_thumb_pip_joint
+- right_hand_thumb_dip_joint
+- right_hand_index_mcp0_joint
+- right_hand_index_mcp1_joint
+- right_hand_index_pip_joint
+- right_hand_index_dip_joint
+- right_hand_mid_mcp0_joint
+- right_hand_mid_mcp1_joint
+- right_hand_mid_pip_joint
+- right_hand_mid_dip_joint
+- right_hand_ring_mcp0_joint
+- right_hand_ring_mcp1_joint
+- right_hand_ring_pip_joint
+- right_hand_ring_dip_joint
+- right_hand_ltspalm_joint
+- right_hand_pinky_mcp0_joint
+- right_hand_pinky_mcp1_joint
+- right_hand_pinky_pip_joint
+- right_hand_pinky_dip_joint
+coupled_joint_names_right: []
+coupling_ratios: []
+coupling_source_idx: []
+# 27 — 6 virtual wrist + 21
+hand_qpos_dim: 27
+# Vendor finger spelling (`mid` = middle). Maps onto the rig's {thumb,index,middle,ring,pinky} without permutation
+# (checked by zero-pose FK).
+# Distal **actuated** links (the bodies that survive in the rig) — MuJoCo merges their fixed children
+# (top·sensor·cos).
+tip_body_names_right:
+- right_hand_thumb_dip_link
+- right_hand_index_dip_link
+- right_hand_mid_dip_link
+- right_hand_ring_dip_link
+- right_hand_pinky_dip_link
+# Palm FK body = rig root = vendor URDF root `right_hand_link` (origin = center of the bottom mounting face,
+# measured). The palm/dorsum/ee links are fixed +55 mm from the root, so the rig merges them into the root.
+palm_fk_body_right: right_hand_link
+# RB-Y1 arm links are link_right_arm_*, which do not start with right_hand_ — only hand bodies match.
+contact_body_regex_right: right_hand_.*
+# Root link the full-robot merge cuts the hand subtree at.
+urdf_subtree_root: '{side}_hand_link'
+# Mounting face → urdf_subtree_root along the root's +z (the hand's part of the mount stack).
+mount_face_to_root: 0.0
+urdf_palm_frame_right: right_hand_link
+# (0.0, 0.0, 0.0) — FK body and URDF frame are the same link
+palm_frame_offset_pos: [0.0, 0.0, 0.0]
+# The palm **site** is the output of the palm-site registration procedure (the field docstring owns the
+# convention). Measured on the first 25 clips · 4,391 frames of the canonical 50 (g50, md5 525e61d9…) with isolated
+# (CPU) retargeting of rig v0 (site = root origin = mounting face): right (8.07, 9.56, 8.57) · left mirrored
+# (9.61, 7.48, 8.60) mm → mean (8.84, 8.52, 8.59) mm, left–right mismatch 2.59 mm. This value removes the ≈15 mm
+# systematic part of the palm error p50 21.0/19.3 mm.
+palm_site_offset: [0.0088, 0.0085, 0.0086]
+palm_site_mano_frame: []
+joint_pos_defaults: {}
+# "{side}_" — measured: 75/75 links start with right_/left_
+vendor_link_prefix: '{side}_'
+display_name: XHand Pro
+vendor_urdf: data/_stage/xhand_pro/xhand_{side}/urdf/xhand_{side}.urdf
+vendor_meshes: data/_stage/xhand_pro/xhand_{side}/meshes
+# Side → the merge document when it is not vendor_urdf.
+merge_source: {}
+# The retargeting rig is built from vendor_urdf (no vendor MJCF route).
+vendor_mjcf: ''
+rig_palm_site: []
+rig_capsule_distal_start: 0.0
+rig_capsule_middle: false
+retarget_dirname: xhand_pro
+abduction_joint_regex: ''
+# Gains are tabled against the URDF (rated) effort (cap in the comments below = URDF value; the applied cap is
+# that × the scale — gains are not raised). With URDF effort 0.295–0.884 N·m the shared default (FINGER_KP=200)
+# saturates at 1.5–4.4 mrad error — same rule as wuji · SharpA: Kp ≈ cap/0.2 rad, Kd ≈ Kp/4. Vendor gains are
+# not public, so these are rule-derived values (same status as the wuji · SharpA comments).
+# r".*_hand_[a-z]+_mcp0_joint$": 1.5 — cap 0.295
+# r".*_hand_[a-z]+_mcp1_joint$": 4.4 — cap 0.884
+# r".*_hand_[a-z]+_pip_joint$": 1.5 — cap 0.302
+# r".*_hand_[a-z]+_dip_joint$": 1.5 — cap 0.295
+# r".*_hand_ltspalm_joint$": 1.5 — cap 0.295
+finger_kp:
+  .*_hand_[a-z]+_mcp0_joint$: 1.5
+  .*_hand_[a-z]+_mcp1_joint$: 4.4
+  .*_hand_[a-z]+_pip_joint$: 1.5
+  .*_hand_[a-z]+_dip_joint$: 1.5
+  .*_hand_ltspalm_joint$: 1.5
+finger_kd:
+  .*_hand_[a-z]+_mcp0_joint$: 0.37
+  .*_hand_[a-z]+_mcp1_joint$: 1.1
+  .*_hand_[a-z]+_pip_joint$: 0.38
+  .*_hand_[a-z]+_dip_joint$: 0.37
+  .*_hand_ltspalm_joint$: 0.37
+finger_armature: null
+finger_effort:
+  .*_hand_[a-z]+_mcp0_joint$: 0.295
+  .*_hand_[a-z]+_mcp1_joint$: 0.884
+  .*_hand_[a-z]+_pip_joint$: 0.302
+  .*_hand_[a-z]+_dip_joint$: 0.295
+  .*_hand_ltspalm_joint$: 0.295
+finger_velocity:
+  .*_hand_[a-z]+_mcp0_joint$: 2.0
+  .*_hand_[a-z]+_mcp1_joint$: 1.696
+  .*_hand_[a-z]+_pip_joint$: 1.98
+  .*_hand_[a-z]+_dip_joint$: 2.0
+  .*_hand_ltspalm_joint$: 2.0
+# Vendor nominal fingertip force (Robotera XHAND1 product list: fingertip force 15 N · one-hand grasp 80 N ·
+# one-finger lift > 5 kg). With the URDF effort (0.295–0.884 N·m) the rig's index distal pad force peaks at 5.5 N,
+# 0.37× nominal. Scale = 15 / 5.5; the fingertip force oracle owns the measurement.
+# URDF <limit> effort as is (one value per joint kind). The applied cap is × finger_effort_peak_scale — the rule
+# is "never exceed the real hardware limit".
+finger_effort_peak_scale: 2.73
+vendor_fingertip_force_n: 15.0
+# Vendor brochure (XHAND 1 PRO spec table): close repetition frequency > 5 Hz · fully direct drive. The URDF velocity
+# (1.7–2.0 rad/s) cannot open-close more than 11° amplitude at 5 Hz (needs 2·A·f) — the URDF value is not the
+# hardware maximum. Scale 3 ≈ 6 rad/s = 34° amplitude open-close at 5 Hz (a full 90° open-close would need
+# 15.7 rad/s — conservative). A diagnostic run (speed 6 rad/s) matched SharpA at TACO iteration 400. The oracle
+# measures both sides (the URDF is insufficient · the applied value ≤ full-range open-close).
+# Velocity likewise: the URDF velocity as is; applied limit × finger_velocity_peak_scale (brochure: 5 Hz).
+finger_velocity_peak_scale: 3.0
+vendor_close_repetition_hz: 5.0
+# The palm fold spans 30°, so a full-range open-close at 5 Hz is 5.24 rad/s — ×3 (6.0) overshoots → ×2.6 = 5.2.
+finger_velocity_peak_scale_overrides:
+  .*_hand_ltspalm_joint$: 2.6
+vendor_urdf_limit_placeholder: {}
+# Fingertip pad = origin of the vendor fixed joint `*_top_joint` (local to the distal actuated link `*_dip_link`).
+# The distal link mesh ends at 32.0 mm along that axis and the top link (a zero-volume marker) sits at 31.0–31.5 mm
+# = the fingertip. Same convention as wuji (`*_tip_fixed`) and DG-5F-S (`joint_N_tip`).
+# The thumb distal link's pad axis is right +y · **left −y** (measured on the vendor `*_thumb_top_joint`) —
+# stated with a left key. The other four are +z on both sides. hand_rig.py checks each side against the
+# vendor URDF (see the field docstring).
+fingertip_site_offsets:
+  right_hand_thumb_dip_link: [0.0, 0.0312512504715699, 0.0]
+  right_hand_index_dip_link: [0.0, 0.0, 0.0312512504715699]
+  right_hand_mid_dip_link: [0.0, 0.0, 0.0312512504715699]
+  right_hand_ring_dip_link: [0.0, 0.0, 0.0312512504715699]
+  right_hand_pinky_dip_link: [0.0, 0.0, 0.0312512504715699]
+  left_hand_thumb_dip_link: [0.0, -0.0312512504715699, 0.0]
+# Measured lateral max in the vendor URDF 0.22 mm (the same for all five fingers, both sides) → 0.22 + 1 → 1.5 mm.
+# Check-only — training and judging do not read it.
+fingertip_pad_lateral_max_m: 0.0015
+sim_finger_limits: vendor
+# RL training recipe (hands.spec.HandRLRecipe; null = none). XHand Pro: conservative cap scale multiplied on top of
+# the applied cap (finger_effort_applied = URDF × finger_effort_peak_scale). The finger velocity scale is owned by
+# finger_velocity_peak_scale.
+rl_recipe:
+  finger_effort_scale: 0.603
+  finger_effort: null
+  finger_effort_anneal_start: null
+  imit_release_min: null
+  imit_release_start: null

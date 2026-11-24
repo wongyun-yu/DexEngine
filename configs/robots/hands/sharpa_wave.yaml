@@ -1,0 +1,165 @@
+# sharpa_wave — hand spec (dexengine.core.embodiment; every HandSpec field is stated).
+#
+# SharpA Wave (22 DoF, fully actuated).
+# SharpA Wave right hand (22 DoF, fully actuated, no coupling).
+# Joint order = vendor URDF / rig MJCF qpos order (verified against the
+# compiled bimanual scene: 6 wrist + 22 finger per hand, nq=70 with objects).
+# Mount: link7 -> flange = Rz(-90) + 0.0655 (mount 0.0655). Frame naming:
+# the rig's SharpA floating base sits at the FLANGE
+# (vendor merged flange/wrist/C_MC into one body named right_hand_C_MC at the
+# flange origin), so the virtual wrist = FLANGE and link7_to_wrist_offset = the
+# link7->flange mount value (0.0655), NOT the old 0.0850 (which over-extended
+# the wrist 2.95 cm). arm_ik servos right_hand_flange.
+# Gains: Kp/Kd/armature kept at the RH56F1 arm-in-loop values (ManipTrans-
+# style control character); effort/velocity caps are the vendor URDF hardware
+# limits per joint class (0.19-3.3 Nm) so the PD saturates at hardware torque
+# like the RH56F1 setup does at its 1.0 Nm cap. Tunable at smoke time.
+
+name: sharpa_wave
+finger_joint_names_right:
+- right_thumb_CMC_FE
+- right_thumb_CMC_AA
+- right_thumb_MCP_FE
+- right_thumb_MCP_AA
+- right_thumb_IP
+- right_index_MCP_FE
+- right_index_MCP_AA
+- right_index_PIP
+- right_index_DIP
+- right_middle_MCP_FE
+- right_middle_MCP_AA
+- right_middle_PIP
+- right_middle_DIP
+- right_ring_MCP_FE
+- right_ring_MCP_AA
+- right_ring_PIP
+- right_ring_DIP
+- right_pinky_CMC
+- right_pinky_MCP_FE
+- right_pinky_MCP_AA
+- right_pinky_PIP
+- right_pinky_DIP
+coupled_joint_names_right: []
+coupling_ratios: []
+coupling_source_idx: []
+hand_qpos_dim: 28
+tip_body_names_right:
+- right_thumb_DP
+- right_index_DP
+- right_middle_DP
+- right_ring_DP
+- right_pinky_DP
+palm_fk_body_right: right_hand_C_MC
+# Parenthesized alternation broke scene-level SELECTIVE contact-API activation
+# (the task env keeps whole-robot activation OFF to avoid PhysX OOM; only sensor-matched
+# bodies get the API — the alternation form matched nothing at activation time ->
+# "no bodies with contact reporter API"). right_.* is exact on the rby1 combo:
+# arm bodies are link_right_arm_* (no `right_` prefix), the left hand's are left_*.
+contact_body_regex_right: right_.*
+# Root link the full-robot merge cuts the hand subtree at.
+urdf_subtree_root: '{side}_hand_flange'
+# Mounting face → urdf_subtree_root along the root's +z (the hand's part of the mount stack).
+mount_face_to_root: 0.0
+urdf_palm_frame_right: right_hand_C_MC
+# Same name, different point: the rig's C_MC sits 2.95 cm further toward the fingertips.
+palm_frame_offset_pos: [0.0, 0.0, 0.0295]
+palm_site_offset: [0.0, 0.0, 0.0]
+palm_site_mano_frame: []
+joint_pos_defaults: {}
+vendor_link_prefix: '{side}_'
+display_name: Sharpa Wave
+# Vendor URDF and MJCF (both sides): fetched from the vendor release (wave_01/{side}_sharpa_wave/) by
+# `python -m dexengine.robots.vendor fetch` (configs/robots/vendor/). The merge cuts both hand subtrees from the URDF.
+vendor_urdf: assets/robots/hands/sharpa_wave/{side}_sharpa_wave/{side}_sharpa_wave_with_flange.urdf
+vendor_meshes: assets/robots/hands/sharpa_wave/{side}_sharpa_wave/meshes
+merge_source: {}
+# The retargeting rig is built from the vendor MJCF (dexengine/robots/rig/from_mjcf.py): it carries the vendor's
+# calibrated masses (the URDF's virtual joint links are 8e-5 kg, the MJCF's 0.0025 kg); the fingertip sites of the
+# two documents agree (15 sites, 200 random poses, 0 mm). Rig placements in the MJCF root body frame (the flange):
+# palm site 7 cm up the hand axis; distal capsules start 5 mm past the distal joint; a middle-segment capsule on
+# each tip body's parent.
+vendor_mjcf: assets/robots/hands/sharpa_wave/{side}_sharpa_wave/{side}_sharpa_wave_with_flange.xml
+rig_palm_site: [0.0, 0.0, 0.07]
+rig_capsule_distal_start: 0.005
+rig_capsule_middle: true
+# rig asset directory. Equal to the hand name, but leaving it empty would split the tables —
+# dexengine.core.paths.HAND_SPEC_DIR reads this value (contract §8-4).
+retarget_dirname: sharpa_wave
+abduction_joint_regex: ''
+# Per-class PD gains matched to the vendor effort caps: Kp ≈ cap/0.2rad
+# so a moderate 0.2 rad (~11°) error commands ~the cap and typical small errors stay well below
+# it — no torque saturation, no bang-bang tremble. (Old Kp=200 copied from RH56F1 saturated the
+# 0.19 Nm DIP cap at 0.001 rad → 21/22 joints saturated, 19/22 trembling.)
+# v2 retune: residual tremble at v1 was underdamping (ζ~0.7-0.9). v2 OVERDAMPS
+# (Kd ~ 1.5-1.7× critical, ζ~1.5-1.8) to suppress oscillation, and trims the two highest Kp
+# (MCP 10→8, thumb-CMC 16→13) to cut saturation. Reference is slow so slight lag is fine.
+# ".*_thumb_CMC_.*": 13.0 — cap 3.30 Nm (was 16)
+# ".*_MCP_.*": 8.0 — cap 1.864 (all MCP_FE/AA incl thumb; was 10)
+# ".*_PIP": 3.0 — cap 0.638
+# ".*_thumb_IP": 3.0 — cap 0.638
+# ".*_DIP": 1.5 — cap 0.189
+# ".*_pinky_CMC": 3.0 — cap 0.5285
+finger_kp:
+  .*_thumb_CMC_.*: 13.0
+  .*_MCP_.*: 8.0
+  .*_PIP: 3.0
+  .*_thumb_IP: 3.0
+  .*_DIP: 1.5
+  .*_pinky_CMC: 3.0
+# ".*_thumb_CMC_.*": 2.6 — was 1.6
+# ".*_MCP_.*": 1.7 — was 1.0
+# ".*_PIP": 0.8 — was 0.4
+# ".*_thumb_IP": 0.8 — was 0.4
+# ".*_DIP": 0.45 — was 0.2
+# ".*_pinky_CMC": 0.8 — was 0.4
+finger_kd:
+  .*_thumb_CMC_.*: 2.6
+  .*_MCP_.*: 1.7
+  .*_PIP: 0.8
+  .*_thumb_IP: 0.8
+  .*_DIP: 0.45
+  .*_pinky_CMC: 0.8
+finger_armature: null
+# finger_armature: omitted, equal to the shared default (kp/kd above are kept because they match the vendor caps).
+# Vendor URDF effort caps (Nm), grouped by joint class. Patterns are
+# mutually exclusive over the 22 joints (Isaac fullmatch semantics).
+# ".*_MCP_.*": 1.864 — all MCP_FE / MCP_AA incl. thumb
+finger_effort:
+  .*_thumb_CMC_.*: 3.3
+  .*_MCP_.*: 1.864
+  .*_PIP: 0.638
+  .*_thumb_IP: 0.638
+  .*_DIP: 0.189369
+  .*_pinky_CMC: 0.5285
+# Exactly the vendor URDF <limit velocity=> values: the hand-spec check compares them bit for bit against the
+# asset and gates stage 1 and the IK pool, so rounded values fail it. The values follow the asset; the check
+# tolerance is not widened.
+finger_velocity:
+  .*_thumb_CMC_.*: 11.84076833
+  .*_MCP_.*: 16.07692878
+  .*_PIP: 11.61831603
+  .*_thumb_IP: 11.61831603
+  .*_DIP: 14.66594768
+  .*_pinky_CMC: 35.07416159
+finger_effort_peak_scale: 1.0
+vendor_fingertip_force_n: null
+finger_velocity_peak_scale: 1.0
+vendor_close_repetition_hz: null
+finger_velocity_peak_scale_overrides: {}
+vendor_urdf_limit_placeholder: {}
+# URDF *_fingertip fixed-frame offsets in the DP frame (audit doc sec 9).
+fingertip_site_offsets:
+  thumb: 0.027611
+  fingers: 0.026009
+# Largest lateral pad extent measured on the vendor URDF: thumb 4.78, fingers 2-5 2.58 mm (palm side, both
+# sides) → 4.78 + 1 → 6.0 mm.
+fingertip_pad_lateral_max_m: 0.006
+sim_finger_limits: vendor
+# RL training recipe (hands.spec.HandRLRecipe; null = none). SharpA: no hand-specific training settings — the common
+# table and the HandSpec values as they are.
+rl_recipe:
+  finger_effort_scale: 1.0
+  finger_effort: null
+  finger_effort_anneal_start: null
+  imit_release_min: null
+  imit_release_start: null

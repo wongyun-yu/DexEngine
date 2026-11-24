@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!-- Wuji Hand 2 on RB-Y1: the hand root `<side>_wrist` and the MANO wrist frame `<side>_wrist_frame`, both fixed to the arm flange link; `base` only joins the two sides (read by HandSpec.palm_site_mano_frame for the rig palm site orientation). -->
+<robot name="wuji2_wrist_frames">
+  <link name="base" />
+  <link name="link_right_arm_6" />
+  <link name="right_wrist" />
+  <link name="right_wrist_frame" />
+  <link name="link_left_arm_6" />
+  <link name="left_wrist" />
+  <link name="left_wrist_frame" />
+  <joint name="base_right_arm_6" type="fixed">
+    <parent link="base" />
+    <child link="link_right_arm_6" />
+  </joint>
+  <joint name="base_left_arm_6" type="fixed">
+    <parent link="base" />
+    <child link="link_left_arm_6" />
+  </joint>
+  <joint name="right_wrist_fixed" type="fixed">
+    <origin xyz="-0.00022364 0.00302921 -0.1546" rpy="0.00050026764177041154 -0.032814883527772863 1.5707881179458949" />
+    <parent link="link_right_arm_6" />
+    <child link="right_wrist" />
+  </joint>
+  <joint name="left_wrist_fixed" type="fixed">
+    <origin xyz="-0.00022364 -0.00302921 -0.1546" rpy="-0.00050026764177041154 -0.032814883527772863 -1.5707881179458949" />
+    <parent link="link_left_arm_6" />
+    <child link="left_wrist" />
+  </joint>
+  <joint name="right_wrist_frame_fixed" type="fixed">
+    <origin xyz="0 0 -0.1546" rpy="-1.5707963267948966 -1.5707963267948966 0" />
+    <parent link="link_right_arm_6" />
+    <child link="right_wrist_frame" />
+  </joint>
+  <joint name="left_wrist_frame_fixed" type="fixed">
+    <origin xyz="0 0 -0.1546" rpy="1.5707963267948966 1.5707963267948966 0" />
+    <parent link="link_left_arm_6" />
+    <child link="left_wrist_frame" />
+  </joint>
+</robot>

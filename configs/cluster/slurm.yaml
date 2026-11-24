@@ -1,0 +1,8 @@
+# Slurm backend settings (dexengine.cluster.slurm.SlurmConfig). Override with --config FILE or --set key=value.
+partition: ""
+account: ""
+qos: ""
+python: python          # interpreter on the compute nodes
+max_parallel: 0         # array throttle (%N); 0 = none
+extra_sbatch: []        # extra "#SBATCH" options, e.g. ["--exclude=<node>"]
+setup: []               # shell lines before the job, e.g. ["source <Isaac Lab venv>/bin/activate"]

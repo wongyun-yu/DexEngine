@@ -1,0 +1,22 @@
+# E5 success-judge parameters — this file is the single owner (the judge code reads only these values · no
+# threshold constant in the code). Rules: R1 threshold = min(literature value, 0.5 × that clip's reference value) · R2 judgeable gate (reference passes
+# ∧ frame 0 fails — the dropped count goes under the table) · R3 reached once + a short hold · Pour = reaches the
+# reference pour pose (option A) · Sweep = moves while in contact · Put release = auto (only when the data episode
+# released at its end). The literature values are cited in the paper's
+# supplementary material (they are not written again there — this file is their home).
+status: decided-20261024-1150
+common: {cap_mult: 1.5, post_success_s: 1.0, grasp_N: 1.0, release_N: 0.1, d_contact_m: 0.01, blowup_mps: 5.0,
+         jump_m: 0.02, jump_s: 0.1, off_desk_below_m: 0.05,
+         judgeable_requires_ref_pass: true, judgeable_requires_frame0_fail: true,
+         ref_contact: assume,
+         # integrity (not a rule): rigid-fit error cap between reference.npz (env frame) and the kinematics (tree
+         # frame) — above it the judge dies instead of judging
+         frame_fit_tol_m: 0.001}
+lift:   {h_cap_m: {one_hand: 0.04, two_hand_shared: 0.10}, h_frac: 0.5, hold_min_s: 0.3, hold_cap_s: 0.5, hold_frac: 0.8,
+         require_grasp: true, multi: all, min_ref_rise_m: 0.02}
+put:    {eps_cap_m: 0.05, eps_frac: 0.5, static_lin_mps: 0.01, static_ang_rps: 0.5, hold_s: 0.5, require_release: auto,
+         min_ref_disp_m: 0.02}
+pour:   {variant: A, A: {eps_pos_m: 0.05, eps_rot_deg: 30, hold_min_s: 0.3, hold_cap_s: 0.5, hold_frac: 0.8,
+                     key: {tilt: [pour, empty, pour_in_lab, pour-in-some], nearest: [put-in, put-out, scoop]}},
+         B: {tilt_cap_deg: 45, tilt_frac: 0.5, footprint_margin_m: 0.04, hold_s: 0.3, ref_radius_delta_m: null}, target_tip_deg: 45}
+sweep:  {L_cap_m: 0.10, L_frac: 0.5, min_ref_L_m: 0.02, coverage_alt: {spacing_m: 0.01, radius_m: 0.02, frac: 0.5}}

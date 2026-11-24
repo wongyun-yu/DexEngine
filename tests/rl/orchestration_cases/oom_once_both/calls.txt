@@ -1,0 +1,2 @@
+exp=RUN task=train resume=- resume_it=- script=cli.py
+exp=RUN_R800 task=train resume=agent_25600.pt resume_it=800 script=cli.py

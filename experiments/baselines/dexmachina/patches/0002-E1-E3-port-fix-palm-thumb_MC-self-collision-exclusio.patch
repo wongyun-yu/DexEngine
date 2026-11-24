@@ -1,0 +1,64 @@
+From f1da2eefaeb7e97ef967d304a26401e8ee6c9e1c Mon Sep 17 00:00:00 2001
+From: DexEngine authors <authors@example.invalid>
+Date: Mon, 26 Oct 2026 00:38:39 +0900
+Subject: [PATCH 2/4] E1-E3 port fix: palm<->thumb_MC self-collision exclusion
+ for SharpA (hand cfg option, needs Genesis excluded_self_link_pairs)
+
+The palm convex hull contains the thumb_MC hull in every thumb pose: under --group_collisions (self-collision on, as
+in the authors' example scripts) this is a permanent phantom contact that biases thumb_CMC_AA by ~0.1 rad. SPIDER's
+SharpA MJCF excludes the same pair. The authors' fork disabled the runtime group filter (Genesis 266b607), so the
+exclusion is an explicit pair option. Absent from every other hand cfg -> their paths unchanged.
+
+---
+ dexmachina/envs/base_env.py                 | 3 +++
+ dexmachina/envs/hand_cfgs/sharpa_wave.py    | 5 +++++
+ dexmachina/retargeting/parallel_retarget.py | 3 +++
+ 3 files changed, 11 insertions(+)
+
+diff --git a/dexmachina/envs/base_env.py b/dexmachina/envs/base_env.py
+index d6d5892..ae6ef14 100644
+--- a/dexmachina/envs/base_env.py
++++ b/dexmachina/envs/base_env.py
+@@ -212,6 +212,9 @@ class BaseEnv:
+             self.scene_cfg['rigid_options'].self_collision_group_filter = True
+             collision_groups = robot_cfgs['left'].get('collision_groups', dict())
+             self.scene_cfg['rigid_options'].link_group_mapping = collision_groups
++            excluded_pairs = robot_cfgs['left'].get('excluded_self_link_pairs') # [E123-NOBJ] hand cfg option; absent = unchanged
++            if excluded_pairs:
++                self.scene_cfg['rigid_options'].excluded_self_link_pairs = [list(p) for p in excluded_pairs]
+         if render_figure:
+             print("Disabling gravity for figure rendering")
+             self.scene_cfg['sim_options'].gravity = (0, 0, 0)
+diff --git a/dexmachina/envs/hand_cfgs/sharpa_wave.py b/dexmachina/envs/hand_cfgs/sharpa_wave.py
+index 88e859a..5d6f87f 100644
+--- a/dexmachina/envs/hand_cfgs/sharpa_wave.py
++++ b/dexmachina/envs/hand_cfgs/sharpa_wave.py
+@@ -42,6 +42,11 @@ def _side_cfg(side, rel_urdf):
+         "actuators": {k: dict(v) for k, v in SHARPA_ACTUATORS.items()},
+         "collision_groups": dict(SHARPA_COLLISION_GROUPS),
+         "collision_palm_name": f"{side}_hand_C_MC",
++        # [E123-NOBJ] port fix: the palm's convex hull (Genesis convexify) contains the thumb_MC hull in every thumb
++        # pose -> a permanent phantom contact under self-collision (thumb_CMC_AA biased ~0.1 rad). SPIDER's SharpA MJCF
++        # excludes the same pair (<exclude body1="*_hand_C_MC" body2="*_thumb_MC"/>). Entity-local link idx (9, 15).
++        # Their fork disabled the runtime group filter that could express this (Genesis 266b607), hence a pair option.
++        "excluded_self_link_pairs": [(9, 15)],
+     }
+ 
+ 
+diff --git a/dexmachina/retargeting/parallel_retarget.py b/dexmachina/retargeting/parallel_retarget.py
+index c619976..f9bac04 100644
+--- a/dexmachina/retargeting/parallel_retarget.py
++++ b/dexmachina/retargeting/parallel_retarget.py
+@@ -71,6 +71,9 @@ def create_scene(
+         print('Setting the SAME collision grouping to both hands')
+         print(collision_groups)
+         scene_cfg['rigid_options'].link_group_mapping = collision_groups
++        excluded_pairs = robot_cfgs['left'].get('excluded_self_link_pairs') # [E123-NOBJ] hand cfg option; absent = unchanged
++        if excluded_pairs:
++            scene_cfg['rigid_options'].excluded_self_link_pairs = [list(p) for p in excluded_pairs]
+     if enable_self_collision:
+         print("Enabling self collision, will slow down simulation")
+         scene_cfg['rigid_options'].enable_self_collision
+-- 
+2.43.0
+

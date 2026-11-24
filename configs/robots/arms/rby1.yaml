@@ -1,0 +1,159 @@
+# rby1 — arm spec (dexengine.core.embodiment; every ArmSpec field is stated).
+#
+# RB-Y1 (Rainbow Robotics): 7 DoF per side, joints `right_arm_0` .. `right_arm_6`. Side comes FIRST, there is no
+# vendor prefix in the joint name, the separator word is "arm" not "joint", and the numbering is 0-based — the reason
+# joint_name_fmt / index_base exist. Numbers read off the vendor URDF rby1a_model.urdf (Apache-2.0).
+# Body generations (variant suffix, base, torso pose) and the sim collider revision are stated at the end of this
+# file (generations · collider_rev); dexengine.core.arm_generations derives the other generations from them.
+
+name: rby1
+# Not used by joint_name_fmt below; kept as metadata.
+joint_prefix: rby1
+n_joints: 7
+sides: [left, right]
+joint_classes:
+- {suffix: '[0-2]', indices: [0, 1, 2], velocity_limit: 3.141592654, effort_limit: 70.0}
+- {suffix: '3', indices: [3], velocity_limit: 3.141592654, effort_limit: 40.0}
+- {suffix: '[4-5]', indices: [4, 5], velocity_limit: 6.283185308, effort_limit: 10.0}
+- {suffix: '6', indices: [6], velocity_limit: 2.094395102, effort_limit: 8.0}
+ee_body: arm_6
+# Stands on the floor (its own wheels). Base and torso posture (URDF torso_3) are one set, so the value comes only
+# from the canonical generation (generations.canon below). y = 0 = desk centre. To reproduce another
+# generation set DEXENGINE_RBY1_BASE_POS and DEXENGINE_COMBO_USD_VARIANT together (one set; giving only one dies).
+base_pos: canon_generation
+# The built USD's prim path (the importer merges fixed links, so URDF link names do not simply join).
+head_camera_prim_relpath: link_head_2/camera
+floating: false
+# head_0 yaw / head_1 pitch: not driven by the policy; PD holds them, but they exist in the articulation.
+head_joint_names: [head_0, head_1]
+joint_name_fmt: '{side}_arm_{index}'
+index_base: 0
+# Verified against the vendor URDF.
+body_name_fmt: 'link_{side}_arm_{index}'
+ee_body_index: 6
+# The vendor attaches its stock gripper at the ee_{side} frame, z = -0.1261 below the arm_6 origin, facing -z.
+# Source: the vendor's wuji model_v1.2.1 URDF measures right_wrist_mano_frame_joint z -0.126 and the left one
+# -0.125825 (left and right differ by 0.175 mm); the constant matches neither exactly (at most 0.28 mm off). It
+# stays: every wrist measurement is relative to it, so changing it would shift all existing base and judge outputs.
+flange:
+  xyz: [0.0, 0.0, -0.1261]
+  approach: [0.0, 0.0, -1.0]
+# RB-Y1 as the vendor builds it: base -> torso (6, FIXED) -> arms + head, wheels dropped (a table-top scene welds the
+# base to the world; a continuous wheel joint would add 2 free DoFs). `{side}_arm_0` (torso_5 -> arm_0, a 20 deg
+# tilted axis) is the first arm DoF and is kept verbatim. The head links stay so the camera mount exists.
+# Torso posture: rigid at the WORKING POSTURE, not at zero. Standing straight the shoulders sit 1.370 m over base
+# (0.2805 + 0.350 + 0.350 + 0.309427 + 0.080073), while the TACO wrist references live at z 0.75-0.83 m — measured
+# with the canonical IK solver, that stance cannot reach them (mean residual 204 mm, max 551 mm). torso_1/2/3 are a
+# three-link PITCH chain: q1=+t, q2=-2t, q3=+t keeps the upper body vertical and over the base, lowering the shoulder
+# to z(t) = 0.670 + 0.700 cos(t). All six joints are listed (set interactively and frozen); torso_3 is the canonical
+# generation's chest pitch (posture and base are ONE set). merge.py --posture tries other values before freezing.
+skeleton:
+  vendor_urdf: assets/robots/rby1/urdf/rby1a_model_v1.2.urdf
+  root_link: base
+  drop_links: [wheel_r, wheel_l]
+  fixed_joint_prefix: torso_
+  posture:
+    torso_0: 0.0
+    torso_1: -0.524
+    torso_2: 1.074
+    torso_3: {generation: torso3_pitch_rad}
+    torso_4: 0.0
+    torso_5: 0.0
+  world_joint: base_world_joint
+  # Head camera: the robot's ZED Mini (Stereolabs mesh, datasheet mass; zed_camera_link.xml) fixed to the head so the
+  # simulated camera prim spawns as its child and moves with the hardware. The camera link frame sits on the mount's top
+  # face (measured on the built USD's mesh bounding boxes); the ZED Mini body inside it sits at the calibrated mount
+  # (zed_camera_link.xml). The link's optical axis is its +Y; the head chain has no yaw offset, so a yaw of -90 deg
+  # points +Y at world +X (forward).
+  extra_links:
+  - link_xml: assets/robots/head_cameras/zed_camera_link.xml
+    mesh: assets/robots/full_robot_gen/_sanitized_meshes/zedm.stl
+    joint: rby1_head_camera_mount
+    parent: link_head_2
+    xyz: [0.019, 0.0206, 0.045]
+    rpy: [0.0, 0.0, -1.5707963]
+# Torso colliders exist (collider_rev torso lists below): placement guards the hands against them.
+torso_ruler: true
+# Placement link groups: besides the skeleton root (base), the torso and head links are the TORSO group.
+torso_link_prefixes: [link_torso_, link_head_]
+# Rest pose of an idle arm (one-hand clips; joint order arm_0 shoulder pitch, arm_1 shoulder abduction, arm_2, arm_3
+# elbow, arm_4, arm_5, arm_6). q = 0 is the arm hanging vertically beside the torso (URDF: arm_3 origin z -0.276, arm_4
+# z -0.256). Abduction 0.15 rad moves it away from the torso and elbow -0.30 rad brings the hand slightly forward —
+# fingertip x ~ -0.57 (base -0.70), z ~ 0.60. The near desk edge is x >= -0.35 across every dataset (TACO constant ·
+# grab footprint >= -0.03), so the arm colliders stay outside the desk footprint (no desk-component samples, for dz
+# 0/-3.5/-5.5/-7.5 cells alike), the torso guard passes on every registered hand and the two arms are 203.5 mm apart
+# (surface ruler, the sim colliders). Inside the joint limits (right arm_1 in [-pi, 0.017] -> -0.15 · left arm_1 in
+# [-0.017, pi] -> 0.15 · arm_3 in [-2.618, 0.017]). Left and right mirror in the sign of arm_1 only (the URDF axes
+# mirror left/right). Verified numerically with desk_penetration and the torso guard torso.torso_guard.
+idle_qpos:
+  right: [0.0, -0.15, 0.0, -0.30, 0.0, 0.0, 0.0]
+  left: [0.0, 0.15, 0.0, -0.30, 0.0, 0.0, 0.0]
+# Reach-map desk clearance: elbow to forearm (arm_2..4) stay above the desk top; the wrist links (arm_5, arm_6) drop
+# together with the hand in desk-height manipulation, so they take the hand's allowance. The shoulder (arm_0, arm_1)
+# is in neither class.
+reach_clearance_links:
+  arm: [2, 3, 4]
+  hand: [5, 6]
+# Default drive of the arm joints (launches override kp/kd with --arm_kp/--arm_kd, recipe ARM_KP/ARM_KD) and of the
+# head joints: the head is not driven by the policy, a PD target holds the pitch joint (head_1) at pitch_deg (the
+# canonical 30 deg down; the head camera sits on the head link and pitches with it). The head caps are the ones the
+# original hand-written asset's head group carried.
+arm_drive: {kp: 800.0, kd: 80.0}
+head_drive: {kp: 400.0, kd: 80.0, effort_limit: 10.0, velocity_limit: 10.0, pitch_deg: 30.0}
+# Natural posture of the placement judge's search order (both arms bent 90 deg at the elbow only): the frame origins
+# of arm_2 (shoulder), arm_3 (elbow) and arm_4 (wrist) at q = 0 give the upper arm and forearm lengths.
+limb_joints: {shoulder: 2, elbow: 3, wrist: 4}
+# Base position of the v2 era (base y = -0.15) the ported v2 placements were adopted at; the judge shifts them by the
+# move to the canonical base. A constant of that era, not a copy of the canonical base (generations.canon).
+port_base_pos: [-0.573, -0.15, 0.0]
+# Body generations (dexengine.core.arm_generations). Different bakes of the same robot are "generations"; rby1
+# generations differ in torso pose (the merged URDF's torso_3 origin pitch). canon = the canonical body: variant suffix
+# (the same string on the USD and the URDF asset folders), base position and torso pose fingerprint are ONE set
+# (selection.assert_generation_coherent kills a mismatch). render = its material plate (materials only, the body
+# fields are canon's). The collider revision is the separate axis the sim spawns on top (sim_collider generates its
+# shapes): replace / add = arm link numbers (ArmSpec numbering) whose collider becomes / gets the convex hull of the
+# link's visual mesh (hull_vertex_cap = PhysX's cooking vertex limit), torso_replace / torso_add = the same for the
+# static torso links.
+generations:
+  canon:
+    variant: ''
+    base_pos: [-0.70, 0.00, 0.00]
+    torso3_pitch_rad: -0.550
+    chest_pitch_deg: 0.0
+    why: >-
+      **Canonical**. The RB-Y1 meshes' own colours — colour source is the COLLADA diffuse of the vendor meshes the
+      merged URDF references (rby1-sdk models/rby1a/urdf/meshes/*.dae, fetched; configs/robots/vendor/). The
+      camera (ZED-M) is solid black, the real robot's colour. Painted
+      white 33 · black 26 · dark grey 10 · silver 4 · camera 4 materials; instancing (117 prototypes) is intact.
+      Kinematics and physics equal _chest00 — only materials differ.
+  render:
+    variant: _mi
+    material_of: ''
+    why: >-
+      Render body generation (metal plates) — the same hand's canonical body USD with white materials painted bright
+      steel and light black and the camera painted black (generator dexengine/robots/usd/render_body.py). Kinematics
+      · physics · colliders · instancing are the canonical body's, so the render plate's colliders = the training plate's
+      (check: dexengine/robots/usd/render_plate.py). A flattened plate (no instancing) is not used: multi-env
+      creation hangs on it.
+collider_rev:
+  suffix: _armhull
+  replace: [1, 2, 3, 4, 5]
+  add: [6]
+  hull_vertex_cap: 64
+  prim_name: arm_hull
+  torso_replace: [link_torso_0, link_torso_1, link_torso_2, link_torso_4, link_torso_5]
+  torso_add: [link_torso_3]
+  why: >-
+    Torso: the 5 vendor capsules (front face p90 54 mm beyond the visual surface) become the convex hull of each
+    torso link's visual mesh, and one is added on torso_3, which had no capsule — a link whose hull bulges past the
+    torso visual on the front face the arms reach is split into part hulls (split rule = torso_split — chosen by
+    measurement). Judge, sim and bake measure the same torso. The vendor capsules of upper arm, forearm and wrist
+    (arm_1–5 · the r 75 mm wrist capsule swallowed the whole hand) become each link's visual mesh convex hull, and a
+    hull is added on the flange (arm_6 — the same body as the hand hull), which had no capsule. Judge and sim
+    measure the same real arm surface (hulls are mostly thinner than capsules; at the zero pose (URDF q=0) they
+    stick out of the union of that arm's vendor capsules by arm_2 17.8 · arm_3 5.9 · arm_4 1.4 mm and 0 elsewhere;
+    the generator records the value against the link's own capsule as outside_removed_capsule_mm). The first
+    shoulder link arm_0 keeps its vendor capsule: it is the jointed neighbour of the torso (torso_5), and in the
+    split articulation that spawns each arm separately the left arm_0 ↔ torso pair is not filtered, so an asymmetric
+    hull would touch the torso and push the shoulder joint (the capsule is nearly a sphere near the joint origin, so
+    its push torque is small). sim_collider._check_rev refuses links whose joint parent is outside the arm.

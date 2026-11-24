@@ -1,0 +1,28 @@
+From 2ec954f8d99681e3fd4d02a13b6394661cd8e5a8 Mon Sep 17 00:00:00 2001
+From: DexEngine authors <authors@example.invalid>
+Date: Mon, 26 Oct 2026 01:25:43 +0900
+Subject: [PATCH 4/4] E1-E3 port: eval object specs as plain strings (PosixPath
+ is not JSON)
+
+---
+ dexmachina/rl/eval_rl_games.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/dexmachina/rl/eval_rl_games.py b/dexmachina/rl/eval_rl_games.py
+index 3662b9f..e3998ce 100644
+--- a/dexmachina/rl/eval_rl_games.py
++++ b/dexmachina/rl/eval_rl_games.py
+@@ -123,8 +123,8 @@ def eval_one_episode(env, agent, obj_state_tensor, print_rew=False, record_video
+     if len(uenv.objects) > 1: # [E123-NOBJ] what compute_add needs to split the states and rebuild the objects
+         eval_data['object_names'] = np.array(uenv.object_names)
+         eval_data['object_state_dims'] = np.array([7 + o.num_joints for o in uenv.objects.values()])
+-        eval_data['object_cfgs_json'] = np.array(json.dumps({n: dict(name=n, urdf_path=o.cfg['urdf_path'],
+-            part_mesh_fnames={p: o.cfg[f'{p}_mesh_fname'] for p in o.link_names}) for n, o in uenv.objects.items()}))
++        eval_data['object_cfgs_json'] = np.array(json.dumps({n: dict(name=n, urdf_path=str(o.cfg['urdf_path']),
++            part_mesh_fnames={p: str(o.cfg[f'{p}_mesh_fname']) for p in o.link_names}) for n, o in uenv.objects.items()}))
+     frames = uenv.get_recorded_frames()
+     return frames, eval_data
+ 
+-- 
+2.43.0
+

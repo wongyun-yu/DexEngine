@@ -1,0 +1,120 @@
+{
+ "generated": "2026-09-20 13:29",
+ "tool": "one-off calibration script (robot vs MANO contact distance; not included)",
+ "n_frames_fingers": 1372160,
+ "robot_threshold_m": 0.02,
+ "corr": 0.9853,
+ "diff_median_mm": 6.08,
+ "diff_p25_mm": 1.61,
+ "diff_p75_mm": 12.58,
+ "robot_on_pct": 24.09,
+ "best_thr_m": 0.0275,
+ "best_agree_pct": 96.47,
+ "grid": [
+  {
+   "thr_m": 0.005,
+   "agree_pct": 80.73,
+   "mano_on_pct": 5.23,
+   "miss_pct": 19.07,
+   "false_pct": 0.21
+  },
+  {
+   "thr_m": 0.0075,
+   "agree_pct": 83.93,
+   "mano_on_pct": 8.64,
+   "miss_pct": 15.76,
+   "false_pct": 0.31
+  },
+  {
+   "thr_m": 0.01,
+   "agree_pct": 87.22,
+   "mano_on_pct": 12.14,
+   "miss_pct": 12.36,
+   "false_pct": 0.42
+  },
+  {
+   "thr_m": 0.0125,
+   "agree_pct": 90.14,
+   "mano_on_pct": 15.35,
+   "miss_pct": 9.3,
+   "false_pct": 0.56
+  },
+  {
+   "thr_m": 0.015,
+   "agree_pct": 92.46,
+   "mano_on_pct": 18.01,
+   "miss_pct": 6.81,
+   "false_pct": 0.73
+  },
+  {
+   "thr_m": 0.0175,
+   "agree_pct": 94.12,
+   "mano_on_pct": 20.05,
+   "miss_pct": 4.96,
+   "false_pct": 0.92
+  },
+  {
+   "thr_m": 0.02,
+   "agree_pct": 95.26,
+   "mano_on_pct": 21.69,
+   "miss_pct": 3.57,
+   "false_pct": 1.17
+  },
+  {
+   "thr_m": 0.0225,
+   "agree_pct": 96.07,
+   "mano_on_pct": 23.06,
+   "miss_pct": 2.48,
+   "false_pct": 1.45
+  },
+  {
+   "thr_m": 0.025,
+   "agree_pct": 96.45,
+   "mano_on_pct": 24.21,
+   "miss_pct": 1.71,
+   "false_pct": 1.84
+  },
+  {
+   "thr_m": 0.0275,
+   "agree_pct": 96.47,
+   "mano_on_pct": 25.26,
+   "miss_pct": 1.18,
+   "false_pct": 2.35
+  },
+  {
+   "thr_m": 0.03,
+   "agree_pct": 96.27,
+   "mano_on_pct": 26.22,
+   "miss_pct": 0.8,
+   "false_pct": 2.93
+  },
+  {
+   "thr_m": 0.0325,
+   "agree_pct": 95.85,
+   "mano_on_pct": 27.1,
+   "miss_pct": 0.57,
+   "false_pct": 3.58
+  },
+  {
+   "thr_m": 0.035,
+   "agree_pct": 95.42,
+   "mano_on_pct": 27.84,
+   "miss_pct": 0.41,
+   "false_pct": 4.17
+  },
+  {
+   "thr_m": 0.0375,
+   "agree_pct": 94.96,
+   "mano_on_pct": 28.48,
+   "miss_pct": 0.32,
+   "false_pct": 4.72
+  },
+  {
+   "thr_m": 0.04,
+   "agree_pct": 94.45,
+   "mano_on_pct": 29.15,
+   "miss_pct": 0.25,
+   "false_pct": 5.3
+  }
+ ]
+}

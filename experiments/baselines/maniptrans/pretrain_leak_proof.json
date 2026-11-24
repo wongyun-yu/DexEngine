@@ -1,0 +1,11 @@
+{
+ "rule": "pool = CHORD-public TACO full-schema (has MANO) minus eval B0r 64; compared by full sequence id AND by date_idx key",
+ "chord_files": 1215,
+ "full_schema": 1148,
+ "robot_only": 67,
+ "eval": 64,
+ "pool": 1084,
+ "intersection_by_sequence_id": [],
+ "intersection_by_date_idx": [],
+ "eval_all_full_schema": true
+}

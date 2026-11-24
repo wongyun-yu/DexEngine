@@ -1,0 +1,16 @@
+# Retarget posture prior for SharpA Wave (spec dir `sharpa_wave`) — **DISABLED ON PURPOSE**.
+#
+# This file did **not exist** before. Without it ik.py printed one line `loguru.info("No posture prior …")`
+# and quietly ran without a prior — the textbook case of "a safety step is skipped silently".
+# Now ik.py **dies without a prior file**. A hand that uses no prior
+# **declares that decision in a file** — this stub is that file.
+#
+# Why SharpA uses no prior (the reason is ik.py's earlier comment, unchanged):
+#   SharpA's PIP/DIP range is [0, +], so **there is no hyperextension zigzag branch at all**.
+#   With nothing to fix, synergy and rest terms would only suppress fingertip detail. Wuji and DG-5F-S
+#   have ± hyperextension ranges and need the prior (see each hand's retarget_prior.yaml).
+#
+# Same behaviour: the `enabled: false` branch and the old "no file" branch **both** end with posture_prior=None ·
+# prior_weights=None — the IK output is byte-identical (proof: tools/cleanup_smoke/stage1_smoke.sh).
+# Do **not** write the `limit_hyperextension` key — writing it changes the old behaviour (on only from the CLI).
+enabled: false

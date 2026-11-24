@@ -1,0 +1,13 @@
+# FlashDexRetarget variant disks_mass_0p2 (E1–E3):
+#  ① support disks on — the authors' preprocess fitted desk disks for every clip (report.csv disks ≥ 1 · first_supported)
+#    and their reject rules assume them, but config/envs/commands/motion_tracking.yaml ships
+#    support_disks.enable: false, so without this override both objects free-fall from frame 0
+#  ② every object 0.2 kg — the rule for every non-CHORD baseline, as Ours (MassPropertiesCfg(mass=0.2), inertia from the
+#    shape at uniform density); FDR's own default = density 800 clamped to [0.05, 0.5] kg
+# One owner: the training row and the scoring row (`--variant`) read this file. 'override' = a Hydra override added to
+# the training overrides · 'proof <min count> <ERE>' = a line the run's own log must carry (the sim's read-back), else
+# the run is void.
+override commands.object.support_disks.enable=true
+override commands.object.mass_kg=0.2
+proof 1 ^\[FDR_DISKS\] on .* slots x radii
+proof 2 ^\[FDR_MASS\] object_[a-z]+ n=[0-9]+ physx mass before .* -> after 0\.2000\.\.0\.2000 kg \(target 0\.2000\)

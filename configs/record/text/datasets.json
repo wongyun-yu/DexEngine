@@ -1,0 +1,38 @@
+{
+ "taco": {
+  "kind": "triplet",
+  "note": "TACO: tool-use recordings on a table with EMPTY containers (no food or liquid is ever present). The source label is a (verb, tool, target) triplet taken from the folder name, e.g. 'brush_brush_bowl' = verb 'brush', tool 'brush', target 'bowl'; hyphens join multi-word verbs. The triplet means: the tool is used on, over or in the target as if doing the verb. Usually one hand moves the tool and the other holds or steadies the target. Object ids in the metadata are numeric mesh ids, so take object nouns from the triplet. Describe the tool's physical motion relative to the target and keep the verb as the manner: {{TACO_VERBS}}. If the tool comes back near where it started (small net displacement in the motion summary), say that it is taken back out or set back down; do not end the instruction with it left inside the target."
+ },
+ "oakink2": {
+  "kind": "sentence",
+  "note": "OakInk2: household tasks on a table. The source gives a sentence for this primitive step (e.g. 'Remove the test tube from the holder'); it is the strongest evidence for the action but it may name objects that are not in this clip's object list (paper, sugar, a rack): leave those out and describe what is done to the listed objects only. Object names come from the dataset's object descriptions. Rephrase the sentence; do not add steps that belong to other primitives. If this segment's motion summary shows no moved object, the step's action belongs to another segment: describe only holding or reaching (rule 6). 'swap' or 'exchange' with each hand keeping its own object is not a hand-to-hand pass."
+ },
+ "h2o": {
+  "kind": "action_label",
+  "note": "H2O: two-hand desk actions with official verb-noun labels (e.g. 'pour milk', 'open lotion'). The metadata lists the labelled actions that overlap this clip with their overlap in seconds; describe the action(s) with the largest overlap, in time order if there are two main ones. The objects are rigid models: a book does not open and nothing is poured out, so 'read book' = pick up the book and hold it as if reading, 'pour milk' = tilt the milk carton as if pouring, 'put in X' with no container in the object list = move X with both hands (do not say 'put it in'). Some clips (the official test split) have no labels: then describe from the object and the motion summary, with confidence at most medium."
+ },
+ "grab": {
+  "kind": "intent",
+  "note": "GRAB: whole-body grasping of single objects in the air. The label is the intent from the file name: lift, pass, inspect, use, drink, offhand, staple, etc. Combine the intent with the object name ('inspect' + 'alarmclock' -> 'Pick up the alarm clock and look it over'). 'pass' means the object is held out to another person who is not recorded: say 'Pick up the X and hold it out', never pass, hand over or give unless the case contains HANDOVER. 'drink' = bring the cup or bottle up as if drinking. 'use' / 'staple' / 'stamp' = hold the object and press or operate it as its name suggests, without naming parts. There is no table-top goal location."
+ },
+ "arctic": {
+  "kind": "intent",
+  "note": "ARCTIC: articulated objects held in the air. Each object has exactly one moving part hinged to its base. The label is object + intent: 'grab' = hold and move the object rigidly, 'use' = operate that one hinge (open/close, fold/unfold). For 'use', name only the object's moving part from this list and no other part (no knob, lever, button, handle, controls): box = lid, laptop = lid, microwave = door, waffleiron = lid, notebook = cover, ketchup = cap, phone = top half (flip it open or closed), scissors = blades (open or close them), capsulemachine = top part, espressomachine = top part, mixer = top part. The motion summary gives only the rigid motion of the object base."
+ },
+ "hrdexdb": {
+  "kind": "object_names",
+  "note": "HRDexDB: the source provides only the object name (e.g. 'servingbowl_small'). Infer a simple action from the object's role and the motion summary (lift, move, place, rotate); confidence is at most medium."
+ },
+ "dexcanvas": {
+  "kind": "object_and_type_code",
+  "note": "DexCanvas: simple primitive objects (cubes, cylinders, ...). The clip name holds the object and a numeric manipulation-type code with no published names; do not interpret the code. Describe the motion from the motion summary (e.g. 'Pick up the cube and turn it over'): 'lift' or 'lower' only when the summary shows a lift ('lift_max_cm'), otherwise 'slide' or 'push' it along. Confidence is at most medium."
+ },
+ "hocap": {
+  "kind": "none",
+  "note": "HO-Cap: no task text; object names may be codes (e.g. 'G18_1'). Use generic nouns ('the object', 'the container') unless a readable name is given, and describe the motion from the motion summary. Confidence is low unless a readable object name and a clear motion are present."
+ },
+ "hot3d": {
+  "kind": "none",
+  "note": "HOT3D: no task text; objects have readable names (e.g. 'mug_white', 'potato_masher'). Many objects in the scene stay still; the moved object is the one with motion in the summary. Describe what happens to the moved object only; name another object only when it is the moved object's support or its measured end position ('ends_near'). Confidence is at most medium."
+ }
+}

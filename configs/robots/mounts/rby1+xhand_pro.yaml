@@ -1,0 +1,18 @@
+# rby1 + xhand_pro — mount spec (dexengine.core.embodiment). ROBOTERA XHand Pro — provisional.
+# The vendor does not define a mount interface: the brochure has no flange or bolt drawing; the origin of the vendor
+# URDF root `right_hand_link` = the centre of the hand's base mounting face (measured on the mesh: z min 0.0, base
+# ring radius 23.1–25.0 mm) and no ISO 9409-1-50-4-M6 bolt pattern shows on that face → a design that uses an adapter
+# plate. Assumed: adapter thickness 7.5 mm (as the DG-5F-S plate) and Ry(pi) (as DG-5F-S, the same hand frame
+# convention: fingers +z · palm normal +x · thumb +y). Once the real adapter is known, fix this one file.
+arm: rby1
+hand: xhand_pro
+translation:
+  stack: {adapter_thickness: 0.0075}
+rotation:
+  right: [0.0, 0.0, 1.0, 0.0]
+  left: [0.0, 0.0, 1.0, 0.0]
+provisional: true
+provenance: 'ROBOTERA XHand Pro: no vendor mount drawing · URDF root origin = bottom mounting face (measured on the mesh) · adapter 7.5 mm·Ry(π) assumed'
+assumptions:
+- adapter_thickness=0.0075 m — assumed equal to the DG-5F-S adapter plate
+- rotation=Ry(π) · thumb azimuth — assumed the same hand frame convention as DG-5F-S, checked on a rendered figure

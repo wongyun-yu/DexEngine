@@ -1,0 +1,24 @@
+# Permanent exemptions of tests/core/test_references.py: references that resolve outside this tree, or values stored
+# on disk that readers compare. Columns: file, reference, kind (external | pinned | stored | optional), reason.
+# Key = (file, reference): every occurrence in that file. A row that matches nothing fails the test.
+dexengine/core/config.py	configs/record/render.yaml	optional	docstring example of a config file read only if present
+dexengine/data/readers/hot3d.py	assets/instance.json	external	HOT3D raw dataset tree (relative to its root)
+dexengine/data/readers/raw/hot3d.py	assets/instance.json	external	HOT3D raw dataset tree (relative to its root)
+dexengine/data/support/hot3d.py	assets/instance.json	external	HOT3D raw dataset tree (RAW / ...)
+docs/datasets.md	assets/instance.json	external	HOT3D raw dataset tree (relative to its root)
+dexengine/record/render/writer.py	scripts/collect/collect_depth.py	stored	CODEC owner tag written to info.json (kept)
+dexengine/record/rollout/recorder.py	scripts/collect/collect_record.py	stored	owner tag written to record meta (kept)
+dexengine/record/rollout/recorder.py	scripts/collect/collect_partner.py	stored	owner tag written to record meta (kept)
+dexengine/data/intake_ingest.py	dexengine/core/layout.py	stored	layout_module provenance value in the intake handoff record (kept)
+dexengine/record/store/force.py	scripts/collect/collect_force.py	stored	RULE owner tag written to info.json (kept)
+experiments/ablations/floating_hand/wrench.py	configs/action/residual_hand_pose_stiff.yaml	external	FlashCHORD checkout (gain evidence)
+experiments/ablations/floating_hand/wrench.py	scripts/debug/replay.py	external	FlashCHORD checkout (gain evidence)
+experiments/baselines/chord/prep_all.sh	scripts/reconstruct_support_surfaces.py	external	CHORD checkout (cwd $RG)
+experiments/baselines/common/gen_cmds.sh	scripts/train_flash_sac.py	external	FlashCHORD checkout (cwd $FC)
+experiments/baselines/common/gen_cmds.sh	scripts/evaluate_policy.py	external	FlashCHORD checkout (cwd $FC)
+experiments/baselines/dexmachina/taco_to_dexmachina.py	assets/sharpa_wave_hand/retarget_config.yaml	external	DexMachina asset tree it writes
+experiments/baselines/fdr/eval_record.py	scripts/train_flashdexretarget.sh	external	FlashDexRetarget checkout (the authors' launcher)
+experiments/baselines/fdr/retarget.sh	scripts/retarget/taco.sh	external	FlashDexRetarget checkout (cwd $F)
+experiments/baselines/fdr/setup.sh	scripts/setup.sh	external	FlashDexRetarget checkout (the authors' setup)
+experiments/scoring/judge_fail_detail.py	scripts/placement/judge.py	pinned	the judge's path in git history (git log on that path)
+experiments/baselines/maniptrans/build_pretrain_pool.sh	scripts/reconstruct_support_surfaces.py	external	CHORD checkout (cwd $RG)

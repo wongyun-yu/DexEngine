@@ -1,0 +1,943 @@
+From abd8e24237f2cc6681de935b61b0bebf6b73c9f1 Mon Sep 17 00:00:00 2001
+From: DexEngine authors <authors@example.invalid>
+Date: Sun, 25 Oct 2026 23:26:17 +0900
+Subject: [PATCH 1/4] E1-E3 port: N rigid objects (multi-object TACO clips) +
+ SharpA Wave hand config
+
+Single-object (ARCTIC) path keeps its tensor ops; new behaviour only when the demo file carries `objects`.
+Every changed line is tagged [E123-NOBJ].
+
+---
+ dexmachina/envs/base_env.py                 | 45 +++++++----
+ dexmachina/envs/constructors.py             | 25 +++---
+ dexmachina/envs/curriculum.py               | 13 +++-
+ dexmachina/envs/demo_data.py                |  9 +++
+ dexmachina/envs/hand_cfgs/sharpa_wave.py    | 51 +++++++++++++
+ dexmachina/envs/object.py                   | 80 ++++++++++++++------
+ dexmachina/envs/rewards.py                  | 84 +++++++++++++++++----
+ dexmachina/eval/compute_add.py              | 52 ++++++++++++-
+ dexmachina/retargeting/parallel_retarget.py | 57 ++++++++++----
+ dexmachina/rl/eval_rl_games.py              | 11 +++
+ 10 files changed, 343 insertions(+), 84 deletions(-)
+ create mode 100644 dexmachina/envs/hand_cfgs/sharpa_wave.py
+
+diff --git a/dexmachina/envs/base_env.py b/dexmachina/envs/base_env.py
+index a62bbae..d6d5892 100644
+--- a/dexmachina/envs/base_env.py
++++ b/dexmachina/envs/base_env.py
+@@ -221,7 +221,7 @@ class BaseEnv:
+         
+         self.is_finite_horizon = True # need this for rlgames
+         
+-        self.table_height = TABLE_HEIGHT
++        self.table_height = env_cfg.get('table_height', TABLE_HEIGHT) # [E123-NOBJ] default = the ARCTIC constant
+         self.device = device 
+         self.scene = gs.Scene(**self.scene_cfg)
+         
+@@ -258,7 +258,7 @@ class BaseEnv:
+                 device=device,
+                 scene=self.scene,
+                 num_envs=self.num_envs,
+-                demo_data=demo_data,
++                demo_data=(demo_data['objects'][k] if 'objects' in demo_data else demo_data), # [E123-NOBJ]
+                 visualize_contact=visualize_contact, 
+                 disable_collision=cfg.get('disable_collision', False), # or render_figure,
+                 ) 
+@@ -268,14 +268,17 @@ class BaseEnv:
+         if len(self.object_names) > 0: 
+             self.object = self.objects[self.object_names[0]] # only support one object for now
+         self.n_objects = len(self.object_names) # might be 0!!
++        if self.n_objects > 1: # [E123-NOBJ] contact parts = object collision links in filter order, owner = object idx
++            self.reward_module.contact_part_owner = [i for i, o in enumerate(self.objects.values()) for _ in o.coll_idxs_global]
++            self.reward_module.contact_part_names = [o.name if len(o.coll_idxs_global) == 1 else f"{o.name}/{j}" for o in self.objects.values() for j in range(len(o.coll_idxs_global))]
+        
+         self.use_curriculum = False 
+         self.curriculum = None
+-        if self.n_objects == 1 and self.object.actuated:
++        if self.n_objects >= 1 and all(o.actuated for o in self.objects.values()): # [E123-NOBJ] (== n==1 and actuated for one object)
+             self.use_curriculum = True 
+             self.curriculum = Curriculum(
+                 self.curr_cfg, 
+-                task_object=self.object,
++                task_object=(self.object if self.n_objects == 1 else list(self.objects.values())), # [E123-NOBJ]
+                 reward_keys=self.reward_keys,
+                 num_envs=self.num_envs,
+                 achieved_length=0,
+@@ -368,11 +371,16 @@ class BaseEnv:
+         rand_cfg = self.rand_cfg
+         self.setup_actions(self.robots) 
+         self.observe_tip_dist = env_cfg['observe_tip_dist']
++        # (object, part) pairs of the keypoint-distance obs # [E123-NOBJ]: one object = its 'top', 'bottom' (as before);
++        # multi-object clips = every link of every object, in object order
++        if self.n_objects == 1:
++            self.obj_part_list = [(self.objects[self.object_names[0]], part) for part in ['top', 'bottom']]
++        else:
++            self.obj_part_list = [(obj, ln) for obj in self.objects.values() for ln in obj.link_names]
+         if self.observe_tip_dist:
+             # load vertices
+-            assert self.n_objects == 1, "Only support one object for now"
+-            obj = self.objects[self.object_names[0]]
+-            self.obj_verts = {part: obj.sample_mesh_vertices(300, part) for part in ['top', 'bottom']}
++            assert self.n_objects >= 1, "Need at least one object"
++            self.obj_verts = [obj.sample_mesh_vertices(300, part) for obj, part in self.obj_part_list]
+         
+         self.observe_contact_force = env_cfg.get('observe_contact_force', False)
+         if self.n_objects == 0:
+@@ -380,10 +388,11 @@ class BaseEnv:
+             print("Disabling contact force observation because no object")
+         self.use_contact_reward = env_cfg.get('use_contact_reward', False) 
+         if self.observe_contact_force or self.use_contact_reward:
+-            self.num_obj_links = len(self.object.coll_idxs_global)
++            obj_coll_idxs = [i for o in self.objects.values() for i in o.coll_idxs_global] # [E123-NOBJ]
++            self.num_obj_links = len(obj_coll_idxs)
+             self.num_robot_links = sum([len(robot.coll_idxs_global) for robot in self.robots.values()])
+ 
+-            self.filter_links_a = torch.tensor(self.object.coll_idxs_global, device=self.device)
++            self.filter_links_a = torch.tensor(obj_coll_idxs, device=self.device) # [E123-NOBJ]
+             self.filter_links_b = torch.tensor(
+                 self.robots['left'].coll_idxs_global + self.robots['right'].coll_idxs_global, 
+                 device=self.device
+@@ -470,7 +479,7 @@ class BaseEnv:
+             obs_dim += dim
+         if self.observe_tip_dist:
+             n_kpts = self.robots['left'].n_kpts + self.robots['right'].n_kpts
+-            obs_dim += n_kpts * 2 # because two obj parts!
++            obs_dim += n_kpts * len(self.obj_part_list) # because two obj parts! # [E123-NOBJ]
+         
+         if self.observe_contact_force:
+             obs_dim += self.num_obj_links * self.num_robot_links * 1 # 3 for force vec
+@@ -513,7 +522,7 @@ class BaseEnv:
+         self.last_actions = torch.zeros((self.num_envs, self.action_dim), device=self.device)
+ 
+         # approximate dist from hand kpt to object surface
+-        num_obj_parts = 2 
++        num_obj_parts = len(self.obj_part_list) # [E123-NOBJ]
+         if self.observe_tip_dist:
+             self.kpt_dists_left = torch.zeros((self.num_envs, self.robots['left'].n_kpts, num_obj_parts), device=self.device)
+             self.kpt_dists_right = torch.zeros((self.num_envs, self.robots['right'].n_kpts, num_obj_parts), device=self.device)
+@@ -647,6 +656,9 @@ class BaseEnv:
+         if self.n_objects == 1:
+             obj = self.objects[self.object_names[0]]
+             obj_pos, obj_quat, obj_arti = obj.root_pos, obj.root_quat, obj.dof_pos
++        elif self.n_objects > 1: # [E123-NOBJ] per-object lists -> RewardModule averages the task reward over objects
++            objs = list(self.objects.values())
++            obj_pos, obj_quat, obj_arti = [o.root_pos for o in objs], [o.root_quat for o in objs], [o.dof_pos for o in objs]
+         else:
+             obj_pos, obj_quat, obj_arti = None, None, None
+         bc_dist = torch.cat([robot.get_bc_dist() for robot in self.robots.values()], dim=-1)
+@@ -693,7 +705,7 @@ class BaseEnv:
+         task_rewards = rew_dict['task_rew'] # use task_rew for reset
+         task_rewards[self.nan_envs] = -1.0
+         rew_dict['task_rew'] = task_rewards
+-        self.cumulative_task_rew[:] += task_rewards if self.n_objects == 1 else rewards 
++        self.cumulative_task_rew[:] += task_rewards if self.n_objects >= 1 else rewards # [E123-NOBJ]
+         
+         if 'con_rew' in rew_dict:
+             con_rew = rew_dict['con_rew']
+@@ -725,6 +737,8 @@ class BaseEnv:
+         if self.n_objects == 1:
+             first_obj = self.objects[self.object_names[0]]
+             object_fell_off = first_obj.root_pos[:, 2] < self.table_height
++        elif self.n_objects > 1: # [E123-NOBJ] any object below the table
++            object_fell_off = torch.stack([o.root_pos[:, 2] < self.table_height for o in self.objects.values()]).any(dim=0)
+         
+         need_reset = timeout | object_fell_off | self.nan_envs
+         
+@@ -835,15 +849,14 @@ class BaseEnv:
+         # value_list.append(normalize_ep_len.repeat(1, 20))
+ 
+         if self.observe_tip_dist:
+-            assert self.n_objects == 1, "Only support one object for now"
+-            obj = self.objects[self.object_names[0]]
++            assert self.n_objects >= 1, "Need at least one object" # [E123-NOBJ]
+             # compute the kpt distances to the object surface
+             for side, dists_tensor in zip(['left', 'right'], [self.kpt_dists_left, self.kpt_dists_right]):
+                 robot = self.robots[side]
+-                for i, part in enumerate(['top', 'bottom']):
++                for i, (obj, part) in enumerate(self.obj_part_list): # [E123-NOBJ]
+                     part_pose = obj.get_part_pose(part)
+                     dists_tensor[:, :, i] = self.compute_closest_vertice_dist_single(
+-                        self.obj_verts[part], robot.kpt_pos, part_pose
++                        self.obj_verts[i], robot.kpt_pos, part_pose
+                     )
+                     name = f"{side}_kpt_dist_{part}"
+                     # print(name, np.round(dists_tensor[:, :, i].cpu().numpy(), 2))
+diff --git a/dexmachina/envs/constructors.py b/dexmachina/envs/constructors.py
+index 0df623f..d8c5964 100644
+--- a/dexmachina/envs/constructors.py
++++ b/dexmachina/envs/constructors.py
+@@ -5,7 +5,7 @@ from dexmachina.envs.base_env import BaseEnv, get_env_cfg
+ from dexmachina.envs.randomizations import get_randomization_cfg
+ from dexmachina.envs.curriculum import get_curriculum_cfg
+ from dexmachina.envs.maniptrans_curr import get_maniptrans_cfg
+-from dexmachina.envs.object import ArticulatedObject, get_arctic_object_cfg
++from dexmachina.envs.object import ArticulatedObject, get_arctic_object_cfg, get_rigid_object_cfg # [E123-NOBJ]
+ from dexmachina.envs.robot import BaseRobot, get_default_robot_cfg
+ from dexmachina.envs.rewards import RewardModule, get_reward_cfg
+ from dexmachina.envs.demo_data import get_demo_data, load_genesis_retarget_data 
+@@ -134,19 +134,26 @@ def get_all_env_cfg(args, device, load_retarget_data=True):
+             robot_cfgs[side]['visualization'] = False
+ 
+     obj_name = args.arctic_object
+-    object_cfgs = {
+-        obj_name: get_arctic_object_cfg(name=obj_name, convexify=args.convexify_object, texture_mesh=args.texture_object)
+-    } 
++    if 'objects' in demo_data: # [E123-NOBJ] multi-object clip: one rigid object per entry, specs from the demo file
++        object_cfgs = {name: get_rigid_object_cfg(**spec) for name, spec in demo_data['object_specs'].items()}
++        if 'table_height' in demo_data:
++            env_cfg['table_height'] = demo_data['table_height']
++    else:
++        object_cfgs = {
++            obj_name: get_arctic_object_cfg(name=obj_name, convexify=args.convexify_object, texture_mesh=args.texture_object)
++        } 
+     if args.actuate_object:
+-        object_cfgs[obj_name]['actuated'] = True
+-        object_cfgs[obj_name]['kp'] = args.kp_init 
+-        object_cfgs[obj_name]['kv'] = args.kv_init
+-        object_cfgs[obj_name]['force_range'] = args.force_range_init
++        for _obj in object_cfgs: # [E123-NOBJ] every object gets the same virtual-controller init gains
++            object_cfgs[_obj]['actuated'] = True
++            object_cfgs[_obj]['kp'] = args.kp_init 
++            object_cfgs[_obj]['kv'] = args.kv_init
++            object_cfgs[_obj]['force_range'] = args.force_range_init
+         print('Setting batch_dofs_info=True for actuated object')
+         env_cfg['scene_kwargs']['batch_dofs_info'] = True
+     if args.color_object is not None:
+         if args.color_object == 'gray':
+-            object_cfgs[obj_name]['color'] = (0.5, 0.5, 0.5, 1)
++            for _obj in object_cfgs: # [E123-NOBJ]
++                object_cfgs[_obj]['color'] = (0.5, 0.5, 0.5, 1)
+     if args.no_object:
+         # print('WARNING: No object in the environment. ONLY using imitation reward.')
+         reward_cfg['task_rew_weight'] = 0.0 
+diff --git a/dexmachina/envs/curriculum.py b/dexmachina/envs/curriculum.py
+index 0696337..d69fccb 100644
+--- a/dexmachina/envs/curriculum.py
++++ b/dexmachina/envs/curriculum.py
+@@ -55,7 +55,9 @@ class Curriculum:
+     def __init__(self, curr_cfg, task_object, reward_keys, num_envs, achieved_length, max_episode_length):
+         self.curr_cfg = curr_cfg
+         self.num_envs = num_envs
+-        self.object = task_object
++        # multi-object clips pass a list # [E123-NOBJ]: every object keeps its own virtual controller; one schedule
++        self.task_objects = list(task_object) if isinstance(task_object, (list, tuple)) else [task_object]
++        self.object = self.task_objects[0]
+         self.init_gains = {
+             "kp": curr_cfg['kp_init'],
+             "kv": curr_cfg['kv_init'],
+@@ -313,6 +315,11 @@ class Curriculum:
+         return ret_gains
+ 
+     def reset_object_gains(self):
++        for obj in self.task_objects: # [E123-NOBJ] each object: own per-env per-dof draw, same bounds
++            obj_ndof = self.obj_ndof if len(self.task_objects) == 1 else 6 + obj.num_joints
++            self._reset_one_object_gains(obj, obj_ndof)
++
++    def _reset_one_object_gains(self, obj, obj_ndof):
+         rand_gains = dict()
+         if self.schedule == "uniform" or self.fixed_mode == "uniform":
+             if any([self.curr_gains[key] == 0 for key in self.decay_terms]):
+@@ -323,13 +330,13 @@ class Curriculum:
+                     lower = self.curr_gains_lower[key]
+                     upper = self.curr_gains[key] 
+                     # uniform from lower to upper, sample shape (num_envs, num_joints)
+-                    rand_gains[key] = torch.rand((self.num_envs, self.obj_ndof), dtype=torch.float32) * (upper - lower) + lower   
++                    rand_gains[key] = torch.rand((self.num_envs, obj_ndof), dtype=torch.float32) * (upper - lower) + lower # [E123-NOBJ]
+         else:
+             # same params for all 
+             for key in self.decay_terms:
+                 rand_gains[key] = self.curr_gains[key] 
+         # this should handle missing shapes:
+-        self.object.set_joint_gains(
++        obj.set_joint_gains( # [E123-NOBJ]
+             kp=rand_gains.get("kp", None),
+             kv=rand_gains.get("kv", None),
+             force_range=rand_gains.get("fr", None),
+diff --git a/dexmachina/envs/demo_data.py b/dexmachina/envs/demo_data.py
+index e868b9c..67d601b 100644
+--- a/dexmachina/envs/demo_data.py
++++ b/dexmachina/envs/demo_data.py
+@@ -22,6 +22,7 @@ def get_demo_data(
+     demo_fname = f"{ARCTIC_PROCESSED_DIR}/{subject_name}/{obj_name}_use_{use_clip}.npy"
+     demo_data = np.load(demo_fname, allow_pickle=True).item() 
+     world_coord = demo_data["world_coord"] 
++    multi = demo_data.get("objects", None) # [E123-NOBJ] multi-object clip: {states, specs[, table_height]}
+     # this contains dict_keys(['joints.left', 'joints.right', 'contacts.left', 'valid_contacts.left', 'contacts.right', 'valid_contacts.right', 'contact_threshold', 'contact_links_left', 'contact_links_right'])
+     demo_data = demo_data["params"] 
+     
+@@ -39,6 +40,14 @@ def get_demo_data(
+         )
+         print(f"Replacing demo_data with retarget contact data")
+         demo_data.update(retar_contact) 
++    if multi is not None: # [E123-NOBJ]
++        demo_data['objects'] = {name: {'obj_pos': s['obj_trans'][frame_start:frame_end], 'obj_quat': s['obj_quat'][frame_start:frame_end],
++                                       'obj_arti': s['obj_arti'][frame_start:frame_end]} for name, s in multi['states'].items()}
++        demo_data['object_specs'] = {name: dict(spec, urdf_path=get_asset_path(spec['urdf_path']),
++                                                part_mesh_fnames={k: get_asset_path(v) for k, v in spec['part_mesh_fnames'].items()})
++                                     for name, spec in multi['specs'].items()}
++        if 'table_height' in multi:
++            demo_data['table_height'] = float(multi['table_height'])
+     return demo_data
+  
+ def get_joint_init_limits(joint_pos_dict):
+diff --git a/dexmachina/envs/hand_cfgs/sharpa_wave.py b/dexmachina/envs/hand_cfgs/sharpa_wave.py
+new file mode 100644
+index 0000000..88e859a
+--- /dev/null
++++ b/dexmachina/envs/hand_cfgs/sharpa_wave.py
+@@ -0,0 +1,51 @@
++"""SharpA Wave (22-dof) hand config -- added for the E1-E3 TACO baseline, following the
++hand-processing doc (1_process_hands, step 6). Asset: assets/sharpa_wave_hand/ (vendor URDF + their add_wrist_dof.py;
++built by experiments/baselines/dexmachina/build_sharpa_asset.py). collision_groups: their divide_hand_groups() with
++palm = *_hand_C_MC (experiments/baselines/dexmachina/sharpa_collision_groups.py; identical for left and right).
++
++Actuators. Their step 7 (gain tuning) needs an on-screen viewer, which a headless run does not have, so no
++tuning was done:
++  - wrist (virtual 6-dof floating base, joint names from add_wrist_dof.py): the authors' Schunk values
++    (envs/hand_cfgs/schunk.py) -- the shipped hand with the closest mass (SharpA ~1.31 kg incl. flange).
++  - fingers: the SharpA actuator model the rest of our E1-E3 table uses (DexEngine HandSpec SHARPA finger_kp /
++    finger_kd / finger_effort = vendor effort caps), one group per joint class.
++"""
++from os.path import join
++from dexmachina.asset_utils import get_urdf_path
++
++sharpa_asset_dir = "sharpa_wave_hand/"
++left_rel_urdf = join(sharpa_asset_dir, "left_sharpa_wave_6dof.urdf")
++right_rel_urdf = join(sharpa_asset_dir, "right_sharpa_wave_6dof.urdf")
++
++_SIDES = r"(right|left)"
++SHARPA_ACTUATORS = {
++    "finger_thumb_cmc": dict(joint_exprs=[_SIDES + r"_thumb_CMC_(FE|AA)$"], kp=13.0, kv=2.6, force_range=3.3),
++    "finger_mcp": dict(joint_exprs=[_SIDES + r"_(thumb|index|middle|ring|pinky)_MCP_(FE|AA)$"], kp=8.0, kv=1.7,
++                       force_range=1.864),
++    "finger_pip": dict(joint_exprs=[_SIDES + r"_(index|middle|ring|pinky)_PIP$", _SIDES + r"_thumb_IP$"], kp=3.0, kv=0.8,
++                       force_range=0.638),
++    "finger_dip": dict(joint_exprs=[_SIDES + r"_(index|middle|ring|pinky)_DIP$"], kp=1.5, kv=0.45, force_range=0.189369),
++    "finger_pinky_cmc": dict(joint_exprs=[_SIDES + r"_pinky_CMC$"], kp=3.0, kv=0.8, force_range=0.5285),
++    "wrist_rot": dict(joint_exprs=[r'[LR]_forearm_(roll|pitch|yaw)_link_joint'], kp=80, kv=5, force_range=100),
++    "wrist_trans": dict(joint_exprs=[r'[LR]_forearm_t[xyz]_link_joint'], kp=350, kv=8, force_range=100),
++}
++# link local idx -> group (0 = wrist+palm, 1..5 = thumb, index, middle, ring, pinky chains); same for both sides
++SHARPA_COLLISION_GROUPS = {8: 0, 9: 0, 15: 1, 16: 2, 17: 3, 18: 4, 19: 5, 21: 2, 22: 3, 23: 4, 24: 5, 25: 1, 26: 2,
++                           27: 3, 28: 4, 29: 5, 30: 1, 31: 2, 32: 3, 33: 4, 34: 5, 35: 1, 39: 5}
++
++
++def _side_cfg(side, rel_urdf):
++    return {
++        "urdf_path": get_urdf_path(rel_urdf),
++        "wrist_link_name": f"{side}_hand_C_MC",   # palm link
++        "kpt_link_names": [f"{side}_{f}_fingertip" for f in ("thumb", "index", "middle", "ring", "pinky")],
++        "actuators": {k: dict(v) for k, v in SHARPA_ACTUATORS.items()},
++        "collision_groups": dict(SHARPA_COLLISION_GROUPS),
++        "collision_palm_name": f"{side}_hand_C_MC",
++    }
++
++
++SHARPA_WAVE_CFGs = dict(
++    left=_side_cfg("left", left_rel_urdf),
++    right=_side_cfg("right", right_rel_urdf),
++)
+diff --git a/dexmachina/envs/object.py b/dexmachina/envs/object.py
+index 3ab3422..ef5f59a 100644
+--- a/dexmachina/envs/object.py
++++ b/dexmachina/envs/object.py
+@@ -61,6 +61,33 @@ def get_arctic_object_cfg(name="box", convexify=True, decomp=True, texture_mesh=
+     return obj_cfg
+ 
+  
++def get_rigid_object_cfg(name, urdf_path, part_mesh_fnames, base_init_pos=(0.0, 0.0, 0.3),
++                         base_init_quat=(1.0, 0.0, 0.0, 0.0), convexify=False):  # [E123-NOBJ]
++    """ one rigid single-body object of a multi-object clip (no articulation joint). Same keys and defaults as
++    get_arctic_object_cfg; part_mesh_fnames = {link name: mesh file used for vertex sampling}. """
++    obj_cfg = {
++        "name": name,
++        "base_init_pos": list(base_init_pos),
++        "base_init_quat": list(base_init_quat),
++        "base_init_qpos": [],
++        "num_sample_vertics": 300,
++        "convexify": convexify,
++        "fixed": False,
++        "actuated": False,
++        "kp": 1000.0,
++        "kv": 100.0,
++        "force_range": 200.0,
++        "collect_data": False,
++        "offset_pos": [0.0, 0.0, 0.0],
++        "color": None,
++        "show_link_frame": False,
++        "rigid": True,
++        "urdf_path": urdf_path,
++    }
++    for part, fname in part_mesh_fnames.items():
++        obj_cfg[f"{part}_mesh_fname"] = fname
++    return obj_cfg
++
+ class ArticulatedObject:
+     """ Assume only one joint """
+     def __init__(
+@@ -107,7 +134,7 @@ class ArticulatedObject:
+         
+         self.init_qpos = torch.tensor(self.cfg["base_init_qpos"], dtype=torch.float32, device=self.device)
+         if self.demo_states is not None:
+-            self.init_qpos = self.demo_states[0, 7:8].clone()
++            self.init_qpos = self.demo_states[0, 7:].clone() # [E123-NOBJ] 7:8 -> 7: (= 7:8 for one joint)
+ 
+         self.num_envs = num_envs
+         self.scene = scene 
+@@ -128,7 +155,11 @@ class ArticulatedObject:
+             surface=gs.surfaces.Smooth(color=obj_cfg.get("color")) if obj_cfg.get("color") is not None else None,
+         )
+         movable_joints = [joint for joint in entity.joints if joint.type in [gs.JOINT_TYPE.REVOLUTE, gs.JOINT_TYPE.PRISMATIC]]
+-        assert len(movable_joints) == 1, f"len(movable_joints)={len(movable_joints)}"
++        if self.cfg.get("rigid", False): # [E123-NOBJ] rigid body: no articulation joint
++            assert len(movable_joints) == 0, f"rigid object with len(movable_joints)={len(movable_joints)}"
++            self.num_joints = 0
++        else:
++            assert len(movable_joints) == 1, f"len(movable_joints)={len(movable_joints)}"
+ 
+         self.texture_meshes = dict()
+         if 'texture_meshes' in obj_cfg:
+@@ -196,7 +227,7 @@ class ArticulatedObject:
+                 self.set_object_state(
+                     root_pos=_state[:3][None].repeat(self.num_envs, 1),
+                     root_quat=_state[3:7][None].repeat(self.num_envs, 1),
+-                    joint_qpos=_state[7:8][None].repeat(self.num_envs, 1),
++                    joint_qpos=_state[7:][None].repeat(self.num_envs, 1), # [E123-NOBJ]
+                 )
+                 dofs_pos = self.entity.get_dofs_position()
+                 demo_dofs.append(dofs_pos[0])
+@@ -223,7 +254,7 @@ class ArticulatedObject:
+         self.set_object_state(
+             root_pos=demo_state[:3][None].repeat(self.num_envs, 1),
+             root_quat=demo_state[3:7][None].repeat(self.num_envs, 1),
+-            joint_qpos=demo_state[7:8][None].repeat(self.num_envs, 1),
++            joint_qpos=demo_state[7:][None].repeat(self.num_envs, 1), # [E123-NOBJ]
+         )
+         return
+         
+@@ -288,7 +319,7 @@ class ArticulatedObject:
+         
+         num_envs = self.num_envs if env_idxs is None else len(env_idxs)
+         dof_idxs = self.dof_idxs
+-        dof_idxs = [i for i in range(7)]
++        dof_idxs = [i for i in range(6 + self.num_joints)] # [E123-NOBJ] root 6 + joints (7 for ARCTIC)
+         num_dofs = len(dof_idxs)
+         if kp is not None:
+             batched_kp = self.fill_gain_tensor(kp, num_dofs, num_envs, self.device) 
+@@ -328,7 +359,7 @@ class ArticulatedObject:
+         self.dof_vel = torch.zeros((self.num_envs, self.num_joints), dtype=torch.float32, device=self.device)
+         
+         self.contact_force = torch.zeros((self.num_envs, self.n_links, 3), dtype=torch.float32, device=self.device)
+-        self.state_diff = torch.zeros((self.num_envs, 8), dtype=torch.float32, device=self.device)
++        self.state_diff = torch.zeros((self.num_envs, 7 + self.num_joints), dtype=torch.float32, device=self.device) # [E123-NOBJ]
+ 
+     def update_value_buffers(self):
+         assert self.initialized, "Object not initialized"
+@@ -342,8 +373,9 @@ class ArticulatedObject:
+         self.part_pos[:] = entity.get_links_pos() # this contains both parts!
+         self.part_quat[:] = entity.get_links_quat()
+ 
+-        self.dof_pos[:] = entity.get_dofs_position(self.dof_idxs)
+-        self.dof_vel[:] = entity.get_dofs_velocity(self.dof_idxs)
++        if self.num_joints > 0: # [E123-NOBJ]
++            self.dof_pos[:] = entity.get_dofs_position(self.dof_idxs)
++            self.dof_vel[:] = entity.get_dofs_velocity(self.dof_idxs)
+         self.contact_force[:] = entity.get_links_net_contact_force()
+         if self.demo_states is not None:
+             demo_goal_t = torch.where(
+@@ -384,7 +416,7 @@ class ArticulatedObject:
+             root_ang_vel_dim=3,
+             root_lin_vel_dim=3,
+             dof_pos_dim=self.num_joints, 
+-            state_diff_dim=8,
++            state_diff_dim=7 + self.num_joints, # [E123-NOBJ]
+         )
+         return sum(dims.values()), dims
+ 
+@@ -399,14 +431,14 @@ class ArticulatedObject:
+         
+         init_qpos = self.init_qpos
+         if episode_start is not None and torch.any(episode_start): # non-zero starts
+-            init_qpos = self.demo_states[episode_start, 7: 8].clone() # shape should be (N, 1)
++            init_qpos = self.demo_states[episode_start, 7:].clone() # shape should be (N, 1) # [E123-NOBJ]
+         
+         # try randomize the kp/kp
+         if env_idxs is None:
+             env_idxs = np.arange(self.num_envs)
+         
+         if self.actuated and reset_gains:
+-            dof_idxs = [i for i in range(7)]
++            dof_idxs = [i for i in range(6 + self.num_joints)] # [E123-NOBJ]
+             num_dofs = len(dof_idxs) 
+             rand_scale = torch.rand((len(env_idxs), 1)) * 0.3 + 0.7 # range [0.5, 1.0]
+             kp = torch.ones(len(env_idxs), num_dofs) * self.kp * rand_scale
+@@ -419,12 +451,13 @@ class ArticulatedObject:
+ 
+         self.dof_pos[env_idxs, :] = init_qpos
+         self.dof_vel[env_idxs, :] = 0.0
+-        self.entity.set_dofs_position(
+-            position=self.dof_pos[env_idxs],
+-            dofs_idx_local=self.dof_idxs,
+-            zero_velocity=True,
+-            envs_idx=env_idxs,
+-        )
++        if self.num_joints > 0: # [E123-NOBJ]
++            self.entity.set_dofs_position(
++                position=self.dof_pos[env_idxs],
++                dofs_idx_local=self.dof_idxs,
++                zero_velocity=True,
++                envs_idx=env_idxs,
++            )
+         init_pos = self.init_pos
+         if episode_start is not None and torch.any(episode_start):
+             init_pos = self.demo_states[episode_start, :3].clone()
+@@ -479,12 +512,13 @@ class ArticulatedObject:
+         if len(joint_qpos.shape) == 1:
+             joint_qpos = joint_qpos[None]
+         assert joint_qpos.shape[-1] == self.num_joints, f"joint_qpos.shape={joint_qpos.shape}"
+-        self.entity.set_dofs_position(
+-            position=joint_qpos,
+-            dofs_idx_local=self.dof_idxs,
+-            zero_velocity=True,
+-            envs_idx=env_idxs,
+-        ) 
++        if self.num_joints > 0: # [E123-NOBJ]
++            self.entity.set_dofs_position(
++                position=joint_qpos,
++                dofs_idx_local=self.dof_idxs,
++                zero_velocity=True,
++                envs_idx=env_idxs,
++            ) 
+         self.entity.zero_all_dofs_velocity(envs_idx=env_idxs)
+         self.update_value_buffers()  
+     
+diff --git a/dexmachina/envs/rewards.py b/dexmachina/envs/rewards.py
+index d392691..725b6e4 100644
+--- a/dexmachina/envs/rewards.py
++++ b/dexmachina/envs/rewards.py
+@@ -96,6 +96,10 @@ class RewardModule:
+         self.multiply_frame_contact = reward_cfg.get("multiply_frame_contact", True) 
+         self.mask_zero_contact = reward_cfg.get("mask_zero_contact", True)
+         self.contact_rew_function = reward_cfg.get("contact_rew_function", "exp")
++        # multi-object clips # [E123-NOBJ]: base_env sets these (contact part -> owner object idx, part names);
++        # None / ['bottom', 'top'] = the single articulated object (unchanged)
++        self.contact_part_owner = None
++        self.contact_part_names = ['bottom', 'top']
+         self.load_demo(demo_data, retarget_data, device) 
+ 
+     def load_demo(self, demo_data, retarget_data, device):
+@@ -133,6 +137,13 @@ class RewardModule:
+             [self.demo_tensors[key].shape[0] == self.demo_tensors["obj_pos"].shape[0] for key in self.demo_tensors.keys()]
+         ), f"First dim size mismatch: {[self.demo_tensors[key].shape[0] for key in self.demo_tensors.keys()]}"
+         self.demo_length = self.demo_tensors["obj_pos"].shape[0] 
++        # multi-object clips # [E123-NOBJ]: per-object demo states (the top-level obj_* keys hold the first object)
++        self.demo_object_names = list(demo_data.get('objects', dict()).keys())
++        for name in self.demo_object_names:
++            for key in ['obj_pos', 'obj_quat', 'obj_arti']:
++                self.demo_tensors[f'{key}/{name}'] = torch.tensor(
++                    demo_data['objects'][name][key], dtype=torch.float32, device=device)
++                assert self.demo_tensors[f'{key}/{name}'].shape[0] == self.demo_length, f'{key}/{name} length'
+         print(f"Loaded demo data with length {self.demo_length}")
+     
+     def get_demo_length(self):  
+@@ -145,17 +156,20 @@ class RewardModule:
+         # print(demo_t, episode_length_buf)
+         return self.demo_tensors[demo_key][demo_t]
+     
+-    def compute_task_reward(self, obj_pos, obj_quat, obj_arti, demo_pos, demo_quat, episode_length_buf):
++    def compute_task_reward(self, obj_pos, obj_quat, obj_arti, demo_pos, demo_quat, episode_length_buf, demo_arti_key="obj_arti"): # [E123-NOBJ]
+         if obj_pos is None or obj_quat is None or obj_arti is None or self.task_rew_weight == 0.0:
+             # dummy reward
+             task_rew = torch.zeros(episode_length_buf.shape, device=episode_length_buf.device)
+             return task_rew, dict(task_rew=task_rew)
+         
+-        demo_arti = self.match_demo_state("obj_arti", episode_length_buf)
++        demo_arti = self.match_demo_state(demo_arti_key, episode_length_buf) # [E123-NOBJ]
+         pos_dist = position_distance(obj_pos, demo_pos)
+         rot_dist = rotation_distance(obj_quat, demo_quat)
+         # arti_dist = torch.mean((obj_arti - demo_arti)**2, dim=-1)
+ 
++        if obj_arti.shape[-1] == 0: # [E123-NOBJ] rigid object: no joint -> arti_dist 0, obj_arti_rew = exp(0) = 1
++            obj_arti = torch.zeros(obj_pos.shape[0], dtype=obj_pos.dtype, device=obj_pos.device)
++            demo_arti = torch.zeros_like(obj_arti)
+         if len(obj_arti.shape) > 1:
+             obj_arti = obj_arti.flatten(start_dim=0)
+             
+@@ -204,6 +218,33 @@ class RewardModule:
+             task_rew[tomask] = 0.0
+         return task_rew, rew_dict
+ 
++    def compute_multi_object_task_reward(self, obj_pos, obj_quat, obj_arti, episode_length_buf):  # [E123-NOBJ]
++        """ multi-object clips: each object's task reward (compute_task_reward, its own demo), averaged over objects.
++        Returns (rew, rew_dict, per-part obj poses, per-part demo poses); rew_dict keys = the single-object keys
++        (averaged; well_track = all) + '<key>/<object>'. """
++        assert len(obj_pos) == len(self.demo_object_names), f"{len(obj_pos)} objects vs demo {self.demo_object_names}"
++        rews, dicts, poses, demo_poses = [], [], [], []
++        for name, p, q, a in zip(self.demo_object_names, obj_pos, obj_quat, obj_arti):
++            dp = self.match_demo_state(f"obj_pos/{name}", episode_length_buf)
++            dq = self.match_demo_state(f"obj_quat/{name}", episode_length_buf)
++            r, d = self.compute_task_reward(p, q, a, dp, dq, episode_length_buf, demo_arti_key=f"obj_arti/{name}")
++            rews.append(r)
++            dicts.append(d)
++            poses.append(torch.cat([p, q], dim=1))
++            demo_poses.append(torch.cat([dp, dq], dim=1))
++        rew = torch.stack(rews, dim=0).mean(dim=0)
++        rew_dict = dict()
++        for k in dicts[0]:
++            vals = torch.stack([d[k] for d in dicts], dim=0)
++            rew_dict[k] = vals.all(dim=0) if vals.dtype == torch.bool else vals.mean(dim=0)
++            for name, d in zip(self.demo_object_names, dicts):
++                rew_dict[f"{k}/{name}"] = d[k]
++        rew_dict["task_rew"] = rew.clone()
++        obj_pose, demo_pose = torch.stack(poses, dim=1), torch.stack(demo_poses, dim=1)  # (N, n_objects, 7)
++        if self.contact_part_owner is not None:
++            obj_pose, demo_pose = obj_pose[:, self.contact_part_owner], demo_pose[:, self.contact_part_owner]
++        return rew, rew_dict, obj_pose, demo_pose
++
+     def compute_keypoint_dist(self, keypoint_pos, episode_length_buf, left_hand=True):
+         demo_key = "kpts_left" if left_hand else "kpts_right"
+         demo_kpts = self.match_demo_state(demo_key, episode_length_buf) 
+@@ -390,13 +431,17 @@ class RewardModule:
+         demo_contacts = self.match_demo_state(f"contact_links_{side}", episode_length_buf) 
+         # NOTE the retargeted contacts are of shape (N, num_obj_parts=2, num_links, 4), first row is 'top' and second row is 'bottom'!
+         # need to flip the order since policy contact has object link bottom first 
+-        demo_contacts = demo_contacts.clone()[:, [1, 0], :, :] # (N, num_obj_links, num_hand_links, 4)
++        demo_contacts = demo_contacts.clone()[:, list(range(demo_contacts.shape[1]))[::-1], :, :] # (N, num_obj_links, num_hand_links, 4) # [E123-NOBJ] reversed part order ([1, 0] for 2 parts)
+         assert demo_contacts.shape[1] == contact_link_pos.shape[1], f"Shape mismatch: {demo_contacts.shape} vs {contact_link_pos.shape}"
+         assert demo_contacts.shape[2] == contact_link_pos.shape[2], f"Shape mismatch: {contact_link_pos.shape} vs {demo_contacts.shape}"
+         demo_valids = demo_contacts[:, :, :, -1] > 0.0 # (part id is <= 0 if no contact)
+          
+         # need to reshape this to (N, num_obj_links * num_hand_links, 3) to do the transformation first
+-        if self.retarget_objframe:
++        if self.retarget_objframe and obj_pose.dim() == 3: # [E123-NOBJ] multi-object: each part in its own object's frame
++            nparts = demo_contacts.shape[1]
++            demo_pos = torch.stack([transform_contact(demo_contacts[:, p, :, :3], demo_obj_pose[:, p]) for p in range(nparts)], dim=1)
++            policy_pos = torch.stack([transform_contact(contact_link_pos[:, p, :, :3], obj_pose[:, p]) for p in range(nparts)], dim=1)
++        elif self.retarget_objframe:
+             bsize, nparts, nlinks = demo_contacts.shape[:3]
+             demo_pos_global = demo_contacts[:,:,:,:3].reshape(
+                 bsize, nparts * nlinks, 3
+@@ -456,7 +501,7 @@ class RewardModule:
+                 contacts, valids, episode_length_buf, 
+                 obj_pose, demo_obj_pose, side=side
+             )
+-            for i, part in enumerate(['bottom', 'top']): 
++            for i, part in enumerate(self.contact_part_names): # [E123-NOBJ] (['bottom', 'top'] for one object)
+                 con_dist = part_dist[:, i]
+                 if self.exp_kpt_first:
+                     con_rew = self.contact_dist_to_rew(con_dist, self.contact_rew_function).mean(dim=-1) 
+@@ -465,7 +510,7 @@ class RewardModule:
+                 rews[f"conrew_{side}_{part}"] = con_rew
+                 rews[f"matched_condist_{side}_{part}"] = con_dist
+                 contact_rew += con_rew
+-        contact_rew /= 4.0
++        contact_rew /= (2.0 * len(self.contact_part_names)) # [E123-NOBJ] (= 4.0: 2 hands x 2 parts)
+         contact_rew *= self.contact_rew_weight
+         rews['con_rew'] = contact_rew
+         return contact_rew, rews
+@@ -563,13 +608,18 @@ class RewardModule:
+         contact_forces, # shape (N, num_obj_links, num_hand_links, 3)
+         episode_length_buf,
+     ):  
+-        demo_pos = self.match_demo_state("obj_pos", episode_length_buf)
+-        demo_quat = self.match_demo_state("obj_quat", episode_length_buf) 
+-        rew, rew_dict = self.compute_task_reward(
+-            obj_pos, obj_quat, obj_arti, 
+-            demo_pos, demo_quat,
+-            episode_length_buf
+-        )
++        multi_obj = isinstance(obj_pos, (list, tuple)) # [E123-NOBJ]
++        if multi_obj:
++            rew, rew_dict, multi_obj_pose, multi_demo_pose = self.compute_multi_object_task_reward(
++                obj_pos, obj_quat, obj_arti, episode_length_buf)
++        else:
++            demo_pos = self.match_demo_state("obj_pos", episode_length_buf)
++            demo_quat = self.match_demo_state("obj_quat", episode_length_buf) 
++            rew, rew_dict = self.compute_task_reward(
++                obj_pos, obj_quat, obj_arti, 
++                demo_pos, demo_quat,
++                episode_length_buf
++            )
+         if self.bc_rew_weight > 0.0:
+             bc_rew = self.bc_rew_weight * torch.exp(-self.cfg["bc_beta"] * bc_dist)
+             bc_rew = torch.mean(bc_rew, dim=-1)
+@@ -589,8 +639,12 @@ class RewardModule:
+             rew_dict.update(imi_rew_dict)
+  
+         if self.contact_rew_weight > 0.0: 
+-            obj_pose = torch.cat([obj_pos, obj_quat], dim=1)
+-            demo_pose = torch.cat([demo_pos, demo_quat], dim=1)
++            if multi_obj: # [E123-NOBJ] per-part poses (N, n_parts, 7); only the retargeted-contact reward supports them
++                assert self.use_retarget_contact, 'multi-object clips need --use_retarget_contact'
++                obj_pose, demo_pose = multi_obj_pose, multi_demo_pose
++            else:
++                obj_pose = torch.cat([obj_pos, obj_quat], dim=1)
++                demo_pose = torch.cat([demo_pos, demo_quat], dim=1)
+             if self.use_retarget_contact:
+                 contact_rew, contact_dict = self.compute_matched_contact_reward(
+                     contact_link_pos_left, contact_link_valid_left,
+diff --git a/dexmachina/eval/compute_add.py b/dexmachina/eval/compute_add.py
+index 4efa317..c50151e 100644
+--- a/dexmachina/eval/compute_add.py
++++ b/dexmachina/eval/compute_add.py
+@@ -9,7 +9,7 @@ import numpy as np
+ import torch
+ import genesis as gs
+ 
+-from dexmachina.envs.object import ArticulatedObject, get_arctic_object_cfg
++from dexmachina.envs.object import ArticulatedObject, get_arctic_object_cfg, get_rigid_object_cfg # [E123-NOBJ]
+ from dexmachina.eval.utils import (
+     ensure_dir,
+     extract_clip,
+@@ -20,7 +20,7 @@ from dexmachina.eval.utils import (
+ )
+ 
+ 
+-def create_scene(obj_name: str, device: torch.device, num_envs: int):
++def create_scene(obj_name: str, device: torch.device, num_envs: int, rigid_cfgs=None): # [E123-NOBJ] rigid_cfgs: multi-object
+     scene_cfg = dict(
+         sim_options=gs.options.SimOptions(dt=1 / 60, substeps=2, gravity=(0, 0, 0)),
+         vis_options=gs.options.VisOptions(
+@@ -43,6 +43,12 @@ def create_scene(obj_name: str, device: torch.device, num_envs: int):
+         show_viewer=False,
+     )
+     scene = gs.Scene(**scene_cfg)
++    if rigid_cfgs is not None: # [E123-NOBJ] one rigid object per cfg, same scene options
++        objs = [ArticulatedObject(c, device=device, scene=scene, num_envs=num_envs, disable_collision=True) for c in rigid_cfgs]
++        scene.build(n_envs=num_envs)
++        for o in objs:
++            o.post_scene_build_setup()
++        return scene, objs
+     obj_cfg = get_arctic_object_cfg(name=obj_name, convexify=True)
+     obj = ArticulatedObject(
+         obj_cfg, device=device, scene=scene, num_envs=num_envs, disable_collision=True
+@@ -174,6 +180,8 @@ def compute_for_eval(
+     cache_dir: str,
+ ):
+     eval_data = np.load(eval_path, allow_pickle=True).item()
++    if 'object_names' in eval_data: # [E123-NOBJ]
++        return compute_for_eval_multi(eval_data, eval_path, out_name, stats_name, overwrite)
+     demo_states = eval_data["demo_state"]
+     obj_states = eval_data["obj_state"]
+     if obj_states.ndim == 2:
+@@ -216,6 +224,46 @@ def compute_for_eval(
+     del obj 
+     return 
+ 
++def compute_for_eval_multi(eval_data, eval_path, out_name, stats_name, overwrite):  # [E123-NOBJ]
++    """ multi-object eval file: ADD for every part of every object (get_all_add, 500 vertices each), then the same
++    AUC/stats (compute_add_stats: AUC per part, 'overall' = mean over parts). """
++    names = [str(n) for n in eval_data["object_names"]]
++    dims = [int(d) for d in eval_data["object_state_dims"]]
++    specs = json.loads(str(eval_data["object_cfgs_json"]))
++    demo_states, obj_states = eval_data["demo_state"], eval_data["obj_state"]
++    if obj_states.ndim == 2:
++        obj_states = obj_states[:, None, :]
++    if demo_states.ndim == 3 and demo_states.shape[1] == 1:
++        demo_states = demo_states[:, 0, :]
++    num_frames = demo_states.shape[0]
++    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
++    cfgs = [get_rigid_object_cfg(**specs[n]) for n in names]
++    scene, objs = create_scene(None, device, num_envs=num_frames, rigid_cfgs=cfgs)
++    add_data, off = dict(), 0
++    for n, d, obj in zip(names, dims, objs):
++        part_verts = {p: obj.sample_mesh_vertices(part=p, num_samples=500)[None].to(device) for p in obj.link_names}
++        demo_t = torch.tensor(demo_states[:, off:off + d], dtype=torch.float32, device=device)
++        obj_t = torch.tensor(obj_states[:, :, off:off + d], dtype=torch.float32, device=device)
++        for p, v in get_all_add(obj, part_verts, demo_t, obj_t).items():
++            add_data[f"{n}/{p}" if len(obj.link_names) > 1 else n] = v
++        off += d
++    assert off == demo_states.shape[1], f"state dims {dims} != {demo_states.shape[1]}"
++    out_dir = os.path.dirname(eval_path)
++    out_path, stats_path = join(out_dir, out_name), join(out_dir, stats_name)
++    if os.path.exists(out_path) and not overwrite:
++        add_data = np.load(out_path, allow_pickle=True).item()
++    else:
++        np.save(out_path, add_data)
++    if not os.path.exists(stats_path) or overwrite:
++        stats = compute_add_stats(add_data, list(np.arange(0.01, 0.1, 0.01)))
++        stats["eval_path"] = eval_path
++        with open(stats_path, "w") as f:
++            json.dump(stats, f, indent=2)
++        print(f"Wrote eval stats to: \n{stats_path}")
++    del scene
++    return
++
++
+ def main():
+     parser = argparse.ArgumentParser()
+     parser.add_argument("--input", required=True, help="Eval file or root directory")
+diff --git a/dexmachina/retargeting/parallel_retarget.py b/dexmachina/retargeting/parallel_retarget.py
+index ae10bed..c619976 100644
+--- a/dexmachina/retargeting/parallel_retarget.py
++++ b/dexmachina/retargeting/parallel_retarget.py
+@@ -14,7 +14,7 @@ from dexmachina.asset_utils import get_asset_path
+ from dexmachina.envs.demo_data import get_demo_data 
+ from dexmachina.envs.base_env import BaseEnv, get_env_cfg
+ from dexmachina.envs.robot import BaseRobot, get_default_robot_cfg 
+-from dexmachina.envs.object import ArticulatedObject, get_arctic_object_cfg
++from dexmachina.envs.object import ArticulatedObject, get_arctic_object_cfg, get_rigid_object_cfg # [E123-NOBJ]
+ from dexmachina.envs.constructors import get_common_argparser, parse_clip_string  
+ from dexmachina.retargeting.retarget_utils import compose_retarget_config, retarget_all_steps
+ 
+@@ -125,7 +125,7 @@ def create_scene(
+             device=device,
+             scene=scene,
+             num_envs=num_envs,
+-            demo_data=demo_data,
++            demo_data=(demo_data['objects'][k] if 'objects' in demo_data else demo_data), # [E123-NOBJ]
+             visualize_contact=visualize_contact,
+         ) 
+     camera = scene.add_camera(
+@@ -139,10 +139,12 @@ def create_scene(
+     scene.build(n_envs=num_envs, env_spacing=(1.0, 1.0), n_envs_per_row=24)
+     for k, robot in robots.items():
+         robot.post_scene_build_setup()
+-    assert len(objects) == 1, "Only one object is supported"
++    assert len(objects) == 1 or 'objects' in demo_data, "Only one object is supported" # [E123-NOBJ]
+     obj = list(objects.values())[0]
+     for k, obj in objects.items():
+         obj.post_scene_build_setup()
++    if 'objects' in demo_data: # [E123-NOBJ] multi-object: return the dict of objects
++        obj = objects
+ 
+     return scene, robots, obj, camera
+ 
+@@ -157,13 +159,17 @@ def prepare_cfgs(args, hand_name, obj_name, start, end, subject_name, use_clip):
+         use_clip=use_clip,
+         subject_name=subject_name,
+     )
+-    obj_cfg = get_arctic_object_cfg(name=obj_name, convexify=False)
+-    print("Setting object base to fixed and collect data to True")
+-    obj_cfg['fixed'] = True
+-    obj_cfg['collect_data'] = True
+-    object_cfgs = {
+-        obj_name: obj_cfg,
+-    } 
++    if 'objects' in demo_data: # [E123-NOBJ] multi-object clip: every object fixed at its demo pose
++        object_cfgs = {name: dict(get_rigid_object_cfg(**spec), fixed=True, collect_data=True)
++                       for name, spec in demo_data['object_specs'].items()}
++    else:
++        obj_cfg = get_arctic_object_cfg(name=obj_name, convexify=False)
++        print("Setting object base to fixed and collect data to True")
++        obj_cfg['fixed'] = True
++        obj_cfg['collect_data'] = True
++        object_cfgs = {
++            obj_name: obj_cfg,
++        } 
+     
+     robot_cfgs = dict()
+     print("Setting action mode to absolute and setting collect_data to True")
+@@ -338,8 +344,12 @@ def main(args):
+     kwargs = prepare_cfgs(
+         args, hand_name, obj_name, start, end, subject_name, use_clip
+         )
+-    retargeters, world_data, input_fname  = prepare_retarget_cfgs(
+-        args, hand_name, obj_name, kwargs['robot_cfgs'], subject_name, use_clip)
++    if args.load_retargeter: # [E123-NOBJ] kinematic results come from the saved retargeter_results file
++        retargeters, world_data = None, None
++        input_fname = join(PROCESSED_DATADIR, f"{subject_name}/{obj_name}_use_{use_clip}.npy")
++    else:
++        retargeters, world_data, input_fname  = prepare_retarget_cfgs(
++            args, hand_name, obj_name, kwargs['robot_cfgs'], subject_name, use_clip)
+     retarget_type = args.retarget_type if 'shadow' not in hand_name else 'position'
+ 
+     assert not (args.replay_only and args.save), "Cannot save and replay at the same time" 
+@@ -367,6 +377,9 @@ def main(args):
+ 
+     if args.replay_only:
+         retar_data = loaded_data['retargeter_results']
++    elif args.load_retargeter: # [E123-NOBJ]
++        retar_data = np.load(retargeter_save_fname, allow_pickle=True).item()
++        print(f"Loaded retargeter data from {retargeter_save_fname}")
+     else:
+         retar_data = dict()
+         for side, hand in hands.items():
+@@ -398,8 +411,14 @@ def main(args):
+     hand_actions = {side: prepare_robot_actions(hands[side], retar_data[side]) for side in ['left', 'right']}
+     hand_qposes = {side: torch.tensor(retar_data[side]['hand_qpos'], device=device) for side in ['left', 'right']}
+     demo_data = kwargs['demo_data']
+-    obj_pos, obj_quat, obj_arti = get_obj_demo_tensors(demo_data, device=device)
+-    set_init_object_states(obj, obj_pos, obj_quat, obj_arti, joint_only=False)
++    multi = 'objects' in demo_data # [E123-NOBJ]
++    if multi:
++        multi_states = {k: get_obj_demo_tensors(demo_data['objects'][k], device=device) for k in obj}
++        for k, o in obj.items():
++            set_init_object_states(o, *multi_states[k], joint_only=False)
++    else:
++        obj_pos, obj_quat, obj_arti = get_obj_demo_tensors(demo_data, device=device)
++        set_init_object_states(obj, obj_pos, obj_quat, obj_arti, joint_only=False)
+     set_hand_to_step(hands, retar_data, 30)
+     scene.step()
+ 
+@@ -419,7 +438,12 @@ def main(args):
+     iters = 0
+     controlled_steps = {side: torch.zeros(num_envs, device=device) for side in ['left', 'right']}
+     for i in range(args.control_steps):
+-        set_init_object_states(obj, obj_pos, obj_quat, obj_arti, joint_only=True)
++        if multi: # [E123-NOBJ] rigid objects have no joint to hold
++            for k, o in obj.items():
++                if o.num_joints > 0:
++                    set_init_object_states(o, *multi_states[k], joint_only=True)
++        else:
++            set_init_object_states(obj, obj_pos, obj_quat, obj_arti, joint_only=True)
+         for side in ['left', 'right']:
+             hand = hands[side] 
+             actions = hand_actions[side]
+@@ -467,7 +491,7 @@ def main(args):
+         print(f"Side: {side} | control_err mean: {errs.mean()} | max: {errs.max()} | min: {errs.min()}")
+     
+     data = gather_parallel_save_data(hands, retar_data)
+-    data['demo_data'] = demo_data
++    data['demo_data'] = {k: v for k, v in demo_data.items() if k not in ('objects', 'object_specs', 'table_height')} # [E123-NOBJ] per-frame arrays only (load_genesis_retarget_data slices every entry)
+     if args.save and (not args.replay_only):
+         torch.save(data, save_fname)
+         print(f"Saved data to {save_fname}")
+@@ -493,5 +517,6 @@ if __name__ == '__main__':
+     parser.add_argument("--render_image", action="store_true", default=False, help="Render image for visualization") 
+     parser.add_argument("--enable_self_collision", "-sc", action="store_true", default=False, help="Enable self collision")
+     parser.add_argument("--save_retargeter_only", "-sro", action="store_true", default=False, help="Save only retargeter results")
++    parser.add_argument("--load_retargeter", action="store_true", default=False, help="use the saved retargeter_results file instead of retargeting MANO joints") # [E123-NOBJ]
+     args = parser.parse_args() 
+     main(args)
+diff --git a/dexmachina/rl/eval_rl_games.py b/dexmachina/rl/eval_rl_games.py
+index b1a728e..3662b9f 100644
+--- a/dexmachina/rl/eval_rl_games.py
++++ b/dexmachina/rl/eval_rl_games.py
+@@ -31,6 +31,8 @@ from rl_games.torch_runner import Runner
+ 
+ def gather_object_state_tensor(demo_data):
+     """ demo data should already be sliced since it's loaded from env kwargs """
++    if 'objects' in demo_data: # [E123-NOBJ] multi-object: [pos, quat, arti] of each object, object order
++        return torch.cat([gather_object_state_tensor(s) for s in demo_data['objects'].values()], dim=1)
+     obj_pos = demo_data["obj_pos"]
+     obj_quat = demo_data["obj_quat"]
+     obj_arti = demo_data["obj_arti"] # need to reshape to (T, 1) instead of (T,)
+@@ -94,8 +96,12 @@ def eval_one_episode(env, agent, obj_state_tensor, print_rew=False, record_video
+             obj_pos, obj_quat, obj_arti = obj.root_pos, obj.root_quat, obj.dof_pos
+             # print(f"Step {env_step}: Obj pos: {obj_pos.cpu().numpy()}")
+             obj_state = torch.cat([obj_pos, obj_quat, obj_arti], dim=-1)
++            if len(uenv.objects) > 1: # [E123-NOBJ] multi-object: every object's state, object order
++                obj_state = torch.cat([torch.cat([o.root_pos, o.root_quat, o.dof_pos], dim=-1) for o in uenv.objects.values()], dim=-1)
+             eval_data["obj_state"].append(obj_state.cpu().numpy())
+             eval_data["demo_state"].append(demo_state.cpu().numpy())
++            if len(uenv.objects) > 1: # [E123-NOBJ] per-env done flags (export cuts a rollout at its first reset)
++                eval_data["dones"].append(dones.cpu().numpy() if hasattr(dones, "cpu") else np.asarray(dones))
+ 
+             rew_dict = uenv.rew_dict
+             for key in ['pos_dist', 'rot_dist', 'arti_dist']:
+@@ -114,6 +120,11 @@ def eval_one_episode(env, agent, obj_state_tensor, print_rew=False, record_video
+                 if 'con' in k:
+                     print(f"Step {env_step}: {k}: {v.cpu().numpy()}")
+     eval_data = {k: np.stack(v) for k, v in eval_data.items()}
++    if len(uenv.objects) > 1: # [E123-NOBJ] what compute_add needs to split the states and rebuild the objects
++        eval_data['object_names'] = np.array(uenv.object_names)
++        eval_data['object_state_dims'] = np.array([7 + o.num_joints for o in uenv.objects.values()])
++        eval_data['object_cfgs_json'] = np.array(json.dumps({n: dict(name=n, urdf_path=o.cfg['urdf_path'],
++            part_mesh_fnames={p: o.cfg[f'{p}_mesh_fname'] for p in o.link_names}) for n, o in uenv.objects.items()}))
+     frames = uenv.get_recorded_frames()
+     return frames, eval_data
+ 
+-- 
+2.43.0
+

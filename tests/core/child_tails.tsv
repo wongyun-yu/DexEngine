@@ -1,0 +1,38 @@
+file	N	expression	marker	child
+dexengine/placement/bundle/archive.py	600	r.stderr.strip()	n	tar|zstd|split — no marker
+dexengine/placement/bundle/run_inputs.py	300	r.stderr.strip()	n	source _rl_recipe.sh(✗ 0) — no marker
+dexengine/placement/judge/input_clip.py	300	r.stderr.strip()	n	dexengine/data/objects/hull.py --digest(✗ 0)
+dexengine/placement/repair/wrist_shift.py	800	r.stderr	undecided	-
+dexengine/record/augment/bake.py	200	r.stderr.decode(errors='replace')	undecided	-
+dexengine/record/augment/xr_deps.py	160	r.stderr.strip()	undecided	-
+dexengine/record/session/launch.py	20000	(r.stdout + r.stderr).strip()	n	py-spy dump — no marker
+dexengine/rl/cell_state.py	200	r.stderr	undecided	-
+dexengine/rl/cell_state.py	200	r.stderr	undecided	-
+dexengine/rl/cell_state.py	200	r.stderr	undecided	-
+dexengine/rl/cli_entry/seqdir_clips.py	1500	_ar_run.stderr.strip() or _ar_run.stdout.strip()	undecided	-
+dexengine/rl/judge/rejudge.py	200	r.stderr.strip()	n	git — no marker
+dexengine/rl/launch/modes.py	300	r.stderr.strip()	n	dexengine.record.replay_roster(✗ 0)
+dexengine/robots/urdf/truncate.py	2000	r.stderr	undecided	-
+dexengine/robots/usd/collider_rev.py	800	r.stdout + r.stderr	undecided	-
+experiments/baselines/common/mkcmds.py	300	r.stderr	undecided	-
+experiments/baselines/maniptrans/hull_cache.py	400	r.stderr	undecided	-
+experiments/policies/kin_data/contact.py	50000	r.stderr	undecided	-
+experiments/policies/kin_data/contact.py	200000	r.stdout	undecided	-
+tests/core/test_capacity.py	500	out.stderr	undecided	-
+tests/core/test_data_root_cli.py	300	r.stderr	undecided	-
+tests/core/test_data_root_cli.py	400	r.stderr	undecided	-
+tests/core/test_embodiment.py	2000	r.stderr	undecided	-
+tests/core/test_embodiment.py	2000	r.stdout	undecided	-
+tests/core/test_log_markers.py	300	r.stderr	undecided	-
+tests/core/test_log_markers.py	300	r.stderr	undecided	-
+tests/experiments/test_textio_scorer_path.py	500	r.stderr	undecided	-
+tests/placement/test_train_ready.py	500	r.stderr	undecided	-
+tests/record/test_preapp_imports.py	500	r.stderr	undecided	-
+tests/record/test_render_threads.py	500	r.stderr	undecided	-
+tests/record/test_render_threads.py	500	r.stdout	undecided	-
+tests/record/test_render_threads.py	2000	r.stderr	undecided	-
+tests/rl/test_launch.py	800	r.stderr	undecided	-
+tests/rl/test_owner_ledger.py	600	r.stderr	undecided	-
+tests/rl_tasks/test_env_flags.py	500	r.stderr	undecided	-
+tests/rl_tasks/test_package_structure.py	2000	out.stderr	undecided	-
+tests/robots/test_robot_usd_build.py	400	r.stderr	undecided	-

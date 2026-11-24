@@ -1,0 +1,15 @@
+# rby1 + sharpa_wave — mount spec (dexengine.core.embodiment). The V1 canonical combo (frozen).
+# offset = the rby1 flange (z -0.1261, facing -z) + a measured 0.016 clearance to the SharpA flange link (the hand
+# root, mount_face_to_root 0); rotation = Rx(180 deg) composed with a mount yaw of Rz(-90 deg) right · Rz(+90 deg)
+# left. The generated URDF header writes the provenance string. Both hand subtrees come from the vendor URDF.
+arm: rby1
+hand: sharpa_wave
+translation:
+  stack: {adapter_thickness: 0.016}
+rotation:
+  right: [0.0, 0.7071068, 0.7071068, 0.0]
+  left: [0.0, 0.7071068, -0.7071068, 0.0]
+provisional: true
+provenance: 'vendor gripper attach frame (tool_* joint, z=-0.1261) + Rx(180) flip + the rotation of the earlier arm pairing'
+assumptions: []
+render_visual_parts: []

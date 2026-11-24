@@ -1,0 +1,103 @@
+dataset	object	r	g	b	why
+dexcanvas	cube1	0.0317	0.1297	0.3102	kind colour — primitive cube = blue (name 'cube1')
+dexcanvas	cube2	0.0342	0.1216	0.339	kind colour — primitive cube = blue (name 'cube2')
+grab	airplane	0.5507	0.0564	0.0854	kind colour — toy vehicle = red (name 'airplane')
+grab	alarmclock	0.7943	0.7819	0.7447	kind colour — clock = white face (name 'alarmclock')
+grab	apple	0.6515	0.034	0.0268	kind colour — apple = red (name 'apple')
+grab	banana	0.8047	0.539	0.0187	kind colour — banana = yellow (name 'banana')
+grab	binoculars	0.0263	0.0264	0.0286	kind colour — electronics, optics = black (name 'binoculars')
+grab	bowl	0.7757	0.7435	0.6493	kind colour — ceramic = white (name 'bowl')
+grab	camera	0.0208	0.0207	0.0225	kind colour — electronics, optics = black (name 'camera')
+grab	cubelarge	0.046	0.1351	0.4776	kind colour — primitive cube = blue (name 'cubelarge')
+grab	cubemedium	0.048	0.1719	0.5011	kind colour — primitive cube = blue (name 'cubemedium')
+grab	cubesmall	0.0469	0.1388	0.488	kind colour — primitive cube = blue (name 'cubesmall')
+grab	cup	0.8159	0.7759	0.7094	kind colour — ceramic = white (name 'cup')
+grab	cylinderlarge	0.0309	0.2095	0.0741	kind colour — cylinder = green (name 'cylinderlarge')
+grab	cylindermedium	0.0359	0.2486	0.0877	kind colour — cylinder = green (name 'cylindermedium')
+grab	cylindersmall	0.0625	0.4645	0.1167	kind colour — cylinder = green (name 'cylindersmall')
+grab	doorknob	0.4296	0.4638	0.4978	kind colour — door knob = silver metal (name 'doorknob')
+grab	duck	0.8523	0.645	0.0112	kind colour — duck = yellow (name 'duck')
+grab	elephant	0.2704	0.3248	0.3772	kind colour — elephant = blue grey (name 'elephant')
+grab	eyeglasses	0.0196	0.0197	0.0213	kind colour — electronics, optics = black (name 'eyeglasses')
+grab	flashlight	0.011	0.011	0.0119	kind colour — electronics, optics = black (name 'flashlight')
+grab	flute	0.6112	0.6405	0.6702	kind colour — metal = silver (name 'flute')
+grab	fryingpan	0.0418	0.0418	0.0418	kind colour — frying pan = black (name 'fryingpan')
+grab	gamecontroller	0.0134	0.0133	0.0143	kind colour — electronics, optics = black (name 'gamecontroller')
+grab	hammer	0.4295	0.1514	0.0621	kind colour — wood = brown (name 'hammer')
+grab	hand	0.7701	0.4861	0.3493	kind colour — hand model = skin tone (name 'hand')
+grab	headphones	0.0091	0.0092	0.0098	kind colour — electronics, optics = black (name 'headphones')
+grab	knife	0.4619	0.4976	0.5376	kind colour — metal = silver (name 'knife')
+grab	lightbulb	0.8357	0.7966	0.527	kind colour — light bulb = milk white (name 'lightbulb')
+grab	mouse	0.0423	0.0421	0.0461	kind colour — electronics, optics = black (name 'mouse')
+grab	mug	0.7862	0.7441	0.6649	kind colour — ceramic = white (name 'mug')
+grab	phone	0.0325	0.0325	0.0354	kind colour — electronics, optics = black (name 'phone')
+grab	piggybank	0.867	0.3044	0.3856	kind colour — piggy bank = pink (name 'piggybank')
+grab	pyramidlarge	0.7416	0.2784	0.0207	kind colour — pyramid = orange (name 'pyramidlarge')
+grab	pyramidmedium	0.7699	0.2371	0.0531	kind colour — pyramid = orange (name 'pyramidmedium')
+grab	pyramidsmall	0.7483	0.2323	0.027	kind colour — pyramid = orange (name 'pyramidsmall')
+grab	scissors	0.5687	0.0346	0.0436	kind colour — scissor handles = red (name 'scissors')
+grab	spherelarge	0.2311	0.0803	0.3429	kind colour — sphere = purple (name 'spherelarge')
+grab	spheremedium	0.1878	0.07	0.2954	kind colour — sphere = purple (name 'spheremedium')
+grab	spheresmall	0.1646	0.067	0.2817	kind colour — sphere = purple (name 'spheresmall')
+grab	stamp	0.4529	0.1777	0.0652	kind colour — wood = brown (name 'stamp')
+grab	stanfordbunny	0.5782	0.3866	0.1939	kind colour — bunny = tan (name 'stanfordbunny')
+grab	stapler	0.5635	0.0441	0.0557	kind colour — stapler = red (name 'stapler')
+grab	teapot	0.8882	0.8612	0.8207	kind colour — ceramic = white (name 'teapot')
+grab	toothbrush	0.0669	0.23	0.5984	kind colour — toothbrush = blue (name 'toothbrush')
+grab	toothpaste	0.7584	0.7544	0.7219	kind colour — container = white (name 'toothpaste')
+grab	toruslarge	0.0265	0.3847	0.3979	kind colour — torus = teal (name 'toruslarge')
+grab	torusmedium	0.0221	0.3178	0.3069	kind colour — torus = teal (name 'torusmedium')
+grab	torussmall	0.0224	0.3173	0.3236	kind colour — torus = teal (name 'torussmall')
+grab	train	0.4941	0.0434	0.0468	kind colour — toy vehicle = red (name 'train')
+grab	watch	0.5106	0.5433	0.5813	kind colour — metal = silver (name 'watch')
+grab	waterbottle	0.0993	0.3476	0.5948	kind colour — water bottle = blue (name 'waterbottle')
+grab	wineglass	0.821	0.8783	0.9105	kind colour — glass = pale blue (name 'wineglass')
+hrdexdb	apple	0.557	0.0225	0.0501	kind colour — apple = red (name 'apple')
+hrdexdb	banana	0.8001	0.4727	0.0143	kind colour — banana = yellow (name 'banana')
+hrdexdb	ceramic_elephant_jug	0.7656	0.7162	0.6263	source colour — name 'ceramic elephant jug' has 'ceramic'
+hrdexdb	circular_frying_pan	0.017	0.017	0.017	kind colour — frying pan = black (name 'circular frying pan')
+hrdexdb	clock	0.8173	0.8012	0.7728	kind colour — clock = white face (name 'clock')
+hrdexdb	clothes_hanger	0.4057	0.177	0.059	kind colour — wood = brown (name 'clothes hanger')
+hrdexdb	donut	0.5873	0.2562	0.1154	kind colour — donut = tan (name 'donut')
+hrdexdb	frog_bowl	0.7554	0.7198	0.6195	kind colour — ceramic = white (name 'frog bowl')
+hrdexdb	icecream_scoop	0.4625	0.4963	0.5382	kind colour — metal = silver (name 'icecream scoop')
+hrdexdb	knife_sharpener	0.6122	0.6439	0.6711	kind colour — metal = silver (name 'knife sharpener')
+hrdexdb	lotion	0.8421	0.843	0.8183	kind colour — container = white (name 'lotion')
+hrdexdb	mug_holder	0.8938	0.8704	0.8294	kind colour — ceramic = white (name 'mug holder')
+hrdexdb	plant_pot	0.5374	0.1364	0.0721	kind colour — plant pot = terracotta (name 'plant pot')
+hrdexdb	saucepan	0.5119	0.5371	0.5825	kind colour — metal = silver (name 'saucepan')
+hrdexdb	screwdriver	0.7941	0.6512	0.0146	kind colour — screwdriver handle = yellow (name 'screwdriver')
+hrdexdb	spray_bottle	0.7599	0.7621	0.7261	kind colour — container = white (name 'spray bottle')
+hrdexdb	white_candle_holder	0.9149	0.9041	0.8804	source colour — name 'white candle holder' has 'white'
+hrdexdb	white_hand_shower	0.7347	0.6978	0.637	source colour — name 'white hand shower' has 'white'
+hrdexdb	wood_dish_rack	0.4636	0.2185	0.0795	source colour — name 'wood dish rack' has 'wood'
+oakink2	left_c10001	0.0275	0.1244	0.4598	source colour — name 'blue mug' has 'blue'
+oakink2	left_c11001	0.0327	0.1175	0.5666	source colour — name 'blue cup' has 'blue'
+oakink2	left_c12001	0.892	0.8672	0.8266	kind colour — ceramic = white (name 'bowl')
+oakink2	left_c14001	0.6725	0.7637	0.8315	kind colour — glass = pale blue (name 'wineglass')
+oakink2	left_c43001	0.0161	0.0161	0.0174	kind colour — electronics, optics = black (name 'gamecontroler')
+oakink2	left_c51001	0.0295	0.0296	0.0322	kind colour — electronics, optics = black (name 'mouse')
+oakink2	left_s10001	0.8692	0.4335	0.0048	source colour — name 'yellow mug' has 'yellow'
+oakink2	left_s10020	0.7105	0.123	0.0096	source colour — name 'orange mug' has 'orange'
+oakink2	left_s20005	0.7844	0.2282	0.0104	source colour — name 'orange cleaver knife' has 'orange'
+oakink2	raw_c10001	0.0275	0.1244	0.4598	source colour — name 'blue mug' has 'blue'
+oakink2	raw_c11001	0.0327	0.1175	0.5666	source colour — name 'blue cup' has 'blue'
+oakink2	raw_c12001	0.892	0.8672	0.8266	kind colour — ceramic = white (name 'bowl')
+oakink2	raw_c14001	0.6725	0.7637	0.8315	kind colour — glass = pale blue (name 'wineglass')
+oakink2	raw_c43001	0.0161	0.0161	0.0174	kind colour — electronics, optics = black (name 'gamecontroler')
+oakink2	raw_c51001	0.0295	0.0296	0.0322	kind colour — electronics, optics = black (name 'mouse')
+oakink2	raw_s10001	0.8692	0.4335	0.0048	source colour — name 'yellow mug' has 'yellow'
+oakink2	raw_s10020	0.7105	0.123	0.0096	source colour — name 'orange mug' has 'orange'
+oakink2	raw_s20005	0.7844	0.2282	0.0104	source colour — name 'orange cleaver knife' has 'orange'
+oakink2	right_c10001	0.0275	0.1244	0.4598	source colour — name 'blue mug' has 'blue'
+oakink2	right_c11001	0.0327	0.1175	0.5666	source colour — name 'blue cup' has 'blue'
+oakink2	right_c12001	0.892	0.8672	0.8266	kind colour — ceramic = white (name 'bowl')
+oakink2	right_c14001	0.6725	0.7637	0.8315	kind colour — glass = pale blue (name 'wineglass')
+oakink2	right_c43001	0.0161	0.0161	0.0174	kind colour — electronics, optics = black (name 'gamecontroler')
+oakink2	right_c51001	0.0295	0.0296	0.0322	kind colour — electronics, optics = black (name 'mouse')
+oakink2	right_s10001	0.8692	0.4335	0.0048	source colour — name 'yellow mug' has 'yellow'
+oakink2	right_s10020	0.7105	0.123	0.0096	source colour — name 'orange mug' has 'orange'
+oakink2	right_s20005	0.7844	0.2282	0.0104	source colour — name 'orange cleaver knife' has 'orange'
+taco	055	0.0291	0.1419	0.4917	source colour — name 'blue ruler' has 'blue'
+taco	062	0.4077	0.4451	0.4881	kind colour — metal = silver (name 'spatula')
+taco	130	0.4874	0.5178	0.5606	kind colour — metal = silver (name 'spatula')

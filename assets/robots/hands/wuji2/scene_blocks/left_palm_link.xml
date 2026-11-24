@@ -1,0 +1,202 @@
+<!-- uni_layout template side=left root=left_wrist hand_asset_sha256_xml3=4dca842a784b52e214a36db6df12c35169972aafe0e249bb0775753be40c7eda source=data/taco/base/wuji2/bimanual/brush_brush_bowl__20230919_036/scene.xml -->
+<uni_block>
+<meshes>
+    <mesh name="left_l_wrist" file="robots/wuji2/assets/left/l_wrist.STL"/>
+    <mesh name="left_l_wrist_adapter" file="robots/wuji2/assets/left/l_wrist_adapter.STL"/>
+    <mesh name="left_l_mount_flange" file="robots/wuji2/assets/left/l_mount_flange.STL"/>
+    <mesh name="left_l_thumb_proximal" file="robots/wuji2/assets/left/l_thumb_proximal.STL"/>
+    <mesh name="left_l_thumb_proximal_abd" file="robots/wuji2/assets/left/l_thumb_proximal_abd.STL"/>
+    <mesh name="left_l_thumb_middle" file="robots/wuji2/assets/left/l_thumb_middle.STL"/>
+    <mesh name="left_l_thumb_distal" file="robots/wuji2/assets/left/l_thumb_distal.STL"/>
+    <mesh name="left_l_thumb_tip_sensor_frame" file="robots/wuji2/assets/left/l_thumb_tip_sensor_frame.STL"/>
+    <mesh name="left_l_index_finger_proximal" file="robots/wuji2/assets/left/l_index_finger_proximal.STL"/>
+    <mesh name="left_l_index_finger_proximal_abd" file="robots/wuji2/assets/left/l_index_finger_proximal_abd.STL"/>
+    <mesh name="left_l_index_finger_middle" file="robots/wuji2/assets/left/l_index_finger_middle.STL"/>
+    <mesh name="left_l_index_finger_distal" file="robots/wuji2/assets/left/l_index_finger_distal.STL"/>
+    <mesh name="left_l_index_finger_tip_sensor_frame" file="robots/wuji2/assets/left/l_index_finger_tip_sensor_frame.STL"/>
+    <mesh name="left_l_middle_finger_proximal" file="robots/wuji2/assets/left/l_middle_finger_proximal.STL"/>
+    <mesh name="left_l_middle_finger_proximal_abd" file="robots/wuji2/assets/left/l_middle_finger_proximal_abd.STL"/>
+    <mesh name="left_l_middle_finger_middle" file="robots/wuji2/assets/left/l_middle_finger_middle.STL"/>
+    <mesh name="left_l_middle_finger_distal" file="robots/wuji2/assets/left/l_middle_finger_distal.STL"/>
+    <mesh name="left_l_middle_finger_tip_sensor_frame" file="robots/wuji2/assets/left/l_middle_finger_tip_sensor_frame.STL"/>
+    <mesh name="left_l_ring_finger_proximal" file="robots/wuji2/assets/left/l_ring_finger_proximal.STL"/>
+    <mesh name="left_l_ring_finger_proximal_abd" file="robots/wuji2/assets/left/l_ring_finger_proximal_abd.STL"/>
+    <mesh name="left_l_ring_finger_middle" file="robots/wuji2/assets/left/l_ring_finger_middle.STL"/>
+    <mesh name="left_l_ring_finger_distal" file="robots/wuji2/assets/left/l_ring_finger_distal.STL"/>
+    <mesh name="left_l_ring_finger_tip_sensor_frame" file="robots/wuji2/assets/left/l_ring_finger_tip_sensor_frame.STL"/>
+    <mesh name="left_l_pinky_proximal" file="robots/wuji2/assets/left/l_pinky_proximal.STL"/>
+    <mesh name="left_l_pinky_proximal_abd" file="robots/wuji2/assets/left/l_pinky_proximal_abd.STL"/>
+    <mesh name="left_l_pinky_middle" file="robots/wuji2/assets/left/l_pinky_middle.STL"/>
+    <mesh name="left_l_pinky_distal" file="robots/wuji2/assets/left/l_pinky_distal.STL"/>
+    <mesh name="left_l_pinky_tip_sensor_frame" file="robots/wuji2/assets/left/l_pinky_tip_sensor_frame.STL"/>
+</meshes>
+<body_block>
+    <body name="left_wrist" quat="0 0 -0.707107 0.707107" gravcomp="1">
+      <joint name="left_pos_x" pos="0 0 0" axis="-1 0 0" type="slide" range="-1 1"/>
+      <joint name="left_pos_y" pos="0 0 0" axis="0 0 -1" type="slide" range="-1 1"/>
+      <joint name="left_pos_z" pos="0 0 0" axis="0 -1 0" type="slide" range="-1 1"/>
+      <joint name="left_rot_x" pos="0 0 0" axis="-1 0 0" range="-6.28 6.28"/>
+      <joint name="left_rot_y" pos="0 0 0" axis="0 0 -1" range="-6.28 6.28"/>
+      <joint name="left_rot_z" pos="0 0 0" axis="0 -1 0" range="-6.28 6.28"/>
+      <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_wrist"/>
+      <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_wrist"/>
+      <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_wrist_adapter"/>
+      <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_wrist_adapter"/>
+      <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_mount_flange"/>
+      <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_mount_flange"/>
+      <geom name="collision_hand_left_palm_0" size="0.02 0.03 0.05" type="box" group="3" density="0" rgba="0 1 0 1"/>
+      <site name="left_palm" pos="0 0 0" quat="0.0114245 0.707012 -0.707012 -0.0117781" size="0.02 0.03 0.04" type="box"/>
+      <camera name="left_track" pos="0 0.4 -0.2" quat="0.525731 0.850651 0 0"/>
+      <body name="left_thumb_proximal" pos="0.017208 -0.008138 -0.01646" quat="0.629482 0.0606191 -0.720071 -0.285616">
+        <inertial pos="0.000791225 0.00178311 -0.00701986" mass="0.011" diaginertia="8.62864e-07 8.21693e-07 6.54356e-07"/>
+        <joint name="left_thumb_cmc_flex" pos="0 0 0" axis="-1 0 0" range="-1.187 1.291" actuatorfrcrange="-0.6 0.6"/>
+        <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_thumb_proximal"/>
+        <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_thumb_proximal"/>
+        <body name="left_thumb_proximal_abd" pos="0.00025789 0.00063167 -0.014161" quat="0.934711 -0.0919289 0.342519 0.0233666">
+          <inertial pos="1.22552e-05 -4.92145e-06 -0.0135605" mass="0.0336" diaginertia="4.38854e-06 4.24746e-06 1.23727e-06"/>
+          <joint name="left_thumb_cmc_abd" pos="0 0 0" axis="0 1 0" range="-1.484 0.698" actuatorfrcrange="-0.6 0.6"/>
+          <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_thumb_proximal_abd"/>
+          <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_thumb_proximal_abd"/>
+          <body name="left_thumb_middle" pos="-4.31365e-05 2.49049e-05 -0.0334956" quat="0.965006 0.0112895 0.0421331 -0.258573">
+            <inertial pos="7.07487e-07 4.31165e-08 -0.0143056" mass="0.0358" diaginertia="4.92859e-06 4.8196e-06 1.32688e-06"/>
+            <joint name="left_thumb_mcp" pos="0 0 0" axis="-1 0 0" range="-1.047 1.57" actuatorfrcrange="-0.3 0.3"/>
+            <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_thumb_middle"/>
+            <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_thumb_middle"/>
+            <body name="left_thumb_distal" pos="0 0 -0.035">
+              <inertial pos="9.15142e-05 0.0014703 -0.0116277" quat="0.997425 -0.0714926 0.00149197 -0.00553346" mass="0.0172" diaginertia="1.96739e-06 1.77036e-06 5.79088e-07"/>
+              <joint name="left_thumb_ip" pos="0 0 0" axis="-1 0 0" range="-1.047 1.57" actuatorfrcrange="-0.3 0.3"/>
+              <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_thumb_distal"/>
+              <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_thumb_distal"/>
+              <geom type="mesh" group="1" density="0" rgba="0.55 0.78 0.95 1" mesh="left_l_thumb_tip_sensor_frame"/>
+              <geom type="mesh" rgba="0.55 0.78 0.95 1" mesh="left_l_thumb_tip_sensor_frame"/>
+              <geom name="collision_hand_left_thumb_0" size="0.008 0.01489" pos="0 0 -0.01489" type="capsule" group="3" density="0" rgba="0 1 0 1"/>
+              <site name="left_thumb_tip" pos="0 0 -0.02978"/>
+              <site name="track_hand_left_thumb_tip" pos="0 0 -0.02978"/>
+              <site name="trace_hand_left_thumb_tip" pos="0 0 -0.02978"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="left_index_finger_proximal" pos="0.0226524 0.00332516 -0.069978" quat="0.996271 0.0163849 -0.0693072 -0.0486945">
+        <inertial pos="-1.83184e-09 0.00178137 -0.00760139" mass="0.0116" diaginertia="9.19684e-07 9.08608e-07 7.88412e-07"/>
+        <joint name="left_index_finger_mcp_flex" pos="0 0 0" axis="-1 0 0" range="-1.047 1.57" actuatorfrcrange="-2 2"/>
+        <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_index_finger_proximal"/>
+        <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_index_finger_proximal"/>
+        <body name="left_index_finger_proximal_abd" pos="0 0.00120098 -0.0145">
+          <inertial pos="-8.04677e-08 -7.30404e-07 -0.0187994" mass="0.0339" diaginertia="7.01589e-06 7.01555e-06 9.1448e-07"/>
+          <joint name="left_index_finger_mcp_abd" pos="0 0 0" axis="0 1 0" range="-0.698 0.698" actuatorfrcrange="-0.2 0.2"/>
+          <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_index_finger_proximal_abd"/>
+          <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_index_finger_proximal_abd"/>
+          <body name="left_index_finger_middle" pos="0 0 -0.0376">
+            <inertial pos="5.07335e-08 0.000247887 -0.0190348" mass="0.0212" diaginertia="2.47797e-06 2.40525e-06 6.52478e-07"/>
+            <joint name="left_index_finger_pip" pos="0 0 0" axis="-1 0 0" range="-1.047 2.094" actuatorfrcrange="-0.3 0.3"/>
+            <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_index_finger_middle"/>
+            <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_index_finger_middle"/>
+            <body name="left_index_finger_distal" pos="0 0 -0.0295">
+              <inertial pos="-0.000479739 0.00119036 -0.0101192" quat="0.995707 -0.0906401 -0.0109269 0.0152406" mass="0.008" diaginertia="7.5517e-07 6.13137e-07 2.64997e-07"/>
+              <joint name="left_index_finger_dip" pos="0 0 0" axis="-1 0 0" range="-1.047 1.57" actuatorfrcrange="-0.3 0.3"/>
+              <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_index_finger_distal"/>
+              <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_index_finger_distal"/>
+              <geom type="mesh" group="1" density="0" rgba="0.55 0.78 0.95 1" mesh="left_l_index_finger_tip_sensor_frame"/>
+              <geom type="mesh" rgba="0.55 0.78 0.95 1" mesh="left_l_index_finger_tip_sensor_frame"/>
+              <geom name="collision_hand_left_index_0" size="0.008 0.012375" pos="0 0 -0.012375" type="capsule" group="3" density="0" rgba="0 1 0 1"/>
+              <site name="left_index_tip" pos="0 0 -0.02475"/>
+              <site name="track_hand_left_index_tip" pos="0 0 -0.02475"/>
+              <site name="trace_hand_left_index_tip" pos="0 0 -0.02475"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="left_middle_finger_proximal" pos="0.000943094 0.00830301 -0.0739154" quat="0.999841 0.0169537 0.00558422 0.000262989">
+        <inertial pos="-1.83184e-09 0.00178137 -0.00760139" mass="0.0116" diaginertia="9.19684e-07 9.08608e-07 7.88412e-07"/>
+        <joint name="left_middle_finger_mcp_flex" pos="0 0 0" axis="-1 0 0" range="-1.047 1.57" actuatorfrcrange="-2 2"/>
+        <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_middle_finger_proximal"/>
+        <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_middle_finger_proximal"/>
+        <body name="left_middle_finger_proximal_abd" pos="0 0.00120098 -0.0145">
+          <inertial pos="-8.04677e-08 -7.30404e-07 -0.0187994" mass="0.0339" diaginertia="7.01589e-06 7.01555e-06 9.1448e-07"/>
+          <joint name="left_middle_finger_mcp_abd" pos="0 0 0" axis="0 1 0" range="-0.698 0.698" actuatorfrcrange="-0.2 0.2"/>
+          <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_middle_finger_proximal_abd"/>
+          <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_middle_finger_proximal_abd"/>
+          <body name="left_middle_finger_middle" pos="0 0 -0.0376">
+            <inertial pos="5.07335e-08 0.000247887 -0.0190348" mass="0.0212" diaginertia="2.47797e-06 2.40525e-06 6.52478e-07"/>
+            <joint name="left_middle_finger_pip" pos="0 0 0" axis="-1 0 0" range="-1.047 2.094" actuatorfrcrange="-0.3 0.3"/>
+            <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_middle_finger_middle"/>
+            <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_middle_finger_middle"/>
+            <body name="left_middle_finger_distal" pos="0 0 -0.0295">
+              <inertial pos="-0.000479739 0.00119036 -0.0101192" quat="0.995707 -0.0906401 -0.0109269 0.0152406" mass="0.008" diaginertia="7.5517e-07 6.13137e-07 2.64997e-07"/>
+              <joint name="left_middle_finger_dip" pos="0 0 0" axis="-1 0 0" range="-1.047 1.57" actuatorfrcrange="-0.3 0.3"/>
+              <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_middle_finger_distal"/>
+              <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_middle_finger_distal"/>
+              <geom type="mesh" group="1" density="0" rgba="0.55 0.78 0.95 1" mesh="left_l_middle_finger_tip_sensor_frame"/>
+              <geom type="mesh" rgba="0.55 0.78 0.95 1" mesh="left_l_middle_finger_tip_sensor_frame"/>
+              <geom name="collision_hand_left_middle_0" size="0.008 0.012375" pos="0 0 -0.012375" type="capsule" group="3" density="0" rgba="0 1 0 1"/>
+              <site name="left_middle_tip" pos="0 0 -0.02475"/>
+              <site name="track_hand_left_middle_tip" pos="0 0 -0.02475"/>
+              <site name="trace_hand_left_middle_tip" pos="0 0 -0.02475"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="left_ring_finger_proximal" pos="-0.019752 0.0055929 -0.065397" quat="0.996893 0.00588709 0.0710557 0.0334773">
+        <inertial pos="-1.83184e-09 0.00178137 -0.00760139" mass="0.0116" diaginertia="9.19684e-07 9.08608e-07 7.88412e-07"/>
+        <joint name="left_ring_finger_mcp_flex" pos="0 0 0" axis="-1 0 0" range="-1.047 1.57" actuatorfrcrange="-2 2"/>
+        <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_ring_finger_proximal"/>
+        <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_ring_finger_proximal"/>
+        <body name="left_ring_finger_proximal_abd" pos="0 0.00120098 -0.0145">
+          <inertial pos="-8.04677e-08 -7.30404e-07 -0.0187994" mass="0.0339" diaginertia="7.01589e-06 7.01555e-06 9.1448e-07"/>
+          <joint name="left_ring_finger_mcp_abd" pos="0 0 0" axis="0 1 0" range="-0.698 0.698" actuatorfrcrange="-0.2 0.2"/>
+          <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_ring_finger_proximal_abd"/>
+          <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_ring_finger_proximal_abd"/>
+          <body name="left_ring_finger_middle" pos="0 0 -0.0376">
+            <inertial pos="5.07335e-08 0.000247887 -0.0190348" mass="0.0212" diaginertia="2.47797e-06 2.40525e-06 6.52478e-07"/>
+            <joint name="left_ring_finger_pip" pos="0 0 0" axis="-1 0 0" range="-1.047 2.094" actuatorfrcrange="-0.3 0.3"/>
+            <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_ring_finger_middle"/>
+            <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_ring_finger_middle"/>
+            <body name="left_ring_finger_distal" pos="0 0 -0.0295">
+              <inertial pos="-0.000479739 0.00119036 -0.0101192" quat="0.995707 -0.0906401 -0.0109269 0.0152406" mass="0.008" diaginertia="7.5517e-07 6.13137e-07 2.64997e-07"/>
+              <joint name="left_ring_finger_dip" pos="0 0 0" axis="-1 0 0" range="-1.047 1.57" actuatorfrcrange="-0.3 0.3"/>
+              <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_ring_finger_distal"/>
+              <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_ring_finger_distal"/>
+              <geom type="mesh" group="1" density="0" rgba="0.55 0.78 0.95 1" mesh="left_l_ring_finger_tip_sensor_frame"/>
+              <geom type="mesh" rgba="0.55 0.78 0.95 1" mesh="left_l_ring_finger_tip_sensor_frame"/>
+              <geom name="collision_hand_left_ring_0" size="0.008 0.012375" pos="0 0 -0.012375" type="capsule" group="3" density="0" rgba="0 1 0 1"/>
+              <site name="left_ring_tip" pos="0 0 -0.02475"/>
+              <site name="track_hand_left_ring_tip" pos="0 0 -0.02475"/>
+              <site name="trace_hand_left_ring_tip" pos="0 0 -0.02475"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="left_pinky_proximal" pos="-0.0373573 0.00073376 -0.0552917" quat="0.989997 -0.00357904 0.124209 0.0668254">
+        <inertial pos="2.12813e-07 0.00178136 -0.00760145" mass="0.0116" diaginertia="9.19664e-07 9.08603e-07 7.88413e-07"/>
+        <joint name="left_pinky_mcp_flex" pos="0 0 0" axis="-1 0 0" range="-1.047 1.57" actuatorfrcrange="-2 2"/>
+        <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_pinky_proximal"/>
+        <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_pinky_proximal"/>
+        <body name="left_pinky_proximal_abd" pos="0 0.00120098 -0.0145">
+          <inertial pos="-1.55649e-06 -5.45404e-07 -0.016785" mass="0.0304" diaginertia="5.38014e-06 5.37944e-06 8.1771e-07"/>
+          <joint name="left_pinky_mcp_abd" pos="0 0 0" axis="0 1 0" range="-0.698 0.698" actuatorfrcrange="-0.2 0.2"/>
+          <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_pinky_proximal_abd"/>
+          <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_pinky_proximal_abd"/>
+          <body name="left_pinky_middle" pos="-0.0001 0 -0.0336">
+            <inertial pos="3.23236e-07 0.000264491 -0.0178807" mass="0.0188" diaginertia="2.05957e-06 1.98647e-06 5.84911e-07"/>
+            <joint name="left_pinky_pip" pos="0 0 0" axis="-1 0 0" range="-1.047 2.094" actuatorfrcrange="-0.3 0.3"/>
+            <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_pinky_middle"/>
+            <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_pinky_middle"/>
+            <body name="left_pinky_distal" pos="0 0 -0.0275">
+              <inertial pos="-0.000479739 0.00119036 -0.0101192" quat="0.995707 -0.0906401 -0.0109269 0.0152406" mass="0.008" diaginertia="7.5517e-07 6.13137e-07 2.64997e-07"/>
+              <joint name="left_pinky_dip" pos="0 0 0" axis="-1 0 0" range="-1.047 1.57" actuatorfrcrange="-0.3 0.3"/>
+              <geom type="mesh" group="1" density="0" rgba="0.02 0.02 0.02 1" mesh="left_l_pinky_distal"/>
+              <geom type="mesh" rgba="0.02 0.02 0.02 1" mesh="left_l_pinky_distal"/>
+              <geom type="mesh" group="1" density="0" rgba="0.55 0.78 0.95 1" mesh="left_l_pinky_tip_sensor_frame"/>
+              <geom type="mesh" rgba="0.55 0.78 0.95 1" mesh="left_l_pinky_tip_sensor_frame"/>
+              <geom name="collision_hand_left_pinky_0" size="0.008 0.012375" pos="0 0 -0.012375" type="capsule" group="3" density="0" rgba="0 1 0 1"/>
+              <site name="left_pinky_tip" pos="0 0 -0.02475"/>
+              <site name="track_hand_left_pinky_tip" pos="0 0 -0.02475"/>
+              <site name="trace_hand_left_pinky_tip" pos="0 0 -0.02475"/>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+</body_block>
+</uni_block>

@@ -1,0 +1,26 @@
+From 64db2428487feac0193d21c163f2289fd9267529 Mon Sep 17 00:00:00 2001
+From: DexEngine authors <authors@example.invalid>
+Date: Mon, 26 Oct 2026 00:56:36 +0900
+Subject: [PATCH 3/4] E1-E3 port: compute_add multi-object path drops their
+ eval's display dummy env (last env when n_envs > 1)
+
+---
+ dexmachina/eval/compute_add.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/dexmachina/eval/compute_add.py b/dexmachina/eval/compute_add.py
+index c50151e..93925f0 100644
+--- a/dexmachina/eval/compute_add.py
++++ b/dexmachina/eval/compute_add.py
+@@ -233,6 +233,8 @@ def compute_for_eval_multi(eval_data, eval_path, out_name, stats_name, overwrite
+     demo_states, obj_states = eval_data["demo_state"], eval_data["obj_state"]
+     if obj_states.ndim == 2:
+         obj_states = obj_states[:, None, :]
++    if obj_states.shape[1] > 1:  # their eval with n_envs > 1 sets is_eval: the LAST env is a display dummy (not stepped)
++        obj_states = obj_states[:, :-1]
+     if demo_states.ndim == 3 and demo_states.shape[1] == 1:
+         demo_states = demo_states[:, 0, :]
+     num_frames = demo_states.shape[0]
+-- 
+2.43.0
+

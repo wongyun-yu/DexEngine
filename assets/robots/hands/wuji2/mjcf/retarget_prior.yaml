@@ -1,0 +1,69 @@
+# Wuji Hand 2 beta2 (spec dir `wuji2`) retargeting posture prior — writes **the chain topology only**.
+#
+# The numbers are owned by `ik.PRIOR_TEMPLATE` (v2-20260922) alone, with no overrides —
+# the first generation `wuji`'s `overrides:` block pinned old behaviour and is **not copied** (its README).
+# Schema: the `ik.build_prior_conf` docstring (not repeated here).
+#
+# Roles = the vendor URDF meaning (thumb CMC flex · CMC abd · MCP · IP / finger MCP flex · spread · PIP · DIP).
+# Same places as the first generation (finger{N}_joint1 = flexion · joint2 = abduction · joint3 = PIP · joint4 = DIP).
+# Signs measured with rig FK (one joint +0.2 rad → fingertip displacement, wrist frame): every flexion joint moves the fingertip toward the palm
+# (right +y · left −y — positive dot product with the displacement of the same finger's PIP (range [−60°, 120°])) → sign +1. E.g. right index
+# mcp_flex Δ(−2.3, +21.1, +1.0) mm · pip Δ(−1.2, +10.7, +0.6) · right thumb cmc_flex Δ(−8.8, +12.2, −8.3).
+# Every joint range contains 0, so no neutral is written (no place like the first generation's thumb joint1 0.0475).
+# Thumb cmc_flex sits in abd, not in the flexion chain (mcp) — it is not cut (same form as DG-5F-S thumb 1_1):
+# the negative side of its range [−68°, +74°] is normal thumb CMC motion, not hyperextension.
+schema: 1
+template: v2-20260922
+enabled: true
+
+chains:
+  right:
+    thumb:
+      mcp: {joint: right_thumb_mcp, sign: 1.0}
+      pip: {joint: right_thumb_ip, sign: 1.0}         # 2-joint chain (no dip — same form as the DG-5F-S little finger)
+      abd: [right_thumb_cmc_abd, right_thumb_cmc_flex]
+    index:
+      mcp: {joint: right_index_finger_mcp_flex, sign: 1.0}
+      pip: {joint: right_index_finger_pip, sign: 1.0}
+      dip: {joint: right_index_finger_dip, sign: 1.0}
+      abd: [right_index_finger_mcp_abd]
+    middle:
+      mcp: {joint: right_middle_finger_mcp_flex, sign: 1.0}
+      pip: {joint: right_middle_finger_pip, sign: 1.0}
+      dip: {joint: right_middle_finger_dip, sign: 1.0}
+      abd: [right_middle_finger_mcp_abd]
+    ring:
+      mcp: {joint: right_ring_finger_mcp_flex, sign: 1.0}
+      pip: {joint: right_ring_finger_pip, sign: 1.0}
+      dip: {joint: right_ring_finger_dip, sign: 1.0}
+      abd: [right_ring_finger_mcp_abd]
+    pinky:
+      mcp: {joint: right_pinky_mcp_flex, sign: 1.0}
+      pip: {joint: right_pinky_pip, sign: 1.0}
+      dip: {joint: right_pinky_dip, sign: 1.0}
+      abd: [right_pinky_mcp_abd]
+  left:
+    thumb:
+      mcp: {joint: left_thumb_mcp, sign: 1.0}
+      pip: {joint: left_thumb_ip, sign: 1.0}         # 2-joint chain (no dip — same form as the DG-5F-S little finger)
+      abd: [left_thumb_cmc_abd, left_thumb_cmc_flex]
+    index:
+      mcp: {joint: left_index_finger_mcp_flex, sign: 1.0}
+      pip: {joint: left_index_finger_pip, sign: 1.0}
+      dip: {joint: left_index_finger_dip, sign: 1.0}
+      abd: [left_index_finger_mcp_abd]
+    middle:
+      mcp: {joint: left_middle_finger_mcp_flex, sign: 1.0}
+      pip: {joint: left_middle_finger_pip, sign: 1.0}
+      dip: {joint: left_middle_finger_dip, sign: 1.0}
+      abd: [left_middle_finger_mcp_abd]
+    ring:
+      mcp: {joint: left_ring_finger_mcp_flex, sign: 1.0}
+      pip: {joint: left_ring_finger_pip, sign: 1.0}
+      dip: {joint: left_ring_finger_dip, sign: 1.0}
+      abd: [left_ring_finger_mcp_abd]
+    pinky:
+      mcp: {joint: left_pinky_mcp_flex, sign: 1.0}
+      pip: {joint: left_pinky_pip, sign: 1.0}
+      dip: {joint: left_pinky_dip, sign: 1.0}
+      abd: [left_pinky_mcp_abd]

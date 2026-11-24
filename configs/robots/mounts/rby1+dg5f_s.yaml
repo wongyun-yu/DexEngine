@@ -1,0 +1,37 @@
+# rby1 + dg5f_s — mount spec (dexengine.core.embodiment). Tesollo DG-5F-S.
+# The vendor defines the mount interface in its URDF (link_mount -> link_base : joint_base, xyz (0, 0, 0.015), rpy 0
+# — the hand's mount_face_to_root). The mount standard is ISO 9409-1-50-4-M6 (manual), so it bolts straight onto the
+# RB-Y1 flange: no adapter (thickness 0). Rotation = Ry(pi), the flip that sends the fingers along arm_6's -z;
+# identical on both sides (the vendor URDF uses the same joint_base left and right).
+# provisional because of the thumb azimuth alone: the vendor defines the flange interface but not the angle about z
+# at which the hand is assembled — it affects joint-space posture, not wrist tracking.
+arm: rby1
+hand: dg5f_s
+translation:
+  stack: {adapter_thickness: 0.0}
+rotation:
+  right: [0.0, 0.0, 1.0, 0.0]
+  left: [0.0, 0.0, 1.0, 0.0]
+provisional: true
+provenance: 'Tesollo dg5f_s_ros2 dg5fs_{side}_w_mount.urdf: joint_base xyz=(0,0,0.015) · manual ISO 9409-1-50-4-M6'
+assumptions: []
+# The vendor adapter plate link_mount — the merged URDF cuts the hand root at link_base, so this link is missing (a
+# 15 mm gap from the flange face to the hand base). Render body and render URDF only (training conditions unchanged ·
+# the missing 0.111 kg mass is a separate decision). Pose = the mount above ∘ joint_base⁻¹ (hand_mount_face).
+render_visual_parts:
+- name: adapter_mount
+  mesh: data/_stage/dg5f_s/meshes/dg5fs_right/link_mount.dae
+  mesh_sha256: 4a6790e37756cb2bc3907a12fecc92d2c0873ff59ca13e96db942b6fc010e6a9
+  ee_to_part: hand_mount_face
+  part_to_mesh_pos: [0.0, 0.0, 0.0]
+  part_to_mesh_quat: [1.0, 0.0, 0.0, 0.0]
+  color: [0.0, 0.0, 0.0]
+  metallic: 0.0
+  roughness: 0.65
+  sources:
+  - [urdf, 'Tesollo dg5f_s_ros2 (commit 284501f7) data/_stage/dg5f_s/urdf/dg5fs_{right,left}_w_mount.urdf']
+  - [ee_to_part, 'MountSpec(rby1, dg5f_s) EE → link_base ∘ joint_base⁻¹ — joint_base link_mount → link_base xyz (0,0,0.015) rpy 0 (URDF:62-66) · the one value hands/dg5f_s.yaml mount_face_to_root']
+  - [part_to_mesh, "link_mount <visual><origin xyz='0 0 0' rpy='0 0 0'/> (URDF:24-26)"]
+  - [mesh, "link_mount <visual> mesh dg5fs_right/link_mount.dae — the left document's dg5fs_left/link_mount.dae differs in bytes (sha256 95c1c976…) but has the same 2759 vertices (Hausdorff 0) — one mesh for both sides"]
+  - [material, "dae effect 'black-effect' diffuse (0,0,0,1) · metallic/roughness are not in the dae, so 0 · 0.65 as for the wuji adapter"]
+  - [not_copied, "link_mount <collision> link_mount.STL · <inertial> mass 0.11138 — not copied, render only (the training body's missing mass is a separate decision)"]

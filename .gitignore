@@ -1,0 +1,45 @@
+# Local data roots (generated or downloaded; never in git)
+/data/
+/overfit/
+/precompute/
+/results/
+/logs/
+/outputs/
+/.venv/
+
+# Python and build artefacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+/build/
+/dist/
+*.so
+
+# USD stages are built locally (the scene desk comes from NVIDIA's S3 into the look mirror, never a tree)
+*.usd
+*.usda
+*.usdc
+*.usdz
+
+# Tools and OS
+_isaac_sim*
+wandb/
+*.log
+.vscode/
+.idea/
+.DS_Store
+MUJOCO_LOG.TXT
+
+# Robot and hand files: fetched or built locally, never in git (configs/robots/vendor/ lists the sources;
+# `python -m dexengine.robots.vendor fetch` then `... build`)
+/assets/robots/rby1/urdf/
+/assets/robots/rby1/LICENSE
+/assets/robots/hands/sharpa_wave/right_sharpa_wave/
+/assets/robots/hands/sharpa_wave/left_sharpa_wave/
+/assets/robots/hands/sharpa_wave/LICENSE.txt
+/assets/robots/hands/sharpa_wave/NOTICE.txt
+/assets/robots/hands/*/mjcf/*.xml
+/assets/robots/hands/*/mjcf/assets/
+/assets/robots/full_robot_gen/
