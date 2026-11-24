@@ -88,6 +88,8 @@ def test_taco_source_pack_reads_like_the_v1_tree(tmp_path, monkeypatch):
     v1, pack = tmp_path / "v1", tmp_path / "pack"
     _v1_tree(v1, "brush_brush_bowl__20230919_036")
     _v1_tree(v1, "pour-in-some_bowl_kettle__20231019_013", ids=("199", "191"), right="191", left="199")
+    noted = v1 / "pour-in-some_bowl_kettle__20231019_013" / TS.TASK_INFO  # a V1 note key is not shipped
+    noted.write_text(json.dumps({**json.loads(noted.read_text()), "_note": "free text \u00e9"}, ensure_ascii=False))
     reg = tmp_path / "reg.tsv"
     reg.write_text("\t".join(shipped.HEAD) + "\n" + f"{TS.NAME}\tx\t*/*\tpending\tc\tw\n")
     monkeypatch.setattr(shipped, "REGISTRY", reg)
@@ -98,7 +100,9 @@ def test_taco_source_pack_reads_like_the_v1_tree(tmp_path, monkeypatch):
         a, b = TS.read(v1, TS.V1_TREE, c), TS.read(pack, TS.PACK, c)
         assert a.info == b.info and a.scene_ids == b.scene_ids and a.frequency == b.frequency
         assert a.object_qpos.tobytes() == b.object_qpos.tobytes() and b.object_qpos.shape == (12, 14)
-        assert (pack / c / TS.TASK_INFO).read_bytes() == (v1 / c / TS.TASK_INFO).read_bytes()
+        got = (pack / c / TS.TASK_INFO).read_bytes()
+        assert "_note" not in a.info and got.isascii() and not any(TS.is_note(k) for k in json.loads(got))
+        assert (got == (v1 / c / TS.TASK_INFO).read_bytes()) == (c != noted.parent.name)  # else byte for byte
     # the pack is checked by its reader: a changed track dies
     np.save(pack / TS.clips(pack)[0] / TS.OBJECT_QPOS, np.zeros((12, 14)))
     with pytest.raises(SystemExit):

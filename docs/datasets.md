@@ -139,7 +139,7 @@ checksum file `SHA256SUMS.<name>`, which goes into the same folder. The list, th
 
 | Input | Folder under the data root | Files | sha256 of `<folder>/SHA256SUMS.<name>` | Read by |
 |---|---|---|---|---|
-| `taco_source` | `data/taco/_generations/v1_o64/trajectories` | `*/*` | `bc4fe6eae14ff2d92bbf86e8d93b780b1ff4ed828b85820f57a6d763ef964062` | TACO stage 1 (lift) and the grasp reference |
+| `taco_source` | `data/taco/_generations/v1_o64/trajectories` | `*/*` | `2c24646db273cee2722a5cb3b5d7c35d31532cbe2afc9d8b3477b89b5985937f` | TACO stage 1 (lift) and the grasp reference |
 | `taco_meshes` | `data/taco/meshes` | `*/visual.obj` | `53c3d51cbfbe4785826e6594914dbfdcb611643e25125a0bec03af296becede0` | TACO object surfaces |
 | `taco_convex` | `data/taco_retarget/processed/taco/assets/objects` | `*/convex/*.obj` | `d69db71515f373a250cb499ed8b81971d81254531aeadb93317fe339062c1286` | TACO convex parts (stage 1 decompose) |
 | `generation` | `data` | `<ds>/GENERATION`, one per dataset | `ddec344ebfb37e7690ea7547766336023230c2345a4027c042211e958c629c8a` | every dataset: the reference hand direction the dataset was built with (`dexengine/data/align.py`) |
