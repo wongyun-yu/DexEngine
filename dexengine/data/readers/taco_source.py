@@ -13,7 +13,8 @@ WHY
 ONE PLACE, TWO FORMS (location owner dexengine.core.layout.taco_source_root)
     v1_tree  the earlier full trees `<clip>/{task_info.json, scene.xml, 0/trajectory_kinematic.npz}`
     pack     the shipped subset — only what the readers use:
-               <clip>/task_info.json    the V1 file, byte for byte (4b reads it whole)
+               <clip>/task_info.json    the V1 file without its note keys (`is_note`); byte for byte when it
+                                        has none (4b reads it whole)
                <clip>/source.json       {"frequency": V1 npz frequency, "scene_object_ids": scene.xml object order}
                <clip>/object_qpos.npy   the V1 qpos object columns (OBJECT_COLS: right object 7 · left object 7, pos +
                                         quat wxyz), float64
@@ -48,6 +49,21 @@ V1_TREE, PACK = "v1_tree", "pack"
 OBJECT_COLS = slice(36, 50)
 TASK_INFO, SOURCE_JSON, OBJECT_QPOS = "task_info.json", "source.json", "object_qpos.npy"
 V1_NPZ = "0/trajectory_kinematic.npz"
+
+
+def is_note(key: str) -> bool:
+    """A task_info key holding a free-text note of the V1 generation (a leading '_'), not data: no reader reads
+    one, `read` leaves them out in both forms and the pack does not ship them."""
+    return key.startswith("_")
+
+
+def pack_task_info(raw: bytes) -> bytes:
+    """The pack's task_info.json from the V1 file: the same bytes when it has no note key, else the file without
+    them (indent 2, ASCII)."""
+    d = json.loads(raw)
+    if not any(is_note(k) for k in d):
+        return raw
+    return json.dumps({k: v for k, v in d.items() if not is_note(k)}, indent=2).encode()
 
 
 @dataclass(frozen=True)
@@ -99,7 +115,7 @@ def read(root: Path, k: str, clip: str) -> Source:
     ti = d / TASK_INFO
     if not ti.is_file():
         raise InputMissingError(f"[TACO_SOURCE] {clip}: {ti} missing")
-    info = json.loads(ti.read_text())
+    info = {k: v for k, v in json.loads(ti.read_text()).items() if not is_note(k)}
     if k == V1_TREE:
         z = np.load(d / V1_NPZ)
         ids = side_objects.scene_object_ids(d)
@@ -120,7 +136,7 @@ def build(v1_root: Path, out: Path) -> str:
         s = read(v1_root, V1_TREE, c)
         o = out / c
         o.mkdir(parents=True, exist_ok=True)
-        (o / TASK_INFO).write_bytes((v1_root / c / TASK_INFO).read_bytes())
+        (o / TASK_INFO).write_bytes(pack_task_info((v1_root / c / TASK_INFO).read_bytes()))
         (o / SOURCE_JSON).write_text(json.dumps({"frequency": s.frequency, "scene_object_ids": s.scene_ids}) + "\n")
         np.save(o / OBJECT_QPOS, np.ascontiguousarray(s.object_qpos, dtype=np.float64))
     digest = shipped.write_sums(NAME, out)
