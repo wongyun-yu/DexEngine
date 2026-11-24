@@ -139,7 +139,7 @@ dataset-derived files, each under the terms of its dataset:
 | H2O | redistribution not allowed |
 | HOT3D | hand data (MANO and UmeTrack poses) CC BY-NC-SA 4.0; sequences and other annotations CC BY-SA 4.0; 3D object models CC BY-SA 4.0 with a no-sale clause ([licence](https://www.projectaria.com/datasets/hot3D/license/)). Robot data derived from the hand poses follows CC BY-NC-SA. |
 | TACO | CC BY 4.0 (TACO README, github.com/Satorinal/TACO); attribution: TACO, Liu et al., CVPR 2024. The release ships three TACO-derived inputs the public code cannot rebuild (`configs/release/shipped_inputs.tsv`): `taco_source` — object trajectories and grasp assignment from an earlier processing of the official `Object_Poses` (world frame lowered to the table per capture session, resampled to the 50 Hz output grid; at the same timestamps they differ from the official tracks by p99 12.2 mm, and that processing is not recoverable), `taco_convex` — convex parts of the object meshes (CoACD), `taco_meshes` — the object meshes in metres |
-| OakInk2 | CC BY-NC-SA 3.0 (the authors' dataset card on Hugging Face, `kelvin34501/OakInk-v2`; the project site states none) |
+| OakInk2 | CC BY-SA 4.0 (the licence field of the authors' dataset card on Hugging Face, `kelvin34501/OakInk-v2`; the project site and the GitHub repository state none) |
 | HO-Cap | CC BY 4.0 |
 | HRDexDB | CC BY-NC 4.0 (dataset card, `JongbinLim/HRDexDB`) |
 | DexCanvas | ODbL 1.0 (dataset card, `DEXROBOT/DexCanvas`): a derived database is shared under the same licence |
