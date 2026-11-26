@@ -32,19 +32,14 @@ TILT_NOTE = (
 
 
 def collect_scene_look() -> dict:
-    """Scene look of the record render = the canonical background and lighting (the dump env's DEXENGINE_AUG_*:
-    record.looks.render_look, the same entry scene_look.apply_from_env as the canonical clip render, no copy) plus
-    the record render look (looks.look_d.LOOK, look D). A knob applied short or a missing look asset dies; the markers
-    [VISUAL_AUG] and [COLLECT_LOOK] are checked again in the session log. Returns the look meta (render_meta
-    render_look)."""
+    """Scene look of the record render = the one canonical look (looks.look_d.apply, look D: room, lights, materials,
+    props; it also sets the frame-guard token). A missing look asset dies; the [COLLECT_LOOK] markers are checked again
+    in the session log. Returns the look meta (render_meta render_look)."""
     import omni.usd
 
     from dexengine.record.looks import look_d as collect_look
-    from dexengine.rl.render import scene_look
 
-    stage = omni.usd.get_context().get_stage()
-    scene_look.apply_from_env(stage)
-    return collect_look.apply(stage)
+    return collect_look.apply(omni.usd.get_context().get_stage())
 
 
 def hide_markers(raw_env) -> None:
@@ -277,6 +272,9 @@ class Rig:
     def rgb(self, key):
         import numpy as np
 
+        from dexengine.record.looks import look_guard as LG
+
+        LG.require(f"render.rig.Rig.rgb({key})")  # every record frame read passes here
         if key not in self.active:
             raise InputMissingError(f"[COLLECT_CAM] {key} is a camera that is off: it cannot be read")
         fr = self.cams[key].data.output["rgb"][self.e].detach().cpu().numpy()

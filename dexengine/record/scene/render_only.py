@@ -74,7 +74,8 @@ def read_clip(ds: str, clip: str, root: str | None = None) -> dict:
     ip = list_dir(ds, root) / INDEX
     if not ip.is_file():
         raise RenderOnlyError(
-            f"{ds}: render-only object index missing {ip}: run the generator (scene/render_only_build.py) first"
+            f"{ds}: render-only object index missing {ip}: the record entry (scripts/stage4_record.py bundle or "
+            "drive) builds it; elsewhere run the generator (python -m dexengine.record.scene.render_only_build)"
         )
     idx = json.loads(ip.read_text(encoding="utf-8"))
     if idx.get("version") != VERSION:

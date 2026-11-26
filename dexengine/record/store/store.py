@@ -28,7 +28,7 @@ from pathlib import Path
 import numpy as np
 
 from dexengine.core.errors import InputMissingError
-from dexengine.record.looks import look_d as LOOK
+from dexengine.record.looks import look_settle as LS
 from dexengine.record.render import cameras as CAMS
 from dexengine.record.render import visibility as HV
 from dexengine.record.render import writer as CD
@@ -273,7 +273,7 @@ def write_episode(out: Path, i: int, it: dict, index0: int, tasks: dict, TF, TS,
         **rfix,
         render_preset=rmeta["render_preset"],
         render_look={k: rmeta["render_look"][k] for k in LOOK_KEYS},
-        render_settle=LOOK.settle_row(rmeta["look_settle"]),
+        render_settle=LS.settle_row(rmeta["look_settle"]),
         **CM.hand_usd_carry(rmeta),
     )
     line = dict(

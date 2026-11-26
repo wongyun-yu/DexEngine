@@ -1,10 +1,10 @@
-"""Trajectory recording: the entity rule, the recorder and the replay write-back (replay render; off by default).
+"""Trajectory recording: the entity rule, the recorder and the state write-back (record render; off by default).
 
 The file format (schema version, reader) belongs to ``traj_file``.
 
 A read-only vectorised recorder rides the judge loop (``judge.rollouts`` single-batch loop) and writes, per clip, the
-top-k successful episodes to a file. The replay render (``dexengine/rl/render/replay.py``) writes those states back
-without physics and renders them.
+top-k successful episodes to a file. The record render (``dexengine/record/render/episode.py``) binds file and scene
+entities with ``bind`` and writes states back without physics with ``write_states``.
 
 State rule: every articulation of the scene (root link pose 7 = env-local position + quaternion wxyz, plus all
   joint_pos) and every rigid object (pose 7). Any other dynamic asset type fails. Recording every articulation keeps a
@@ -17,7 +17,7 @@ Time: s_0 = right after the batch reset, s_k = after step k. An env that ends at
 Selection (owner ``traj_select``): success ∧ real batch (not warm-up) ∧ PARK valid → score ascending, top k. The
   recorder never writes to the scene.
 failure_best: a clip with valid episodes but no success keeps its best failure separately (rank
-  traj_select.failure_key) — archived only; the replay render draws ``sel`` only.
+  traj_select.failure_key) — archived only.
 Log lines: `[TRAJ_REC] on → …` · `batch …` · `DONE …` (or `FAIL …` before writing when the counts disagree).
 """
 

@@ -3,8 +3,8 @@
 Each `launch_cases/<case>.case` holds a launch environment (`## env`) and the trainer dumps the old launcher wrote
 for it (`## dump <log>`: argv lines, then `ENV::` lines), after the mechanical renames (entry
 `dexengine/rl/cli.py`, `DEXENGINE_` names). The test rebuilds the inputs under a temporary data root, resolves the
-launch and compares dump by dump. Two inputs owned elsewhere are fixed to the recorded values: the bimanual data
-checks (`preflight.check_bimanual`, which reads real trees) and the render look (`dexengine.record.looks.render_look`).
+launch and compares dump by dump. The bimanual data checks (`preflight.check_bimanual`, which reads real trees) are
+fixed to pass; the record scene env of the drawing dumps (`dexengine.record.looks.scene_env`) is produced for real.
 
 The recorded dumps carry the RL switches as `ENV::` lines (environment names); a resolved process carries them in its
 switches file. `switch_view` compares a resolved process against such a dump: argv and the other environment lines byte
@@ -26,13 +26,13 @@ from dexengine.core.layout.runs import RUN_CKPT_ROOT
 from dexengine.core.repo import REPO_ROOT
 from dexengine.rl import launch
 from dexengine.rl.launch import dispatch as run_mod
-from dexengine.rl.launch import modes, preflight, recipe
 from dexengine.rl.launch import plan as plan_mod
+from dexengine.rl.launch import preflight, recipe
 from dexengine.rl.launch import process as process_mod
 from dexengine.rl.tasks import switches
 
 CASES = sorted(Path(__file__).with_name("launch_cases").glob("*.case"))
-LOOK_KEYS = ("AUG_DESK_MDL", "AUG_FLOOR_MDL", "AUG_LIGHT", "AUG_ROOM", "KEY_LIGHT", "LOG_EGO_PITCH", "CAMERA_FOCAL_MM")
+LOOK_KEYS = ("KEY_LIGHT", "CAMERA_FOCAL_MM")
 TMPVIEW = re.compile(r"/[^\n]*/replay_seq_[A-Za-z0-9_]+")
 MANIFEST = "<manifest>"
 HEAD = re.compile(r"^date=\S+ git=\S* dirty=\S+ code=\S* codedirty=\S+ ")
@@ -170,20 +170,9 @@ def setup_case(case, env, dumps, tmp_path, monkeypatch):
     run = ("EXT_" if any(k.startswith("EXT_") for k in dumps) else "GOLD_") + case.stem
     RUN_OF[env_key(env)] = run
     root, sub = build_root(tmp_path, env, dumps)
-    want_env = {}
-    for text in dumps.values():
-        want_env.update(ln[5:].split("=", 1) for ln in text.splitlines() if ln.startswith("ENV::"))
-    look = {f"DEXENGINE_{k}": want_env[f"DEXENGINE_{k}"] for k in LOOK_KEYS if f"DEXENGINE_{k}" in want_env}
-    look = {k: v.replace("<MAIN>", str(tmp_path / "main")) for k, v in look.items()}
     monkeypatch.setattr(preflight, "check_bimanual", lambda *a, **k: "")
-    monkeypatch.setattr(
-        modes,
-        "render_look_env",
-        lambda plan, physx_lite: {
-            **({"DEXENGINE_PHYSX_LITE": "1"} if physx_lite else {}),
-            **look,
-        },
-    )
+    for k in LOOK_KEYS:  # the scene env of a drawing dump is produced here (record.looks.scene_env), not inherited
+        monkeypatch.delenv(f"DEXENGINE_{k}", raising=False)
     monkeypatch.setenv("DEXENGINE_MAIN_ROOT", str(tmp_path / "main"))
     return run, root, sub
 
@@ -260,30 +249,40 @@ def test_preset_conflict_exits_7(tmp_path, monkeypatch):
     assert e.value.code == 7
 
 
-def test_render_only_clips_goes_after_the_retry_count(tmp_path, monkeypatch):
-    """VIDEOS_ONLY_CLIPS (the cell render tool's --clips) adds `--videos_only_clips <tokens>` where the old shell put
-    it; every other argv and env line stays as recorded."""
-    case = next(c for c in CASES if c.stem == "render_bi_sharpa_wave")
-    env, dumps = parse_case(case)
+@pytest.mark.parametrize("case", ["render_bi_sharpa_wave", "replay_uni", "judge_uni_render"])
+def test_drawing_modes_are_dump_only(case, tmp_path, monkeypatch):
+    """render · replay · FROZEN_RENDER_OUT write dumps for a record session only: without DRYRUN / DUMP_ONLY the request
+    dies naming the record render (the RL launcher starts no drawing process)."""
+    c = next(x for x in CASES if x.stem == case)
+    env, dumps = parse_case(c)
     dumps.pop(MANIFEST)
-    run, root, sub = setup_case(case, env, dumps, tmp_path, monkeypatch)
+    run, root, sub = setup_case(c, env, dumps, tmp_path, monkeypatch)
+    real = {k: v for k, v in sub.items() if k != "DRYRUN"}
+    with pytest.raises(recipe.RecipeError, match="scripts/stage4_record.py"):
+        launch.from_env(run, real, root=root)
     with contextlib.redirect_stdout(io.StringIO()):
-        got = {
-            p.log.name: p for p in launch.resolve(launch.from_env(run, {**sub, "VIDEOS_ONLY_CLIPS": "a,b"}, root=root))
-        }
-    assert sorted(got) == sorted(dumps)
-    for log, text in dumps.items():
-        new = got[log].argv
-        i = new.index("--videos_allfail_retry_batches")
-        assert new[i + 2 : i + 5] == ["--videos_only_clips", "a,b", "--videos_rank_metric"]
-        del new[i + 2 : i + 4]
+        assert launch.from_env(run, {**real, "DUMP_ONLY": "1"}, root=root).dry_run
 
-        def norm(v):
-            return TMPVIEW.sub(
-                "<TMPVIEW>", v.replace(str(tmp_path / "main"), "<MAIN>").replace(str(tmp_path / "s"), "<S>")
-            )
 
-        assert switch_view(got[log], text, norm) == [], log
+@pytest.mark.parametrize(
+    "removed",
+    [
+        {"VIDEOS_ONLY_CLIPS": "a,b"},
+        {"MARKERS": "1"},
+        {"DEXENGINE_TRAJ_RENDER": "/x.npz"},
+        {"TRAJ_RENDER_OUT": "/x"},
+        {"DEXENGINE_AUG_FLOOR_MDL": "/x.mdl"},
+        {"DEXENGINE_RENDER_VIEWS": "ego,front"},
+        {"RENDER_EGO_FOCAL_MM": "8"},
+    ],
+)
+def test_removed_renderer_inputs_die_with_the_pointer(removed, tmp_path, monkeypatch):
+    c = next(x for x in CASES if x.stem == "render_bi_sharpa_wave")
+    env, dumps = parse_case(c)
+    dumps.pop(MANIFEST)
+    run, root, sub = setup_case(c, env, dumps, tmp_path, monkeypatch)
+    with pytest.raises(recipe.RecipeError, match="scripts/stage4_record.py"):
+        launch.from_env(run, {**sub, **removed}, root=root)
 
 
 #: The data root the suite was started with (the shared conftest gives every test an empty one).
@@ -416,9 +415,7 @@ JUDGE_ONLY = (
     "FROZEN_REPLAY_EVALS_PER_CLIP",
     "FROZEN_REPLAY_ITER",
     "FROZEN_RENDER_OUT",
-    "TRAJ_RENDER_OUT",
     "DEXENGINE_TRAJ_RECORD",
-    "DEXENGINE_TRAJ_RENDER",
 )
 
 

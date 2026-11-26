@@ -15,7 +15,7 @@ Every item carries its READER (the consumer that reads it):
   verify:*  the campaign manifest check reads it
   launch:*  the launcher needs it before the entry (layer-root = a file carrying a layer root the GPU host requires
             — paths.layer_root_records)
-  render:*  only `Stater.render`: a render's plate, F0_REPAIR.json and object overlays (a training video too); never in
+  render:*  only `Stater.render`: a record render's plate, F0_REPAIR.json, object overlays and look D files; never in
             a bundle's set (a bundle's (n, digest) does not change with it)
 A statement, not a measurement: nothing here checks that an input exists — except where the reader itself reads a
 file only if present (qpos_layout's legacy scene.xml). What cannot be stated dies: a named-roster manifest, a clip
@@ -78,7 +78,7 @@ READERS = {
     "render:plate": "render — plate (robot_inputs under arms.plate_variant: combo USD · meta) · Stater.render",
     "render:f0-meta": "render — tree F0_REPAIR.json (opened if present · pad prepend) · Stater.render",
     "render:object": "render — overlay of each spawned object USD (artifact_paths.render_spawn_usds) · Stater.render",
-    "render:look": "render — the base look's MDLs and their textures (look_assets.base_files) · Stater.render",
+    "render:look": "render — look D's files and what they open (look_assets.render_files) · Stater.render",
     "render:render-only": "render — render-only objects' index · record · anchor frames · surface samples "
     "(render_only.render_inputs)",
 }
@@ -427,7 +427,7 @@ class Stater:
 
     def render(self, b: dict) -> dict[str, tuple[str, str]]:
         """{relative path: (kind, reader)} the render of one bundle adds (RENDER_READERS): the plate (robot_inputs under
-        arms.plate_variant), the base look, and per clip F0_REPAIR.json, render-only inputs and object overlays."""
+        arms.plate_variant), look D, and per clip F0_REPAIR.json, render-only inputs and object overlays."""
         from dexengine.core import arms as AS  # noqa: PLC0415
         from dexengine.record.looks import look_assets as LA  # noqa: PLC0415
         from dexengine.record.scene import render_only as RO  # noqa: PLC0415
@@ -436,7 +436,7 @@ class Stater:
         sw = dict(self.switches(b), DEXENGINE_COMBO_USD_VARIANT=AS.plate_variant(arm, hand))
         with _env(DEXENGINE_MAIN_ROOT=str(self.root)):
             items = [Item(it.path, it.kind, "render:plate") for it in robot_inputs(arm, hand, sw)]
-            items += [Item(LA.mirror_root() / f, "look", "render:look") for f in LA.base_files()]
+            items += [Item(LA.mirror_root() / f, "look", "render:look") for f in LA.render_files()]
             for c in b["clips"]:
                 td = P.ClipPaths(c, b["combo"], hand, b["dataset"], b["emb"]).tree_dir.parent
                 items += [Item(td / "F0_REPAIR.json", "tree", "render:f0-meta")] * (td / "F0_REPAIR.json").is_file()

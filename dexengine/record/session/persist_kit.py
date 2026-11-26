@@ -44,7 +44,7 @@ def render_clip_launch(dump: str, seq_dir: str, plan_path: str) -> tuple[list[st
 
     argv, env = load_dump(dump)
     argv = KX.apply(argv)
-    require(argv, "--kinematic_replay", "--render_per_clip_videos", "--enable_cameras")
+    require(argv, "--kinematic_replay", "--record_session", "--enable_cameras")
     argv = KX.apply_render_threads(argv)
     argv = KX.apply_driver_check(argv)  # RTX driver check off (same order as main's render_clip branch)
     set_arg(argv, "--sequence_dir", seq_dir)
@@ -52,7 +52,7 @@ def render_clip_launch(dump: str, seq_dir: str, plan_path: str) -> tuple[list[st
     if os.path.realpath(plan["seq_dir"]) != os.path.realpath(seq_dir):
         raise SystemExit(f"{MARK} --seq-dir {seq_dir} != plan seq_dir {plan['seq_dir']}")
     set_arg(argv, "--videos_out_dir", os.path.join(plan["out"], "_videos"))
-    env = dict(env, **{CC.ENV_SWITCH: "1", "DEXENGINE_RENDER_VIEWS": "ego,front"})
+    env = dict(env, **{CC.ENV_SWITCH: "1"})
     env.update(COLLECT_OUT=plan["out"], COLLECT_PLAN=os.path.abspath(plan_path), DEXENGINE_SEQ_LIST=plan["seq_list"])
     return argv, env
 
@@ -170,6 +170,9 @@ def _next_stage(app) -> str:
 
     from isaaclab.sim.utils.stage import create_new_stage
 
+    from dexengine.record.looks import look_guard as LG
+
+    print(LG.clear("Kit-reuse worker: next clip's stage"), flush=True)  # the token belongs to the stage being dropped
     omni.timeline.get_timeline_interface().stop()
     app.update()
     old = sum(1 for _ in omni.usd.get_context().get_stage().TraverseAll())

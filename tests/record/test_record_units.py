@@ -79,22 +79,34 @@ def test_read_table_threads_off(tmp_path):
         read_table(p, use_threads=True)
 
 
-def test_render_look_values(tmp_path):
-    """The one render look (record.looks.render_look): MDLs under the process's data-root mirror, caller values win,
-    the ego focal length follows RENDER_EGO_FOCAL_MM, and a preset name other than the look's dies."""
-    from dexengine.record.looks import look_assets as LA
-    from dexengine.record.looks import render_look as RL
+def test_scene_env_values():
+    """The build-time scene inputs of a drawing dump (record.looks.scene_env): key light 3200 unless the caller set one,
+    focal length always 12; no knob of the old render look is produced."""
+    from dexengine.record.looks import scene_env as SE
 
-    env = {"DEXENGINE_MAIN_ROOT": str(tmp_path)}
-    got = RL.env(REPO, env)
-    mats = tmp_path.resolve() / LA.MIRROR_REL / RL.MATERIALS_REL
-    assert got["DEXENGINE_AUG_DESK_MDL"] == str(mats / "vMaterials_2/Metal/Aluminum_Brushed.mdl")
-    assert (got["DEXENGINE_KEY_LIGHT"], got["DEXENGINE_CAMERA_FOCAL_MM"]) == ("3200", "12")
-    mine = RL.env(REPO, {**env, "DEXENGINE_KEY_LIGHT": "999", "RENDER_EGO_FOCAL_MM": "8", "PRESET": RL.NAME})
-    assert "DEXENGINE_KEY_LIGHT" not in mine and mine["DEXENGINE_CAMERA_FOCAL_MM"] == "8"
-    assert RL.mdl_rels() == [f"{RL.MATERIALS_REL}/{r}" for r in RL.MDL.values()]
-    with pytest.raises(ValueError, match="one render look"):
-        RL.env(REPO, {**env, "PRESET": "none"})
+    got = SE.env({})
+    assert got == {"DEXENGINE_KEY_LIGHT": "3200", "DEXENGINE_CAMERA_FOCAL_MM": "12"}
+    mine = SE.env({"DEXENGINE_KEY_LIGHT": "999", "DEXENGINE_CAMERA_FOCAL_MM": "8"})
+    assert mine == {"DEXENGINE_CAMERA_FOCAL_MM": "12"}
+    assert SE.env({"DEXENGINE_CAMERA_FOCAL_MM": "12", "DEXENGINE_KEY_LIGHT": "3200"}) == {}
+
+
+def test_look_d_room_geometry():
+    """Look D owns its room (no knob): four single-sided UV quads at /World/AugRoom (6 x 6 m, 2.6 m, centre (-0.7, 0)),
+    read back as the bounds look_d.apply stores in render_meta."""
+    pytest.importorskip("pxr")
+    from pxr import Usd, UsdGeom
+
+    from dexengine.record.looks import look_d as LOOK
+
+    stage = Usd.Stage.CreateInMemory()
+    LOOK._spawn_room(stage)
+    room = LOOK._room(stage)
+    assert room == pytest.approx({"x0": -3.7, "x1": 2.3, "y0": -3.0, "y1": 3.0, "h": 2.6})
+    for nm in LOOK.WALLS:
+        m = UsdGeom.Mesh(stage.GetPrimAtPath(f"{LOOK.ROOM_ROOT}/{nm}"))
+        assert m.GetDoubleSidedAttr().Get() is False
+        assert UsdGeom.PrimvarsAPI(m).GetPrimvar("st").IsDefined()
 
 
 def test_stage4_record_dispatch_table():

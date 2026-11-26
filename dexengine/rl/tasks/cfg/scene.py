@@ -93,8 +93,8 @@ class TacoEvalSceneCfg(InteractiveSceneCfg):
     physical interaction.
     """
 
-    # Visual floor -- 20x20m, no material of its own: training and judging draw nothing, and every render binds the
-    # render look's floor (rl.render.scene_look DEXENGINE_AUG_FLOOR_MDL — a render without it dies; look D rebinds it).
+    # Visual floor -- 20x20m, no material of its own: training and judging draw nothing, and the one canonical look
+    # (record.looks.look_d.apply) binds its floor material before any frame is drawn.
     # The walnut cloud MDL it carried was never seen.
     floor = AssetBaseCfg(
         prim_path="/World/Floor",
@@ -207,8 +207,8 @@ class TacoEvalSceneCfg(InteractiveSceneCfg):
         ),
     )
 
-    # Lights — a grey dome without texture (colour and intensity: cfg/constants.py); a render sets its intensity and
-    # colour through the render look (rl.render.scene_look DEXENGINE_AUG_LIGHT).
+    # Lights — a grey dome without texture (colour and intensity: cfg/constants.py); the canonical look
+    # (record.looks.look_d.apply) turns it off and lights the room with its ceiling panels.
     light = AssetBaseCfg(
         prim_path="/World/light",
         spawn=sim_utils.DomeLightCfg(

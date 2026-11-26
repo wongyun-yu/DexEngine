@@ -30,6 +30,8 @@ drive.
           Three consecutive bundles failing for the same reason stop that worker ([COLLECT_PILOT] ✗ worker stopped).
   spec, rc  --spec mode and the final rc rule are record.driver_spec (module doc) · pyarrow is store.parquet.
   modules   driver_launch (gates, queue, claim) · driver_bundle (one bundle's calls and end) · driver_check (checks).
+  index     before the claim, each queued dataset's render-only object index is built when missing
+          (scene.render_only_entry.ensure_index; it is not a shipped input).
 Markers: [COLLECT_PILOT] … · end line [COLLECT_PILOT] END <reason> bundles done n · failed m · left k · rc <rc> <name>.
 """
 
@@ -311,6 +313,15 @@ def drive(a) -> tuple[list[dict], int]:
     return results, left
 
 
+def ensure_render_only(a) -> None:
+    """Each queued dataset's render-only object index, built once here when missing, before any worker starts (the
+    bundles then find it; record.bundle.ensure_render_only makes the same call for a bundle run alone)."""
+    from dexengine.record.scene import render_only_entry as ROE
+
+    for ds in sorted({b["dataset"] for b in a.queue}):
+        ROE.ensure_index(ds)
+
+
 def main() -> int:
     a = parse_args()
     SPM.resolve(a)
@@ -320,6 +331,7 @@ def main() -> int:
         for b in a.queue:
             print(f"{b['dataset']}\t{bdir_name(b)}\t{len(b['clips'])}")
         return 0
+    ensure_render_only(a)
     claim(a)
     return SPM.run_rc(*drive(a))
 

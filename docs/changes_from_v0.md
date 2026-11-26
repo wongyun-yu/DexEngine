@@ -159,15 +159,46 @@ branch already carries.
 ## Rendering
 
 - **No video after bimanual training:** the bimanual training job no longer renders a video when training ends; the
-  `DO_VIDEO` input and the `--no-video` flag are gone, and videos come only from the separate render step.
+  `DO_VIDEO` input and the `--no-video` flag are gone, and robot videos come only from the record render (also in v0).
 - **MANO render:** hand and object stay in time on retimed (padded) clips.
-- **Policy videos:** `--render_markers 0` also removes the axis markers.
+- **One render path:** every robot frame comes from the record render (`scripts/stage4_record.py`) under one look,
+  look D. `dexengine.record.looks.look_d.apply` builds the room walls itself (same geometry as before: 6 x 6 m, 2.6 m
+  high, centred at (-0.7, 0)), zeroes the env cfg's dome and key light and binds look D's own floor, wall, ceiling and
+  desk materials. The old render look's base layer, which look D used to draw over, is gone: its wall, floor and desk
+  materials and its dome intensity were all replaced by look D before the first frame, so the visible output is meant
+  to be unchanged; render_meta's `render_look.applied.canon_lights_prev` now records the dome at the env cfg's
+  intensity instead of 1600. The record render's cache key covers the new look files, so cached renders are drawn
+  again once (also in v0).
+- **Frame guard:** `dexengine.record.looks.look_guard` makes the record rig's camera read, the episode writer, the
+  random looks' reference stills, the pose still and the video encoders of the closed-loop evaluation (E5) die
+  unless look D was applied to the current stage in the same process. A Kit-reuse worker drops the token at every
+  clip's new stage. Render session logs must carry the token line (also in v0).
+- **RL renderers removed:** the per-clip policy and replay videos (with their `--render_markers` and `--videos_*`
+  flags), the tiled trajectory replay `DEXENGINE_TRAJ_RENDER`, the four-view kinematic replay, `cell_tools render`,
+  `cell_session replay`, the gym viewport recorder `--video` and the RSI still frames are gone, with the old render
+  look. The trainer draws nothing; with `--record_session` (replacing `--render_per_clip_videos`) it hands its env to
+  the record session's function (`dexengine.rl.session_render`), and dies when no session attached one. `RENDER_ONLY`
+  and `FROZEN_RENDER_OUT` only write dumps. Removed inputs die with a pointer to the record render
+  (`dexengine.rl.render_removed`) (also in v0).
+- **Pose still:** `rl.render.pose_check` (the frame-0 pose still of a new arm and hand) applies look D and passes the
+  frame guard (also in v0).
+- **Look-D mirror:** the mirror no longer lists the old base-layer materials; a mirror built before still verifies
+  (also in v0).
+- **Render-only objects of a root without the axis hand:** the generator of the record's render-only object index
+  (`python -m dexengine.record.scene.render_only_build`) takes `--root-hands <hand>[,…]` for a root that does not hold
+  the axis hand (for example one with `wuji2` only). The statement is checked against the base layers (a stated hand
+  without base trees, a hand with base trees left out, or an unknown hand dies); every clip then takes the base tree of
+  the first hand by name that has it. Without the statement such a root dies as before (also in v0).
+- **Render-only object index built by the record:** `scripts/stage4_record.py drive` and `bundle` build a dataset's
+  missing render-only object index for the whole dataset before their work, where the record render used to die with
+  "render-only object index missing … run the generator first". The hands are derived from the base layers: the axis
+  hand when it has base trees, otherwise the one hand of the root; any other root dies, and a clip that cannot be
+  measured writes nothing and stops the run. An index already present is used as it is (also in v0).
 - **View choice record:** `orig_fov.measured` is the original clip's own grasp-visibility measurement. In v0 it was
   the last probed variant's value. The pilot check now compares the original's record with that value.
-- **Floor material:** the floor no longer carries its own hidden wood material under the visible stone material.
-  Trajectories and judge values are byte-identical; in the two oblique views the stone-joint detail of the floor
-  differs, and the time-averaged PSNR against v0 renders is about 0.5 dB lower than between two v0 renders (front and
-  ego views unchanged).
+- **Floor material:** the scene's floor plane no longer carries a material of its own (v0: a wood material that no
+  frame shows, since look D binds its floor material before any frame). Trajectories and judge values are
+  byte-identical.
 
 ## Runtime
 

@@ -88,7 +88,7 @@ A code-only checkout (a second clone or a worktree) names the data root and uses
 
 Run outputs — the RL work areas (`overfit/logs/refbase` launch logs and manifests, `logs/skrl/dexengine` run folders),
 the hand roots under `overfit/hands/`, default video folders (`results/taco/videos`) and relative output options
-(`--video_dir`, `--videos_out_dir`, `--log-dir` of `dexengine.retarget.admit`) — go to the run tree, never the cwd.
+(`--videos_out_dir`, `--log-dir` of `dexengine.retarget.admit`) — go to the run tree, never the cwd.
 The run tree follows the kind of the data root (`dexengine.core.paths.run_root_of`): the code checkout when the data
 root is that checkout or another main checkout (a worktree naming the main checkout keeps its runs apart), the data
 root itself for a release or copied data root and for a registered generation, and its base's run tree for a shadow
@@ -182,7 +182,12 @@ gym entry point, at import time, where no command line reaches.
 **Set by the launchers.** Users do not set these:
 
 - `SIDE`, `GPU`, `SEQ_DIR`, `DEXENGINE_SEQ_LIST`, `FROZEN_REPLAY_*`, `RENDER_ONLY`, … are what the flags of
-  `scripts/stage3_rl.py` become. A recorded launch environment can be replayed as is.
+  `scripts/stage3_rl.py` become. A recorded launch environment can be replayed as is. `RENDER_ONLY` and
+  `FROZEN_RENDER_OUT` only write dumps for a record session (with `DUMP_ONLY=1` or `DRYRUN=1`).
+- The scene inputs of those dumps (`DEXENGINE_KEY_LIGHT`, `DEXENGINE_CAMERA_FOCAL_MM`) come from
+  `dexengine.record.looks.scene_env`; the look itself is `dexengine.record.looks.look_d`. The knobs of the old render
+  look (`DEXENGINE_AUG_*`, `DEXENGINE_LOG_EGO_PITCH`, `RENDER_EGO_FOCAL_MM`, `PRESET`) and the other removed renderer
+  inputs (`dexengine.rl.render_removed`) die when set.
 - The trainer-side `DEXENGINE_*` knobs come from the recipe.
 - `DEXENGINE_SCENE` comes from `stage2_ground.sh --scene`.
 

@@ -16,7 +16,7 @@ from dexengine.rl.launch.recipe import RecipeError
 from tests.rl.test_launch import CASES, parse_case
 
 TRAINING = REPO_ROOT / "dexengine/rl/launch/training.py"
-RENDER_NAMES = ("render_call", "render_calls", "render_out", "render_look_env")
+RENDER_NAMES = ("render_call", "render_calls", "render_out", "scene_env")
 
 
 def _trained(monkeypatch, tmp_path: Path, path: str):

@@ -259,8 +259,8 @@ def _add_pose_render_args(parser) -> None:
     """Initial-pose still render (policy-free diagnostic)."""
     # --- Initial-pose still render ---
     # A policy-free diagnostic, so no --checkpoint: the reset sends the arm to the arm-IK frame-0 solution, the
-    # hand to the reference qpos and the object to the reference pose. Needs --render_per_clip_videos --num_envs 1
-    # (front_camera).
+    # hand to the reference qpos and the object to the reference pose. Needs --num_envs 1 (create_env adds the
+    # front_camera: record.render.cameras.add_scene_cameras) and draws in the canonical look (record.looks.look_d).
     parser.add_argument(
         "--pose_render_out",
         type=str,

@@ -6,6 +6,7 @@ render.clip_session.render_clip) use the same path.
     held for the whole episode). add(cap) = put one frame into the queue (main thread; waits when full). Thread =
     append_data to the imageio writers (args MP4_ARGS) and fill the depth uint16 conversion
     (render.cameras.depth_to_png16) into an [n, H, W] array allocated at the first frame.
+  Frame guard: the constructor and add() call looks.look_guard.require (no frame without the canonical look).
   seal(): end mark -> the thread closes the mp4s and compresses the depth (write, round trip checked) in the
     background.
   wait(): join the thread and return its result (depth info, seconds). A failed thread, or one not done within
@@ -33,6 +34,8 @@ import subprocess
 import threading
 import time
 from pathlib import Path
+
+from dexengine.record.looks import look_guard as LG  # stdlib only (frame guard)
 
 # numpy and imageio are imported inside functions: the render session (Kit) imports this file at module level, and
 # numpy before AppLauncher makes the [PRE_APP] guard kill the session.
@@ -72,6 +75,7 @@ class EpisodeWriter:
     """mp4 and depth writing of one episode (contract in the module doc)."""
 
     def __init__(self, out: Path, n: int, videos: tuple, fps: int, depth_file: str):
+        LG.require(f"render.writer.EpisodeWriter({Path(out).name})")  # no mp4 without the canonical look
         self.out, self.n, self.videos, self.fps, self.depth_file = Path(out), int(n), tuple(videos), fps, depth_file
         self.q: queue.Queue = queue.Queue(maxsize=QUEUE_FRAMES)
         self.err: BaseException | None = None
@@ -90,6 +94,7 @@ class EpisodeWriter:
 
     # ── main thread ──────────────────────────────────────────────────────────
     def add(self, cap: dict) -> None:
+        LG.require("render.writer.EpisodeWriter.add")
         self._raise_if_failed()
         item = {v: cap[v] for v in self.videos}
         item["depth_m"] = cap["depth_m"]

@@ -1,5 +1,5 @@
 """Body of a closed-loop evaluation session: replaces the canonical frozen render point
-(record render `_run_per_clip_video_render`, swapped in by session.py).
+(the trainer's render seam `dexengine.rl.session_render.render`, attached by session.py).
 
 Why this point: a `RENDER_ONLY=<checkpoint>` dump has the argv and env of the stage-1 record dump (only the render
 fields and the env count differ — prep compares both and stores the result in job.json) and reaches here after the
@@ -326,7 +326,7 @@ def _source_camera(S, plan, loaded, raw_env, names, ep):
 def _settle_look(look, plan, S, T, ep, job):
     """Dress the scene in the episode look (random look via the look run, or look D) and settle it; returns
     (settle info, exposure ev)."""
-    from dexengine.record.looks import look_d as LOOK
+    from dexengine.record.looks import look_settle as LS
     from dexengine.record.looks import rev as LREV
 
     if (
@@ -338,14 +338,14 @@ def _settle_look(look, plan, S, T, ep, job):
         LR = LRN.look_run_cls()(S, lo)
         LRN.adopt(LR, plan)
         spec, info = LR.spec_for(T, ep, plan)
-        ls = LOOK.settle(S.rig)
+        ls = LS.settle(S.rig)
         ev = 0.0
         _say(
             f"[E5_LOOK] random look {look} · key {plan.get('look_key')} · deck {plan.get('deck')} · "
             f"overlays {sorted(info)[:8]}"
         )
     else:
-        ls = LOOK.settle(S.rig)
+        ls = LS.settle(S.rig)
         ev = float(((job["episode"].get("look") or {}).get("exposure") or {}).get("ev", LREV.LOOK_REV["d_ev"]))
     return ls, ev
 

@@ -91,13 +91,13 @@ def bind_entry(
     stage, prim_path: str, name: str, entry: dict, look_key: str, man: dict, root: Path, tint=(0, 0.0)
 ) -> bool:
     """Binds one material + tint (AVC.tint_rgb, linear multiply with the fixed tint) to a prim."""
-    from dexengine.rl.render import scene_look as VA
+    from dexengine.record.looks import usd_bind as UB
 
     # top = the desk material (world m projection) · floor and walls = object coordinate projection
     if entry["kind"] == "look_d":
         if look_key == "desk":
             return bool(DM.bind_desk(stage, prim_path, name, LOOK.local(LOOK.MDL[look_key])))
-        return VA._bind_mdl(stage, prim_path, name, LOOK.local(LOOK.MDL[look_key]), project=True)
+        return UB.bind_mdl(stage, prim_path, name, LOOK.local(LOOK.MDL[look_key]), project=True)
     t2 = AVC.tint_rgb(tint)
     if entry["kind"] == "solid":
         return _omnipbr(

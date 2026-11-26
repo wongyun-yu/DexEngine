@@ -1,7 +1,7 @@
 """[CANON_USE]: the one place where a checkpoint meets a clip list. The trainer entry (dexengine/rl/cli.py) calls
 check_args() in both data branches (--sequence_dir once its roster is resolved, else the --sequence/--data_dir trees)
-for every argument that loads policy weights (WEIGHT_ARGS: a resumed training, the frozen-replay judge, a RENDER_ONLY
-render, a rescore, the one-hand render and objtrace (--checkpoint), the dual eval), before the env is built.
+for every argument that loads policy weights (WEIGHT_ARGS: a resumed training, the frozen-replay judge, a frozen-render
+dump replayed by a record session, a rescore, objtrace (--checkpoint), the dual eval), before the env is built.
 
   cell         a checkpoint under a campaign cell: <the hand's run_rl_campaigns layer>/<campaign>/<ds>/<bundle>/ holding
                launch.json, with the checkpoint below it (skrl/<RUN>/checkpoints/agent_N.pt, links resolved). A

@@ -277,6 +277,52 @@ def depth_colormap(depth_m, rng=DEPTH_VIZ_RANGE_M):
 
 # ── add the cameras to the scene cfg (off by default) ───────────────────────────────────────────────────
 
+#: Front camera of a drawing scene: third person from +X, close and high at (0.35, 0, 1.45), looking at hand height
+#: (0, 0, 1.0) (pitch -52.1°); focal 12 -> FOV 82°. Robot base at ROBOT_DEFAULT_POS=(-0.5, 0.25, 0.35), desk top z=0.76.
+#: The exo camera is a copy of it (add_collect_cameras) and pose_check moves it per view.
+FRONT_CAMERA = {
+    "prim": "{ENV_REGEX_NS}/FrontCamera",
+    "focal_length": 12.0,
+    "focus_distance": 400.0,
+    "horizontal_aperture": 20.955,
+    "clipping_range": (0.05, 5.0),
+    "pos": (0.35, 0.0, 1.45),
+    "rot": (0.6688, 0.2295, 0.2295, 0.6688),  # look-at (0, 0, 1.0), OpenGL convention (w, x, y, z)
+}
+
+
+def add_scene_cameras(cfg) -> str:
+    """Cameras of a scene that draws (trainer flag --record_session or --pose_render_out, one env): the env cfg's head
+    camera rendered every sim step, plus FRONT_CAMERA at the DEXENGINE_CAMERA_RES square resolution. Training and
+    judging scenes have neither (dexengine.rl.app.training_scene). -> marker line."""
+    import isaaclab.sim as sim_utils
+    from isaaclab.sensors import CameraCfg
+
+    from dexengine.rl.tasks import switches  # stdlib only
+
+    head = getattr(cfg.scene, "head_camera", None)
+    if head is not None:  # the default period 0.1 s (10 fps) would repeat each frame 5x at 50 Hz
+        head.update_period = 0.0
+    res, f = int(switches.text("DEXENGINE_CAMERA_RES")), FRONT_CAMERA
+    cfg.scene.front_camera = CameraCfg(
+        prim_path=f["prim"],
+        update_period=0.0,
+        height=res,
+        width=res,
+        data_types=["rgb"],
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=f["focal_length"],
+            focus_distance=f["focus_distance"],
+            horizontal_aperture=f["horizontal_aperture"],
+            clipping_range=f["clipping_range"],
+        ),
+        offset=CameraCfg.OffsetCfg(pos=f["pos"], rot=f["rot"], convention="opengl"),
+    )
+    return (
+        f"[SCENE_CAM] head_camera every step ({'present' if head is not None else 'absent'}) · front_camera "
+        f"{res}x{res} focal {f['focal_length']} mm at {f['pos']}"
+    )
+
 
 def add_collect_cameras(cfg) -> str:
     """Add collect_ego_left/right (ZED Mini HD720 calibrated K, calibrated mount, drawn at render size and cropped) and
@@ -296,7 +342,7 @@ def add_collect_cameras(cfg) -> str:
     if head is None or front is None:
         raise InputMissingError(
             "[COLLECT_CAM] canonical head_camera and front_camera are not in the scene: start with "
-            "--render_per_clip_videos --enable_cameras --num_envs 1"
+            "--record_session --enable_cameras --num_envs 1 (add_scene_cameras)"
         )
     k = zed_intrinsics()
     rig = zedm_rig()

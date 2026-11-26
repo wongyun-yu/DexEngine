@@ -3,7 +3,8 @@
 A run is complete when its final checkpoint agent_<MI × rollouts>.pt exists; a launch whose final checkpoint
 already exists does not train again (it only writes the results row; its dry run writes nothing and starts nothing).
 Judging is the separate fresh-process judge (`dexengine.rl.judge`), never part of training. The training entry draws
-no video: training runs without the renderer, and videos are a render launch (`--mode render`).
+nothing: training runs without the renderer, and robot videos come only from the record render
+(scripts/stage4_record.py).
 
 Automatic resume (bimanual): when the trainer log shows a GPU memory failure (PhysX/CUDA allocation errors) or the
 trainer's planned restart marker `[MEM_RESTART] iter`, training resumes from the last checkpoint saved before the

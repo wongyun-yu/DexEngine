@@ -52,8 +52,6 @@ hot3d
 42
 --slowdown_factor
 1.0
---videos_max_attempts
-1
 --freeze_curriculum
 --reference_base
 1
@@ -115,11 +113,8 @@ mano
 1
 --disable_fingertip_termination
 1
---render_per_clip_videos
---videos_warmup_attempts
-0
+--record_session
 --enable_cameras
---viz_mano_fingertips
 --kinematic_replay
 --wrist_pos_residual_max_m
 0.07
@@ -149,8 +144,6 @@ mano
 token
 --policy_size
 tiny
---render_markers
-0
 --arm
 rby1
 --hand
@@ -159,10 +152,6 @@ sharpa_wave
 results/taco/videos/EXT_replay_uni_replay4view
 ENV::DEXENGINE_ARM=rby1
 ENV::DEXENGINE_ARM_IK_DIR_SUFFIX=_cont25
-ENV::DEXENGINE_AUG_DESK_MDL=<MAIN>/data/assets/scene_canon/collect_look_d/Assets/Isaac/4.5/NVIDIA/Materials/vMaterials_2/Metal/Aluminum_Brushed.mdl
-ENV::DEXENGINE_AUG_FLOOR_MDL=<MAIN>/data/assets/scene_canon/collect_look_d/Assets/Isaac/4.5/NVIDIA/Materials/Base/Stone/Fieldstone.mdl
-ENV::DEXENGINE_AUG_LIGHT=1600,0.15,0.15,0.15
-ENV::DEXENGINE_AUG_ROOM=<MAIN>/data/assets/scene_canon/collect_look_d/Assets/Isaac/4.5/NVIDIA/Materials/vMaterials_2/Plaster/Plaster_Wall.mdl
 ENV::DEXENGINE_CAMERA_FOCAL_MM=12
 ENV::DEXENGINE_CKPT_INTERVAL=50
 ENV::DEXENGINE_COMBO_USD_VARIANT=_mi_armhull
@@ -174,7 +163,6 @@ ENV::DEXENGINE_ENVZ=1
 ENV::DEXENGINE_HAND=sharpa_wave
 ENV::DEXENGINE_INTRAIN_EVAL=0
 ENV::DEXENGINE_KEY_LIGHT=3200
-ENV::DEXENGINE_LOG_EGO_PITCH=1
 ENV::DEXENGINE_MAIN_ROOT=<MAIN>
 ENV::DEXENGINE_MOUNT_TOL=0.0025
 ENV::DEXENGINE_RBY1_BASE_POS=-0.70,0.0,0.0
@@ -194,8 +182,6 @@ hot3d
 42
 --slowdown_factor
 1.0
---videos_max_attempts
-1
 --freeze_curriculum
 --reference_base
 1
@@ -257,11 +243,8 @@ mano
 1
 --disable_fingertip_termination
 1
---render_per_clip_videos
---videos_warmup_attempts
-0
+--record_session
 --enable_cameras
---viz_mano_fingertips
 --kinematic_replay
 --wrist_pos_residual_max_m
 0.07
@@ -291,8 +274,6 @@ mano
 token
 --policy_size
 tiny
---render_markers
-0
 --arm
 rby1
 --hand
@@ -301,10 +282,6 @@ sharpa_wave
 results/taco/videos/EXT_replay_uni_replay4view
 ENV::DEXENGINE_ARM=rby1
 ENV::DEXENGINE_ARM_IK_DIR_SUFFIX=_cont25
-ENV::DEXENGINE_AUG_DESK_MDL=<MAIN>/data/assets/scene_canon/collect_look_d/Assets/Isaac/4.5/NVIDIA/Materials/vMaterials_2/Metal/Aluminum_Brushed.mdl
-ENV::DEXENGINE_AUG_FLOOR_MDL=<MAIN>/data/assets/scene_canon/collect_look_d/Assets/Isaac/4.5/NVIDIA/Materials/Base/Stone/Fieldstone.mdl
-ENV::DEXENGINE_AUG_LIGHT=1600,0.15,0.15,0.15
-ENV::DEXENGINE_AUG_ROOM=<MAIN>/data/assets/scene_canon/collect_look_d/Assets/Isaac/4.5/NVIDIA/Materials/vMaterials_2/Plaster/Plaster_Wall.mdl
 ENV::DEXENGINE_CAMERA_FOCAL_MM=12
 ENV::DEXENGINE_CKPT_INTERVAL=50
 ENV::DEXENGINE_COMBO_USD_VARIANT=_mi_armhull
@@ -316,7 +293,6 @@ ENV::DEXENGINE_ENVZ=1
 ENV::DEXENGINE_HAND=sharpa_wave
 ENV::DEXENGINE_INTRAIN_EVAL=0
 ENV::DEXENGINE_KEY_LIGHT=3200
-ENV::DEXENGINE_LOG_EGO_PITCH=1
 ENV::DEXENGINE_MAIN_ROOT=<MAIN>
 ENV::DEXENGINE_MOUNT_TOL=0.0025
 ENV::DEXENGINE_RBY1_BASE_POS=-0.70,0.0,0.0

@@ -12,7 +12,6 @@ from __future__ import annotations
 import os
 import shutil
 import tempfile
-import time
 from pathlib import Path
 
 from dexengine.rl.launch import modes, process, records
@@ -22,8 +21,8 @@ from dexengine.rl.launch.request import Request
 
 #: MODE= token of the manifest (readers count training runs by it).
 MANIFEST_MODE = {"train": "train", "smoke": "smoke", "judge": "frozenreplay", "render": "render", "replay": "replay"}
-#: GPU memory (MiB) a launch waits for before it starts.
-NEED_MIB = {"train": 24000, "judge": 24000, "render": 10000, "replay": 10000}
+#: GPU memory (MiB) a launch waits for before it starts (render and replay only write dumps).
+NEED_MIB = {"train": 24000, "judge": 24000}
 
 
 def out_name(req: Request) -> str:
@@ -81,9 +80,9 @@ def run(req: Request) -> int:
     if req.mode == "judge":
         return _judge(plan, ref, need)
     if req.mode == "render":
-        return _render(plan, ref, need)
+        return _render(plan, ref)
     if req.mode == "replay":
-        return _replay(plan, ref, need)
+        return _replay(plan, ref)
     from dexengine.rl.launch import training
 
     return training.train(plan, ref, need)
@@ -126,40 +125,27 @@ def _judge(plan: Plan, ref: Path, need: int) -> int:
     return process.dry_done(rc, f"JUDGE {req.out}", req.preflight) if req.dry_run else rc
 
 
-def _render(plan: Plan, ref: Path, need: int) -> int:
+def _render(plan: Plan, ref: Path) -> int:
+    """Dump only (Request: DRAW_MODES_DUMP_ONLY): one frozen-render dump per checkpoint for a record session."""
     req = plan.req
-    look = modes.render_look_env(plan, physx_lite=True)
-    calls = modes.render_calls(plan, look)
-    if not req.dry_run and need and calls:
-        process.wait_gpu(calls[0].gpu, need)
+    calls = modes.render_calls(plan, modes.scene_env(plan, physx_lite=True))
     first_rc = 0
     for call in calls:
-        rc = process.start(process.resolve_call(plan, call, ref), req.root, req.dry_run)
-        out = call.extra_flags.rsplit("--videos_out_dir ", 1)[1].split()[0]
-        n = len(list(records.P.run_out(out, req.run_tree).glob("*.mp4"))) if not req.dry_run else 0
-        print(f"[launch] RENDER {call.exp} rc={rc} mp4={n}", flush=True)
-        first_rc = first_rc or rc
-    print(f"[launch] render done ({len(calls)} checkpoints)", flush=True)
-    return first_rc
+        first_rc = first_rc or process.start(process.resolve_call(plan, call, ref), req.root, req.dry_run)
+    print(f"[launch] render dumps {len(calls)} checkpoints (a record session draws them)", flush=True)
+    return process.dry_done(first_rc, f"RENDER {req.run}", req.preflight)
 
 
-def _replay(plan: Plan, ref: Path, need: int) -> int:
-    """Kinematic replay, one session per clip; clip videos are renamed <clip>_<view>_kinematic.mp4."""
+def _replay(plan: Plan, ref: Path) -> int:
+    """Dump only (Request: DRAW_MODES_DUMP_ONLY): one kinematic replay dump per clip (one-clip view folder each) for
+    the record render."""
     req = plan.req
-    look = modes.render_look_env(plan, physx_lite=req.path == "bi")
-    if not req.dry_run and need:
-        process.wait_gpu(req.gpu, need)
-    od = modes.replay_out_dir(plan)
-    odw = records.P.run_out(records.P.mode_record(od, "dryrun") if req.dry_run else od, req.run_tree)
-    odw.mkdir(parents=True, exist_ok=True)
-    ledger = odw / "_replay.done"
-    ledger.write_text("")
+    look = modes.scene_env(plan, physx_lite=req.path == "bi")
     clips = modes.replay_clips(plan)
-    ok, first_rc = 0, 0
+    first_rc = 0
     tmp = Path(tempfile.mkdtemp(prefix="replay_seq_"))
     try:
         for c in clips:
-            t0 = time.time()
             for e in tmp.iterdir():
                 e.unlink()
             (tmp / c).symlink_to(os.path.realpath(Path(req.seq_dir) / c))
@@ -167,29 +153,10 @@ def _replay(plan: Plan, ref: Path, need: int) -> int:
                 process.resolve_call(plan, modes.replay_call(plan, str(tmp), c, look), ref), req.root, req.dry_run
             )
             first_rc = first_rc or rc
-            got = 0
-            for view in ("ego", "front", "side", "side_front"):
-                src = sorted(odw.glob(f"[0-9][0-9]_*_{view}_kinematic.mp4"))
-                if src:
-                    shutil.move(src[0], odw / f"{c}_{view}_kinematic.mp4")
-                    got += 1
-            (odw / "manifest.txt").unlink(missing_ok=True)
-            good = got == 4 and rc == 0
-            ok += good
-            with open(ledger, "a") as f:
-                f.write(
-                    f"{c} ok (views 4, {time.time() - t0:.0f}s)\n"
-                    if good
-                    else f"{c} FAIL (views {got}, rc={rc}, log {ref}/{req.run}_{c}_replay_render.log)\n"
-                )
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
-    with open(ledger, "a") as f:
-        f.write(f"ALL_REPLAY ok={ok}/{len(clips)}\n")
-    print(f"[launch] replay {ok}/{len(clips)} clips -> {od} (ledger {ledger})", flush=True)
-    if req.dry_run:
-        return process.dry_done(first_rc, f"REPLAY {req.run}", req.preflight)
-    return 0 if ok == len(clips) else (first_rc or 1)
+    print(f"[launch] replay dumps {len(clips)} clips (the record render draws them)", flush=True)
+    return process.dry_done(first_rc, f"REPLAY {req.run}", req.preflight)
 
 
 def _read(p: Path) -> str:

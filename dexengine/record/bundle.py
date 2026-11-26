@@ -29,8 +29,10 @@ inference and eval code.
         (LeRobot v2.1 form + depth and forces) · preview store.preview · place = piece.round_dir · loader field =
         store.meta.loader_meta · meaning of --round = record.episodes.
 Cache keys (stage-1 reuse, stage-2 render fingerprint) and code fingerprint rules = record.cache.
-Writes only under --out (data root, cells and judge records are read only). Switches and placement augment =
-record.chain (default on).
+Writes only under --out (data root, cells and judge records are read only), except the render-only object index of a
+dataset that has none: a run that renders builds it before stage 1 (ensure_render_only ->
+scene.render_only_entry.ensure_index; the index is not a shipped input). Switches and placement augment = record.chain
+(default on).
 Record only (--until record: physics-only machines, no render or store): runs stage 1 (64 -> 128 -> 256) and the
   placement augment physics (generation, rollout, post gate, choice, chosen trajectory files), writes the round place
   record.json (targets, trajectories, exclusions) and ends. Render and store: calling the same command again without
@@ -62,7 +64,7 @@ from dexengine.core import paths as P
 from dexengine.core.errors import InputMissingError
 from dexengine.record import chain as CANON
 from dexengine.record import tree_ref as TR  # clip folder tree record and fingerprint check
-from dexengine.record.bundle_cell import cell_of, cells_arm, owner_cells
+from dexengine.record.bundle_cell import cell_of, cells_arm, cells_datasets, owner_cells
 from dexengine.record.cache import (
     cache_key,
     cache_line,
@@ -388,6 +390,23 @@ def _parser():
     return ap
 
 
+def ensure_render_only(cells: list[dict], main: Path) -> None:
+    """The render reads each dataset's render-only object index: built once when missing, before any rollout
+    (dexengine.record.scene.render_only_entry.ensure_index, the data root of this bundle)."""
+    from dexengine.record.scene import render_only_entry as ROE
+
+    old = os.environ.get("DEXENGINE_MAIN_ROOT")
+    os.environ["DEXENGINE_MAIN_ROOT"] = str(main)  # the root stage 1 and the render read (collect_cell sets the same)
+    try:
+        for ds in cells_datasets(cells):
+            ROE.ensure_index(ds)
+    finally:
+        if old is None:
+            os.environ.pop("DEXENGINE_MAIN_ROOT", None)
+        else:
+            os.environ["DEXENGINE_MAIN_ROOT"] = old
+
+
 def main() -> int:
     ap = _parser()
     a = ap.parse_args()
@@ -420,6 +439,7 @@ def main() -> int:
         from dexengine.record.store import slots as CK
 
         CK.stmt_gate(a.hand, [cell for cell, _ in plan], a.main)
+        ensure_render_only([cell for cell, _ in plan], a.main)
     items, sel, cells, want = [], {}, [], []
     for cell, cn in plan:
         want += collect_cell(a, cell, cn, items, sel, cells)

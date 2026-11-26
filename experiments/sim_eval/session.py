@@ -1,8 +1,9 @@
 """Isaac entry of one closed-loop evaluation session.
 
-It relaunches the canonical frozen render dump of the scene (written by `prep`, `RENDER_ONLY=<checkpoint>`) and swaps
-the per-clip video render for `closed_loop.run` through the record session's two hooks (camera/Kit settings check at
-gymnasium.make, render-function swap). Neither the record code nor the training code is changed.
+It relaunches the canonical frozen render dump of the scene (written by `prep`, `RENDER_ONLY=<checkpoint>`) and
+attaches `closed_loop.run` to the trainer's render seam (dexengine.rl.session_render) through the record session's two
+hooks (camera/Kit settings check at gymnasium.make, render-function attach). Neither the record code nor the training
+code is changed.
 
 Use: `E5_JOB=<job_run.json> isaaclab.sh -p experiments/sim_eval/session.py` (run_scene does this).
 job_run.json = the scene's job.json + {out, modes, cap_mult, episode_arrays, policy/policies, eval}.
@@ -28,7 +29,7 @@ def main() -> None:
     plan = json.loads(Path(job["plan"]).read_text())
     argv, env = load_dump(job["dump"])
     argv = KX.apply(argv)
-    require(argv, "--render_per_clip_videos", "--enable_cameras")
+    require(argv, "--record_session", "--enable_cameras")
     argv = KX.apply_render_threads(argv)
     argv = KX.apply_driver_check(argv)
     if os.path.realpath(plan["seq_dir"]) != os.path.realpath(job["seq_dir"]):
@@ -37,7 +38,7 @@ def main() -> None:
     videos = Path(job["out"]) / "_videos"
     videos.mkdir(parents=True, exist_ok=True)
     set_arg(argv, "--videos_out_dir", str(videos))
-    env = dict(env, **{CC.ENV_SWITCH: "1", "DEXENGINE_RENDER_VIEWS": "ego,front"})
+    env = dict(env, **{CC.ENV_SWITCH: "1"})
     if job.get("switches"):  # RL switches of this evaluation over the dump's (run_scene: profile + eval cfg)
         env[switches.SWITCHES_ENV] = switches.derive(
             env[switches.SWITCHES_ENV], job["switches"], Path(job["out"]) / "switches.json"

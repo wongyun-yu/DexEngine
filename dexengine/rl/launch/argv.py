@@ -24,9 +24,10 @@ TABLE_OWNED = {"--obj_obs_fixed": "OBJ_OBS_FIXED", "--enable_force_dir_reward": 
 
 @dataclasses.dataclass
 class Call:
-    """One trainer process. `task` = train (training, judge, physics render) or eval (kinematic replay video).
-    `entry` = what the process is (dexengine.rl.app.ENTRIES — train · judge on the plain kit, render · replay on the
-    rendering kit); the launcher sets it for every process, the trainer reads it from DEXENGINE_ENTRY."""
+    """One trainer process. `task` = train (training, judge, frozen render) or eval (the kinematic replay of the record
+    render). `entry` = what the process is (dexengine.rl.app.ENTRIES — train · judge on the plain kit, render · replay
+    on the rendering kit, dumps for a record session); the launcher sets it for every process, the trainer reads it
+    from DEXENGINE_ENTRY."""
 
     exp: str  # --exp_name; also names the trainer log
     extra_flags: str  # branch flags, appended after the recipe segments (argparse last wins)
@@ -39,13 +40,13 @@ class Call:
     wandb_group: str = ""
     bimanual: bool = False
     seq_dir: str = ""
-    render_out: str = ""  # replay: --videos_out_dir
+    render_out: str = ""  # replay dump: --videos_out_dir (the record session's output folder)
     render_tag: str = ""  # replay: log name tag (_<clip>)
     env: dict = dataclasses.field(default_factory=dict)  # extra trainer environment of this process
     gpu: str = "0"  # CUDA_VISIBLE_DEVICES of the process
     process_env: dict = dataclasses.field(default_factory=dict)  # non-DEXENGINE environment (e.g. WANDB_MODE)
-    #: switch names (environment form) this process sets for its own context (the render look of a judge or a
-    #: render); over a training run's switches record they are the only values the record does not own
+    #: switch names (environment form) this process sets for its own context (the record scene env of a drawing dump);
+    #: over a training run's switches record they are the only values the record does not own
     context_switches: tuple = ()
 
     @property
@@ -188,7 +189,7 @@ def _train_task_argv(call, v, dataset, contact_match, flags, force_dir, obs, phy
 
 
 def _eval_task_argv(call, dataset, contact, flags, force_dir, gate, obs, phys, resid, seq, wrist):
-    """argv of an eval-task process: the per-clip video render of the kinematic replay."""
+    """argv of an eval-task process: the kinematic replay scene a record session draws (--record_session)."""
     return [
         ENTRY,
         "--task",
@@ -203,8 +204,6 @@ def _eval_task_argv(call, dataset, contact, flags, force_dir, gate, obs, phys, r
         "42",
         "--slowdown_factor",
         "1.0",
-        "--videos_max_attempts",
-        "1",
         "--freeze_curriculum",
         *phys,
         *obs,
@@ -236,11 +235,8 @@ def _eval_task_argv(call, dataset, contact, flags, force_dir, gate, obs, phys, r
         "1",
         "--disable_fingertip_termination",
         "1",
-        "--render_per_clip_videos",
-        "--videos_warmup_attempts",
-        "0",
+        "--record_session",
         "--enable_cameras",
-        "--viz_mano_fingertips",
         "--kinematic_replay",
         *(["--bimanual", "1", "--policy_arch", "perhand"] if call.bimanual else []),
         *flags,

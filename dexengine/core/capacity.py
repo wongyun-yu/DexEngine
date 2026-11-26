@@ -129,8 +129,6 @@ NEEDS: dict[str, Need] = {
     "dexengine.record.store.lerobot:prewarm": unmeasured(6, "process"),
     "dexengine.record.store.lerobot:stats": unmeasured(16, "process"),
     "dexengine.placement.bundle.rl_bundle": unmeasured(8, "thread"),
-    "dexengine.rl.render.replay:close": unmeasured(16, "thread"),
-    "dexengine.rl.render.replay:probe": unmeasured(8, "process"),
     "dexengine.retarget.run": unmeasured(8),
     "dexengine.release.fromraw:read": unmeasured(8),
     "dexengine.record.augment.bake_run": unmeasured(8),

@@ -9,7 +9,7 @@ import os
 def frozen_replay(*, _OT_VAR, _ot_recorder_class, frozen_eval_snapshot, raw_env, wrapped, args_cli):
     """Fresh-process judge (``DEXENGINE_FROZEN_REPLAY=1``): one frozen eval of the loaded checkpoint,
     then close the env. ``runner.run()`` is never called, so the weights stay as loaded."""
-    # With DEXENGINE_FROZEN_RENDER=1 the frozen eval renders instead (under the same frozen settings).
+    # With DEXENGINE_FROZEN_RENDER=1 the frozen eval hands its env to a record session instead (same frozen settings).
     print("[FROZEN_REPLAY] ── actual replay call (frozen_eval_snapshot, not a copy) ──", flush=True)
     _fr_iter = int(os.environ.get("DEXENGINE_FROZEN_REPLAY_ITER", "0") or 0)
     _fr_epc_req = int(os.environ.get("DEXENGINE_FROZEN_REPLAY_EVALS_PER_CLIP", str(args_cli.eval_evals_per_clip)))

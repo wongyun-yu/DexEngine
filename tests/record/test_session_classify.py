@@ -9,6 +9,8 @@ from __future__ import annotations
 import pytest
 
 from dexengine.record.looks import look_d as LOOK
+from dexengine.record.looks import look_guard as LG
+from dexengine.record.looks import look_settle as LS
 from dexengine.record.looks import rev as LREV
 from dexengine.record.render import body as BODY
 from dexengine.record.render import clip_session as RCL
@@ -21,7 +23,6 @@ from dexengine.record.scene import supports as SUP
 from dexengine.record.session import launch as L
 from dexengine.record.session import persist_kit as PK
 from dexengine.record.session import runner as SR
-from dexengine.rl.render import scene_look as VA
 
 DONE_R, DONE_T, DONE_C = "[COLLECT_RENDER] DONE", "[TRAJ_REC] DONE", f"{RCL.MARK} DONE"
 TREE = f"{SR.MARK} tree=/x commit=0 branch=b"
@@ -29,12 +30,10 @@ HOOK_R = L.HOOK_LINE["render"] + " → render"
 HOOK_T = L.HOOK_LINE["record"] + " → record"
 CRASH = "[Fatal] [carb.crashreporter-breakpad.plugin] [crash] Crash detected in pid 1 thread 1"
 CUDA = "[Warning] [gpu.foundation.plugin] Skipping NVIDIA GPU due CUDA being in bad state: NVIDIA GeForce RTX 5090"
-KNOB = "DEXENGINE_AUG_LIGHT"
-ENV = {KNOB: "1600,0.1,0.1,0.1"}
-AUG_OK = f"{VA.MARK} applied 1/1 ['{KNOB}']"
 MARKS = {  # one line per render checker (marker head -> line)
     "look": f"{LOOK.MARK} {LOOK.LOOK} applied · exposure ISO 1600",
-    "settle": f"{LOOK.SETTLE_MARK} [0.3, 0.1] (tol 0.12)",
+    "look_token": f"{LG.MARK} canonical look {LOOK.LOOK} applied · stage anon:0",
+    "settle": f"{LS.SETTLE_MARK} [0.3, 0.1] (tol 0.12)",
     "support": SUP.SHOWN + "0/0",
     "body": f"{BODY.MARK} none · root z +0.0000 m",
     "idle": f"{IDLE.MARK} no idle hand",
@@ -52,22 +51,22 @@ def lines(*xs: str) -> str:
 
 
 def full_render(done: str = DONE_R, drop: str = "") -> str:
-    return lines(TREE, HOOK_R, AUG_OK, *(v for k, v in MARKS.items() if k != drop), done)
+    return lines(TREE, HOOK_R, *(v for k, v in MARKS.items() if k != drop), done)
 
 
-def c(stage, rc, text, done, env=ENV):
-    return L.classify(stage, rc, text, done, env)
+def c(stage, rc, text, done):
+    return L.classify(stage, rc, text, done)
 
 
 def test_boot_before_hook():
     k, why = c("render", 0, lines(TREE, CUDA, CRASH), DONE_R)
     assert k == "boot" and L.BOOT_SIGNS[0][1] in why and L.BOOT_SIGNS[1][1] in why
     assert c("render", 139, lines(TREE), DONE_R)[0] == "boot"
-    assert c("record", 124, lines(TREE), DONE_T, None)[0] == "boot"
+    assert c("record", 124, lines(TREE), DONE_T)[0] == "boot"
 
 
 def test_pre_hook_error_is_deterministic():
-    k, why = c("record", 2, lines(TREE, "error: tree mismatch"), DONE_T, None)
+    k, why = c("record", 2, lines(TREE, "error: tree mismatch"), DONE_T)
     assert k == "pre" and "tree mismatch" in why
 
 
@@ -78,7 +77,7 @@ def test_native_crash_after_hook():
         "python3.11: Mutex.h:1: void carb::thread::detail::BaseMutex<false>::unlock(): Assertion "
         "(m_owner == pthread_self()) failed: unlock() called by non-owning thread"
     )
-    assert c("render_clip", 134, lines(TREE, HOOK_R, AUG_OK, mutex), DONE_C)[0] == "crash"
+    assert c("render_clip", 134, lines(TREE, HOOK_R, mutex), DONE_C)[0] == "crash"
     assert c("render_clip", 134, full_render(DONE_C), DONE_C)[0] == "crash"  # abort after the end marker
 
 
@@ -118,9 +117,11 @@ def test_full_render_log_is_ok(stage, done):
     assert c(stage, 0, full_render(done), done) == ("ok", "")
 
 
-def test_visual_aug_marker_required():
-    k, why = c("render", 0, full_render().replace(AUG_OK + "\n", ""), DONE_R)
-    assert k == "marks" and VA.MARK in why
+def test_look_guard_token_marker_required():
+    """A render log without the frame-guard token line (looks.look_guard.mark, set only by look_d.apply) is a
+    canonical defect."""
+    k, why = c("render", 0, full_render(drop="look_token"), DONE_R)
+    assert k == "marks" and LG.MARK in why
 
 
 @pytest.mark.parametrize("drop", sorted(MARKS))
@@ -159,11 +160,11 @@ def test_render_clip_without_episodes_skips_per_episode_marks():
 
 
 def test_record_stage_partner_marker():
-    assert c("record", 0, lines(TREE, HOOK_T, REC_ON, DONE_T), DONE_T, None) == ("ok", "")
-    k, why = c("record", 0, lines(TREE, HOOK_T, DONE_T), DONE_T, None)
+    assert c("record", 0, lines(TREE, HOOK_T, REC_ON, DONE_T), DONE_T) == ("ok", "")
+    k, why = c("record", 0, lines(TREE, HOOK_T, DONE_T), DONE_T)
     assert k == "marks" and "partner=on" in why
 
 
 def test_unknown_stage_dies():
     with pytest.raises(SystemExit):
-        c("bogus", 0, "", DONE_R, None)
+        c("bogus", 0, "", DONE_R)

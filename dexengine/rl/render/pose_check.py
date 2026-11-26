@@ -9,8 +9,10 @@ Reused, not re-derived:
   * the env's reset event terms (the same ones RSI and the kinematic replay use; the PhysX order of the hand qpos is
     handled there);
   * TrajectoryManager.root_quat_rotated / _desk_height, the transform from MANO coordinates to world;
-  * scene["front_camera"] as the render camera, moved per view (created by create_env with --render_per_clip_videos
-    --num_envs 1).
+  * scene["front_camera"] as the render camera, moved per view (created by create_env for --pose_render_out:
+    record.render.cameras.add_scene_cameras, --num_envs 1);
+  * the one canonical look (record.looks.look_d.apply — room, lights, materials; it sets the frame-guard token) and
+    the frame guard (record.looks.look_guard.require) before a pixel is read or written.
 """
 
 from __future__ import annotations
@@ -33,8 +35,15 @@ VIEWS = {
 }
 
 
+#: renders of the same pose before a still is read (RTX accumulation and MDL loading; the record rig's still warm-up)
+STILL_RENDERS = 16
+
+
 def _save(rgb: np.ndarray, path: str) -> None:
-    """Write an RGB uint8 image (PIL, else imageio)."""
+    """Write an RGB uint8 image (PIL, else imageio) — only after the canonical look (frame guard)."""
+    from dexengine.record.looks import look_guard as LG
+
+    LG.require(f"rl.render.pose_check._save({os.path.basename(path)})")
     try:
         from PIL import Image
 
@@ -186,6 +195,28 @@ def _report_pair_vs_nearest(nearest, paired, ref, rob, rob0, side):
     )
 
 
+def _still(raw_env, vname: str, center, dist: float, out_dir: str, tag: str) -> str:
+    """One view: the front camera at `dist` from `center` along VIEWS[vname], STILL_RENDERS renders, then the frame
+    read (frame guard) and the PNG. -> file name."""
+    from dexengine.record.looks import look_guard as LG
+
+    d3 = VIEWS.get(vname)
+    if d3 is None:
+        raise SystemExit(f"pose_render: unknown view {vname!r} (known: {', '.join(sorted(VIEWS))})")
+    cam = raw_env.scene["front_camera"]
+    vd = torch.tensor(d3, device=center.device, dtype=center.dtype)
+    eye = center + vd / torch.norm(vd) * dist
+    cam.set_world_poses_from_view(eyes=eye.unsqueeze(0), targets=center.unsqueeze(0))
+    for _ in range(STILL_RENDERS):
+        raw_env.sim.render()
+        cam.update(0.0, force_recompute=True)
+    LG.require("rl.render.pose_check frame read")
+    rgb = cam.data.output["rgb"][0, ..., :3].cpu().numpy().astype(np.uint8)
+    name = f"{tag}_{vname}.png"
+    _save(rgb, os.path.join(out_dir, name))
+    return name
+
+
 def run_pose_render(raw_env, args_cli, out_dir: str, tag: str) -> None:
     """Reset env 0 to the reference pose at --pose_render_frame, draw the reference fingertips as green spheres, print
     the tip-error diagnostics and save one PNG per view in --pose_render_views."""
@@ -230,6 +261,11 @@ def run_pose_render(raw_env, args_cli, out_dir: str, tag: str) -> None:
         print(f"  [pose_render] fingertips {tips_w.shape[0]} points (sides: {', '.join(sides)})", flush=True)
 
     robot = raw_env.scene["robot"]
+    import omni.usd
+
+    from dexengine.record.looks import look_d as LOOK
+
+    LOOK.apply(omni.usd.get_context().get_stage())  # the one canonical look (sets the frame-guard token)
     raw_env.sim.render()
 
     # Numbers before pictures: a wrong transform puts the green points tens of cm away from the robot.
@@ -243,23 +279,8 @@ def run_pose_render(raw_env, args_cli, out_dir: str, tag: str) -> None:
     radius = float(torch.norm(hi - lo)) * 0.5
     dist = max(radius * float(getattr(args_cli, "pose_render_zoom", 2.6) or 2.6), 0.8)
 
-    cam = raw_env.scene["front_camera"]
     want = [v.strip() for v in str(getattr(args_cli, "pose_render_views", "iso")).split(",") if v.strip()]
-    saved = []
-    for vname in want:
-        d3 = VIEWS.get(vname)
-        if d3 is None:
-            raise SystemExit(f"pose_render: unknown view {vname!r} (known: {', '.join(sorted(VIEWS))})")
-        vd = torch.tensor(d3, device=center.device, dtype=center.dtype)
-        eye = center + vd / torch.norm(vd) * dist
-        cam.set_world_poses_from_view(eyes=eye.unsqueeze(0), targets=center.unsqueeze(0))
-        for _ in range(3):
-            raw_env.sim.render()
-            cam.update(0.0, force_recompute=True)
-        rgb = cam.data.output["rgb"][0, ..., :3].cpu().numpy().astype(np.uint8)
-        name = f"{tag}_{vname}.png"
-        _save(rgb, os.path.join(out_dir, name))
-        saved.append(name)
+    saved = [_still(raw_env, vname, center, dist, out_dir, tag) for vname in want]
 
     z_min = float(robot.data.body_pos_w[0, :, 2].min())
     print(f"  [pose_render] {tag}: lowest body z={z_min:.3f}m — {len(saved)} saved: {', '.join(saved)}", flush=True)

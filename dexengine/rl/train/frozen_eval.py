@@ -369,46 +369,33 @@ def _prepare_and_render(
 
 
 def _render_frozen_eval(args_cli, create_env, raw_env, traj_mgr, wrapped, clip_names, num_clips, policy_fn):
-    """Render = frozen eval + cameras. At this point the frozen settings (curricula off, progress=1.0, rsi=0, identity
-    DR, fixed ramps, cross-pair handling) are applied, so the rendered episodes run under the judge's conditions.
-    Only with DEXENGINE_FROZEN_REPLAY=1 (both variables must be set): that path ends the process right after, so
-    skipping the restore below is safe. Never on during training.
+    """Frozen render = the frozen eval's env handed to the record session's render function (the trainer's seam,
+    dexengine.rl.session_render — the E5 closed-loop sessions attach theirs). At this point the frozen settings
+    (curricula off, progress=1.0, rsi=0, identity DR, fixed ramps, cross-pair handling) are applied, so the drawn
+    episodes run under the judge's conditions. Only with DEXENGINE_FROZEN_REPLAY=1 (both variables must be set): that
+    path ends the process right after, so skipping the restore below is safe. Never on during training. Without a
+    record session the seam dies (the RL trainer draws no frames).
     """
     if os.environ.get("DEXENGINE_FROZEN_RENDER", "0") == "1" and os.environ.get("DEXENGINE_FROZEN_REPLAY", "0") == "1":
+        from dexengine.rl import session_render as _SR
+
         _fr_ck = os.path.abspath(getattr(args_cli, "resume_from", None) or getattr(args_cli, "resume", None) or "")
-        # Replay render (off by default): writes recorded states without physics and draws them with tiled cameras,
-        # branching off at this same frozen point (dexengine.rl.render.replay).
-        if os.environ.get("DEXENGINE_TRAJ_RENDER", ""):
-            from dexengine.rl.render import replay as _trr
-
-            _trr.run(wrapped, policy_fn, traj_mgr, raw_env, clip_names, args_cli=args_cli, checkpoint_path=_fr_ck)
-            print("    [FROZEN RENDER] replay render DONE (restore skipped — FROZEN_REPLAY exits next)", flush=True)
-            return None
-        from dexengine.rl.render.clip_video import _run_per_clip_video_render as _fr_render
-
         print(
-            f"    [FROZEN RENDER] rendering under the frozen eval conditions "
+            f"    [FROZEN RENDER] record session under the frozen eval conditions "
             f"(num_envs={wrapped.num_envs} clips={num_clips} ckpt={os.path.basename(_fr_ck)})",
             flush=True,
         )
-        _fr_render(
+        _SR.run(
             wrapped,
             policy_fn,
             traj_mgr,
             num_clips,
             clip_names,
             raw_env,
-            checkpoint_path=_fr_ck,
-            out_dir=str(_run_out(args_cli.videos_out_dir)),
-            max_attempts=args_cli.videos_max_attempts,
-            max_episode_steps=args_cli.videos_max_episode_steps,
-            fps=args_cli.videos_fps,
-            warmup_attempts=args_cli.videos_warmup_attempts,
-            select_best_success=bool(args_cli.videos_select_best_success),
-            rollouts_per_clip=args_cli.videos_rollouts_per_clip,
-            rank_metric=args_cli.videos_rank_metric,
-            args_cli=args_cli,
-            create_env=create_env,
+            _fr_ck,
+            str(_run_out(args_cli.videos_out_dir)),
+            args_cli,
+            create_env,
         )
         print("    [FROZEN RENDER] DONE (restore skipped — FROZEN_REPLAY exits next)", flush=True)
         return None

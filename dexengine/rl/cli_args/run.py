@@ -210,14 +210,6 @@ def _add_bimanual_scene_args(parser) -> None:
         "1 <= value <= --max_iterations.",
     )
     parser.add_argument(
-        "--viz_mano_fingertips",
-        action="store_true",
-        default=False,
-        help="Overlay MANO reference fingertip markers (5 green spheres) in per-clip render videos. "
-        "Reads body_positions.npz right_fingertip_pos and projects via the same env transform "
-        "as the wrist markers; visible in both ego and front cameras.",
-    )
-    parser.add_argument(
         "--object_usd_right",
         type=str,
         default=None,

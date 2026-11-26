@@ -36,7 +36,7 @@ Fixed for the session (owned here):
                   LOOK_OWNED excluded); a difference dies.
 Random look (episode look != D): the canonical measurement and application of looks.augvis.render._Run
   (measure_base, build_swept, apply_spec) in the session's trajectory context (LookRun); convergence is
-  render_episode's single LOOK.settle. Plan order = every look D first (there is no way back to D: D after a random
+  render_episode's single look settle. Plan order = every look D first (there is no way back to D: D after a random
   look dies) · one swept volume per trajectory. The asset root env AUGVIS_ASSETS is required (no default).
 """
 

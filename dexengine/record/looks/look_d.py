@@ -1,22 +1,26 @@
-"""Look D: the render look of the recording path (stage-2 render and camera reference render) on top of the canonical
-background. RL training, judging and result videos do not use it.
+"""Look D: the one canonical look of every robot frame (record stage-2 render, camera reference render, the E5
+closed-loop sessions that reuse the record render session, and the pose still of rl.render.pose_check). Training and
+judging draw nothing (dexengine.rl.app) and never apply it.
 
-Look D = canonical background (render_look V5_08_bright, rl.render.scene_look: room walls, floor, desk) plus
-  1. camera: Iray tonemapper (op 7) with a fixed physical exposure (ISO 1600, TONEMAP exposureTime, f/2.8) and white
+apply(stage) is the one function that dresses a built stage, before the first frame:
+  1. room: four single-sided wall quads with UVs around the robot (ROOM: 6 x 6 m, 2.6 m high, centre (-0.7, 0)) and a
+     visual-only ceiling; the ego camera pitch is measured and logged;
+  2. camera: Iray tonemapper (op 7) with a fixed physical exposure (ISO 1600, TONEMAP exposureTime, f/2.8) and white
      balance = blackbody colour of the panel temperature;
-  2. closed room: visual-only ceiling, canonical dome and distant key light at intensity 0, no ambient light;
-  3. nine ceiling LED panels (RectLight, 40 W/pi, normalised, 1.2 x 0.6 m, 4000 K, 1.5 m grid);
-  4. RTX settings QUALITY (reflections, indirect diffuse and AO off);
-  5. materials (floor, walls, desk-top MDLs), baseboard and visual-only background props (collision and rigid-body
-     APIs removed);
-  6. visible support discs with pillars to the floor (scene.supports, material SUPPORT_MDL).
+  3. closed room: the env cfg's dome and distant key light (CANON_LIGHTS, when present) at intensity 0, no ambient
+     light;
+  4. nine ceiling LED panels (RectLight, 40 W/pi, normalised, 1.2 x 0.6 m, 4000 K, 1.5 m grid);
+  5. RTX settings QUALITY (reflections, indirect diffuse and AO off);
+  6. materials (floor, walls, ceiling, desk-top MDLs), baseboard and visual-only background props (collision and
+     rigid-body APIs removed);
+  7. visible support discs with pillars to the floor (scene.supports, material SUPPORT_MDL);
+and ends by setting the frame-guard token (looks.look_guard.mark): no frame writer runs without it.
 Assets (S3 NVIDIA Isaac 4.5 MDLs and props) are read only from the local mirror MIRROR_REL under the main data root;
-a missing file is an error (no S3 fallback). The mirror also carries the canonical background's base-layer MDLs
-(materials.base_roots). Build / check the mirror: ``python -m dexengine.record.looks.look_d --mirror | --verify``
-(Isaac python: pxr follows USD dependencies).
+a missing file is an error (no S3 fallback). Build / check the mirror:
+``python -m dexengine.record.looks.look_d --mirror | --verify`` (Isaac python: pxr follows USD dependencies).
 Markers: ``[COLLECT_LOOK] D applied`` and ``[COLLECT_LOOK] settle drift`` (log_problems checks render and reference
 session logs; a run without them is invalid). render_meta.json ``render_look`` = meta() plus the applied readback;
-``look_settle`` = settle().
+``look_settle`` = looks.look_settle.settle() (the lighting settle before the first frame).
 """
 
 from __future__ import annotations
@@ -38,12 +42,16 @@ from dexengine.record.looks.look_assets import (
     mirror_root,
     verify_mirror,
 )
+from dexengine.record.looks.look_settle import SETTLE_EYES_ENV, SETTLE_EYES_MARK, SETTLE_MARK
 from dexengine.record.looks.materials import blackbody_rgb  # noqa: F401  (read as look_d.blackbody_rgb)
 
 CODE_FILES = (
     "dexengine/record/looks/look_d.py",
     "dexengine/record/looks/look_assets.py",  # stage-2 cache fingerprint
     "dexengine/record/looks/materials.py",
+    "dexengine/record/looks/usd_bind.py",  # material bindings and the room quads
+    "dexengine/record/looks/scene_env.py",  # build-time scene inputs of the dumps (key light, focal length)
+    "dexengine/record/looks/look_settle.py",  # the lighting settle before the first frame
 )
 #: Exposure 0.1109 s = metered 0.0784 x sqrt(2) (rev D4). Brightness gate values live in rev.LOOK_REV.
 TONEMAP = {
@@ -67,41 +75,15 @@ PANEL_W, PANEL_K, PANEL_SIZE = 40.0, 4000.0, (1.2, 0.6)
 PANEL_XY = tuple((x, y) for x in (-2.1, -0.6, 0.9) for y in (-1.5, 0.0, 1.5))
 BASEBOARD = ((0.16, 0.16, 0.17), 0.55, 0.0)
 CANON_LIGHTS = ("/World/light", "/World/keyLight")
+#: The env cfg's dome (always built). The distant key light exists only when the scene env sets DEXENGINE_KEY_LIGHT
+#: (looks.scene_env, the record render's dump); apply zeroes whichever of CANON_LIGHTS exist and records them.
+DOME_LIGHT = "/World/light"
+#: Room around the robot (m): half side, height, centre x, centre y. Four single-sided wall quads with UVs (WALL_TILE_M
+#: per UV tile) face inwards (dollhouse: a camera outside sees through them); the floor is the env cfg's /World/Floor.
+ROOM = {"half": 3.0, "h": 2.6, "cx": -0.7, "cy": 0.0}
+ROOM_ROOT, WALL_TILE_M = "/World/AugRoom", 1.5
+WALLS = ("wall_nx", "wall_px", "wall_ny", "wall_py")
 SUPPORT_MDL = "desk"  # support disc and pillar material (MDL key): wood
-SETTLE_TOL, SETTLE_MAX = 0.6, 60
-# Settle stage 1 (loading): mean pixel |delta| (8 bit) between consecutive captures (4 renders each) must drop below
-# SETTLE_TOL within SETTLE_MAX rounds, otherwise the run dies.
-# Plateau (two-eye settle only): converged also when, from round FLAT_N on, the last FLAT_K deltas have a relative
-# half-window difference < FLAT_EPS, a linear trend (change over the window / mean) of magnitude < FLAT_EPS, and a
-# mean < FLAT_CAP (a large desk in both eyes keeps the noise floor above SETTLE_TOL after loading has finished).
-SETTLE_FLAT_N, SETTLE_FLAT_K, SETTLE_FLAT_EPS = 56, 16, 0.05
-SETTLE_FLAT_CAP = 2 * SETTLE_TOL
-# Settle stage 2 (light-transport drift): channel-mean difference of two captures DRIFT_GAP renders apart, after
-# DRIFT_EXTRA renders, until < DRIFT_TOL (8 bit), at most DRIFT_MAX times; hitting the cap is recorded in
-# look_settle.drift_cap. DRIFT_MAX 0 = stage 2 off (with reflections, GI and AO off nothing drifts).
-DRIFT_EXTRA, DRIFT_GAP, DRIFT_TOL, DRIFT_MAX = 32, 32, 0.12, 0
-SETTLE_EYES_ENV = "DEXENGINE_COLLECT_SETTLE_EYES"  # "2" = settle on both eyes (egoL, egoR) when exo is off
-SETTLE_EYES_MARK = f"{MARK} settle two eyes"  # applied marker; log_problems requires it when the env is "2"
-
-
-def settle_cams() -> tuple:
-    """Cameras the settle measures: default (empty) = left eye + exo (exo on) or left eye only (exo off); "2" = both
-    eyes with exo off. "2" with exo on, or any other value, is an error."""
-    from dexengine.record.render import cameras as CAMS
-
-    v = os.environ.get(SETTLE_EYES_ENV, "")
-    if v not in ("", "2"):
-        raise ValueError(f"{SETTLE_EYES_ENV}={v!r} — empty or 2 (two eyes with exo off) only")
-    exo = CAMS.exo_on()
-    if v == "2":
-        if exo:
-            raise ValueError(f"{SETTLE_EYES_ENV}=2 requires exo off; with exo on the settle uses left eye + exo")
-        return ("egoL", "egoR")
-    return ("egoL", "exo") if exo else ("egoL",)  # exo off: left eye only (exo is not rendered)
-
-
-SETTLE_CAMS = settle_cams()
-SETTLE_MARK = f"{MARK} settle drift"  # stage 2 ran (log_problems requires it)
 
 
 def rev():
@@ -114,7 +96,9 @@ def rev():
 def log_problems(text: str, settle: bool = True) -> list[str]:
     """Session log -> one problem per missing look marker (render and reference sessions). settle = episodes were
     drawn."""
-    marks = (f"{MARK} {LOOK} applied",) + ((SETTLE_MARK,) if settle else ())
+    from dexengine.record.looks import look_guard as LG
+
+    marks = (f"{MARK} {LOOK} applied", f"{LG.MARK} canonical look {LOOK} applied") + ((SETTLE_MARK,) if settle else ())
     if settle and os.environ.get(SETTLE_EYES_ENV, "") == "2":
         marks += (SETTLE_EYES_MARK,)
     bad = [f"render look marker '{m}' missing" for m in marks if m not in text]
@@ -169,17 +153,38 @@ def _set_many(d: dict) -> None:
         raise SystemExit(f"{MARK} carb settings readback mismatch {bad}")
 
 
+def room_walls() -> dict:
+    """Wall name -> quad corners (counter-clockwise seen from the room centre = the visible side), from ROOM."""
+    x0, x1 = ROOM["cx"] - ROOM["half"], ROOM["cx"] + ROOM["half"]
+    y0, y1, h = ROOM["cy"] - ROOM["half"], ROOM["cy"] + ROOM["half"], ROOM["h"]
+    return {
+        "wall_ny": [(x0, y0, 0), (x1, y0, 0), (x1, y0, h), (x0, y0, h)],  # -y wall, faces +y
+        "wall_py": [(x1, y1, 0), (x0, y1, 0), (x0, y1, h), (x1, y1, h)],  # +y wall
+        "wall_nx": [(x0, y1, 0), (x0, y0, 0), (x0, y0, h), (x0, y1, h)],  # -x wall
+        "wall_px": [(x1, y0, 0), (x1, y1, 0), (x1, y1, h), (x1, y0, h)],  # +x wall
+    }
+
+
+def _spawn_room(stage) -> None:
+    """The four wall quads under ROOM_ROOT (their materials are bound by apply)."""
+    from pxr import UsdGeom
+
+    from dexengine.record.looks import usd_bind as UB
+
+    UsdGeom.Xform.Define(stage, ROOM_ROOT)
+    for nm, pts in room_walls().items():
+        UB.uv_quad(stage, f"{ROOM_ROOT}/{nm}", pts, tile=WALL_TILE_M)
+
+
 def _room(stage) -> dict:
-    """Room bounds read from the canonical room's wall quads (/World/AugRoom, rl.render.scene_look)."""
+    """Room bounds read back from the wall quads apply built (ROOM_ROOT)."""
     from pxr import UsdGeom
 
     xs, ys, zs = [], [], []
-    for nm in ("wall_nx", "wall_px", "wall_ny", "wall_py"):
-        prim = stage.GetPrimAtPath(f"/World/AugRoom/{nm}")
+    for nm in WALLS:
+        prim = stage.GetPrimAtPath(f"{ROOM_ROOT}/{nm}")
         if not prim.IsValid():
-            raise InputMissingError(
-                f"{MARK} canonical room wall {nm} missing — look D needs the canonical background (DEXENGINE_AUG_ROOM)"
-            )
+            raise InputMissingError(f"{MARK} room wall {nm} missing after _spawn_room")
         for p in UsdGeom.Mesh(prim).GetPointsAttr().Get():
             xs.append(p[0])
             ys.append(p[1])
@@ -253,7 +258,7 @@ def _baseboards(stage, x0, y0, y1, x1):
     """Baseboards along the four room walls, solid material."""
     from pxr import Gf, UsdGeom
 
-    from dexengine.rl.render import scene_look as VA
+    from dexengine.record.looks import usd_bind as UB
 
     bh, bt = 0.10, 0.015
     UsdGeom.Xform.Define(stage, "/World/CollectLook/baseboard")
@@ -269,39 +274,80 @@ def _baseboards(stage, x0, y0, y1, x1):
         xf = UsdGeom.Xformable(c)
         xf.AddTranslateOp().Set(Gf.Vec3d(cx, cy, bh / 2))
         xf.AddScaleOp().Set(Gf.Vec3f(sx, sy, bh))
-    VA._bind_solid(stage, "/World/CollectLook/baseboard", "look_baseboard", *BASEBOARD)
+    UB.bind_solid(stage, "/World/CollectLook/baseboard", "look_baseboard", *BASEBOARD)
 
 
-def apply(stage) -> dict:
-    """Apply look D (after the canonical background, before the first frame). Returns render_meta's render_look."""
-    from pxr import UsdGeom
+def _log_ego_pitch(stage) -> None:
+    """Print the measured optical axis of the stage's HeadCamera (read-only).
 
-    from dexengine.record.looks import materials as DM
-    from dexengine.rl.render import scene_look as VA
+    The ego camera's downward pitch is set by a code constant and logged nowhere else. The camera's local -Z axis is
+    printed in its parent frame and in world, with the derived downward angles; two runs that differ only in the pitch
+    differ by exactly the applied pitch, with no convention to infer.
+    """
+    from pxr import Gf, Usd, UsdGeom
 
-    n_mirror = verify_mirror(check_sha=False, with_base=False)
-    room = _room(stage)
+    cam = next((p for p in Usd.PrimRange(stage.GetPseudoRoot()) if p.GetName() == "HeadCamera"), None)
+    if cam is None:
+        print(f"{MARK} ego pitch: no HeadCamera prim — not measured", flush=True)
+        return
+    xc = UsdGeom.Xformable(cam).ComputeLocalToWorldTransform(Usd.TimeCode.Default())
+    xp = UsdGeom.Xformable(cam.GetParent()).ComputeLocalToWorldTransform(Usd.TimeCode.Default())
+    f_loc = (xc * xp.GetInverse()).TransformDir(Gf.Vec3d(0.0, 0.0, -1.0)).GetNormalized()
+    f_wld = xc.TransformDir(Gf.Vec3d(0.0, 0.0, -1.0)).GetNormalized()
+
+    def down(z):
+        return -math.degrees(math.asin(max(-1.0, min(1.0, z))))
+
+    print(
+        f"{MARK} ego pitch (code default 30°, head joint) | optical axis local=({f_loc[0]:+.4f},{f_loc[1]:+.4f},"
+        f"{f_loc[2]:+.4f}) local down={down(f_loc[2]):+.2f}° | world down={down(f_wld[2]):+.2f}° @ {cam.GetPath()}",
+        flush=True,
+    )
+
+
+def _zero_lights(stage) -> dict:
+    """Intensity 0 on the env cfg's lights (CANON_LIGHTS that exist; the dome must). -> {path: previous intensity}."""
+    if not stage.GetPrimAtPath(DOME_LIGHT).IsValid():
+        raise InputMissingError(f"{MARK} canonical light {DOME_LIGHT} missing")
     prev = {}
     for path in CANON_LIGHTS:
         prim = stage.GetPrimAtPath(path)
         if not prim.IsValid():
-            raise InputMissingError(f"{MARK} canonical light {path} missing")
+            print(f"{MARK} {path} absent (no DEXENGINE_KEY_LIGHT in this scene) — nothing to zero", flush=True)
+            continue
         a = prim.GetAttribute("inputs:intensity")
         prev[path] = float(a.Get())
         a.Set(0.0)
+    return prev
+
+
+def apply(stage) -> dict:
+    """The one function that applies the canonical look to a built stage (before the first frame): room, lights,
+    camera exposure, materials, props, then the frame-guard token. Returns render_meta's render_look."""
+    from pxr import UsdGeom
+
+    from dexengine.record.looks import look_guard as LG
+    from dexengine.record.looks import materials as DM
+    from dexengine.record.looks import usd_bind as UB
+
+    n_mirror = verify_mirror(check_sha=False)
+    try:
+        _log_ego_pitch(stage)
+    except Exception as e:  # noqa: BLE001 — a failed measurement (a log line) must not stop the look
+        print(f"{MARK} ego pitch measurement failed: {e}", flush=True)
+    _spawn_room(stage)
+    room = _room(stage)
+    prev = _zero_lights(stage)
     _set_many({**TONEMAP, **QUALITY, WHITE_K: blackbody_rgb(PANEL_K)})
     x0, x1, y0, y1, h = room["x0"], room["x1"], room["y0"], room["y1"], room["h"]
     UsdGeom.Xform.Define(stage, "/World/CollectLook")
-    VA._uv_quad(
-        stage, "/World/CollectLook/ceiling", [(x0, y0, h), (x0, y1, h), (x1, y1, h), (x1, y0, h)], "z", tile=1.2
-    )
+    UB.uv_quad(stage, "/World/CollectLook/ceiling", [(x0, y0, h), (x0, y1, h), (x1, y1, h), (x1, y0, h)], tile=1.2)
     binds = [
-        VA._bind_mdl(stage, "/World/CollectLook/ceiling", "look_ceiling", local(MDL["ceiling"]), project=True),
-        VA._bind_mdl(stage, "/World/Floor", "look_floor", local(MDL["floor"]), project=True),
+        UB.bind_mdl(stage, "/World/CollectLook/ceiling", "look_ceiling", local(MDL["ceiling"]), project=True),
+        UB.bind_mdl(stage, "/World/Floor", "look_floor", local(MDL["floor"]), project=True),
     ]
     binds.extend(
-        VA._bind_mdl(stage, f"/World/AugRoom/{nm}", f"look_{nm}", local(MDL["wall"]), project=True)
-        for nm in ("wall_nx", "wall_px", "wall_ny", "wall_py")
+        UB.bind_mdl(stage, f"{ROOM_ROOT}/{nm}", f"look_{nm}", local(MDL["wall"]), project=True) for nm in WALLS
     )
     tiles = [DM.bind_desk(stage, w, f"look_desk_{i}", local(MDL["desk"])) for i, w in enumerate(DM.desk_woods(stage))]
     n_desk = len(tiles)  # desk top: world-metre projection (materials.bind_desk)
@@ -332,6 +378,7 @@ def apply(stage) -> dict:
         f"mirror {n_mirror} files",
         flush=True,
     )
+    print(LG.mark(stage, LOOK), flush=True)  # the only setter of the frame-guard token (look_guard)
     return dict(
         meta(),
         applied={
@@ -344,115 +391,6 @@ def apply(stage) -> dict:
             "desk_tile_m": tiles,
         },
     )
-
-
-def settle_flat(trace: list) -> dict | None:
-    """Plateau test (SETTLE_FLAT_* comment): {floor, rel, trend} when flat, else None."""
-    import numpy as np
-
-    K = SETTLE_FLAT_K
-    if len(trace) < K:
-        return None
-    w = np.asarray(trace[-K:], float)
-    m = float(w.mean())
-    rel = abs(float(w[K // 2 :].mean()) - float(w[: K // 2].mean())) / m
-    trend = float(np.polyfit(np.arange(K), w, 1)[0]) * (K - 1) / m
-    if rel < SETTLE_FLAT_EPS and abs(trend) < SETTLE_FLAT_EPS and m < SETTLE_FLAT_CAP:
-        return {"floor": round(m, 3), "rel": round(rel, 4), "trend": round(trend, 4)}
-    return None
-
-
-def settle_load(rig, info: dict | None = None) -> int:
-    """Settle stage 1 (MDL compile, texture load): until the mean pixel |delta| of consecutive captures (4 renders) is
-    below SETTLE_TOL; returns the number of rounds. Two-eye settles also converge on a plateau (settle_flat, from
-    round SETTLE_FLAT_N; recorded in info). Dies when it never converges."""
-    import numpy as np
-
-    prev, trace = None, []
-    flat_on = SETTLE_CAMS == ("egoL", "egoR")
-    for r in range(SETTLE_MAX):
-        cap = rig.capture(4)
-        cur = np.concatenate([cap[c].reshape(-1) for c in SETTLE_CAMS]).astype(np.int16)
-        if prev is not None:
-            d = float(np.abs(cur - prev).mean())
-            trace.append(round(d, 3))
-            if d < SETTLE_TOL:
-                print(f"{MARK} settle {r + 1} rounds · |Δ| {d:.3f} < {SETTLE_TOL}", flush=True)
-                if SETTLE_CAMS == ("egoL", "egoR"):
-                    print(f"{SETTLE_EYES_MARK} {SETTLE_CAMS} · {SETTLE_EYES_ENV}=2", flush=True)
-                return r + 1
-            f = settle_flat(trace) if flat_on and r + 1 >= SETTLE_FLAT_N else None
-            if f:
-                print(
-                    f"{MARK} settle {r + 1} rounds · plateau floor {f['floor']} · rel {f['rel']} · "
-                    f"trend {f['trend']} "
-                    f"(above {SETTLE_TOL}; flat = loading done)",
-                    flush=True,
-                )
-                print(f"{SETTLE_EYES_MARK} {SETTLE_CAMS} · {SETTLE_EYES_ENV}=2", flush=True)
-                if info is not None:
-                    info.update(plateau=True, rounds=r + 1, **f)
-                return r + 1
-        prev = cur
-    print(f"{MARK} settle not converged, |Δ| trace (cameras {SETTLE_CAMS} · tol {SETTLE_TOL}): {trace}", flush=True)
-    raise SystemExit(f"{MARK} settle not converged in {SETTLE_MAX} rounds — check material and texture loading")
-
-
-def chan_means(cap) -> dict:
-    """Capture -> per-camera channel means (8-bit floats), the unit of the stage-2 drift measurement."""
-    import numpy as np
-
-    return {c: cap[c].reshape(-1, 3).astype(np.float64).mean(0) for c in SETTLE_CAMS}
-
-
-def settle_drift(rig) -> dict:
-    """Settle stage 2: light-transport drift (DRIFT_* comment). drift_cap = True at the cap (not an error)."""
-    import numpy as np
-
-    hist = []
-    for _ in range(DRIFT_MAX):
-        rig.render(DRIFT_EXTRA)
-        a = chan_means(rig.capture(4))
-        rig.render(DRIFT_GAP)
-        b = chan_means(rig.capture(4))
-        d = max(float(np.abs(b[c] - a[c]).max()) for c in SETTLE_CAMS)
-        hist.append(round(d, 3))
-        if d < DRIFT_TOL:
-            break
-    return {"drift": hist, "drift_tol": DRIFT_TOL, "drift_cap": bool(hist) and hist[-1] >= DRIFT_TOL}
-
-
-def settle_row(look_settle) -> dict:
-    """look_settle -> the episode line's render_settle field (an int = stage 1 only -> drift None)."""
-    if isinstance(look_settle, int):
-        return {"load_rounds": look_settle, "drift": None, "drift_cap": None}
-    return {k: look_settle[k] for k in ("load_rounds", "drift", "drift_cap")}
-
-
-def settle(rig) -> dict:
-    """Convergence before the first frame = stage 1 (settle_load) + stage 2 (settle_drift); stored as render_meta
-    look_settle. Marker SETTLE_MARK; '[COLLECT_LOOK] settle cap' when stage 2 hits its cap."""
-    import time
-
-    t0 = time.time()
-    pl: dict = {}
-    n = settle_load(rig, pl)
-    dr = settle_drift(rig)
-    renders = n * 5 + len(dr["drift"]) * (DRIFT_EXTRA + DRIFT_GAP + 12)
-    out = dict(load_rounds=n, **dr, drift_rounds=len(dr["drift"]), renders=renders, s=round(time.time() - t0, 1))
-    if pl:  # only plateau-converged settles get this field
-        out["load_plateau"] = pl
-    tail = (
-        f"cap {DRIFT_MAX} rounds — recorded (not a failure, look_settle.drift_cap)"
-        if dr["drift_cap"]
-        else f"converged in {len(dr['drift'])} rounds"
-        if DRIFT_MAX
-        else "stage 2 off (cap 0)"
-    )
-    print(f"{SETTLE_MARK} {dr['drift']} (tol {DRIFT_TOL}) · {tail} · renders {renders} · {out['s']} s", flush=True)
-    if dr["drift_cap"]:
-        print(f"{MARK} settle cap · last difference {dr['drift'][-1]} >= {DRIFT_TOL}", flush=True)
-    return out
 
 
 def main() -> None:

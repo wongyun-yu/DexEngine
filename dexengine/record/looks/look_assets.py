@@ -95,12 +95,6 @@ def mirror_root() -> Path:
     return paths.main_root() / MIRROR_REL
 
 
-def _base() -> list[str]:
-    from dexengine.record.looks import materials as LB
-
-    return LB.base_roots()
-
-
 def local(rel: str) -> str:
     p = mirror_root() / rel
     if not p.is_file():
@@ -160,11 +154,16 @@ def _deps(local_path: Path, rel: str) -> list[str]:
     return out
 
 
-def base_files() -> list[str]:
-    """Mirror-relative files the base render look (materials.BASE_PRESET, a training's render) reads: its MDLs and
-    what they open (_deps over the local mirror; Kit built-in Omni* modules excluded as in build_mirror). A missing
-    file dies."""
-    root, queue, seen = mirror_root(), _base(), set()
+def roots() -> list[str]:
+    """Mirror-relative root files of look D: its MDLs, its props and the Willow desk (build_mirror follows their
+    dependencies; verify_mirror requires each in the list)."""
+    return list(MDL.values()) + [p[0] for p in PROPS] + list(WILLOW_SHA256)
+
+
+def render_files() -> list[str]:
+    """Mirror-relative files a render reads for look D (its MDLs, props and the Willow desk, and what they open: _deps
+    over the local mirror; Kit built-in Omni* modules excluded as in build_mirror). A missing file dies."""
+    root, queue, seen = mirror_root(), roots(), set()
     while queue:
         rel = queue.pop()
         if rel in seen:
@@ -172,7 +171,7 @@ def base_files() -> list[str]:
         if rel.lower().endswith(".mdl") and Path(rel).name.startswith("Omni") and not (root / rel).is_file():
             continue
         if not (root / rel).is_file():
-            raise InputMissingError(f"{MARK} base look file missing in the mirror: {root / rel}")
+            raise InputMissingError(f"{MARK} look D file missing in the mirror: {root / rel}")
         seen.add(rel)
         queue += [d for d in _deps(root / rel, rel) if d not in seen and not d.startswith("..")]
     return sorted(seen)
@@ -211,8 +210,8 @@ _WILLOW_OK: set = set()  # (mirror root, check_sha) already checked in this proc
 def build_mirror() -> dict:
     root = mirror_root()
     print(f"{MARK} Willow desk from NVIDIA's S3 — {WILLOW_NOTICE}", flush=True)
-    roots = list(MDL.values()) + [p[0] for p in PROPS] + _base() + list(WILLOW_SHA256)
-    queue, seen = list(roots), set()
+    want = roots()
+    queue, seen = list(want), set()
     import urllib.error
 
     builtin = []
@@ -241,7 +240,7 @@ def build_mirror() -> dict:
         "source": S3,
         "files": len(files),
         "bytes": sum((root / f).stat().st_size for f in files),
-        "roots": roots,
+        "roots": want,
         "builtin_mdl_skipped": sorted(set(builtin)),
     }
     (root / "manifest.json").write_text(json.dumps(man, indent=1))
@@ -249,9 +248,9 @@ def build_mirror() -> dict:
     return man
 
 
-def verify_mirror(check_sha: bool = True, with_base: bool = True) -> int:
-    """Check the mirror list (and sha256). with_base=False when applying look D: the base-layer files are checked by
-    rl.render.scene_look at binding."""
+def verify_mirror(check_sha: bool = True) -> int:
+    """Check the mirror list (and sha256) and that every look D root (roots()) is listed. A mirror built before the
+    look owned its whole background still lists the old base-layer MDLs: they are checked like any listed file."""
     root = mirror_root()
     sums = root / "SHA256SUMS"
     if not sums.is_file():
@@ -263,11 +262,7 @@ def verify_mirror(check_sha: bool = True, with_base: bool = True) -> int:
         if not p.is_file() or (check_sha and hashlib.sha256(p.read_bytes()).hexdigest() != h):
             bad.append(f)
     listed = {f for _h, f in rows}
-    bad.extend(
-        f"(not listed) {rel}"
-        for rel in list(MDL.values()) + [p[0] for p in PROPS] + (_base() if with_base else []) + list(WILLOW_SHA256)
-        if rel not in listed
-    )
+    bad.extend(f"(not listed) {rel}" for rel in roots() if rel not in listed)
     if bad:
         raise SystemExit(f"{MARK} mirror mismatch {len(bad)} {bad[:5]}")
     return len(rows)

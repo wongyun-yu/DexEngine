@@ -27,7 +27,7 @@ judge standard" marker; any other context and unset -> 0.
 Combination rules ``check_launch`` (once at start-up; a violation dies):
   intrain and PARK=1 and EXIT_RESET=0 -> dies: training would resume from the PARK-ed el=0 state.
   (oop|none) and EXIT_RESET=1         -> dies: this process has no in-training eval exit (nothing consumes it).
-  (none|render) and PARK=1            -> dies: no judge batches (a render goes through _run_per_clip_video_render).
+  (none|render) and PARK=1            -> dies: no judge batches (a render goes to the record-session seam).
   evalpy and EXIT_RESET=1             -> dies: no training resumes.
   (fresh|render) and EXIT_RESET=1     -> passes; the exit is skipped and a marker printed (no training resumes), so a
                                          post-hoc judge or render that inherits the training settings does not die.
