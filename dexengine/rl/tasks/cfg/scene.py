@@ -94,9 +94,9 @@ class TacoEvalSceneCfg(InteractiveSceneCfg):
     physical interaction.
     """
 
-    # Visual floor -- 20x20m walnut planks. Every render binds the render look's floor over it (rl.render.scene_look
-    # DEXENGINE_AUG_FLOOR_MDL), so its own look never shows; v0 keeps it because removing it moves oblique-view renders
-    # (floor-joint texture detail, about 0.5 dB time-averaged PSNR in side views, A/B measured).
+    # Visual floor -- 20x20m walnut planks. Training and judging draw nothing, and the one canonical look
+    # (record.looks.look_d.apply) binds its floor material over it before any frame is drawn, so its own look never
+    # shows; v0 keeps it, as the v0 data was generated with it.
     floor = AssetBaseCfg(
         prim_path="/World/Floor",
         init_state=AssetBaseCfg.InitialStateCfg(pos=(0.0, 0.0, 0.005)),
@@ -215,8 +215,8 @@ class TacoEvalSceneCfg(InteractiveSceneCfg):
         ),
     )
 
-    # Lights — a grey dome without texture (colour and intensity: cfg/constants.py); a render sets its intensity and
-    # colour through the render look (rl.render.scene_look DEXENGINE_AUG_LIGHT).
+    # Lights — a grey dome without texture (colour and intensity: cfg/constants.py); the canonical look
+    # (record.looks.look_d.apply) turns it off and lights the room with its ceiling panels.
     light = AssetBaseCfg(
         prim_path="/World/light",
         spawn=sim_utils.DomeLightCfg(

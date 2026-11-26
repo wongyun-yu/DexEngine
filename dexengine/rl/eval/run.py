@@ -1,4 +1,5 @@
-"""``--task eval``: kinematic replay render, contact diagnostics, and the one-hand evaluation of a checkpoint.
+"""``--task eval``: the record-session seam (kinematic replay), the pose still, contact diagnostics, and the one-hand
+evaluation of a checkpoint.
 
 Imported lazily by ``dexengine.rl.cli`` after the AppLauncher, so module-level Isaac/skrl imports are safe.
 ``run_eval`` receives the entry module's RunContext (args, create_env, gym-id map, active object and side, small
@@ -6,8 +7,9 @@ helpers) and binds it to the module globals below.
 
 Order of ``run_eval``: the bimanual guard (bimanual runs are judged and rendered by the frozen-replay path of training)
 · env built with the eval overrides (``cfg_overrides``) · pose render (``--pose_render_out``, no policy) · env-flag
-diagnostics · PPO learner and checkpoint load · per-clip video render (``--render_per_clip_videos``; with
-``--kinematic_replay`` the policy is never called) · otherwise the balanced per-clip evaluation.
+diagnostics · PPO learner and checkpoint load · the record-session seam (``--record_session``: the built env goes to the
+function a record session attached, dexengine.rl.session_render; with ``--kinematic_replay`` the policy is never
+called) · otherwise the balanced per-clip evaluation.
 """
 
 import os
@@ -19,6 +21,7 @@ from skrl.utils.runner.torch import Runner
 from isaaclab_rl.skrl import SkrlVecEnvWrapper
 
 from dexengine.core.paths import run_out as _run_out  # a relative output folder is relative to the run tree
+from dexengine.rl import session_render as _SR  # the record session attaches its render function here
 from dexengine.rl.agents.models import _build_dual_policy_fn, _build_policy_models, assert_checkpoint_obs_dim
 from dexengine.rl.env_setup.refbase_audit import refbase_pd_audit
 from dexengine.rl.env_setup.robot_gains import apply_arm_gain_override, apply_hand_friction
@@ -27,7 +30,6 @@ from dexengine.rl.eval.contact_diag import contact_audit
 from dexengine.rl.judge.launch import check_launch
 from dexengine.rl.judge.rollouts import run_eval_balanced
 from dexengine.rl.judge.snapshot_metrics import _effective_fingertip_thresholds, _fmt_fingertip_thresholds
-from dexengine.rl.render.clip_video import _run_per_clip_video_render
 from dexengine.rl.run_context import bind_run_context
 
 # Entry-module context (RunContext), bound by bind_run_context at the start of run_eval.
@@ -64,14 +66,14 @@ def run_eval(ctx):
     # (frozen_eval_snapshot via --resume_from with DEXENGINE_FROZEN_REPLAY=1 [+DEXENGINE_FROZEN_RENDER=1]). This path
     # differs from the frozen replay and does not reproduce on bimanual checkpoints (same checkpoint, clips and
     # envs give different values; the cause is not known). One-hand runs use it only as a reference evaluation.
-    # The kinematic replay render of a bimanual scene opens it explicitly (DEXENGINE_ALLOW_BI_EVAL_PATH=1).
+    # The record render's kinematic replay of a bimanual scene opens it explicitly (DEXENGINE_ALLOW_BI_EVAL_PATH=1).
     if getattr(args_cli, "bimanual", 0) and os.environ.get("DEXENGINE_ALLOW_BI_EVAL_PATH", "0") != "1":
         raise SystemExit(
-            "[eval] bimanual runs do not use this eval/render path.\n"
-            "  Judging and rendering both go through the frozen path:\n"
+            "[eval] bimanual runs do not use this eval path.\n"
+            "  Judging goes through the frozen path:\n"
             "    judge : FROZEN_REPLAY_CKPT=<ckpt> SIDE=both ... bash scripts/stage3_rl.sh <name>  (chain: "
             "scripts/rl/judge_sidecar.sh)\n"
-            "    render: RENDER_ONLY=<ckpt.pt> SIDE=both ... bash scripts/stage3_rl.sh <name>\n"
+            "  Robot videos come only from the record render (scripts/stage4_record.py).\n"
             "  This path gives other values than the frozen one and does not reproduce under "
             "the same condition.\n"
             "  For a diagnostic, open it explicitly with DEXENGINE_ALLOW_BI_EVAL_PATH=1 — never use its values for "
@@ -122,26 +124,20 @@ def _run_in_env(_eval_cfg_overrides, _eval_train_parity, checkpoint_path, gym_id
     apply_arm_gain_override(raw_env)
     clip_names, num_clips, policy_fn, traj_mgr = _apply_hand_friction(checkpoint_path, raw_env, wrapped)
 
-    # --render_per_clip_videos: per-clip video render (the kinematic replay render goes here), then return.
-    if args_cli.render_per_clip_videos:
-        _run_per_clip_video_render(
+    # --record_session: the built env goes to the record session's render function (the record render's kinematic
+    # replay), then return.
+    if args_cli.record_session:
+        _SR.run(
             wrapped,
             policy_fn,
             traj_mgr,
             num_clips,
             clip_names,
             raw_env,
-            checkpoint_path=checkpoint_path,
-            out_dir=str(_run_out(args_cli.videos_out_dir)),
-            max_attempts=args_cli.videos_max_attempts,
-            max_episode_steps=args_cli.videos_max_episode_steps,
-            fps=args_cli.videos_fps,
-            warmup_attempts=args_cli.videos_warmup_attempts,
-            select_best_success=bool(args_cli.videos_select_best_success),
-            rollouts_per_clip=args_cli.videos_rollouts_per_clip,
-            rank_metric=args_cli.videos_rank_metric,
-            args_cli=args_cli,
-            create_env=create_env,
+            checkpoint_path,
+            str(_run_out(args_cli.videos_out_dir)),
+            args_cli,
+            create_env,
         )
         return  # skip the balanced evaluation
 
@@ -204,7 +200,7 @@ def _apply_hand_friction(checkpoint_path, raw_env, wrapped):
 
     print("  [Eval] policy_fn: deterministic mu (matches frozen_eval_snapshot semantics)")
 
-    # --dual_eval 1 (render only, bimanual scene): replace policy_fn with independent right and left one-hand
+    # --dual_eval 1 (bimanual scene): replace policy_fn with independent right and left one-hand
     # policies (obs 414 -> 207/207, action 12|12 -> 24). Everything downstream consumes policy_fn only.
     if getattr(args_cli, "dual_eval", 0):
         policy_fn = _build_dual_policy_fn(
@@ -216,9 +212,8 @@ def _apply_hand_friction(checkpoint_path, raw_env, wrapped):
             l_ckpt=os.path.abspath(args_cli.dual_ckpt_left),
         )
 
-    # Per-finger contact audit (DEXENGINE_CONTACT_AUDIT=1): prints and exits. With --render_per_clip_videos the
-    # render-path audit runs instead (it logs the same rollout it saves to video).
-    if os.environ.get("DEXENGINE_CONTACT_AUDIT") == "1" and not args_cli.render_per_clip_videos:
+    # Per-finger contact audit (DEXENGINE_CONTACT_AUDIT=1): prints and exits.
+    if os.environ.get("DEXENGINE_CONTACT_AUDIT") == "1":
         contact_audit(raw_env, wrapped, policy_fn, args_cli, checkpoint_path, _ACTIVE_OBJ_KEY)
 
     # Episode-based eval via run_eval_balanced (the same loop as the frozen evaluation). --eval_steps does not

@@ -4,7 +4,7 @@
 
 Modes (--task):
   train -- PPO training of the residual policy (one hand via --side {right,left}, or --bimanual 1)
-  eval  -- standalone eval / dual two-policy eval / render / kinematic replay
+  eval  -- standalone eval / dual two-policy eval / record-session seam (kinematic replay) / pose still
 
 Order of work:
   1. pre-Kit: parse the argv (`dexengine.rl.args`) and resolve robot, data and objects
@@ -42,6 +42,12 @@ from dexengine.rl.isaac_cli import (  # stdlib only
 parser = build_parser()
 add_app_launcher_args(parser)
 args_cli = parser.parse_args()
+
+from dexengine.rl import render_removed as _RR  # stdlib only
+
+# Removed renderer inputs die before anything else (a dump replayed by a record session starts this entry directly).
+if _rr_err := _RR.env_error(os.environ):
+    parser.error(_rr_err)
 
 from dexengine.rl.tasks import switches as _switches  # stdlib only
 
@@ -83,8 +89,9 @@ _active_side, _ACTIVE_OBJ_KEY = _inputs.resolve_active_object(parser, args_cli)
 _inputs.check_task(parser, args_cli)
 
 # The entry decides the kit (dexengine.rl.app — owner of the rule and its refusals): train · judge on the plain
-# `headless.kit` (no RTX renderer; head_camera leaves the cfg before the env is built, app.training_scene), render ·
-# replay on the rendering kit (`headless.rendering.kit`, which enable_cameras=True selects).
+# `headless.kit` (no RTX renderer; head_camera leaves the cfg before the env is built, app.training_scene), the
+# record-session entries render · replay on the rendering kit (`headless.rendering.kit`, which enable_cameras=True
+# selects).
 from dexengine.rl import app as _TK  # stdlib only
 
 try:
@@ -92,8 +99,8 @@ try:
     _no_render = _TK.plain_kit(
         os.environ,
         task=args_cli.task,
-        video=bool(args_cli.video),
-        per_clip_videos=bool(getattr(args_cli, "render_per_clip_videos", False)),
+        record_session=bool(args_cli.record_session),
+        pose_render=bool(args_cli.pose_render_out),
         enable_cameras=bool(getattr(args_cli, "enable_cameras", False)),
     )
 except ValueError as _e_tk:
@@ -114,15 +121,11 @@ _preapp.assert_clean()
 app_launcher = AppLauncher(args_cli)
 simulation_app = app_launcher.app
 exit_nonzero_on_uncaught()  # a module-level exception below also ends with rc 1 (Kit would end with rc 0)
-# Training without video (num_envs > 1) turns PhysX→Fabric sync off. Fabric is the render copy: training reads
+# Training (num_envs > 1, no record session) turns PhysX→Fabric sync off. Fabric is the render copy: training reads
 # state from the PhysX tensor views, and the kit already skips the per-step Fabric update
 # (fabricUpdateTransformations=false). With it on, start-up initializes the Fabric hierarchy of every prim on the
 # GPU, which dies with the cubric assertion `&out != &b` for XHand (~2,400 prims per env) at 4096 envs.
-_render_run = (
-    args_cli.video
-    or getattr(args_cli, "render_per_clip_videos", False)
-    or os.environ.get("DEXENGINE_FROZEN_RENDER", "0") == "1"
-)
+_render_run = args_cli.record_session or os.environ.get("DEXENGINE_FROZEN_RENDER", "0") == "1"
 if args_cli.task == "train" and (args_cli.num_envs is None or args_cli.num_envs > 1) and not _render_run:
     import carb as _carb_fx
 
@@ -256,50 +259,32 @@ def _construct_env(gym_id, num_envs, data_dir, sequence, seed, extra_cfg_fn, rec
 
     # Head camera: kept for single-env runs, stripped for multi-env runs (decided here because the cfg
     # __post_init__ cannot see the final num_envs).
-    from dexengine.rl.render import replay as _trr  # replay-render scene setup (light module; Isaac imports inside)
-
     _is_arm_loop = gym_id in _registry.GYM_IDS
     if _no_render:  # [TRAIN_KIT] headless — the training scene (no CameraCfg)
         _TK.training_scene(cfg, _ENTRY)
     if _is_arm_loop and hasattr(cfg.scene, "head_camera") and cfg.scene.head_camera is not None:
         # At num_envs > 1 the GPU descriptor pool (RTX ParameterBlocks + render products) runs out:
         # "Unable to allocate descriptor sets" / "Failed to allocate ParameterBlock resources".
-        if num_envs > 1 and not _trr.enabled():
+        if num_envs > 1:
             cfg.scene.head_camera = None
             print(f"[create_env] head_camera stripped (num_envs={num_envs} > 1)")
         else:
             print("[create_env] head_camera retained (num_envs=1)")
 
-    env = _add_clip_video_cameras(
-        gym_id, num_envs, extra_cfg_fn, recipe_path, recipe_build_cap, _is_arm_loop, _trr, cfg
-    )
-    if args_cli.video:
-        from dexengine.core.paths import run_out as _run_out  # a relative folder is run-tree relative
-
-        env = gym.wrappers.RecordVideo(
-            env,
-            video_folder=str(_run_out(args_cli.video_dir)),
-            step_trigger=lambda step: step == 0,
-            video_length=5000,
-            disable_logger=True,
-        )
+    env = _make_env(gym_id, num_envs, extra_cfg_fn, recipe_path, recipe_build_cap, _is_arm_loop, cfg)
     return env, cfg
 
 
-def _add_clip_video_cameras(gym_id, num_envs, extra_cfg_fn, recipe_path, recipe_build_cap, _is_arm_loop, _trr, cfg):
-    """Per-clip video cameras (--render_per_clip_videos) and the replay render settings."""
-    # Per-clip video cameras (--render_per_clip_videos). The replay render (render.replay, off by default) has no
-    # physics and draws N envs at once with tiled cameras, so it lifts the num_envs == 1 requirement.
-    if getattr(args_cli, "render_per_clip_videos", False) and (num_envs == 1 or _trr.enabled()) and _is_arm_loop:
-        from dexengine.rl.cli_entry import cameras as _cameras
+def _make_env(gym_id, num_envs, extra_cfg_fn, recipe_path, recipe_build_cap, _is_arm_loop, cfg):
+    """Scene cameras of a drawing process, the cfg overrides, then gym.make."""
+    # A drawing process (a record session, the pose still) gets the head camera every step and the front camera
+    # (owner record.render.cameras.add_scene_cameras); it draws one env.
+    if (args_cli.record_session or args_cli.pose_render_out) and _is_arm_loop:
+        if num_envs != 1:
+            raise SystemExit(f"[create_env] --record_session / --pose_render_out draw one env, got num_envs={num_envs}")
+        from dexengine.record.render import cameras as _scene_cams
 
-        _cameras.add_video_cameras(cfg, num_envs, _trr)
-    elif _trr.enabled():
-        raise RuntimeError(
-            f"[create_env] {_trr.ENV_VAR} is set but the render camera block was not entered — "
-            f"it needs --render_per_clip_videos "
-            f"--enable_cameras and an arm-loop gym id"
-        )
+        print(_scene_cams.add_scene_cameras(cfg), flush=True)
 
     # Contact-aware lag compensation Phase 1 (runtime trajmgr config + obs/reward/termination overrides) and the
     # contact-pilot wiring, before the task-specific extra_cfg_fn so that it can still override them. Flag-gated.
@@ -355,8 +340,7 @@ def _add_clip_video_cameras(gym_id, num_envs, extra_cfg_fn, recipe_path, recipe_
         split_bi=_split_artic_hr.bi_enabled(),
     )
 
-    render_mode = "rgb_array" if args_cli.video else None
-    env = gym.make(gym_id, cfg=cfg, render_mode=render_mode)
+    env = gym.make(gym_id, cfg=cfg, render_mode=None)
     return env
 
 

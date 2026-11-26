@@ -51,7 +51,7 @@ def show(raw_env, desk: dict | None, shift_z: float = 0.0) -> dict:
     from pxr import Gf, UsdGeom
 
     from dexengine.record.looks import look_d as LOOK
-    from dexengine.rl.render import scene_look as VA
+    from dexengine.record.looks import usd_bind as UB
     from dexengine.rl.tasks.scene import object_pin as OP
 
     if raw_env.num_envs != 1:
@@ -96,7 +96,7 @@ def show(raw_env, desk: dict | None, shift_z: float = 0.0) -> dict:
             )
             pil = {"radius_m": round(pr, 4), "height_m": round(bottom - gz, 4), "ground": gname}
         for pp in [path] + ([f"{ROOT}/pillar_{k}"] if pil else []):
-            if not VA._bind_mdl(stage, pp, f"look_support_{Path(pp).name}", mdl, project=True):
+            if not UB.bind_mdl(stage, pp, f"look_support_{Path(pp).name}", mdl, project=True):
                 raise SystemExit(f"{MARK} {pp} material binding failed")
         shown.append(
             {"slot": name, "r_m": round(r, 4), "center": [round(v, 4) for v in got], "pos_err_m": err, "pillar": pil}

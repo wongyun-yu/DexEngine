@@ -156,7 +156,7 @@ def _check_extra_slot_ledger(args_cli):
     # Judge termination rule (contact termination, dexengine.rl.judge.terms): a fresh-process judge proves the
     # argument value ([JUDGE_TERM] marker).
     check_judge_terms(_launch_ctx, getattr(args_cli, "enable_contact_termination", 0))
-    # Trajectory record and replay render (both off by default) are accepted only on the path that consumes them.
+    # The trajectory record (off by default) is accepted only on the path that consumes it.
     _tr_bad = []
     if os.environ.get("DEXENGINE_TRAJ_RECORD", ""):
         if os.environ.get("DEXENGINE_FROZEN_REPLAY", "0") != "1":
@@ -168,13 +168,6 @@ def _check_extra_slot_ledger(args_cli):
                 "DEXENGINE_TRAJ_RECORD and the render branch (DEXENGINE_FROZEN_RENDER=1) do not go together "
                 "— the render runs no judge batches"
             )
-    if os.environ.get("DEXENGINE_TRAJ_RENDER", "") and not (
-        os.environ.get("DEXENGINE_FROZEN_RENDER", "0") == "1" and os.environ.get("DEXENGINE_FROZEN_REPLAY", "0") == "1"
-    ):
-        _tr_bad.append(
-            "the only consumer of DEXENGINE_TRAJ_RENDER is the render branch "
-            "(DEXENGINE_FROZEN_RENDER=1 ∧ DEXENGINE_FROZEN_REPLAY=1)"
-        )
     # Object-pose trace (an experiment input, off by default): its only consumer is the trajectory recorder
     # above. The rules live in the plugin registered under the hook ``objtrace`` (dexengine.rl.tasks.hooks), which
     # the launch names in DEXENGINE_PLUGINS; it is looked up only when the input is set.

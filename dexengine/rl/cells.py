@@ -73,12 +73,6 @@ def traj_record_dir(sdir: Path) -> Path:
     return sdir / "traj_record"
 
 
-def replay_video_dir(sdir: Path, ckpt: str, label: str) -> Path:
-    """The replay render's videos (cell_session replay), beside the canonical render's <cell>/videos/<ckpt
-    stem>__<label> with suffix __replay; names <clip>__<view>.mp4."""
-    return sdir / "videos" / f"{ckpt[:-3]}__{label}__replay"
-
-
 def _sha(p: Path) -> str:
     return hashlib.sha256(p.read_bytes()).hexdigest()
 

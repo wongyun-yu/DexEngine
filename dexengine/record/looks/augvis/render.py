@@ -1,7 +1,7 @@
 """Measurement and apply layer (_Run) of the record render visual augment: the random looks of the per-clip render
 session (render.clip_session) inherit it through looks.look_run.LookRun (constructor and trajectory context there).
 It puts variations on top of look D (axes of augvis.catalog: top, floor and wall materials, panel intensity, colour
-temperature, WB, distractors; the scene-side functions are augvis.scene) and checks light convergence (LOOK.settle,
+temperature, WB, distractors; the scene-side functions are augvis.scene) and checks light convergence (LS.settle,
 the record canon). Physics, trajectory, head pose and exposure do not change.
 
 Scene measurements (once, on D):
@@ -23,7 +23,7 @@ import json
 import time
 from pathlib import Path
 
-from dexengine.record.looks import look_d as LOOK
+from dexengine.record.looks import look_settle as LS
 from dexengine.record.looks.augvis import allow as AL
 from dexengine.record.looks.augvis import catalog as AC
 from dexengine.record.looks.augvis import sample as AS  # owner of the sampler (sample_set · card rotation)
@@ -56,6 +56,9 @@ class _Run:
     def save(img, p: Path) -> None:
         from PIL import Image
 
+        from dexengine.record.looks import look_guard as LG
+
+        LG.require(f"looks.augvis.render.save({p.name})")
         h, w = img.shape[:2]
         Image.fromarray(img).resize((960, round(960 * h / w)), Image.LANCZOS).save(p, quality=85)
 
@@ -153,9 +156,9 @@ class _Run:
         return m & ~excl
 
     def converge(self) -> dict:
-        """Light convergence = the record canon LOOK.settle (load + light transport flow; rules and thresholds owned
+        """Light convergence = the record canon LS.settle (load + light transport flow; rules and thresholds owned
         by look_d) alone."""
-        d = LOOK.settle(self.rig)
+        d = LS.settle(self.rig)
         return {
             "settle_rounds": d["load_rounds"],
             "conv": d["drift"],

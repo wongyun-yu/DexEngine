@@ -283,6 +283,10 @@ def _open_head_encoder(fps, W, H, crf, vid):
     """ffmpeg encoder of the head left-eye video (RENDER_VIDEO size)."""
     import subprocess
 
+    from dexengine.record.looks import look_guard as LG
+
+    LG.require("sim_eval.loop.record head encoder")  # frames only after the canonical look
+
     ff = subprocess.Popen(
         [
             "ffmpeg",
@@ -329,6 +333,10 @@ def _overlay_recorded(ov, cols, row, S):
 def _open_exo_encoder(ex, S, fps, crf, od):
     """ffmpeg encoder of the exo window, opened at the first exo image size; returns (window, encoder, exo size)."""
     import subprocess
+
+    from dexengine.record.looks import look_guard as LG
+
+    LG.require("sim_eval.loop.record exo encoder")  # frames only after the canonical look
 
     eh, ew = ex.shape[:2]
     exo_win = _exo_window(S, ew, eh)

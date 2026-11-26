@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Trees the kinematic replay render (RENDER_ONLY=replay) runs: the launcher (dexengine.rl.launch.modes) decides them
-through this entry when it gets DEXENGINE_SEQ_LIST.
+"""Trees the kinematic replay dumps of the record render (RENDER_ONLY=replay, dump only) cover: the launcher
+(dexengine.rl.launch.modes) decides them through this entry when it gets DEXENGINE_SEQ_LIST.
 
 No new rule: the sequence folder identity (paths.seq_dir_identity), the combo split (paths.split_combo) and the list
 resolution (train_ready_util.resolve_roster: the same call and env inputs as the --sequence_dir branch of the training

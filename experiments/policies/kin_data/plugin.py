@@ -9,6 +9,7 @@ import os
 from dexengine.record import hooks
 from dexengine.record.session.runner import HOOK as SESSION_HOOK
 from dexengine.record.session.runner import set_arg
+from dexengine.rl import session_render as SR_SEAM  # the trainer's render seam (hook target name)
 
 
 def _prepare(a, argv: list[str], env: dict):
@@ -42,7 +43,7 @@ hooks.register(
         prepare=_prepare,
         log_problems=_log_problems,
         timeout_s=1800,
-        hook_line=f"{SESSION_HOOK} clip_video._run_per_clip_video_render",
+        hook_line=f"{SESSION_HOOK} {SR_SEAM.HOOK_TARGET}",
         progress="[TRAJ_REC] ",
     ),
 )

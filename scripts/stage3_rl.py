@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
-"""Stage 3 — RL: train, judge or render one run (paper Sec. 3.4). Thin CLI over `dexengine.rl.launch`.
+"""Stage 3 — RL: train or judge one run (paper Sec. 3.4). Thin CLI over `dexengine.rl.launch`.
 
   python3 scripts/stage3_rl.py RUN --side both --arm rby1 --hand sharpa_wave --dataset hot3d --emb bimanual \
       --seq-dir data/hot3d/trees/rby1_sharpa_wave/bimanual --seq-list <clip list> --gpu 0            # train
   … --mode judge --ckpt <run>/checkpoints/agent_51200.pt --judge-ne 1024 --judge-epc 64 --judge-iter 1600 \
       --switches-from <run>/switches.json            (the training's switches; the judge sidecar passes it)
-  … --mode render --render-ckpts agent_51200.pt --render-rundir <finished run folder>
-  … --mode replay        (kinematic reference replay video per clip)      … --mode smoke   (64-env boot check)
+  … --mode smoke   (64-env boot check)
+  … --mode render --render-ckpts agent_51200.pt --render-rundir <run folder> --dry-run   |   … --mode replay --dry-run
+                        (dumps only, for a record session: the RL trainer draws nothing — robot videos come only from
+                         the record render, scripts/stage4_record.py; without --dry-run these modes die)
   … --set NE=2048 --set LAGW=0                                            (recipe overrides, configs/rl/recipe.yaml)
   … --set arm_ff=0 --set obj_spawn_hold=0       (RL switches: fields of dexengine.rl.tasks.switches.RLSwitches)
   … --dry-run           (write the manifest and the trainer argv dumps; start nothing)
 
 Any input not given as a flag is read from a recorded launch environment (the form campaign cells and the judge
 sidecar store: SIDE GPU SEQ_DIR DEXENGINE_ARM DEXENGINE_HAND DEXENGINE_DATASET DEXENGINE_EMBODIMENT
-DEXENGINE_SEQ_LIST FROZEN_REPLAY_CKPT/_NE/_EVALS_PER_CLIP/_ITER RENDER_ONLY RENDER_RUNDIR VIDEOS_ONLY_CLIPS SMOKE
-DO_VIDEO DRYRUN and
+DEXENGINE_SEQ_LIST FROZEN_REPLAY_CKPT/_NE/_EVALS_PER_CLIP/_ITER RENDER_ONLY RENDER_RUNDIR SMOKE
+DRYRUN and
 recipe keys such as NE or KL_THRESH). Exit codes: see dexengine.rl.launch.dispatch.
 """
 
@@ -48,7 +50,6 @@ FLAG_ENV = {
     "judge_iter": "FROZEN_REPLAY_ITER",
     "render_rundir": "RENDER_RUNDIR",
     "extra": "EXTRA",
-    "videos_only_clips": "VIDEOS_ONLY_CLIPS",
 }
 
 
@@ -62,8 +63,7 @@ def parse(argv):
     ap.add_argument("--mode", choices=("train", "smoke", "judge", "render", "replay"))
     for f in FLAG_ENV:
         ap.add_argument("--" + f.replace("_", "-"), dest=f)
-    ap.add_argument("--render-ckpts", help="render: checkpoint file names, comma separated")
-    ap.add_argument("--no-video", action="store_true", help="bimanual train: skip the post-training video")
+    ap.add_argument("--render-ckpts", help="render dump: checkpoint file names, comma separated")
     ap.add_argument("--set", action="append", default=[], metavar="KEY=VALUE", help="recipe override (repeatable)")
     ap.add_argument(
         "--switches-from",
@@ -99,8 +99,6 @@ def main(argv=None) -> int:
     }
     if a.mode in mode_env:
         env.update(mode_env[a.mode])
-    if a.no_video:
-        env["DO_VIDEO"] = "0"
     if a.dry_run:
         env["DRYRUN"] = "1"
     try:

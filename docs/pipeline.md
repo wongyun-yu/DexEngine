@@ -219,7 +219,10 @@ bash scripts/stage2_ground.sh --arm <arm> --hand <hand> --dataset <ds> --emb <em
   `dexengine.core.hands.HAND_RL_RECIPES`. Every bundle trains from scratch: a campaign launch first proves that the
   bundle's cell and work area are empty.
 - **Modes.** `--mode smoke` boots and checks the environment. `--dry-run` writes the manifest and the trainer argv
-  without starting anything. `--print` prints the resolved trainer processes.
+  without starting anything. `--print` prints the resolved trainer processes. Training and judging draw no frames,
+  and the RL launcher starts no drawing process: `--mode render`, `--mode replay` and a one-hand judge's
+  `FROZEN_RENDER_OUT` only write dumps (`--dry-run`) that a record session replays, and die otherwise. Every robot
+  video comes from the record render (stage 4 below).
 - **Writes.** Logs and the command record go to `overfit/logs/refbase/`. Checkpoints go to
   `<work_ckpt>/<RUN>/checkpoints/agent_<iter>.pt` (`dexengine.core.layout.runs.RUN_WORK_AREAS`). Both are under the
   run tree (`paths.run_root_of`: the data root for a release or copied data root, the checkout for the canonical
@@ -289,8 +292,23 @@ bash scripts/stage2_ground.sh --arm <arm> --hand <hand> --dataset <ds> --emb <em
   3. Pose augmentation (`--round aug`, `dexengine.record.augment`): new placements, rolled out without retraining.
      Rule A (`placement/judge/canon_fit.py`) shifts the judge origin so the canonical placement is a window cell.
   4. Rendering under the canonical look and random looks (visual augmentation, `dexengine.record.looks`; assets from
-     the `assets` tool).
+     the `assets` tool). The canonical look is look D, applied by one function (`dexengine.record.looks.look_d.apply`:
+     room, lights, exposure, materials, props); a frame guard (`dexengine.record.looks.look_guard`) kills any frame
+     writer that runs without it. The record render is the only producer of robot videos. The trainer hands its
+     built env to the record session's render function through one seam (`dexengine.rl.session_render`, trainer flag
+     `--record_session`); it draws nothing itself. The removed RL renderers' inputs (`--render_per_clip_videos`,
+     `--video`, the `--videos_*` flags, `DEXENGINE_TRAJ_RENDER`, `DEXENGINE_AUG_*`, …; list in
+     `dexengine.rl.render_removed`) die with a pointer here.
   5. Storing a LeRobot v2.1 piece (`dexengine.record.store`).
+- **Render-only object index.** The render also shows the objects of the original capture scene that the tree does
+  not hold, listed per dataset in `data/<ds>/render_only/` (index and clip files). This index is not shipped: `drive`
+  (before its workers) and `bundle` (before stage 1 of a run that renders) build it for the whole dataset when it is
+  missing, and print `[RENDER_ONLY] <ds>: index missing … the record builds it …`. The hands come from the base
+  layers of the data root: the axis hand when it has base trees, otherwise the one hand the root holds. Any other
+  root (no hand, or several hands without the axis hand) dies; state its hands to the generator by hand: `python -m
+  dexengine.record.scene.render_only_build --dataset <ds> --root-hands <hand>[,…]`. A clip that cannot be measured
+  writes nothing and stops the run. The build reads the dataset's raw capture (`data/<ds>/raw`) and runs on one CPU
+  thread.
 - **`merge`.** `merge append --final <final> --piece <out>/rounds/<round>/dataset --piece-id <id>` appends a checked piece to the
   final dataset of a hand × dataset, `data/<ds>/collect/<combo>`. It is idempotent per piece id. `merge verify
   --final <final>` checks the final dataset.

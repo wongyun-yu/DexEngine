@@ -1,4 +1,4 @@
-"""Desk-top material binding, the base-layer MDL list of the look-D mirror, and the blackbody colour helper.
+"""Desk-top material binding and the blackbody colour helper of look D.
 
 Desk top: look D's desk MDL (look_d.MDL['desk'], birch) is bound to the desk top with a world-space projection in
 metres (world_or_object=True, texture_scale = 1/TILE_WORLD_M), independent of the asset's units. With the MDL
@@ -7,9 +7,6 @@ remains. The augmentation textures (augvis.scene) use the same world projection.
 Oracle: before binding, the measured length of one pattern tile (world: scene metres per unit / texture_scale;
 object: world length of one object unit / texture_scale) must lie in TILE_M; the value is logged and stored in
 render_meta (render_look.applied.desk_tile_m).
-
-Base-layer MDLs: the background MDLs look D's mirror carries are the render look's (render_look.MDL — look D draws
-over that look); base_roots lists them, and look_assets.build_mirror / verify_mirror follow that list.
 """
 
 from __future__ import annotations
@@ -59,7 +56,7 @@ def bind_desk(stage, prim_path: str, name: str, mdl: str) -> float:
     Returns the tile length in m."""
     from pxr import Gf, Sdf
 
-    from dexengine.rl.render import scene_look as VA
+    from dexengine.record.looks import usd_bind as UB
 
     scale = 1.0 / TILE_WORLD_M
     t = tile_m(stage, prim_path, "world", scale)
@@ -67,9 +64,9 @@ def bind_desk(stage, prim_path: str, name: str, mdl: str) -> float:
         raise SystemExit(
             f"{MARK} desk top {prim_path} tile {t:.3f} m outside {TILE_M} (would render as the mipmap average colour)"
         )
-    if not VA._bind_mdl(stage, prim_path, name, mdl, project=True):
+    if not UB.bind_mdl(stage, prim_path, name, mdl, project=True):
         raise SystemExit(f"{MARK} desk top {prim_path} material binding failed")
-    sh = stage.GetPrimAtPath(f"/World/AugMaterials/{name}/Shader")
+    sh = stage.GetPrimAtPath(f"{UB.MATERIALS}/{name}/Shader")
     sh.CreateAttribute("inputs:world_or_object", Sdf.ValueTypeNames.Bool).Set(True)
     sh.CreateAttribute("inputs:texture_scale", Sdf.ValueTypeNames.Float2).Set(Gf.Vec2f(scale, scale))
     print(
@@ -91,13 +88,6 @@ def desk_woods(stage) -> list[str]:
         if wood is not None:
             out.append(str(wood.GetPath()))
     return out
-
-
-def base_roots() -> list[str]:
-    """Mirror-relative paths of the base-layer MDLs (the render look's, render_look.mdl_rels)."""
-    from dexengine.record.looks import render_look as RL
-
-    return RL.mdl_rels()
 
 
 def blackbody_rgb(kelvin: float) -> list[float]:

@@ -215,7 +215,7 @@ def record_kin(
     wrapped, policy_fn, traj_mgr, num_clips, clip_names, raw_env, checkpoint_path, out_dir, *_a, args_cli=None, **_kw
 ):
     """Write and record the reference state per session clip and frame — in place of the render function
-    (_run_per_clip_video_render).
+    (the trainer's render seam, dexengine.rl.session_render).
     """
     import torch
 

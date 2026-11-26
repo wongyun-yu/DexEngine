@@ -39,8 +39,6 @@ PRESET_FLAGS = (
 PRESET_TRAIN_FLAGS = "--collision_curriculum 0 --enable_contact_termination 0"
 #: Rollouts per PPO iteration (checkpoint agent_<iteration × rollouts>.pt).
 ROLLOUTS_DEFAULT = "32"
-#: Post-training and checkpoint videos: best of 8 rollouts per clip, ranked by object tracking.
-RENDER_ROLLOUTS = 8
 
 
 @dataclasses.dataclass
@@ -223,18 +221,6 @@ def bi_env(plan: Plan, gate: bool = True) -> dict:
     if gate:
         e["DEXENGINE_LEFT_GATE_RAMP"] = plan.values["LGATE_RAMP"]
     return e
-
-
-def render_select(markers: str, only_clips: str = "") -> str:
-    """Video selection flags: best of RENDER_ROLLOUTS rollouts per clip, all-fail retries for ~40 attempts; with
-    `only_clips` (comma-separated name tokens) only the matching clips are rendered."""
-    retry = max(0, (40 + RENDER_ROLLOUTS - 1) // RENDER_ROLLOUTS - 1)
-    only = f"--videos_only_clips {only_clips} " if only_clips else ""
-    return (
-        f"--videos_select_best_success 1 --videos_rollouts_per_clip {RENDER_ROLLOUTS} "
-        f"--videos_allfail_retry_batches {retry} {only}--videos_rank_metric obj_pos_obj_rot_mean "
-        f"--render_markers {markers} --enable_contact_termination 0"
-    )
 
 
 def final_ckpt(plan: Plan) -> Path:

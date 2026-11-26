@@ -1,8 +1,12 @@
-"""The trainer processes of each launch mode (training, smoke, judge, physics render, kinematic replay).
+"""The trainer processes of each launch mode (training, smoke, judge, and the dump-only render and replay modes).
 
 Each function returns the `Call`s a mode starts, with their per-process environment; `dexengine.rl.launch.dispatch`
-starts them (or dumps them in a dry run). Training also has follow-up processes (automatic resume after a GPU
-memory failure, the post-training video) that `run` builds on demand from the same pieces.
+starts them (or dumps them in a dry run). Training also has a follow-up process (automatic resume after a GPU memory
+failure) that `run` builds on demand from the same pieces.
+
+The render and replay modes (and the one-hand judge's FROZEN_RENDER_OUT) only write dumps (DRYRUN): a
+record session (scripts/stage4_record.py; experiments.sim_eval) replays a dump and attaches its render function to
+the trainer's seam (--record_session, dexengine.rl.session_render). The RL launcher starts no drawing process.
 """
 
 from __future__ import annotations
@@ -19,21 +23,21 @@ from dexengine.rl.launch.recipe import RecipeError
 from dexengine.rl.tasks import switches
 
 
-def render_look_env(plan: Plan, physx_lite: bool) -> dict:
-    """Trainer environment of a rendering process: the render look (owner dexengine.record.looks.render_look), plus
-    the light PhysX profile for bimanual renders."""
-    from dexengine.record.looks import render_look as RL
+def scene_env(plan: Plan, physx_lite: bool) -> dict:
+    """Trainer environment of a drawing process's dump: the build-time scene inputs (owner
+    dexengine.record.looks.scene_env; the look itself is applied on the stage by dexengine.record.looks.look_d), plus
+    the light PhysX profile for bimanual scenes. A PRESET (the old render-look preset) dies: there is one look."""
+    from dexengine.record.looks import scene_env as SE
 
-    try:
-        look = RL.env(plan.req.root, {**os.environ, **plan.env})
-    except ValueError as e:
-        raise RecipeError(str(e)) from None
+    environ = {**os.environ, **plan.env}
+    if environ.get("PRESET"):
+        raise RecipeError(f"PRESET={environ['PRESET']!r} removed — one look (dexengine.record.looks.look_d)")
+    look = SE.env(environ)
     if physx_lite:
         look = {"DEXENGINE_PHYSX_LITE": plan.env.get("DEXENGINE_PHYSX_LITE") or "1", **look}
     print(
-        f"[launch] render look: room={Path(look.get('DEXENGINE_AUG_ROOM', 'none')).name} "
-        f"desk={Path(look.get('DEXENGINE_AUG_DESK_MDL', 'none')).name} "
-        f"key={look.get('DEXENGINE_KEY_LIGHT', 'default')}",
+        f"[launch] record scene env: key={look.get(SE.KEY_LIGHT, environ.get(SE.KEY_LIGHT))} "
+        f"focal={look.get(SE.FOCAL, environ.get(SE.FOCAL))} physx_lite={look.get('DEXENGINE_PHYSX_LITE', '-')}",
         flush=True,
     )
     return look
@@ -84,45 +88,34 @@ def smoke_call(plan: Plan) -> Call:
     )
 
 
-#: Env count of a physics render (the post-training video, the one-hand FROZEN_RENDER_OUT render): the render draws
-#: env 0 clip after clip (clip_video._run_per_clip_video_render), so one env — never the recipe NE (a 4096-env render
-#: scene with replicate_physics hits the rendering kit's scene-build regression: 94 s → 1081 s, state_rl_accel).
+#: Env count of a frozen-render process (the bimanual render dump, the one-hand FROZEN_RENDER_OUT dump): the record
+#: session draws env 0 clip after clip, so one env — never the recipe NE (a 4096-env render scene with
+#: replicate_physics hits the rendering kit's scene-build regression: 94 s → 1081 s, state_rl_accel).
 RENDER_NE = "1"
 
 
-def render_ne(plan: Plan, entry: str) -> str:
-    """NE of a frozen-replay process that renders (judge_entry), owned by its entry — the recipe NE is never inherited:
-    render = RENDER_NE (a FROZEN_REPLAY_NE other than that dies) · replay = the caller's FROZEN_REPLAY_NE, which must
-    be given (one env per recorded clip of the trajectory file — cell_session states the bundle's clip count)."""
+def render_ne(plan: Plan) -> str:
+    """NE of a frozen-render process — the recipe NE is never inherited: RENDER_NE (a FROZEN_REPLAY_NE other than that
+    dies)."""
     given = plan.req.judge_ne
-    if entry == "render":
-        if given and given != RENDER_NE:
-            raise RecipeError(
-                f"FROZEN_REPLAY_NE={given}: a physics render runs {RENDER_NE} env (clips in turn on env 0) — "
-                "leave FROZEN_REPLAY_NE out or set it to that"
-            )
-        return RENDER_NE
-    if not given:
+    if given and given != RENDER_NE:
         raise RecipeError(
-            "a trajectory replay (DEXENGINE_TRAJ_RENDER) needs FROZEN_REPLAY_NE = the recorded clip count (one env "
-            "per clip) — the recipe NE is not a render's env count"
+            f"FROZEN_REPLAY_NE={given}: a frozen render runs {RENDER_NE} env (clips in turn on env 0) — "
+            "leave FROZEN_REPLAY_NE out or set it to that"
         )
-    return given
+    return RENDER_NE
 
 
 def judge_entry(plan: Plan) -> str:
-    """Entry of a frozen-replay process (dexengine.rl.app): the judge itself (plain kit, never renders), or a render
-    under the judge's frozen conditions — FROZEN_RENDER_OUT = physics render of the checkpoint's rollouts (render) ·
-    DEXENGINE_TRAJ_RENDER = kinematic replay of a recorded trajectory file (replay). Log and video names stay the
-    judge's (`<run>_frozenreplay`, the given video folder)."""
-    if plan.req.frozen_render_out:
-        return "render"
-    return "replay" if plan.env.get("DEXENGINE_TRAJ_RENDER") else "judge"
+    """Entry of a frozen-replay process (dexengine.rl.app): the judge itself (plain kit, never renders), or — with
+    FROZEN_RENDER_OUT (dump only) — the judge's frozen point handed to a record session (render). Log names stay the
+    judge's (`<run>_frozenreplay`)."""
+    return "render" if plan.req.frozen_render_out else "judge"
 
 
 def judge_call(plan: Plan) -> Call:
     """Fresh-process judge of one checkpoint: warm-up + PARK batches inside the trainer (`dexengine.rl.judge`) — or,
-    with a render request, a render process at the same frozen point (judge_entry)."""
+    with FROZEN_RENDER_OUT, the dump of a record-session process at the same frozen point (judge_entry)."""
     req, v = plan.req, plan.values
     resume = PL.judge_resume(plan)
     entry = judge_entry(plan)
@@ -131,11 +124,9 @@ def judge_call(plan: Plan) -> Call:
         env["DEXENGINE_FROZEN_REPLAY_EVALS_PER_CLIP"] = req.judge_epc
     render, look = "", {}
     if entry != "judge":
-        look = render_look_env(plan, physx_lite=req.path == "bi")
+        look = scene_env(plan, physx_lite=req.path == "bi")
         env.update(look, DEXENGINE_FROZEN_RENDER="1")
-        render = (
-            f"--render_per_clip_videos --enable_cameras --videos_out_dir {req.traj_render_out or req.frozen_render_out}"
-        )
+        render = f"--record_session --enable_cameras --videos_out_dir {req.frozen_render_out}"
     if req.path == "bi":
         flags = f"{PL.arm_gains(v)} {PL.bi_train_flags(plan)} {PL.policy_flags(plan)} {plan.extra} {resume}" + (
             f" {render}" if render else ""
@@ -152,7 +143,7 @@ def judge_call(plan: Plan) -> Call:
         exp=req.out,
         extra_flags=flags,
         entry=entry,
-        ne=(req.judge_ne or v["NE"]) if entry == "judge" else render_ne(plan, entry),
+        ne=(req.judge_ne or v["NE"]) if entry == "judge" else render_ne(plan),
         mi="1",
         wandb=False,
         bimanual=req.path == "bi",
@@ -164,7 +155,7 @@ def judge_call(plan: Plan) -> Call:
 
 
 def render_out(req, name: str) -> str:
-    """Default video folder `name` of a render or replay launch: the run tree's RUN_RENDER_OUT, in the argv form
+    """Default output folder `name` of a render or replay dump: the run tree's RUN_RENDER_OUT, in the argv form
     (records.arg_path — relative only when the run tree is the trainer's cwd)."""
     from dexengine.core import paths as P
 
@@ -179,13 +170,12 @@ def ckpt_dir(plan: Plan) -> Path:
 
 
 def render_call(plan: Plan, ckpt: str, tag: str, out_dir: str, look: dict) -> Call:
-    """Bimanual physics render of one checkpoint (best of 8 rollouts per clip)."""
+    """Bimanual frozen-render dump of one checkpoint (a record session draws it; contact termination off as in the
+    judge)."""
     req, v = plan.req, plan.values
-    sel = PL.render_select(req.markers, req.videos_only_clips)
     flags = (
-        f"{PL.arm_gains(v)} {PL.bi_train_flags(plan)}  {sel} {PL.policy_flags(plan)} "
-        f"{plan.extra} --resume_from {ckpt} --render_per_clip_videos --enable_cameras "
-        f"--videos_warmup_attempts 0 --videos_out_dir {out_dir}"
+        f"{PL.arm_gains(v)} {PL.bi_train_flags(plan)}  --enable_contact_termination 0 {PL.policy_flags(plan)} "
+        f"{plan.extra} --resume_from {ckpt} --record_session --enable_cameras --videos_out_dir {out_dir}"
     )
     env = {**PL.bi_env(plan), "DEXENGINE_FROZEN_REPLAY": "1", "DEXENGINE_FROZEN_RENDER": "1", **look}
     return Call(
@@ -205,7 +195,7 @@ def render_call(plan: Plan, ckpt: str, tag: str, out_dir: str, look: dict) -> Ca
 
 
 def render_calls(plan: Plan, look: dict) -> list[Call]:
-    """One render per requested checkpoint that exists (missing ones are reported and skipped)."""
+    """One render dump per requested checkpoint that exists (missing ones are reported and skipped)."""
     req, d = plan.req, ckpt_dir(plan)
     if not d.is_dir():
         raise RecipeError(f"checkpoint folder missing: {d}")
@@ -225,16 +215,13 @@ def replay_out_dir(plan: Plan) -> str:
 
 
 def replay_call(plan: Plan, view_dir: str, clip: str, look: dict) -> Call:
-    """Kinematic reference replay (no policy) of one clip, four views."""
+    """Kinematic replay dump (no policy) of one clip: the scene the record render draws (record stage 2)."""
     req, v = plan.req, plan.values
     if req.path == "bi":
-        flags = (
-            f"{PL.arm_gains(v)} {PL.policy_flags(plan)} {PL.PRESET_TRAIN_FLAGS} --render_markers {req.markers} "
-            f"{plan.extra}"
-        )
+        flags = f"{PL.arm_gains(v)} {PL.policy_flags(plan)} {PL.PRESET_TRAIN_FLAGS} {plan.extra}"
         env = {**PL.bi_env(plan, gate=False), "DEXENGINE_ALLOW_BI_EVAL_PATH": "1"}
     else:
-        flags = f"{PL.uni_eval_flags(plan)} {PL.policy_flags(plan)} --render_markers {req.markers} {plan.extra}"
+        flags = f"{PL.uni_eval_flags(plan)} {PL.policy_flags(plan)} {plan.extra}"
         env = {}
     return Call(
         exp=req.run,
@@ -251,7 +238,7 @@ def replay_call(plan: Plan, view_dir: str, clip: str, look: dict) -> Call:
 
 
 def replay_clips(plan: Plan) -> list[str]:
-    """Clip folders a replay renders: the clip list (DEXENGINE_SEQ_LIST) or every entry of SEQ_DIR."""
+    """Clip folders a replay dump covers: the clip list (DEXENGINE_SEQ_LIST) or every entry of SEQ_DIR."""
     seq_dir, lst = plan.req.seq_dir, plan.env.get("DEXENGINE_SEQ_LIST", "")
     if lst:
         r = subprocess.run(

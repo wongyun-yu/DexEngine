@@ -20,8 +20,8 @@ dexengine/cluster/scheduler.py) on the GPU host after its checks (rc 3): no camp
             sidecar_env (quick judges off · deadline · concurrency) · SIDE=both|right|left
   train     scripts/stage3_rl.py with DO_VIDEO=0 under a timeout (TRAIN_TIMEOUT_X × the class estimate); rc → train.rc
   finalize  cells.finalize (move into the cell; --prune-ckpt on keeps the judged checkpoints ∪ the last)
-  after     dexengine/rl/cell_tools.py: relaunch (a failed bundle's attempt → attempts/ with a ledger) · render (best +
-            last from the cell) · collect (per-hand result tables)
+  after     dexengine/rl/cell_tools.py: relaunch (a failed bundle's attempt → attempts/ with a ledger) · collect
+            (per-hand result tables); robot videos come only from the record render (scripts/stage4_record.py)
 The planning model (dexengine.rl.campaign_model: train_hours · schedule · split_table) estimates how long a queue takes
 on a host split into training and judge GPUs, with or without overflow, and the checkpoint disk it peaks at.
 

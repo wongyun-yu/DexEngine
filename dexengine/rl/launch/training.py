@@ -1,8 +1,9 @@
-"""The training mode: cold-start PPO, automatic resume after a GPU memory failure, results row, final video.
+"""The training mode: cold-start PPO, automatic resume after a GPU memory failure, results row.
 
 A run is complete when its final checkpoint agent_<MI × rollouts>.pt exists; a launch whose final checkpoint
-already exists does not train again (it only writes the results row and, for bimanual runs, the video). Judging is
-the separate fresh-process judge (`dexengine.rl.judge`), never part of training.
+already exists does not train again (it only writes the results row). Judging is the separate fresh-process judge
+(`dexengine.rl.judge`), never part of training. The training entry draws nothing: training runs without the renderer,
+and robot videos come only from the record render (scripts/stage4_record.py).
 
 Automatic resume (bimanual): when the trainer log shows a GPU memory failure (PhysX/CUDA allocation errors) or the
 trainer's planned restart marker `[MEM_RESTART] iter`, training resumes from the last checkpoint saved before the
@@ -109,17 +110,8 @@ def _train_bi(plan: Plan, ref: Path, need: int) -> int:
         return 1
     _row(plan, "SIDECAR", secs, "JUDGE=sidecar")
     print(f"[launch] JUDGE {req.run} = judge sidecar (fresh-process PARK judge)", flush=True)
-    vid_rc = 0
-    if req.video:
-        records.check_coll_preset(tree, req.run, plan.preset, "render")
-        look = modes.render_look_env(plan, physx_lite=True)
-        vid = modes.render_out(req, f"{req.run}_vidB")
-        call = modes.render_call(plan, records.arg_path(req, ck), "B", vid, look)
-        vid_rc = process.start(process.resolve_call(plan, call, ref), root, False)
-        n = len(list(records.P.run_out(vid, tree).glob("*.mp4")))
-        print(f"  vid_B: {n} mp4s" + (f" · render rc={vid_rc}" if vid_rc else ""), flush=True)
     print(f"[launch {time.strftime('%T')}] DONE {req.run} train={secs}s", flush=True)
-    return vid_rc
+    return 0
 
 
 def _auto_resume(plan: Plan, ref: Path, ck: Path) -> None:

@@ -3,11 +3,15 @@
 A launch is one run name plus a side (right|left = one hand, both = bimanual), the robot (arm, hand), the data view
 (dataset, embodiment, SEQ_DIR) and one mode:
 
-  train   PPO training (cold start), then for bimanual an optional post-training video (`video`)
+  train   PPO training (cold start); the training entry draws nothing
   smoke   64-env 1-iteration boot check
   judge   fresh-process judge of one checkpoint (the paper's clip acceptance; `dexengine.rl.judge`)
-  render  bimanual physics render of finished checkpoints (`render_ckpts`, read from `render_rundir`)
-  replay  kinematic reference replay video, one Isaac session per clip
+  render  dump only: the frozen point of finished bimanual checkpoints (`render_ckpts`, read from `render_rundir`)
+          for a record session (the E5 closed-loop evaluation, experiments.sim_eval)
+  replay  dump only: the kinematic replay scene of each clip for the record render (scripts/stage4_record.py)
+The RL launcher starts no drawing process: render, replay and the one-hand judge's FROZEN_RENDER_OUT write dumps
+(DRYRUN=1) that a record session replays (DRAW_MODES_DUMP_ONLY); started for real they die. Removed
+renderer inputs (dexengine.rl.render_removed) die here too.
 
 Campaign cells, judge sidecars and recorded launch lines store a launch as environment tokens
 (`env SIDE=both GPU=0 SEQ_DIR=… DEXENGINE_ARM=… FROZEN_REPLAY_CKPT=… <entry> RUN`); `from_env` reads that form, so a
@@ -22,6 +26,7 @@ from collections.abc import Mapping
 from pathlib import Path
 
 from dexengine.core.repo import REPO_ROOT
+from dexengine.rl import render_removed as RR  # stdlib only
 from dexengine.rl.launch.recipe import RecipeError, path_of
 
 MODES = ("train", "smoke", "judge", "render", "replay")
@@ -30,8 +35,13 @@ MODES = ("train", "smoke", "judge", "render", "replay")
 OUT_SUFFIX = {"train": "", "smoke": "_smoke", "judge": "_frozenreplay", "render": "_render", "replay": "_replay"}
 #: Environment keys that select a mode in a recorded launch line (one at most).
 _MODE_KEYS = ("SMOKE", "FROZEN_REPLAY_CKPT", "RENDER_ONLY")
-#: Inputs only the judge mode consumes (trajectory record/render hooks of the judge loop).
-_JUDGE_ONLY_ENV = ("DEXENGINE_TRAJ_RECORD", "DEXENGINE_TRAJ_RENDER", "FROZEN_RENDER_OUT")
+#: Inputs only the judge mode consumes (the trajectory record hook of the judge loop, the frozen-render dump).
+_JUDGE_ONLY_ENV = ("DEXENGINE_TRAJ_RECORD", "FROZEN_RENDER_OUT")
+#: Why a drawing mode is dump-only (the error of a real launch).
+DRAW_MODES_DUMP_ONLY = (
+    "writes a dump for a record session only (DRYRUN=1) — the RL launcher starts no drawing process; "
+    "robot videos come only from the record render: scripts/stage4_record.py"
+)
 
 
 @dataclasses.dataclass
@@ -58,12 +68,8 @@ class Request:
     judge_iter: str = ""  # judge: PPO iteration of the checkpoint (label of the judge record)
     render_ckpts: tuple = ()  # render: checkpoint file names under <render_rundir>/checkpoints
     render_rundir: str = ""  # render: finished run folder (default logs/skrl/<train dir>/<run>)
-    render_out_dir: str = ""  # render/replay: video folder override
-    traj_render_out: str = ""  # judge with DEXENGINE_TRAJ_RENDER: video folder
-    frozen_render_out: str = ""  # one-hand judge: render the judged rollouts into this folder
-    video: bool = True  # bimanual train: render the final checkpoint afterwards
-    markers: str = "0"  # render/replay: draw reference markers
-    videos_only_clips: str = ""  # bimanual render: only clips whose name contains one of these tokens
+    render_out_dir: str = ""  # render/replay dump: output folder override
+    frozen_render_out: str = ""  # one-hand judge dump: the record session's output folder at the frozen point
     wandb_group: str = ""
     dry_run: bool = False  # write the trainer argv + env dump instead of launching
     need_mib: int | None = None  # free GPU memory to wait for before a launch (None = mode default)
@@ -98,14 +104,13 @@ class Request:
             raise RecipeError("frozen_render_out is a one-hand judge input (bimanual renders use the render mode)")
         if self.mode != "judge":
             given = [k for k in _JUDGE_ONLY_ENV if self.env.get(k)]
-            if self.traj_render_out:
-                given.append("TRAJ_RENDER_OUT")
             if given:
                 raise RecipeError(f"{given} are judge-mode inputs (FROZEN_REPLAY_CKPT); this launch is {self.mode}")
-        if self.env.get("DEXENGINE_TRAJ_RENDER") and not self.traj_render_out:
-            raise RecipeError("DEXENGINE_TRAJ_RENDER needs TRAJ_RENDER_OUT (the video folder)")
-        if self.env.get("DEXENGINE_TRAJ_RENDER") and self.frozen_render_out:
-            raise RecipeError("DEXENGINE_TRAJ_RENDER and FROZEN_RENDER_OUT are two renders of one judge; pick one")
+        if (self.mode in ("render", "replay") or self.frozen_render_out) and not self.dry_run:
+            what = "FROZEN_RENDER_OUT" if self.frozen_render_out else f"RENDER_ONLY ({self.mode} mode)"
+            raise RecipeError(f"{what} {DRAW_MODES_DUMP_ONLY}")
+        if err := RR.env_error(self.env):
+            raise RecipeError(err)
 
     @property
     def run_tree(self) -> Path:
@@ -164,9 +169,12 @@ def _request_from_environ(run, environ, fields, knobs):
         "CRF",
         "VPRESET",
         "QUALITY",
+        "DO_VIDEO",
     ):
         if environ.get(k) and environ.get(k) != "0":
             raise RecipeError(f"{k} is not a launch input (removed); see scripts/stage3_rl.py --help")
+    if err := RR.env_error(environ):  # removed renderer inputs (launch keys and trainer env alike)
+        raise RecipeError(err)
     mode = "train"
     if environ.get("SMOKE") == "1":
         mode = "smoke"
@@ -196,11 +204,7 @@ def _request_from_environ(run, environ, fields, knobs):
         "render_ckpts": tuple(environ.get("RENDER_ONLY", "").split()) if mode == "render" else (),
         "render_rundir": environ.get("RENDER_RUNDIR", ""),
         "render_out_dir": environ.get("RENDER_OUT_DIR", ""),
-        "traj_render_out": environ.get("TRAJ_RENDER_OUT", ""),
         "frozen_render_out": environ.get("FROZEN_RENDER_OUT", ""),
-        "video": environ.get("DO_VIDEO", "1") == "1",
-        "markers": environ.get("MARKERS", "0"),
-        "videos_only_clips": environ.get("VIDEOS_ONLY_CLIPS", ""),
         "wandb_group": environ.get("WANDB_GROUP", ""),
         "dry_run": environ.get("DRYRUN", "0") == "1",
     }

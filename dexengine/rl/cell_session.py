@@ -1,24 +1,20 @@
 #!/usr/bin/env python3
-"""Campaign entry of trajectory recording → replay rendering (beside the physics render of cell_tools render).
+"""Campaign entry of trajectory recording for a finalized cell (the replay render it once fed is gone: the RL trainer
+draws no frames — robot videos come only from the record render, scripts/stage4_record.py).
 
-  record   for a finalized cell (FINALIZED), re-run the render target checkpoint (RENDER_LABELS: the judge record's
-           best) with the same settings as its final judge and record its trajectories only: the recorded judge
-           command's env · the judging shape (judge.metrics.judge_shape) · the same frozen-replay entry (PARK on ·
-           warm-up 1) + DEXENGINE_TRAJ_RECORD. The judge table, judge record and judge value are not touched; this
-           pass's completion rate is only an independent oracle against that final judge of the table
-           (ORACLE_BAND_PP). This is the entry for finished campaigns; new campaigns record at the final judge
-           itself (campaign_model.TRAJ_RECORD_HANDS → RLJUDGE_TRAJ=1).
+  record   for a finalized cell (FINALIZED), re-run the target checkpoint (RENDER_LABELS: the judge record's best)
+           with the same settings as its final judge and record its trajectories only: the recorded judge command's
+           env · the judging shape (judge.metrics.judge_shape) · the same frozen-replay entry (PARK on · warm-up 1) +
+           DEXENGINE_TRAJ_RECORD. The judge table, judge record and judge value are not touched; this pass's
+           completion rate is only an independent oracle against that final judge of the table (ORACLE_BAND_PP).
+           This is the entry for finished campaigns; new campaigns record at the final judge itself
+           (campaign_model.TRAJ_RECORD_HANDS → RLJUDGE_TRAJ=1).
            Output = the cell's <RUN>_jf<iter>_traj.npz (judge.metrics.TRAJ) · session pieces (logs · command) =
            <cell>/traj_record/<checkpoint>/ · ledger record.json.
-  replay   replay-render the cell's trajectory file (dexengine/rl/render/replay.py, the TRAJ_RENDER branch of the same
-           frozen entry, two-hand and one-hand) → <cell>/videos/<checkpoint>__<label>__replay/<clip>__<view>.mp4.
-           Count check: the video set = (bundle roster − clips with no success) × views, measured again as a set
-           difference of names, apart from the session's DONE marker and ledger TSV. Session pieces =
-           <cell>/render/<name>/ · ledger replay.json.
-Both: tree = --tree (training code + recorder: the eval tree). The recorded judge command is moved onto that tree with
+  replay   removed: dies with the pointer of dexengine.rl.render_removed.
+Tree = --tree (training code + recorder: the eval tree). The recorded judge command is moved onto that tree with
 rejudge.judge_command (--relocate · SEQ_DIR root: same-file proof) · the host gate (cell_state.launch; the session's
-launch files live in the tree's work area). Settings: REPLAY_RES · REPLAY_PRESET · RENDER_LABELS · views = the four
-standard views · fps 50. Marker: [CAMPAIGN_REPLAY] ….
+launch files live in the tree's work area). Marker: [CAMPAIGN_REPLAY] ….
 """
 
 from __future__ import annotations
@@ -36,24 +32,20 @@ from dexengine.core import paths as P
 from dexengine.core.errors import InputMissingError
 from dexengine.rl import cell_state as CH
 from dexengine.rl import cells as CL
+from dexengine.rl import render_removed as RR
 from dexengine.rl import root_guard as HR
 from dexengine.rl.acceptance import bundle_of, manifest_of
 from dexengine.rl.cell_tools import render_targets
 from dexengine.rl.judge import metrics as JM
 from dexengine.rl.judge import record as CX
 from dexengine.rl.judge import rejudge as RJ
-from dexengine.rl.render import replay as TRR
 
-#: Render targets (label heads of render_targets over the judge record): best only.
+#: Record targets (label heads of render_targets over the judge record): best only.
 RENDER_LABELS = ("best",)
-#: Replay render resolution (px, square) and x264 preset (measured: 1024² tiles 622–655 MP/s; veryfast encoding hides
-#: behind the render).
-REPLAY_RES = 1024
-REPLAY_PRESET = "veryfast"
 #: Allowed difference (pp) between the record pass's completion rate and the same final judge of the judge table (sim
 #: eval is not bit-stable: the judging standard's ±1.5 pp band).
 ORACLE_BAND_PP = 1.5
-SESSION_TIMEOUT_S = 5400  #: a record / replay session's timeout (s)
+SESSION_TIMEOUT_S = 5400  #: a record session's timeout (s)
 WAIT_S = 10.0  #: poll interval while a session runs (s)
 _AGG = re.compile(r"^\[FROZEN_REPLAY\] DONE .*aggregate_completion_rate=([0-9.]+)", re.M)
 
@@ -249,180 +241,8 @@ def record(
     return led
 
 
-def _expect(hand: str, campaign: str, b: dict, tree: Path, traj: Path, views: list[str]) -> tuple[set, list[str]]:
-    """Independent oracle (the statement read and compared with the measurement): the bundle roster ∩ the clips with a
-    selected trajectory in the record file (sel ≥ 0) × views. The session summary's none_selected is not used: the
-    session's own count compared with the session's output would check nothing."""
-    import numpy as np
-
-    names = (CL.manifest_dir(CL.campaign_dir(hand, campaign, tree)) / b["list"]).read_text().splitlines()
-    clips = [P.tree_name(n.strip()) for n in names if n.strip()]  # roster = clip names · videos = tree names
-    with np.load(traj, allow_pickle=False) as z:
-        sel = dict(zip([str(x) for x in z["clip_names"]], z["sel"].tolist(), strict=False))
-    missing = [c for c in clips if c not in sel]
-    if missing:
-        raise InputMissingError(
-            f"[CAMPAIGN_REPLAY] {len(missing)} roster clips are not in the record file's roster (e.g. {missing[:3]})"
-        )
-    none = [c for c in clips if sel[c] < 0]
-    return {f"{c}__{v}.mp4" for c in clips if sel[c] >= 0 for v in views}, none
-
-
-def replay(
-    hand: str,
-    campaign: str,
-    bid: str,
-    tree: Path,
-    gpus: list[str],
-    cmd_only: bool = False,
-    maxc: int = 0,
-    views: str = "",
-    res: int = REPLAY_RES,
-) -> dict:
-    """The replay render of one finalized bundle (module doc) → its ledger dict (replay.json)."""
-    _man, b, sdir, run = _cell(hand, campaign, bid, tree)
-    ck, folder, label, it, _agg = _target(run, sdir)
-    traj = sdir / JM.TRAJ.format(run=run, kind="f", it=it)
-    if not traj.is_file():
-        raise InputMissingError(
-            f"[CAMPAIGN_REPLAY] no {traj.name} — run record first (finished campaigns) or judge with RLJUDGE_TRAJ=1"
-        )
-    env, facts = session_env(sdir, tree)
-    out = CL.replay_video_dir(sdir, ck, label)
-    alias, side = f"{run}_trnd{it:04d}", sdir / "render" / out.name
-    vw = [f"DEXENGINE_RENDER_VIEWS={views}"] if views else []
-    return _replay_ledger_entry(
-        hand,
-        campaign,
-        bid,
-        tree,
-        gpus,
-        cmd_only,
-        maxc,
-        views,
-        res,
-        alias,
-        b,
-        ck,
-        env,
-        facts,
-        folder,
-        it,
-        label,
-        out,
-        run,
-        sdir,
-        side,
-        traj,
-        vw,
-    )
-
-
-def _replay_ledger_entry(
-    hand,
-    campaign,
-    bid,
-    tree,
-    gpus,
-    cmd_only,
-    maxc,
-    views,
-    res,
-    alias,
-    b,
-    ck,
-    env,
-    facts,
-    folder,
-    it,
-    label,
-    out,
-    run,
-    sdir,
-    side,
-    traj,
-    vw,
-):
-    """Run one replay of a cell checkpoint and return its ledger entry."""
-    body = (
-        f"env {shlex.join(env)} GPU={CH.GPU_SLOT} FROZEN_REPLAY_CKPT={folder / 'checkpoints' / ck} "
-        f"FROZEN_REPLAY_NE={int(b['n'])} FROZEN_REPLAY_ITER={it} DEXENGINE_TRAJ_RENDER={traj} TRAJ_RENDER_OUT={out} "
-        f"DEXENGINE_VIDEO_PRESET={REPLAY_PRESET} {' '.join(vw)} "
-        f"timeout -k 120 {SESSION_TIMEOUT_S} "
-        f"python3 scripts/stage3_rl.py {alias} --set camera_res={res}"
-    )
-    led = dict(
-        run=run,
-        bundle=bid,
-        hand=hand,
-        ckpt=ck,
-        label=label,
-        iter=it,
-        traj=str(traj),
-        out=str(out),
-        tree=str(tree),
-        **facts,
-    )
-    if cmd_only:
-        return dict(led, cmd=body)
-    if out.exists() or side.exists():
-        raise SystemExit(f"[CAMPAIGN_REPLAY] {out} or {side} already exists — a render is never overwritten")
-    HR.assert_writable(out, hand, root=tree)
-    vset = views.split(",") if views else [v for v, _a in TRR.VIEW_CAMERAS]
-    want, none_sel = _expect(hand, campaign, b, tree, traj, vset)  # before any write (a failure leaves nothing)
-    _prepare(sdir, run, folder, alias, tree)
-    cmd = body
-    t0 = time.time()
-    rc, g, moved = _run("replay", hand, run, alias, cmd, gpus, tree, maxc, side)
-    return _record_replay_result(bid, res, out, sdir, cmd, g, led, moved, none_sel, rc, t0, vset, want)
-
-
-def _record_replay_result(bid, res, out, sdir, cmd, g, led, moved, none_sel, rc, t0, vset, want):
-    """Read the replay summary and write the ledger entry."""
-    elapsed = time.time() - t0
-    summ = json.loads((out / "replay_summary.json").read_text()) if (out / "replay_summary.json").is_file() else {}
-    got = {p.name for p in out.glob("*.mp4")} if out.is_dir() else set()
-    res_bad = bool(summ) and list(summ.get("res", [])) != [res, res]
-    view_bad = bool(summ) and set(summ.get("views", [])) != set(vset)
-    why = [
-        w
-        for w, bad in (
-            ("rc", rc != "0"),
-            ("summary missing", not summ),
-            ("session count mismatch", bool(summ.get("bad"))),
-            (f"resolution {summ.get('res')} ≠ {res}", res_bad),
-            (f"views {summ.get('views')} ≠ {vset}", view_bad),
-            (f"video set difference −{len(want - got)} +{len(got - want)}", want != got or not want),
-        )
-        if bad
-    ]
-    rt_boot = round(float(summ.get("video_s", 0.0)) / elapsed, 3) if summ else None
-    led.update(
-        cmd=cmd,
-        gpu=g,
-        rc=rc,
-        videos=len(got),
-        expected=len(want),
-        none_selected=none_sel,
-        realtime_factor=summ.get("realtime_factor"),
-        realtime_factor_with_boot=rt_boot,
-        session_s=round(elapsed, 1),
-        work_pieces=moved,
-        ok=not why,
-        why=why,
-    )
-    (sdir / "replay.json").write_text(json.dumps(led, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(
-        f"[CAMPAIGN_REPLAY] replay {'DONE' if not why else 'FAIL ' + ' · '.join(why)} {bid} · videos {len(got)} = "
-        f"expected {len(want)}(0-success clips {len(none_sel)} left out) · realtime factor "
-        f"{summ.get('realtime_factor')}(with boot {rt_boot} · session {elapsed:.0f} s) · {out}",
-        flush=True,
-    )
-    return led
-
-
 def main(argv=None) -> int:
-    """The record · replay command line (module doc)."""
+    """The record command line (module doc); `replay` dies (removed)."""
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("what", choices=("record", "replay"))
     ap.add_argument("--hand", required=True)
@@ -432,10 +252,10 @@ def main(argv=None) -> int:
         "--tree", required=True, help="the tree the session runs in (training code + recorder: the eval tree)"
     )
     ap.add_argument("--gpus", required=True, help="<host>:<index,…> — the host gate gives one of them")
-    ap.add_argument("--views", default="", help="replay: DEXENGINE_RENDER_VIEWS (default the four standard views)")
-    ap.add_argument("--res", type=int, default=REPLAY_RES, help="replay: resolution (square)")
     ap.add_argument("--cmd-only", action="store_true")
     a = ap.parse_args(argv)
+    if a.what == "replay":
+        raise SystemExit(f"{RR.MARK} cell_session replay removed (tiled trajectory replay render) — {RR.POINTER}")
     P.check_rl_campaign(a.campaign)
     host, sep, gs = a.gpus.partition(":")
     if not sep or not gs or (not a.cmd_only and CH.this_host() != host):
@@ -443,10 +263,7 @@ def main(argv=None) -> int:
             f"[CAMPAIGN_REPLAY] --gpus {a.gpus!r} — only <host>:<index,…> of this machine ({CH.this_host()})"
         )
     tree = Path(a.tree).resolve()
-    if a.what == "record":
-        led = record(a.hand, a.campaign, a.bundle, tree, gs.split(","), a.cmd_only)
-    else:
-        led = replay(a.hand, a.campaign, a.bundle, tree, gs.split(","), a.cmd_only, views=a.views, res=a.res)
+    led = record(a.hand, a.campaign, a.bundle, tree, gs.split(","), a.cmd_only)
     print(json.dumps({k: v for k, v in led.items() if k not in ("work_pieces",)}, ensure_ascii=False, indent=1))
     return 0 if a.cmd_only or led.get("ok") else 1
 

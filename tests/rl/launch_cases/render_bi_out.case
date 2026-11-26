@@ -15,7 +15,6 @@ DEXENGINE_EMBODIMENT=bimanual
 RENDER_ONLY=agent_51200.pt agent_44800.pt
 RENDER_RUNDIR=<MAIN>/overfit/hands/sharpa_wave/rl_campaigns/shrd22_20261016/hot3d/hot3d.both-sh.hot1016b.01/skrl/V2C_shrd22_20261016__sharpa_wave_hot3d_both_sh_hot1016b_01_s42
 RENDER_OUT_DIR=results/x
-MARKERS=1
 ## manifest
 MODE=render OUT=EXT_render_bi_out_render
 RUN=EXT_render_bi_out SIDE=both SEQ=dir:bimanual TOOL=seqdir LOBJ=seqdir NE=4096 MI=1600 MB=16 TIGHTEN=0.5 NOCOL=0 ROBOT_Z=0
@@ -202,16 +201,6 @@ or
 0
 --enable_contact_termination
 0
---videos_select_best_success
-1
---videos_rollouts_per_clip
-8
---videos_allfail_retry_batches
-4
---videos_rank_metric
-obj_pos_obj_rot_mean
---render_markers
-1
 --enable_contact_termination
 0
 --policy_arch
@@ -230,10 +219,8 @@ sharpa_wave
 60
 --resume_from
 <MAIN>/overfit/hands/sharpa_wave/rl_campaigns/shrd22_20261016/hot3d/hot3d.both-sh.hot1016b.01/skrl/V2C_shrd22_20261016__sharpa_wave_hot3d_both_sh_hot1016b_01_s42/checkpoints/agent_51200.pt
---render_per_clip_videos
+--record_session
 --enable_cameras
---videos_warmup_attempts
-0
 --videos_out_dir
 results/x
 --enable_physics_dr
@@ -272,10 +259,6 @@ dry
 ENV::DEXENGINE_ARM=rby1
 ENV::DEXENGINE_ARM_IK_DIR_SUFFIX=_cont25
 ENV::DEXENGINE_ARM_OBJ_NOCOLL=0
-ENV::DEXENGINE_AUG_DESK_MDL=<MAIN>/data/assets/scene_canon/collect_look_d/Assets/Isaac/4.5/NVIDIA/Materials/vMaterials_2/Metal/Aluminum_Brushed.mdl
-ENV::DEXENGINE_AUG_FLOOR_MDL=<MAIN>/data/assets/scene_canon/collect_look_d/Assets/Isaac/4.5/NVIDIA/Materials/Base/Stone/Fieldstone.mdl
-ENV::DEXENGINE_AUG_LIGHT=1600,0.15,0.15,0.15
-ENV::DEXENGINE_AUG_ROOM=<MAIN>/data/assets/scene_canon/collect_look_d/Assets/Isaac/4.5/NVIDIA/Materials/vMaterials_2/Plaster/Plaster_Wall.mdl
 ENV::DEXENGINE_BI_SELFCOLL=0
 ENV::DEXENGINE_BI_SPLIT_ARTIC=1
 ENV::DEXENGINE_BI_SPLIT_OFF=r2,r3l
@@ -298,7 +281,6 @@ ENV::DEXENGINE_INTRAIN_EVAL=0
 ENV::DEXENGINE_KEY_LIGHT=3200
 ENV::DEXENGINE_LEFT_ARM_KP_SCALE=1.0
 ENV::DEXENGINE_LEFT_GATE_RAMP=0.10,180
-ENV::DEXENGINE_LOG_EGO_PITCH=1
 ENV::DEXENGINE_MAIN_ROOT=<MAIN>
 ENV::DEXENGINE_MEM_RESTART_FREE_GB=3
 ENV::DEXENGINE_MOUNT_TOL=0.0025

@@ -47,8 +47,8 @@ SIDECAR_QUICK_EVERY = 0
 SIDECAR_DEADLINE_H = 24.0
 
 
-#: Hands whose campaign sidecars record the final judges' trajectories (RLJUDGE_TRAJ=1; the replay render reads
-#: <RUN>_jf<iter>_traj.npz from the cell). Empty = off for every hand. Registered hand ids only (traj_record_hands
+#: Hands whose campaign sidecars record the final judges' trajectories (RLJUDGE_TRAJ=1; <RUN>_jf<iter>_traj.npz in
+#: the cell, read by the analysis experiments). Empty = off for every hand. Registered hand ids only (traj_record_hands
 #: checks them at every read).
 TRAJ_RECORD_HANDS: frozenset[str] = frozenset()
 

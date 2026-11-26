@@ -14,7 +14,11 @@ Membership (outside the tree or not), one path for every dataset: the raw scene 
   hand (data.rules.AXIS_HAND) · clips missing for the axis hand (per-hand windows: `_t<k>` pieces only that hand
   has) use the base tree of the first hand by name that has the clip (the record's base_tree says which); base frames
   do not depend on the hand (measured 0.0000 mm). Counting only the axis hand would leave those pieces out of the
-  index, and the reader read_clip would die with 'clip not in the index'.
+  index, and the reader read_clip would die with 'clip not in the index'. A root without the axis hand (for example a
+  root that holds wuji2 only) is stated by the caller (--root-hands wuji2, checked against the base layers); then
+  every clip follows that same rule, the run says so once (MARK line) and the windows of every clip are checked
+  across hands. Without the statement a missing axis-hand base dies as before.
+Record entry: the record builds a missing index with generate (scene.render_only_entry owns when and with which hands).
 Pose: the raw -> base transform has its own owner per dataset (POSE_SOURCES, the module's render_only_tracks). A
   dataset with objects outside the tree but no transform owner makes that clip an error (never 0 silently; rc 1).
   Record = the 7-field pose of base row 0 (clip f0) · max move move_m and rotation rot_deg over the window relative to
@@ -23,8 +27,9 @@ Pose: the raw -> base transform has its own owner per dataset (POSE_SOURCES, the
   extrapolation).
 Asset, same object id and same mesh rule: asset folders (assets_objects layer) whose dataset obj_key is that rid, whose
   visual.obj has the same vertex and face counts as the original mesh with vertex and face triangle position
-  differences <= MESH_TOL_M, and that have a training USD and surface samples. With several, the first by name (all the
-  same mesh; the choice and the candidates are recorded). None: reason no_asset (rc 1).
+  differences <= MESH_TOL_M, and that have a training USD and surface samples (code and tolerance:
+  scene.render_only_assets). With several, the first by name (all the same mesh; the choice and the candidates are
+  recorded). None: reason no_asset (rc 1).
 Writing: clip files -> index (merged). --plan-out = tsv of write targets (path, dataset, clip, exists) · --plan-only
   = no writing.
 Marker [RENDER_ONLY]: per dataset an end line `[RENDER_ONLY] end <ds> clips n · clips with outside objects · objects
@@ -32,7 +37,7 @@ m · … · rc r`.
 
 Usage: DEXENGINE_MAIN_ROOT=<data root> OMP_NUM_THREADS=1 nice -n 19 <retarget venv python> -m
         dexengine.record.scene.render_only_build --dataset <ds>[,<ds>…] [--clips a,b] [--out <root>] [--plan-out <tsv>]
-        [--plan-only] [--jobs N]
+        [--plan-only] [--jobs N] [--root-hands <hand>[,<hand>…]]
       (CPU only, one thread. No --out = write to the canonical layer · --out = the same shape under that root (dry
       run))
 """
@@ -55,12 +60,12 @@ from dexengine.record.scene.render_only import (
     list_dir,
     oracle_module,
 )
+from dexengine.record.scene.render_only_assets import resolve_asset
 
 #: owners of the raw -> base transform (dataset -> module, function render_only_tracks(seq, sk, ti, kin, rids)), read
 #: through pose_source. A dataset missing from the table that has objects outside the tree dies: the table says 'where
 #: the transform is known', not 'where objects exist'.
 POSE_SOURCES = {"oakink2": "dexengine.data.oakink2.raw_base"}
-MESH_TOL_M = 1e-6
 EMBS = ("bimanual", "right", "left")
 
 
@@ -86,29 +91,62 @@ def axis_hand() -> str:
     return str(RR.AXIS_HAND)
 
 
-def base_trees(ds: str) -> dict:
+def hand_trees(ds: str, h: str) -> dict:
+    """{clip: base tree} of hand h over the embs; the same clip in two embs of one hand dies."""
+    from dexengine.core import paths as P
+
+    hand, mine = P.hand_spec_dir(h), {}
+    for emb in EMBS:
+        d = P.layer_path("base", ds, hand=hand, emb=emb)
+        if not d.is_dir():
+            continue
+        for t in sorted(d.iterdir()):
+            if (t / "task_info.json").is_file():
+                if t.name in mine:
+                    raise RenderOnlyError(f"{ds}/{t.name}: {h} has two base trees ({mine[t.name]} · {t})")
+                mine[t.name] = t
+    return mine
+
+
+def _axis_check(ds: str, ax: str, mine: dict, root_hands: tuple) -> None:
+    """The axis hand's base: required unless the caller stated a root without it (--root-hands; said once)."""
+    from dexengine.record.scene.render_only import MARK
+
+    if mine:
+        return
+    if ax in root_hands:
+        raise RenderOnlyError(f"{ds}: axis hand {ax} is stated in --root-hands but has no base tree")
+    if not root_hands:
+        raise RenderOnlyError(f"{ds}: axis hand {ax} has no base tree (a root without it: --root-hands)")
+    print(
+        f"{MARK} {ds}: root hands {','.join(sorted(root_hands))} (stated) · axis hand {ax} not among them — every "
+        f"clip takes the base tree of the first hand by name that has it (base frames do not depend on the hand)",
+        flush=True,
+    )
+
+
+def base_trees(ds: str, root_hands: tuple = ()) -> dict:
     """{clip: base tree}: the union of the base layers over hands (module doc 'Membership'). Axis hand first, then the
     other hands by name; the tree of the first hand that has the clip. Dies (never picks silently): the same clip in
     two embs of one hand · no axis-hand base · a clip missing for the axis hand held by two or more hands with
-    different windows (task_info segment_range)."""
+    different windows (task_info segment_range).
+    root_hands (--root-hands, the caller's statement of the hands this root holds; empty = not stated): a stated set
+    without the axis hand makes every clip 'missing for the axis hand' (said once, MARK line); the statement is checked
+    against the layers measured here (a stated hand without a base tree, or a base tree of an unstated hand, dies)."""
     from dexengine.core import paths as P
 
     ax = axis_hand()
+    unknown = sorted(set(root_hands) - set(P.HAND_IDS))
+    if unknown:
+        raise RenderOnlyError(f"{ds}: --root-hands {unknown} are not hands (paths.HAND_IDS)")
     out: dict = {}
+    axis_clips: set = set()
+    have = set()
     for h in (ax, *sorted(x for x in P.HAND_IDS if x != ax)):
-        hand, mine = P.hand_spec_dir(h), {}
-        for emb in EMBS:
-            d = P.layer_path("base", ds, hand=hand, emb=emb)
-            if not d.is_dir():
-                continue
-            for t in sorted(d.iterdir()):
-                if (t / "task_info.json").is_file():
-                    if t.name in mine:
-                        raise RenderOnlyError(f"{ds}/{t.name}: {h} has two base trees ({mine[t.name]} · {t})")
-                    mine[t.name] = t
+        mine = hand_trees(ds, h)
+        have |= {h} if mine else set()
         if h == ax:
-            if not mine:
-                raise RenderOnlyError(f"{ds}: axis hand {hand} has no base tree")
+            _axis_check(ds, P.hand_spec_dir(h), mine, root_hands)
             axis_clips = set(mine)
         for c, t in mine.items():
             if c not in out:
@@ -118,78 +156,15 @@ def base_trees(ds: str) -> dict:
                     f"{ds}/{c}: the window of a clip missing for the axis hand differs between hands "
                     f"{out[c]} {_window(out[c])} · {t} {_window(t)}"
                 )
+    if root_hands and have != set(root_hands):
+        raise RenderOnlyError(
+            f"{ds}: --root-hands {sorted(root_hands)} but the hands with a base tree here are {sorted(have)}"
+        )
     return out
 
 
 def _window(tree: Path):
     return json.loads((Path(tree) / "task_info.json").read_text(encoding="utf-8")).get("segment_range")
-
-
-# ── assets ────────────────────────────────────────────────────────────────────
-_MESH: dict = {}
-
-
-def _verts_faces(path: str):
-    import numpy as np
-    import trimesh
-
-    if path not in _MESH:
-        m = trimesh.load(path, force="mesh", process=False)
-        _MESH[path] = (np.asarray(m.vertices, float), np.asarray(m.faces, int))
-    return _MESH[path]
-
-
-def same_mesh(a: str, b: str) -> bool:
-    """Same vertex and face counts, and the three vertex **positions** of each face in order within MESH_TOL_M (vertex
-    indices a face points at may differ because of duplicate seam vertices; measured O02@0055@00001: 589/5000 faces
-    with different indices, triangle position difference 0)."""
-    import numpy as np
-
-    va, fa = _verts_faces(a)
-    vb, fb = _verts_faces(b)
-    return (
-        va.shape == vb.shape
-        and fa.shape == fb.shape
-        and bool(np.abs(va - vb).max() <= MESH_TOL_M)
-        and bool(np.abs(va[fa] - vb[fb]).max() <= MESH_TOL_M)
-    )
-
-
-_ASSET: dict = {}
-
-
-def _id_is(key_of, name: str, rid: str) -> bool:
-    """Is this asset folder the object rid (a folder not in that dataset's object id form is not a candidate)."""
-    try:
-        return key_of(name) == rid
-    except ValueError:
-        return False
-
-
-def resolve_asset(ds: str, rid: str, raw_mesh: str, key_of) -> dict:
-    """Same object id and same mesh rule (module doc) -> {obj_id | None, matches[], candidates[]}."""
-    from dexengine.core import paths as P
-    from dexengine.data.contact import fingerprint as SF
-    from dexengine.data.objects import hull as OH
-
-    k = (ds, rid)
-    if k in _ASSET:
-        return _ASSET[k]
-    root = P.layer_path("assets_objects", ds)
-    cands = [d.name for d in (sorted(root.iterdir()) if root.is_dir() else []) if _id_is(key_of, d.name, rid)]
-    matches = []
-    if os.path.isfile(raw_mesh):
-        for c in cands:
-            vis = root / c / "visual.obj"
-            if (
-                vis.is_file()
-                and same_mesh(raw_mesh, str(vis))
-                and OH.usd_file(ds, c, False).is_file()
-                and SF.surface_path(P.main_root(), ds, {"obj_id": c}).is_file()
-            ):
-                matches.append(c)
-    _ASSET[k] = out = {"obj_id": matches[0] if matches else None, "matches": matches, "candidates": cands}
-    return out
 
 
 # ── generation ────────────────────────────────────────────────────────────────
@@ -382,6 +357,46 @@ def summary_line(ds: str, recs: list[dict], rc: int) -> str:
     )
 
 
+def generate(ds: str, hands: tuple = (), clips: str = "", jobs: int | None = None) -> list[dict]:
+    """Records of every clip of ds (base_trees(ds, hands)), or of the clips subset (comma separated); one gen_seq per
+    original sequence. A failing clip is an error record, printed here (counted by run_rc)."""
+    trees = base_trees(ds, hands)
+    if clips:
+        from dexengine.core import paths as P
+
+        want = P.read_clip_list([c for c in clips.split(",") if c], dataset=ds, label="--clips", quiet=True)
+        miss = [c for c in want if c not in trees]
+        if miss:
+            raise RenderOnlyError(f"{ds}: clips without a base tree {miss[:5]} (total {len(miss)})")
+        trees = {c: trees[c] for c in want}
+    work = [(ds, k, v) for k, v in seq_clips(ds, trees).items()]
+    recs: list[dict] = []
+    from dexengine.core import capacity
+
+    with capacity.sized("dexengine.record.scene.render_only_build", len(work), jobs) as cap:
+        if cap.workers > 1:
+            from multiprocessing import Pool
+
+            with Pool(cap.workers, capacity.worker_init, cap.initargs) as p:
+                for r in p.starmap(gen_seq, work):
+                    recs += r
+        else:
+            for j in work:
+                recs += gen_seq(*j)
+    if sorted(r["clip"] for r in recs) != sorted(trees):
+        raise RenderOnlyError(f"{ds}: records {len(recs)} != clips {len(trees)}")
+    for r in recs:
+        if "error" in r:
+            print(f"{MARK} error {ds}/{r['clip']}: {r['error']}", flush=True)
+    return recs
+
+
+def run_rc(recs: list[dict]) -> int:
+    """1 when a clip failed or an object has no asset (reason no_asset), else 0."""
+    n_asset = sum(o["reason"] == "no_asset" for r in recs if "error" not in r for o in r["objects"])
+    return 1 if (any("error" in r for r in recs) or n_asset) else 0
+
+
 # ── reading (consumer scene.extras) ───────────────────────────────────────────────
 def main() -> int:
     import argparse
@@ -398,6 +413,12 @@ def main() -> int:
         "--out", default=None, help="write the same shape under this root (dry run; default = canonical layer)"
     )
     ap.add_argument("--plan-out", default="", help="tsv of write targets (path, dataset, clip, exists)")
+    ap.add_argument(
+        "--root-hands",
+        default="",
+        help="hands this root holds (comma separated; a one-hand root without the axis hand states it here — checked "
+        "against the base layers; default = not stated, the axis hand is required)",
+    )
     ap.add_argument("--plan-only", action="store_true", help="compute and write the plan only (nothing in the layer)")
     ap.add_argument(
         "--jobs",
@@ -408,37 +429,9 @@ def main() -> int:
     a = ap.parse_args()
     plan, lines, rc_all = [], [], 0
     for ds in [x for x in a.dataset.split(",") if x]:
-        trees = base_trees(ds)
-        if a.clips:
-            from dexengine.core import paths as P
-
-            want = P.read_clip_list([c for c in a.clips.split(",") if c], dataset=ds, label="--clips", quiet=True)
-            miss = [c for c in want if c not in trees]
-            if miss:
-                raise RenderOnlyError(f"{ds}: clips without a base tree {miss[:5]} (total {len(miss)})")
-            trees = {c: trees[c] for c in want}
-        jobs = [(ds, k, v) for k, v in seq_clips(ds, trees).items()]
-        recs: list[dict] = []
-        from dexengine.core import capacity
-
-        with capacity.sized("dexengine.record.scene.render_only_build", len(jobs), a.jobs) as cap:
-            if cap.workers > 1:
-                from multiprocessing import Pool
-
-                with Pool(cap.workers, capacity.worker_init, cap.initargs) as p:
-                    for r in p.starmap(gen_seq, jobs):
-                        recs += r
-            else:
-                for j in jobs:
-                    recs += gen_seq(*j)
-        if sorted(r["clip"] for r in recs) != sorted(trees):
-            raise RenderOnlyError(f"{ds}: records {len(recs)} != clips {len(trees)}")
-        for r in recs:
-            if "error" in r:
-                print(f"{MARK} error {ds}/{r['clip']}: {r['error']}", flush=True)
+        recs = generate(ds, tuple(x for x in a.root_hands.split(",") if x), a.clips, a.jobs)
         plan += plan_rows(ds, recs, a.out)
-        n_asset = sum(o["reason"] == "no_asset" for r in recs if "error" not in r for o in r["objects"])
-        rc = 1 if (any("error" in r for r in recs) or n_asset) else 0
+        rc = run_rc(recs)
         if not a.plan_only:
             write(ds, recs, a.out)
         lines.append(summary_line(ds, recs, rc))

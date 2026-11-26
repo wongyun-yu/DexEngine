@@ -63,29 +63,18 @@ OK_ENV = {
     "DEXENGINE_FROZEN_REPLAY_ITER",
     "DEXENGINE_ENTRY",
     "DEXENGINE_TRAJ_RECORD",
-    "DEXENGINE_AUG_DESK_MDL",
-    "DEXENGINE_AUG_FLOOR_MDL",
-    "DEXENGINE_AUG_LIGHT",
-    "DEXENGINE_AUG_ROOM",
     "DEXENGINE_CAMERA_FOCAL_MM",
     "DEXENGINE_EXTRA_SLOTS",
     "DEXENGINE_FROZEN_RENDER",
     "DEXENGINE_KEY_LIGHT",
-    "DEXENGINE_LOG_EGO_PITCH",
     "DEXENGINE_PHYSX_LITE",
     "DEXENGINE_COMBO_USD_VARIANT",
     "DEXENGINE_SEQ_LIST",
 }
 OK_ARG = {
     "--enable_cameras",
-    "--render_markers",
-    "--render_per_clip_videos",
-    "--videos_allfail_retry_batches",
+    "--record_session",
     "--videos_out_dir",
-    "--videos_rank_metric",
-    "--videos_rollouts_per_clip",
-    "--videos_select_best_success",
-    "--videos_warmup_attempts",
     "--wandb",
     "--wandb_project",
     "--exp_name",
@@ -233,9 +222,9 @@ def _eval_dump(a, cell: dict, out: Path, sub: str, tname: str, seq_root, lst, da
     slots = CCL.extra_slots_of(cell)
     base_tok = [t for t in cell["env"] if not t.startswith(("DEXENGINE_SEQ_LIST=", "SEQ_DIR="))]
     # evaluation dump = the canonical frozen render point (DEXENGINE_FROZEN_REPLAY=1 ∧ DEXENGINE_FROZEN_RENDER=1 →
-    # _run_per_clip_video_render), argv as the judge and stage 1. Bimanual = RL launcher SIDE=both
-    # RENDER_ONLY=<checkpoint> (RENDER_RUNDIR = the run folder); one hand = its judge mode FROZEN_REPLAY_CKPT +
-    # FROZEN_RENDER_OUT (its frozen render entry).
+    # the trainer's render seam, dexengine.rl.session_render), argv as the judge and stage 1. Bimanual = RL launcher
+    # SIDE=both RENDER_ONLY=<checkpoint> (RENDER_RUNDIR = the run folder); one hand = its judge mode
+    # FROZEN_REPLAY_CKPT + FROZEN_RENDER_OUT (its frozen render entry).
     side = next((t.split("=", 1)[1] for t in cell["env"] if t.startswith("SIDE=")), None)
     if side not in ("both", "right", "left"):
         raise SystemExit(f"{MARK} {tname}: cell env SIDE={side!r} — both|right|left")

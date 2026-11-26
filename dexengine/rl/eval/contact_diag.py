@@ -14,11 +14,7 @@ import torch
 
 
 def contact_audit(raw_env, wrapped, policy_fn, args_cli, checkpoint_path, _ACTIVE_OBJ_KEY):
-    """Per-finger contact audit on env 0 (up to 200 steps or the first episode end).
-
-    With --render_per_clip_videos the caller skips this quick force-only path in favour of the render-path audit,
-    which logs the same rollout it saves to video (``_run_per_clip_video_render``).
-    """
+    """Per-finger contact audit on env 0 (up to 200 steps or the first episode end)."""
     import numpy as _np
 
     side = "right"

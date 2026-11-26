@@ -273,7 +273,7 @@ CLOSE_SKIP = "[AUG_CLOSE_SKIP]"
 #: render branch env: when any is on, no close skip (a record session records physics only, and the trainer never gets
 #: DEXENGINE_TRAJ_RECORD together with a render branch; the path that cuts render outputs with os._exit is still
 #: closed by construction)
-RENDER_ENV = ("DEXENGINE_FROZEN_RENDER", "DEXENGINE_TRAJ_RENDER")
+RENDER_ENV = ("DEXENGINE_FROZEN_RENDER",)
 
 
 def close_skip(paths, exit_=os._exit) -> None:

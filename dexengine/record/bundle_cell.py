@@ -1,6 +1,7 @@
 """Cell of a record bundle (record.bundle's owner-ledger entry): cell_of resolves one finished RL cell to its
 checkpoint, the per-clip judge records and the judge env tokens (dexengine.rl.cell_session rules); owner_cells groups
-the requested clips by owner cell through sources.owner_cells; cells_arm is the arm the bundle records."""
+the requested clips by owner cell through sources.owner_cells; cells_arm is the arm the bundle records and
+cells_datasets the datasets it records."""
 
 from __future__ import annotations
 
@@ -55,6 +56,20 @@ def owner_cells(a, names: list[str]) -> list[tuple[dict, list[str]]]:
     """Owner-ledger entry (the name the record, redraw and augment call): the one rule is sources.owner_cells (copy
     check and marker included)."""
     return OWN.owner_cells(a, names, cell_of)
+
+
+def cells_datasets(cells: list[dict]) -> list[str]:
+    """The datasets of a bundle's cells — each cell's judge env states one (DEXENGINE_DATASET); a cell without exactly
+    one dies (the recorded dataset is never assumed)."""
+    out = set()
+    for c in cells:
+        got = [t.split("=", 1)[1] for t in c["env"] if t.startswith("DEXENGINE_DATASET=")]
+        if len(got) != 1:
+            raise SystemExit(
+                f"[COLLECT] cell {c['campaign']}/{c['bundle']}: judge env DEXENGINE_DATASET {got} — one value"
+            )
+        out.add(got[0])
+    return sorted(out)
 
 
 def cells_arm(cells: list[dict]) -> str:

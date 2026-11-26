@@ -9,25 +9,18 @@
             then the ledger is written, then launch.json moves last, so the cell never reads queued without its
             ledger. An interrupted apply (attempts/<id>/plan.tsv whose cell/launch.json is not there yet) is resumed by
             the next call, only when the cell's launch record is that attempt's.
-  render    a FINALIZED bundle's best and last checkpoints (its judge record), by the trainer's render mode:
-            scripts/stage3_rl.py with RENDER_ONLY=<ckpt>, the training's env (campaign.env_of over the frozen manifest
-            copy) and RENDER_RUNDIR = the checkpoint's folder in the cell (cells.cell_ckpt_dir), through the host gate
-            (a training-sized claim), one checkpoint at a time; videos → <cell>/videos/<ckpt>__<best|last>, the
-            render's work-area pieces (its snapshot, logs, <RUN>_vid* runs, vid_<RUN>_* launcher logs) →
-            <cell>/render/. Ledger render.json. The per-clip 2x2 composite is not made here (views are written one by
-            one).
+  render    removed (the trainer's checkpoint video): dies with the pointer of dexengine.rl.render_removed — robot
+            videos come only from the record render (scripts/stage4_record.py). render_targets (the best and last
+            checkpoints of a finalized cell) stays: the record bundle and cell_session pick their checkpoint with it.
   collect   the campaign's result tables (acceptance.collect).
 Usage:
   python3 dexengine/rl/cell_tools.py relaunch --hand <h> --campaign <c> --bundle <id> --why "<text>" [--apply]
-  python3 dexengine/rl/cell_tools.py render   --hand <h> --campaign <c> --bundle <id> --gpus <host>:<i,…>
-      [--video-substr …] [--cmd-only]
   python3 dexengine/rl/cell_tools.py collect  --hand <h> --campaign <c>
 """
 
 from __future__ import annotations
 
 import argparse
-import collections
 import getpass
 import json
 import os
@@ -40,6 +33,7 @@ from dexengine.core import paths as P
 from dexengine.core.errors import InputMissingError
 from dexengine.rl import cell_state as CH
 from dexengine.rl import cells as CL
+from dexengine.rl import render_removed as RR
 from dexengine.rl import root_guard as HR
 from dexengine.rl.acceptance import bundle_of, collect, manifest_of
 from dexengine.rl.judge import record as CX
@@ -192,9 +186,8 @@ def _apply_relaunch(hand: str, att: Path, rec: dict, plan: list, root=None) -> d
     return rec
 
 
-# ── render
+# ── checkpoint targets
 # ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-VIEWS = ("ego", "front", "side", "side_front")  # the trainer render's per-clip views
 
 
 def render_targets(run: str, sdir: Path) -> list[tuple[str, Path, str]]:
@@ -218,111 +211,8 @@ def render_targets(run: str, sdir: Path) -> list[tuple[str, Path, str]]:
     return out + ([] if best == last else [(last, kept[last], "last")])
 
 
-def count_views(out: Path) -> dict[str, int]:
-    """{clip id: views present} of the trainer render's names <cid>_<tag>_<view>_<best|failure_best>.mp4. The tag may
-    itself end in a view word (…_side), so every split of a name is kept as (tag, view) and a clip counts the views of
-    its best single tag: `…_side_front` never also counts as a `front` of the same tag."""
-    got: dict = collections.defaultdict(lambda: collections.defaultdict(set))
-    for f in out.glob("*.mp4"):
-        sfx = next((x for x in ("_failure_best.mp4", "_best.mp4") if f.name.endswith(x)), None)
-        cid, sep, stem = f.name[: -len(sfx)].partition("_") if sfx else ("", "", "")
-        for v in VIEWS if sep else ():
-            if stem.endswith("_" + v):
-                got[cid][stem[: -len(v) - 1]].add(v)
-    return {c: max(map(len, tags.values())) for c, tags in sorted(got.items())}
-
-
-def render(
-    hand: str,
-    campaign: str,
-    b: dict,
-    gpus: list[str],
-    clips: str = "",
-    root=None,
-    wait_s: float = 5.0,
-    cmd_only: bool = False,
-    maxc: int = 0,
-) -> dict:
-    """Render a finalized bundle's best and last checkpoints (module doc) → the ledger dict (render.json). maxc = the
-    host gate's cap on live train claims (0 = none)."""
-    from dexengine.rl import campaign as RC
-
-    man = manifest_of(hand, campaign, root)
-    sdir = CL.bundle_dir(hand, campaign, b, root)
-    if not CH.cell_file(sdir, "finalized").is_file():
-        raise SystemExit(f"[cells] {b['id']}: the cell is not finalized — renders read finalized cells only")
-    run = json.loads(CH.cell_file(sdir, "launch").read_text(encoding="utf-8"))["run"]
-    tree = Path(root if root is not None else P.WT)
-    env = " ".join(
-        RC.env_of(b, man)
-        + [f"DEXENGINE_SEQ_LIST={CL.manifest_dir(CL.campaign_dir(hand, campaign, root))}/{b['list']}"]
-        + ([f"VIDEOS_ONLY_CLIPS={clips}"] if clips else [])
-    )
-    led = {"run": run, "bundle": b["id"], "hand": hand, "clips": clips or "all", "renders": []}
-    for ck, folder, label in render_targets(run, sdir):
-        name = f"{ck[:-3]}__{label}"
-        out, side = sdir / "videos" / name, sdir / "render" / name
-        rcf = side.with_name(name + ".rc")
-        cmd = (
-            f"env {env} GPU={CH.GPU_SLOT} RENDER_ONLY={ck} RENDER_RUNDIR={folder} RENDER_OUT_DIR={out} "
-            f"python3 scripts/stage3_rl.py {run}; echo $? > {rcf}"
-        )
-        if cmd_only:
-            led["renders"].append({"ckpt": ck, "label": label, "cmd": cmd})
-            continue
-        HR.assert_writable(out, hand, root=root)
-        if out.exists() or rcf.exists():
-            raise SystemExit(f"[cells] {out} or {rcf.name} already exists — a render is never overwritten")
-        CH.assert_clean_work_area(run, root)  # everything of the run in the work areas after = the render's
-        rcf.parent.mkdir(parents=True, exist_ok=True)
-        pid, g = CH.launch(
-            "render", gpus, run, cmd, sdir, CH.TRAIN_RESERVE_GB, CH.TRAIN_RAMP_S, cwd=tree, gate_kind="train", maxc=maxc
-        )
-        if pid is None:
-            raise SystemExit(f"[cells] the host gate is closed — {g}")
-        while CH.alive(pid, run):
-            time.sleep(wait_s)
-        rc = rcf.read_text().strip() if rcf.is_file() else "missing"
-        moved = []
-        ref = CH.work_areas(root)[0]  # + the launcher's own log vid_<RUN>_<tag>.out (not <RUN>_*)
-        for p in [p for v in CH.work_items(run, root).values() for p in v] + sorted(ref.glob(f"vid_{run}_*")):
-            HR.guarded_import(p, side / p.name, hand, root=root)
-            moved.append(p.name)
-        views = count_views(out) if out.is_dir() else {}
-        full = sum(v == len(VIEWS) for v in views.values())
-        want = None if clips else b["n"]
-        led["renders"].append(
-            {
-                "ckpt": ck,
-                "label": label,
-                "gpu": g,
-                "rc": rc,
-                "out": str(out.relative_to(tree)),
-                "clips_with_4_views": full,
-                "clips_seen": len(views),
-                "clips_expected": want,
-                "work_pieces": moved,
-                "ok": rc == "0" and (want is None or full == want),
-            }
-        )
-    if not cmd_only:
-        CH.cell_file(sdir, "render_pid").unlink(missing_ok=True)
-        (sdir / "render.json").write_text(json.dumps(led, ensure_ascii=False, indent=1), encoding="utf-8")
-    return led
-
-
-def render_gpus(a) -> tuple[list[str], int]:
-    """(render GPU candidates, the gate's train cap 0) from `<host>:<i,…>` on this registered host."""
-    host, sep, gs = a.gpus.partition(":")
-    if not sep:
-        raise SystemExit(f"[cells] --gpus {a.gpus!r} — form <host>:<index,…> (the host this render runs on)")
-    if not a.cmd_only and (CH.this_host() != host or not gs):
-        raise SystemExit(f"[cells] --gpus {a.gpus!r} — renders only on this machine's ({CH.this_host()}) GPUs")
-    return [x for x in gs.split(",") if x], 0
-
-
 def main(argv=None) -> int:
-    """The relaunch · render · collect command line (module doc)."""
+    """The relaunch · collect command line (module doc); `render` dies (removed)."""
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("what", choices=("relaunch", "render", "collect"))
     ap.add_argument("--hand", required=True)
@@ -330,14 +220,11 @@ def main(argv=None) -> int:
     ap.add_argument("--bundle", default="")
     ap.add_argument("--why", default="", help="relaunch: why the attempt is cleared (kept in the ledger; required)")
     ap.add_argument("--apply", action="store_true", help="relaunch: really move (without it: the plan only)")
-    ap.add_argument("--gpus", default="", help="render: <host>:<index,…> — the host gate hands out one of them")
-    ap.add_argument(
-        "--video-substr",
-        default="",
-        help="render: VIDEOS_ONLY_CLIPS (comma-separated clip name substrings); default the whole bundle",
-    )
-    ap.add_argument("--cmd-only", action="store_true", help="render: print the commands only (no GPU)")
-    a = ap.parse_args(argv)
+    a, rest = ap.parse_known_args(argv)
+    if a.what == "render":
+        raise SystemExit(f"{RR.MARK} cell_tools render removed (the trainer's checkpoint video) — {RR.POINTER}")
+    if rest:
+        ap.error(f"unrecognized arguments: {' '.join(rest)}")
     P.check_rl_campaign(a.campaign)
     if a.what == "collect":
         f, fd, n = collect(a.hand, a.campaign)
@@ -354,10 +241,7 @@ def main(argv=None) -> int:
         for row in rec.get("plan") or rec.get("moved") or []:
             print("  " + "\t".join(row))
         return 0
-    gpus, maxc = render_gpus(a)
-    led = render(a.hand, a.campaign, b, gpus, a.video_substr, cmd_only=a.cmd_only, maxc=maxc)
-    print(json.dumps(led, ensure_ascii=False, indent=1))
-    return 0 if a.cmd_only or all(r["ok"] for r in led["renders"]) else 1
+    raise SystemExit(f"[cells] unknown action {a.what!r}")
 
 
 if __name__ == "__main__":

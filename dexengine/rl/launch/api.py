@@ -24,8 +24,8 @@ __all__ = ["Launch", "RecipeError", "Request", "from_env", "load_dump", "resolve
 
 
 def resolve(req: Request) -> list[Launch]:
-    """The trainer processes a launch starts (training: the first training process; render: one per checkpoint;
-    replay: one per clip, each with its own one-clip view folder under a fresh temporary directory). Nothing is
+    """The trainer processes a launch starts (training: the first training process; render dumps: one per checkpoint;
+    replay dumps: one per clip, each with its own one-clip view folder under a fresh temporary directory). Nothing is
     started and no record is written; the log paths are those of a real launch (or of the dry folder when
     `req.dry_run`)."""
     plan = PL.prepare(req)
@@ -35,9 +35,9 @@ def resolve(req: Request) -> list[Launch]:
     elif req.mode == "judge":
         calls = [modes.judge_call(plan)]
     elif req.mode == "render":
-        calls = modes.render_calls(plan, modes.render_look_env(plan, physx_lite=True))
+        calls = modes.render_calls(plan, modes.scene_env(plan, physx_lite=True))
     elif req.mode == "replay":
-        look = modes.render_look_env(plan, physx_lite=req.path == "bi")
+        look = modes.scene_env(plan, physx_lite=req.path == "bi")
         calls = []
         for c in modes.replay_clips(plan):
             view = Path(tempfile.mkdtemp(prefix="replay_seq_"))

@@ -12,9 +12,10 @@ Stages (--stage):
   record  stage 1: the trajectory recorder of the frozen entry used by judging (FROZEN_REPLAY_CKPT,
           DEXENGINE_TRAJ_RECORD) is replaced by the record recorder (dexengine/record/rollout/recorder.py: adds the raw
           policy output, absolute joint targets and contact-force columns).
-  render  stage 2: the clip render function of the canonical kinematic replay dump (RENDER_ONLY=replay) is replaced by
-          the record replay render (dexengine/record/render/episode.py: writes the chosen trajectory without physics
-          and captures the two ZED Mini eyes, depth and exo).
+  render  stage 2: the trainer's render seam (dexengine.rl.session_render.render) of the kinematic replay dump (the
+          launcher's dump-only RENDER_ONLY=replay) is attached to the record replay render
+          (dexengine/record/render/episode.py: writes the chosen trajectory without physics and captures the two ZED
+          Mini eyes, depth and exo).
   render_clip  stage 2 per clip: with the same dump, one session draws the clip's trajectories (original + placement
           variants) x look episode plan (--plan, planned by record.episodes) in turn
           (dexengine/record/render/clip_session.py). Dump argv --sequence_dir <- --seq-dir (must equal the plan's
@@ -86,8 +87,8 @@ def _render_hooks(fn, name: str) -> dict:
         return fn(*args, **kw)
 
     def _hook_render(mod):
-        mod._run_per_clip_video_render = _render_proved
-        line = f"{HOOK} clip_video._run_per_clip_video_render → {name}"
+        mod.render = _render_proved
+        line = f"{HOOK} {mod.HOOK_TARGET} → {name}"
         print(line, flush=True)
         return line
 
@@ -95,7 +96,7 @@ def _render_hooks(fn, name: str) -> dict:
         dc = KX.check_driver_check()  # empty when no off request (the marker line stays as it was)
         return f"{KX.check_applied()} · {KX.check_render_threads()} · {dc + ' · ' if dc else ''}{_hook_gym(mod)}"
 
-    return {"gymnasium": _hook_gym_kit, "dexengine.rl.render.clip_video": _hook_render}
+    return {"gymnasium": _hook_gym_kit, "dexengine.rl.session_render": _hook_render}
 
 
 def _persist_main(queue: str, owner: int, RCL) -> None:
@@ -148,13 +149,13 @@ def main() -> None:
         return
     from dexengine.record.render import cameras as CC
 
-    require(argv, "--kinematic_replay", "--render_per_clip_videos", "--enable_cameras")
+    require(argv, "--kinematic_replay", "--record_session", "--enable_cameras")
     # render-stage worker cap (marker [KIT_THREADS]; stage-1 record untouched)
     argv = KX.apply_render_threads(argv)
     argv = KX.apply_driver_check(argv)  # RTX driver check off (env; default off = argv unchanged)
     set_arg(argv, "--sequence_dir", a.seq_dir)
     set_arg(argv, "--videos_out_dir", os.path.join(a.out, "_videos"))
-    env = dict(env, **{CC.ENV_SWITCH: "1", "DEXENGINE_RENDER_VIEWS": "ego,front", "COLLECT_OUT": a.out})
+    env = dict(env, **{CC.ENV_SWITCH: "1", "COLLECT_OUT": a.out})
     plug = hooks.get("session_stage", a.stage)
     if plug is not None:  # plugin stage: may edit argv and env in place; returns the render hook
         fn, name = plug.prepare(a, argv, env)

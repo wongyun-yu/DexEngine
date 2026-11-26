@@ -39,7 +39,7 @@ DESK_LEG_CENTER_Z = 0.365
 DESK_LEG_HALF = 0.02  # leg half-width — how close a leg center may get to the top center
 DESK_VISUAL_UNIT = 0.01  # unit scale of the Willow desk USD (cm) — at this scale its footprint = tabletop top
 #: Name of the desk-top prim under {ENV}/Desk. Look D and the visual augmentation bind the desk material to it
-#: (dexengine.record.looks.materials.desk_woods, DEXENGINE_AUG_DESK_MDL); the Willow asset names its top so.
+#: (dexengine.record.looks.materials.desk_woods, look D's desk material); the Willow asset names its top so.
 DESK_TOP_PRIM = "Wood"
 #: The removed desk choice (scene section · --set scene.desk / scene.desk_usd): given at all = error (the launcher ·
 #: desk_visual.desk_cfg).

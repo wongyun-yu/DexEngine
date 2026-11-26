@@ -25,6 +25,7 @@ from pathlib import Path
 
 from dexengine.core.errors import InputMissingError
 from dexengine.record.looks import look_d as LOOK
+from dexengine.record.looks import look_settle as LS
 
 LOOK_REV = {
     "name": "D4-20261021",
@@ -244,14 +245,14 @@ def r_post(rgb, how: str) -> dict:
 
 
 def settle_gate(rig, T: dict, extra: dict | None, gate, fps: float, tm: dict) -> tuple[dict, dict, object]:
-    """Before the first frame: lighting settle (look_d.settle, time in tm.settle), then the brightness gate (post, no
+    """Before the first frame: lighting settle (LS.settle, time in tm.settle), then the brightness gate (post, no
     pre-probe) only sets the exposure (gate None = look D +d_ev, 'random' = canonical). tap(i, cap) measures the drawn
     probe frame (d_post | r_post, filling extra.look in place, else a look_gate field).
     Returns (look_settle, extra, tap)."""
     import time
 
     t = time.perf_counter()
-    look_settle = LOOK.settle(rig)
+    look_settle = LS.settle(rig)
     tm["settle"] += time.perf_counter() - t
     steps = T["steps"]
     fr, how = probe_frame(T["grasp"], len(steps), fps)

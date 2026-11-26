@@ -25,9 +25,8 @@ canonical background, lighting and record look are applied only after the hook).
          turning every clip of a spec into a technical failure. The render output does not change (the same session
          is run again).
   fail   the hook ran but the end marker is missing or rc != 0 (outside crash) = died during the session; no retry.
-  marks  it ran to the end but a marker of the canonical background and lighting (dexengine.rl.render.scene_look) or of
-  the record look
-         (looks.look_d) is missing = a canonical defect; no retry (dies). The record stage checks the contact-partner
+  marks  it ran to the end but a marker of the canonical look (looks.look_d: applied, frame-guard token, settle) is
+         missing = a canonical defect; no retry (dies). The record stage checks the contact-partner
          marker (rollout.recorder.log_problems); the render stage checks the head-view marker
          (render.visibility.log_problems) and the unused-camera-off marker (render.clip_session) too.
   ok
@@ -60,7 +59,7 @@ from dexengine.record.scene import extras as EXV
 from dexengine.record.scene import supports as SUP
 from dexengine.record.session import entry as SS
 from dexengine.record.session.attempts import RETRY_KINDS, keep_dump, keep_name
-from dexengine.rl.render import scene_look as VA  # owner of the lighting knob rule (requested) and its marker
+from dexengine.rl import session_render as SR_SEAM  # the trainer's render seam (hook target name)
 
 MARK = "[COLLECT]"
 RETRY = "[COLLECT_RETRY]"
@@ -69,8 +68,8 @@ SESSION_TIMEOUT_S = {"record": 3600, "render": 900, "render_clip": 2400}
 # stage -> head of its hook line (printed by the session entry; the plugin stages bring their own)
 HOOK_LINE = {
     "record": f"{SS.HOOK} traj_record.TrajRecorder",
-    "render": f"{SS.HOOK} clip_video._run_per_clip_video_render",
-    "render_clip": f"{SS.HOOK} clip_video._run_per_clip_video_render",
+    "render": f"{SS.HOOK} {SR_SEAM.HOOK_TARGET}",
+    "render_clip": f"{SS.HOOK} {SR_SEAM.HOOK_TARGET}",
 }
 BOOT_SIGNS = LM.BOOT_SIGNS  # log readers read these words too (core.log_markers owns them)
 TIMEOUT_RC = 124  # timeout(1) expired; a SIGKILL after -k is caught as a signal death (rc >= 128)
@@ -105,19 +104,6 @@ PROGRESS = {
     "render": CW.FRAME_HEAD,
     "render_clip": CW.FRAME_HEAD,
 }
-
-
-def aug_problems(dump_env: dict, log_text: str) -> list[str]:
-    """Canonical background and lighting check (measured vs stated): when the dump env turns knobs on
-    (dexengine.rl.render.scene_look.requested), the last applied-marker line of the session log must name every knob (no
-    marker or a missing knob = a problem)."""
-    want = VA.requested(dump_env)
-    if not want:
-        return []
-    marks = [ln for ln in log_text.splitlines() if ln.startswith(VA.MARK)]
-    if not marks:
-        return [f"knobs {want} are on but the {VA.MARK} applied marker is missing"]
-    return [f"{VA.MARK} line lacks {k}" for k in want if k not in marks[-1]]
 
 
 def death_signal(rc: int) -> str | None:
@@ -184,7 +170,7 @@ def _persist_kit():
     return PK
 
 
-def classify(stage: str, rc: int, text: str, done_pat: str, dump_env: dict | None) -> tuple[str, str]:
+def classify(stage: str, rc: int, text: str, done_pat: str) -> tuple[str, str]:
     """(kind, reason); kind in boot · pre · crash · fail · marks · ok (module doc). An unknown stage dies."""
     plug = plugin_stage(stage)
     if stage not in HOOK_LINE and plug is None:
@@ -221,8 +207,7 @@ def classify(stage: str, rc: int, text: str, done_pat: str, dump_env: dict | Non
         else plug.log_problems(text)
         if plug is not None
         else (
-            aug_problems(dump_env or {}, text)
-            + LOOK.log_problems(text, settle=per_ep)
+            LOOK.log_problems(text, settle=per_ep)
             + SUP.log_problems(text)
             + (
                 BODY.log_problems(text)
@@ -423,7 +408,6 @@ def session(tree: Path, gpu: str, args: list[str], log: Path, done_pat: str, run
     """An Isaac record session; anything but ok dies. Only RETRY_KINDS (boot · stall · crash) start the same session
     once more (module doc)."""
     stage = args[1]
-    dump_env = None if stage == "record" else SS.load_dump(args[args.index("--dump") + 1])[1]
     from dexengine.record.session import persist as PST
 
     if runner is run_once and stage == "render_clip":  # the Kit-reuse worker (canonical; session.persist)
@@ -435,7 +419,7 @@ def session(tree: Path, gpu: str, args: list[str], log: Path, done_pat: str, run
     for attempt in (1, 2):
         t0 = time.time()
         rc, text = runner(tree, gpu, args, log, head)
-        kind, why = classify(stage, rc, text, done_pat, dump_env)
+        kind, why = classify(stage, rc, text, done_pat)
         print(
             f"{MARK} session {args[:2]} rc {rc} · kind {kind} · {done_pat} "
             f"{'present' if done_pat in text else 'missing'} · {time.time() - t0:.0f} s · attempt {attempt}/2 · "

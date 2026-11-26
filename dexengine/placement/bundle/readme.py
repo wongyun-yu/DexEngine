@@ -104,7 +104,8 @@ Boot smoke (bundle `{b0["id"]}`{side_note}) — the env is exactly what `run_inp
 {example_env(man, b0)} SMOKE=1 GPU=0 bash scripts/stage3_rl.sh <run name>
 ```
 As a campaign: `dexengine/rl/campaign.py --manifests "$BUNDLE/manifest" …` (see its module doc). Judge with the same env
-through `scripts/rl/judge_sidecar.sh`; render with `RENDER_ONLY` of the RL launcher (`dexengine.rl.launch`).
+through `scripts/rl/judge_sidecar.sh`. The RL trainer draws no frames: robot videos come only from the record render
+(`scripts/stage4_record.py`, one canonical look `dexengine.record.looks.look_d`).
 
 """
 
@@ -120,7 +121,7 @@ _NOT_INCLUDED = """## Not included
 - The base contact sidecars that the policy-free PARK probe (`DEXENGINE_PARK_PROBE`) also reads
   (`precompute/<ds>/contact_mano_base`) — training, judging (checkpoint) and render do not read them.
 - Render background materials (MDL) — NVIDIA content, downloaded from NVIDIA's public storage into the local look \
-mirror (`python -m dexengine.record.looks.look_d --mirror`; values `dexengine.record.looks.render_look`). The \
+mirror (`python -m dexengine.record.looks.look_d --mirror`; values `dexengine.record.looks.look_assets`). The \
 Willow desk of that mirror is in the bundle (reader `kit:desk`): every scene spawns it.
 - Clips outside the manifest · other hands' data — one exception: the arm collider digest walks the URDFs of every
   hand registered with the arm, so those hands' mesh stages (`data/_stage/<hand>`, reader `entry:robot-identity`) are
