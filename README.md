@@ -10,7 +10,7 @@
 <p align="center">
   <a href="https://arxiv.org/abs/2611.33579"><img alt="Paper on arXiv" src="https://img.shields.io/badge/Paper-arXiv-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white"></a>
   <a href="https://wongyun-yu.github.io/dexengine/"><img alt="Project page" src="https://img.shields.io/badge/Project-Page-2B6CB0?style=for-the-badge"></a>
-  <a href="https://huggingface.co/datasets/Wongyun/DexEngine/tree/v0"><img alt="Dataset on Hugging Face" src="https://img.shields.io/badge/Dataset-Hugging%20Face-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black"></a>
+  <a href="https://huggingface.co/datasets/Wongyun/DexEngine"><img alt="Dataset on Hugging Face" src="https://img.shields.io/badge/Dataset-Hugging%20Face-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black"></a>
 </p>
 
 <p align="center">
