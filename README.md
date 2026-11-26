@@ -87,6 +87,19 @@ Stages 2–4 also need Isaac Lab; the MANO models and four shipped inputs are do
 | [v0 release notes](docs/v0.md) | what v0 reproduces, differences from the generation code, known limits |
 | [Paper experiments](experiments/README.md) | the code behind the paper's tables |
 
+## Citation
+
+```bibtex
+@article{yu2026dexengine,
+  title   = {DexEngine: Scaling Human Demonstrations into
+             Physically Executable Whole-Robot Data},
+  author  = {Yu, Wongyun and Kim, Honggeun and Lee, Donguk and
+             Kim, Minchan and Choe, Kyoung Whan and Cho, Minsu},
+  journal = {arXiv preprint arXiv:2611.33579},
+  year    = {2026}
+}
+```
+
 ## License
 
 Apache License 2.0 ([`LICENSE`](LICENSE), [`NOTICE`](NOTICE)); third-party code and assets are listed in
