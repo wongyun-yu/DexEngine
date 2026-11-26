@@ -57,7 +57,7 @@ export ISAACLAB_DIR=<path to IsaacLab>
 - MANO models (`MANO_RIGHT.pkl`, `MANO_LEFT.pkl`) are not distributed here; download them from the MANO website and
   place them in `<data root>/data/body_models/mano/`.
 - Shipped inputs: four intermediates the public code cannot rebuild identically (the reference hand direction of
-  every dataset, `generation`, and three TACO inputs). Download them from the [dataset release page](https://huggingface.co/datasets/Wongyun/DexEngine/tree/v0)
+  every dataset, `generation`, and three TACO inputs). Download them from the [dataset release page](https://huggingface.co/datasets/Wongyun/DexEngine)
   and unpack each with its `SHA256SUMS.<name>` file into its folder under the data root before running a reader;
   folders and digests: [`docs/datasets.md`](datasets.md#shipped-inputs).
 

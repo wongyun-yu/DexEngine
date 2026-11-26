@@ -133,7 +133,7 @@ made with the corrected model is a property of the dataset. It is stated once, i
 ## Shipped inputs
 
 Four intermediates cannot be rebuilt identically from the raw downloads, so the release ships them. Download each
-from the [dataset release page](https://huggingface.co/datasets/Wongyun/DexEngine/tree/v0) and unpack it into its folder under the data root, together with its
+from the [dataset release page](https://huggingface.co/datasets/Wongyun/DexEngine) and unpack it into its folder under the data root, together with its
 checksum file `SHA256SUMS.<name>`, which goes into the same folder. The list, the folders and the digests live in
 [`configs/release/shipped_inputs.tsv`](../configs/release/shipped_inputs.tsv):
 
