@@ -95,6 +95,19 @@ them:
 - Hand friction, mount offset and gravity settings are applied to both arms alike.
 - A still object receives a moved object that ends near its surface or with its centre inside its convex hull.
 
+## Citation
+
+```bibtex
+@article{yu2026dexengine,
+  title   = {DexEngine: Scaling Human Demonstrations into
+             Physically Executable Whole-Robot Data},
+  author  = {Yu, Wongyun and Kim, Honggeun and Lee, Donguk and
+             Kim, Minchan and Choe, Kyoung Whan and Cho, Minsu},
+  journal = {arXiv preprint arXiv:2611.33579},
+  year    = {2026}
+}
+```
+
 ## License
 
 Apache License 2.0 ([`LICENSE`](LICENSE), [`NOTICE`](NOTICE)); third-party code and assets are listed in
